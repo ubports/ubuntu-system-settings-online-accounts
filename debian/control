@@ -1,0 +1,27 @@
+Source: uoa-setup-touch
+Section: gnome
+Priority: optional
+Maintainer: Ubuntu Desktop Team <ubuntu-desktop@lists.ubuntu.com>
+Build-Depends: debhelper (>= 9),
+               pkg-config,
+               libsystemsettings-dev,
+               qt5-default,
+               qtbase5-dev,
+               qtdeclarative5-dev,
+               xvfb,
+Standards-Version: 3.9.4
+Homepage: https://launchpad.net/uoa-setup-touch
+# If you aren't a member of ~online-accounts but need to upload packaging
+# changes, just go ahead.  ~online-accounts will notice and sync up the
+# code again.
+Vcs-Bzr: https://code.launchpad.net/~online-accounts/uoa-setup-touch/trunk
+
+Package: ubuntu-system-settings-online-accounts
+Architecture: i386 amd64 armhf
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         qtdeclarative5-accounts-plugin,
+         qtdeclarative5-ubuntu-ui-toolkit-plugin,
+         ubuntu-system-settings
+Description: Online Accounts setup for Ubuntu Touch
+ Online Accounts setup utility for the Ubuntu Touch System Settings.

@@ -1,0 +1,14 @@
+{
+    "name": "Online Accounts",
+    "icon": "credentials-preferences",
+    "translations": "uoa-setup",
+    "category": "network",
+    "keywords": [
+        "accounts",
+        "online",
+        "login"
+    ],
+    "has-dynamic-keywords": true,
+    "has-dynamic-visibility": false,
+    "page-component": "MainPage.qml"
+}

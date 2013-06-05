@@ -5,7 +5,8 @@ TEMPLATE = subdirs
 CONFIG += ordered
 SUBDIRS = \
     po \
-    src
+    src \
+    plugins
 
 include(common-installs-config.pri)
 

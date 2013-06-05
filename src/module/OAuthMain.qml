@@ -18,47 +18,34 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.OnlineAccounts 0.1
 
 Flickable {
     id: root
 
-    property variant accountsModel
+    property url creationComponentUrl: "OAuth.qml"
+    property url editingComponentUrl: "Options.qml"
+    property Component creationComponent: null
+    property Component editingComponent: null
 
+    property alias source: loader.source
+
+    signal finished
+
+    anchors.left: parent.left
+    anchors.right: parent.right
     contentHeight: contentItem.childrenRect.height
 
-    Column {
+    Loader {
+        id: loader
         anchors.left: parent.left
         anchors.right: parent.right
+        source: sourceComponent === null ? (account.accountId != 0 ? editingComponentUrl : creationComponentUrl) : ""
+        sourceComponent: account.accountId != 0 ? editingComponent : creationComponent
 
-        Repeater {
-            model: accountsModel
-
-            delegate: AccountItem {
-                text: providerName
-                subText: displayName
-                globalServiceHandle: accountService
-                onClicked: pageStack.push(accountEditPage,
-                                          { accountHandle: account })
-            }
+        Connections {
+            target: loader.item
+            onFinished: root.finished()
         }
-
-        Button {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            text: i18n.dtr(plugin.translations, "Add account…")
-            onClicked: pageStack.push(newAccountPage)
-        }
-
-        AddAccountLabel {}
-    }
-
-    Component {
-        id: newAccountPage
-        NewAccountPage {}
-    }
-
-    Component {
-        id: accountEditPage
-        AccountEditPage {}
     }
 }

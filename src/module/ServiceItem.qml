@@ -18,33 +18,20 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.OnlineAccounts 0.1
-import "constants.js" as Constants
 
-Page {
-    property string providerId
+ListItem.Standard {
+    property variant accountServiceHandle
 
-    title: account.provider.displayName
-
-    Account {
-        id: account
-        objectHandle: Manager.createAccount(providerId)
+    text: accountService.service.displayName
+    icon: "image://gicon/" + accountService.service.iconName
+    control: Switch {
+        checked: accountService.serviceEnabled
     }
 
-    Loader {
-        id: loader
-        property var account: account
-
-        anchors.fill: parent
-        source: Constants.qmlPluginPath + providerId + "/Main.qml"
-
-        Connections {
-            target: loader.item
-            onFinished: {
-                console.log("====== PLUGIN FINISHED ======")
-                pageStack.pop()
-                pageStack.pop()
-            }
-        }
+    resources: AccountService {
+        id: accountService
+        objectHandle: accountServiceHandle
     }
 }

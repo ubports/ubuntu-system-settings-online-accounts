@@ -28,6 +28,9 @@ isEmpty(PREFIX) {
     message("==== install prefix set to `$${INSTALL_PREFIX}'")
 }
 
+ONLINE_ACCOUNTS_PLUGIN_DIR_BASE = share/accounts/qml-plugins
+ONLINE_ACCOUNTS_PLUGIN_DIR = $${INSTALL_PREFIX}/$${ONLINE_ACCOUNTS_PLUGIN_DIR_BASE}
+
 PLUGIN_MANIFEST_DIR = $$system("pkg-config --define-variable=prefix=$${INSTALL_PREFIX} --variable plugin_manifest_dir SystemSettings")
 PLUGIN_MODULE_DIR = $$system("pkg-config --define-variable=prefix=$${INSTALL_PREFIX} --variable plugin_module_dir SystemSettings")
 PLUGIN_QML_DIR = $$system("pkg-config --define-variable=prefix=$${INSTALL_PREFIX} --variable plugin_qml_dir SystemSettings")

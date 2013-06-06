@@ -1,4 +1,5 @@
 include(../../common-project-config.pri)
+include($${TOP_SRC_DIR}/common-vars.pri)
 
 TEMPLATE = lib
 TARGET = OnlineAccountsSetup
@@ -28,3 +29,13 @@ OTHER_FILES += qmldir.in
 qmldir.files = qmldir
 qmldir.path = $${PLUGIN_INSTALL_BASE}
 INSTALLS += qmldir
+
+pkgconfig.CONFIG = no_check_exist
+pkgconfig.files = $${TARGET}.pc
+pkgconfig.path = $${INSTALL_PREFIX}/lib/pkgconfig
+QMAKE_EXTRA_TARGETS += pkgconfig
+INSTALLS += pkgconfig
+
+QMAKE_SUBSTITUTES += $${pkgconfig.files}.in
+
+QMAKE_CLEAN += $${pkgconfig.files}

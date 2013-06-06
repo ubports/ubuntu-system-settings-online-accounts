@@ -2,5 +2,6 @@ Makefile*
 /plugins/example/libexample.so*
 /src/constants.js
 /src/libonline-accounts.so*
+/src/module/OnlineAccountsSetup.pc
 /src/module/libOnlineAccountsSetup.so*
 /src/module/qmldir

@@ -70,7 +70,7 @@ Column {
     Button {
         anchors.left: parent.left
         anchors.right: parent.right
-        text: i18n.dtr("uoa-setup", "Cancel")
+        text: i18n.dtr("ubuntu-system-settings-online-accounts", "Cancel")
         onClicked: root.cancel()
     }
 

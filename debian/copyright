@@ -1,7 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: uoa-setup-touch
+Upstream-Name: ubuntu-system-settings-online-accounts
 Upstream-Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
-Source: https://launchpad.net/uoa-setup-touch
+Source: https://launchpad.net/ubuntu-system-settings-online-accounts
 
 Files: *
 Copyright: 2013 Canonical Ltd.

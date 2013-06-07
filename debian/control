@@ -1,4 +1,4 @@
-Source: uoa-setup-touch
+Source: ubuntu-system-settings-online-accounts
 Section: gnome
 Priority: optional
 Maintainer: Ubuntu Desktop Team <ubuntu-desktop@lists.ubuntu.com>
@@ -10,11 +10,11 @@ Build-Depends: debhelper (>= 9),
                qtdeclarative5-dev,
                xvfb,
 Standards-Version: 3.9.4
-Homepage: https://launchpad.net/uoa-setup-touch
+Homepage: https://launchpad.net/ubuntu-system-settings-online-accounts
 # If you aren't a member of ~online-accounts but need to upload packaging
 # changes, just go ahead.  ~online-accounts will notice and sync up the
 # code again.
-Vcs-Bzr: https://code.launchpad.net/~online-accounts/uoa-setup-touch/trunk
+Vcs-Bzr: https://code.launchpad.net/~online-accounts/ubuntu-system-settings-online-accounts/trunk
 
 Package: ubuntu-system-settings-online-accounts
 Architecture: i386 amd64 armhf

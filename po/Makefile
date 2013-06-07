@@ -1,7 +1,7 @@
 # Add here the language codes for the translated .po files:
 LINGUAS =
 
-I18N_DOMAIN = uoa-setup
+I18N_DOMAIN = ubuntu-system-settings-online-accounts
 
 PO_FILES = $(addsuffix .po, $(LINGUAS))
 MO_FILES = $(addsuffix .mo, $(LINGUAS))

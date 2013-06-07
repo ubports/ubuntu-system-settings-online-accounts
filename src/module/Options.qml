@@ -37,7 +37,7 @@ Column {
         height: idLabel.height
         Label {
             id: idLabel
-            text: i18n.dtr("uoa-setup", "ID:")
+            text: i18n.dtr("ubuntu-system-settings-online-accounts", "ID:")
         }
         Label {
             anchors.left: idLabel.right
@@ -57,7 +57,7 @@ Column {
         id: removeBtn
         anchors.left: parent.left
         anchors.right: parent.right
-        text: i18n.dtr("uoa-setup", "Remove Account…")
+        text: i18n.dtr("ubuntu-system-settings-online-accounts", "Remove Account…")
         onClicked: PopupUtils.open(removalConfirmationComponent, removeBtn)
     }
 

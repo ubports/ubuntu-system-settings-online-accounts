@@ -28,16 +28,16 @@ Dialog {
 
     signal closed
 
-    title: i18n.dtr("uoa-setup", "Remove Account")
-    text: i18n.dtr("uoa-setup", "The %1 account will be removed only from your phone. You can add it again later.").arg(accountName)
+    title: i18n.dtr("ubuntu-system-settings-online-accounts", "Remove Account")
+    text: i18n.dtr("ubuntu-system-settings-online-accounts", "The %1 account will be removed only from your phone. You can add it again later.").arg(accountName)
 
     Button {
-        text: i18n.dtr("uoa-setup", "Remove")
+        text: i18n.dtr("ubuntu-system-settings-online-accounts", "Remove")
         onClicked: setConfirmed(true)
     }
 
     Button {
-        text: i18n.dtr("uoa-setup", "Cancel")
+        text: i18n.dtr("ubuntu-system-settings-online-accounts", "Cancel")
         onClicked: setConfirmed(false)
     }
 

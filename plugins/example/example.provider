@@ -2,5 +2,5 @@
 <provider id="example">
   <name>Example.com</name>
   <icon>facebook</icon>
-  <translations>uoa-setup</translations>
+  <translations>ubuntu-system-settings-online-accounts</translations>
 </provider>

@@ -1,7 +1,7 @@
 {
     "name": "Online Accounts",
     "icon": "credentials-preferences",
-    "translations": "uoa-setup",
+    "translations": "ubuntu-system-settings-online-accounts",
     "category": "network",
     "keywords": [
         "accounts",

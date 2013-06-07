@@ -30,7 +30,7 @@ Column {
 
     Label {
         id: idLabel
-        text: i18n.dtr("uoa-setup", "Access to this account:")
+        text: i18n.dtr("ubuntu-system-settings-online-accounts", "Access to this account:")
     }
 
     AccountServiceModel {

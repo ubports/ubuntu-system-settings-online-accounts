@@ -1,3 +1,13 @@
+ubuntu-system-settings-online-accounts (0.2~-0ubuntu1) UNRELEASED; urgency=low
+
+  * New upstream version
+    - Add support for account plugins
+    - Provide classes to enable writing OAuth-based plugins.
+  * debian/rules
+    - use fail-missing
+
+ -- Ken VanDine <ken.vandine@canonical.com>  Fri, 07 Jun 2013 09:41:01 -0400
+
 uoa-setup-touch (0.1daily13.05.30ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 
   [ Alberto Mardegan ]

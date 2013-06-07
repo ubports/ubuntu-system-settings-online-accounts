@@ -25,6 +25,8 @@ Column {
 
     property variant authReply
     property bool isNewAccount: false
+    property variant __account: account
+    property alias globalAccountService: globalAccountSettings
 
     signal authenticated(variant reply)
     signal authenticationError(variant error)
@@ -35,6 +37,7 @@ Column {
 
     Component.onCompleted: {
         isNewAccount = (account.accountId === 0)
+        enableAccount()
         authenticate()
     }
 
@@ -58,11 +61,24 @@ Column {
         onAuthenticationError: root.authenticationError(error)
     }
 
+    AccountServiceModel {
+        id: accountServices
+        includeDisabled: true
+        account: __account.objectHandle
+    }
+
     Button {
         anchors.left: parent.left
         anchors.right: parent.right
         text: i18n.dtr("uoa-setup", "Cancel")
         onClicked: root.cancel()
+    }
+
+    Component {
+        id: accountServiceComponent
+        AccountService {
+            autoSync: false
+        }
     }
 
     function authenticate() {
@@ -86,6 +102,17 @@ Column {
         }
     }
 
+    function enableAccount() {
+        for (var i = 0; i < accountServices.count; i++) {
+            var accountServiceHandle = accountServices.get(i, "accountService")
+            var accountService = accountServiceComponent.createObject(null,
+                                     { "objectHandle": accountServiceHandle })
+            accountService.updateServiceEnabled(true)
+            accountService.destroy(1000)
+        }
+        globalAccountSettings.updateServiceEnabled(true)
+    }
+
     function getUserName(reply) {
         /* This should work for OAuth 1.0a; for OAuth 2.0 this function needs
          * to be reimplemented */
@@ -94,7 +121,9 @@ Column {
         return ''
     }
 
-    onAuthenticated: {
+    /* reimplement this function in plugins in order to perform some actions
+     * before quitting the plugin */
+    function completeCreation(reply) {
         var userName = getUserName(reply)
 
         console.log("UserName: " + userName)
@@ -102,6 +131,8 @@ Column {
         account.synced.connect(finished)
         account.sync()
     }
+
+    onAuthenticated: completeCreation(reply)
 
     onAuthenticationError: root.cancel()
 }

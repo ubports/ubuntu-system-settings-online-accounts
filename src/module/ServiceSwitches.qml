@@ -19,32 +19,30 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.OnlineAccounts 0.1
-import "constants.js" as Constants
 
-Page {
-    property string providerId
+Column {
+    id: root
 
-    title: account.provider.displayName
+    property variant account
 
-    Account {
-        id: account
-        objectHandle: Manager.createAccount(providerId)
+    anchors.left: parent.left
+    anchors.right: parent.right
+
+    Label {
+        id: idLabel
+        text: i18n.dtr("uoa-setup", "Access to this account:")
     }
 
-    Loader {
-        id: loader
-        property var account: account
+    AccountServiceModel {
+        id: accountServices
+        includeDisabled: true
+        account: root.account.objectHandle
+    }
 
-        anchors.fill: parent
-        source: Constants.qmlPluginPath + providerId + "/Main.qml"
-
-        Connections {
-            target: loader.item
-            onFinished: {
-                console.log("====== PLUGIN FINISHED ======")
-                pageStack.pop()
-                pageStack.pop()
-            }
+    Repeater {
+        model: accountServices
+        delegate: ServiceItem {
+            accountServiceHandle: accountService
         }
     }
 }

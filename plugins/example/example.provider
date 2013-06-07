@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<provider id="example">
+  <name>Example.com</name>
+  <icon>facebook</icon>
+  <translations>uoa-setup</translations>
+</provider>

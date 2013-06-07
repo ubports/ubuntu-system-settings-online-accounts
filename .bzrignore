@@ -1,2 +1,11 @@
-Makefile
+Makefile*
+/debian/files
+/debian/ubuntu-system-settings-online-accounts/
+/debian/*.log
+/debian/*.substvars
+/plugins/example/libexample.so*
+/src/constants.js
 /src/libonline-accounts.so*
+/src/module/OnlineAccountsPlugin.pc
+/src/module/libOnlineAccountsPlugin.so*
+/src/module/qmldir

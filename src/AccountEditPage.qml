@@ -22,13 +22,13 @@ import Ubuntu.OnlineAccounts 0.1
 import "constants.js" as Constants
 
 Page {
-    property string providerId
+    property variant accountHandle
 
     title: account.provider.displayName
 
     Account {
         id: account
-        objectHandle: Manager.createAccount(providerId)
+        objectHandle: accountHandle
     }
 
     Loader {
@@ -36,13 +36,12 @@ Page {
         property var account: account
 
         anchors.fill: parent
-        source: Constants.qmlPluginPath + providerId + "/Main.qml"
+        source: Constants.qmlPluginPath + account.provider.id + "/Main.qml"
 
         Connections {
             target: loader.item
             onFinished: {
                 console.log("====== PLUGIN FINISHED ======")
-                pageStack.pop()
                 pageStack.pop()
             }
         }

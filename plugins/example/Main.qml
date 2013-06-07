@@ -19,32 +19,23 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.OnlineAccounts 0.1
-import "constants.js" as Constants
 
-Page {
-    property string providerId
+Column {
+    id: root
 
-    title: account.provider.displayName
+    property string domain: "uoa-setup"
 
-    Account {
-        id: account
-        objectHandle: Manager.createAccount(providerId)
+    anchors.left: parent.left
+    anchors.right: parent.right
+
+    TextField {
+        id: userName
+        placeholderText: i18n.dtr(domain, "User name")
+        readOnly: account.accountId != 0
     }
 
-    Loader {
-        id: loader
-        property var account: account
-
-        anchors.fill: parent
-        source: Constants.qmlPluginPath + providerId + "/Main.qml"
-
-        Connections {
-            target: loader.item
-            onFinished: {
-                console.log("====== PLUGIN FINISHED ======")
-                pageStack.pop()
-                pageStack.pop()
-            }
-        }
+    TextField {
+        id: password
+        placeholderText: i18n.dtr(domain, "Password")
     }
 }

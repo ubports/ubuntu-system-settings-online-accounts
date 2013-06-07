@@ -18,33 +18,32 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.OnlineAccounts 0.1
-import "constants.js" as Constants
+import Ubuntu.Components.Popups 0.1
 
-Page {
-    property string providerId
+Dialog {
+    id: root
 
-    title: account.provider.displayName
+    property string accountName
+    property bool confirmed: false
 
-    Account {
-        id: account
-        objectHandle: Manager.createAccount(providerId)
+    signal closed
+
+    title: i18n.dtr("uoa-setup", "Remove Account")
+    text: i18n.dtr("uoa-setup", "The %1 account will be removed only from your phone. You can add it again later.").arg(accountName)
+
+    Button {
+        text: i18n.dtr("uoa-setup", "Remove")
+        onClicked: setConfirmed(true)
     }
 
-    Loader {
-        id: loader
-        property var account: account
+    Button {
+        text: i18n.dtr("uoa-setup", "Cancel")
+        onClicked: setConfirmed(false)
+    }
 
-        anchors.fill: parent
-        source: Constants.qmlPluginPath + providerId + "/Main.qml"
-
-        Connections {
-            target: loader.item
-            onFinished: {
-                console.log("====== PLUGIN FINISHED ======")
-                pageStack.pop()
-                pageStack.pop()
-            }
-        }
+    function setConfirmed(isConfirmed) {
+        confirmed = isConfirmed
+        PopupUtils.close(root)
+        closed()
     }
 }

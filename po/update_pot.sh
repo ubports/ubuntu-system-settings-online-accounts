@@ -1,5 +1,5 @@
 #! /bin/bash
 
 cd ../src
-make ../po/uoa-setup.pot
+make ../po/ubuntu-system-settings-online-accounts.pot
 

@@ -23,7 +23,7 @@ import Ubuntu.OnlineAccounts 0.1
 Column {
     id: root
 
-    property string domain: "uoa-setup"
+    property string domain: "ubuntu-system-settings-online-accounts"
 
     anchors.left: parent.left
     anchors.right: parent.right

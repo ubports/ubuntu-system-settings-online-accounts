@@ -24,7 +24,9 @@ import Ubuntu.OnlineAccounts 0.1
 ListItem.Standard {
     property variant accountServiceHandle
 
-    text: accountService.service.displayName
+    // Services are currently badly named (usually it's the provider's name)
+    //text: accountService.service.displayName
+    text: accountService.service.id
     icon: "image://gicon/" + accountService.service.iconName
     control: Switch {
         checked: accountService.serviceEnabled

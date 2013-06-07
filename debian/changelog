@@ -1,12 +1,22 @@
-ubuntu-system-settings-online-accounts (0.2~-0ubuntu1) UNRELEASED; urgency=low
+ubuntu-system-settings-online-accounts (0.2~daily13.06.07-0ubuntu1) saucy; urgency=low
 
+  [ Ken VanDine ]
   * New upstream version
     - Add support for account plugins
     - Provide classes to enable writing OAuth-based plugins.
   * debian/rules
     - use fail-missing
 
- -- Ken VanDine <ken.vandine@canonical.com>  Fri, 07 Jun 2013 09:41:01 -0400
+  [ Alberto Mardegan ]
+  * First iteration Show existing accounts and providers list
+  * packaging tweaks
+  * Add support for account plugins Provide classes to enable writing
+    OAuth-based plugins.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 6
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 07 Jun 2013 15:57:24 +0000
 
 uoa-setup-touch (0.1daily13.05.30ubuntu.unity.next-0ubuntu1) saucy; urgency=low
 

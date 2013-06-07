@@ -2,9 +2,9 @@ include(../../common-project-config.pri)
 include($${TOP_SRC_DIR}/common-vars.pri)
 
 TEMPLATE = lib
-TARGET = OnlineAccountsSetup
+TARGET = OnlineAccountsPlugin
 
-API_URI = "Ubuntu.OnlineAccounts.Setup"
+API_URI = "Ubuntu.OnlineAccounts.Plugin"
 
 PLUGIN_INSTALL_BASE = $$[QT_INSTALL_QML]/$$replace(API_URI, \\., /)
 

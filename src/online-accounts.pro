@@ -30,3 +30,8 @@ qml.files = \
     constants.js
 qml.path = $${PLUGIN_QML_DIR}/$${TARGET}
 INSTALLS += qml
+
+image.files = settings-accounts.svg
+image.path = /usr/share/settings/system/icons
+INSTALLS += image
+

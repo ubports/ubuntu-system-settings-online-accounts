@@ -1,6 +1,6 @@
 {
-    "name": "Online Accounts",
-    "icon": "credentials-preferences",
+    "name": "Accounts",
+    "icon": "/usr/share/settings/system/icons/settings-accounts.svg",
     "translations": "ubuntu-system-settings-online-accounts",
     "category": "network",
     "keywords": [

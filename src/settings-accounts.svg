@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="90"
+   height="90"
+   id="svg3315"
+   version="1.1"
+   inkscape:version="0.48+devel r12277"
+   sodipodi:docname="setting-accounts.svg">
+  <defs
+     id="defs3317" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.0931703"
+     inkscape:cx="10.455178"
+     inkscape:cy="41.869796"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata3320">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-340.71429,-515.93361)">
+    <g
+       id="g3565"
+       transform="translate(-1321.2857,1640.7144)">
+      <path
+         style="opacity:0.5;color:#000000;fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         clip-path="none"
+         d="m 1863,533.84375 c -8.0768,-10e-5 -11.3125,3.21875 -11.3125,11.21875 l 0,1.59375 c 0,6.3999 6.5073,17.59375 11.3437,17.59375 4.8365,0 11.2813,-11.19385 11.2813,-17.59375 l 0,-1.59375 C 1874.3125,537.0625 1871.077,533.84375 1863,533.84375 z m -7.9688,28.90625 c -0.7663,0.0384 -1.4717,0.0867 -2.1562,0.15625 0.2135,0.16521 0.426,0.31779 0.625,0.5 2.8414,2.6012 3.6562,6.3914 3.6562,10.4375 l 0,3.1875 c 0,1.2008 0.038,2.1666 -0.125,3.25 -0.07,0.46453 -0.2323,1.02195 -0.4687,1.5625 l 20.9687,0 c 6.4617,0 6.4688,0.0186 6.4688,-4.78125 l 0,-3.21875 c 0,-7.3039 -2.7277,-10.57425 -13.0312,-11.09375 -0.62,0.7492 -1.2712,1.4382 -1.9688,2.0625 -1.6143,1.4442 -3.4914,2.65625 -5.9688,2.65625 -2.4772,0 -4.383,-1.21315 -6,-2.65625 C 1856.3309,564.1875 1855.655,563.5009 1855.0312,562.75 Z"
+         transform="translate(-140,-1637.6378)"
+         id="path3593"
+         inkscape:connector-curvature="0" />
+      <path
+         style="color:#000000;fill:#cccccc;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+         clip-path="none"
+         d="m 1692.9999,-1103.7808 c -8.0768,-10e-5 -11.3076,3.2 -11.3076,11.2 l 0,1.6001 c 0,6.3999 6.488,17.5999 11.3245,17.5999 4.8365,0 11.2909,-11.2 11.2909,-17.5999 l 0,-1.6001 C 1704.3077,-1100.5808 1701.0769,-1103.7808 1692.9999,-1103.7808 z m -7.959,28.8833 c -10.3176,0.5169 -13.0409,3.8087 -13.0409,11.1167 l 0,3.2001 c 0,4.7999 0,4.7999 6.4615,4.7999 l 29.0769,0 c 6.4616,0 6.4616,0 6.4616,-4.7999 l 0,-3.2001 c 0,-7.3039 -2.7205,-10.5972 -13.024,-11.1167 -0.62,0.7492 -1.2712,1.4425 -1.9688,2.0668 -1.6143,1.4442 -3.5131,2.6666 -5.9904,2.6666 -2.4772,0 -4.3734,-1.2235 -5.9904,-2.6666 C 1686.3261,-1073.4557 1685.6646,-1074.1466 1685.0409,-1074.8975 Z"
+         id="path3567"
+         inkscape:connector-curvature="0" />
+      <rect
+         y="-1124.7808"
+         x="1662"
+         height="90"
+         width="90"
+         id="rect3569"
+         style="color:#000000;fill:none;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+    </g>
+  </g>
+</svg>

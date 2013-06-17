@@ -1,3 +1,13 @@
+ubuntu-system-settings-online-accounts (0.2~daily13.06.17-0ubuntu1) saucy; urgency=low
+
+  [ Ken VanDine ]
+  * Added icon and updated name to "Accounts" to match designs .
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 13
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 17 Jun 2013 07:01:57 +0000
+
 ubuntu-system-settings-online-accounts (0.2~daily13.06.10.1-0ubuntu1) saucy; urgency=low
 
   * Automatic snapshot from revision 11

@@ -31,19 +31,16 @@ Flickable {
         anchors.left: parent.left
         anchors.right: parent.right
 
-        Label {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            text: i18n.dtr(plugin.translations, "No accounts")
+        ListItem.Base {
+            Label {
+                text: i18n.dtr(plugin.translations, "No accounts")
+                anchors.centerIn: parent
+            }
         }
-
-        ListItem.Divider {}
 
         AddAccountLabel {}
 
-        Label {
-            anchors.left: parent.left
-            anchors.right: parent.right
+        ListItem.Standard {
             text: i18n.dtr(plugin.translations, "Add account:")
         }
 

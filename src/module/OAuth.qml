@@ -18,6 +18,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.OnlineAccounts 0.1
 
 Column {
@@ -67,11 +68,15 @@ Column {
         account: __account.objectHandle
     }
 
-    Button {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        text: i18n.dtr("ubuntu-system-settings-online-accounts", "Cancel")
-        onClicked: root.cancel()
+    ListItem.SingleControl {
+        control: Button {
+            anchors {
+                margins: units.gu(1)
+                fill: parent
+            }
+            text: i18n.dtr("ubuntu-system-settings-online-accounts", "Cancel")
+            onClicked: root.cancel()
+        }
     }
 
     Component {

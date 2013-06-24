@@ -18,6 +18,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Flickable {
     id: root
@@ -42,11 +43,16 @@ Flickable {
             }
         }
 
-        Button {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            text: i18n.dtr(plugin.translations, "Add account…")
-            onClicked: pageStack.push(newAccountPage)
+        ListItem.SingleControl {
+            control: Button {
+                anchors {
+                    margins: units.gu(1)
+                    fill: parent
+                }
+                text: i18n.dtr(plugin.translations, "Add account…")
+                onClicked: pageStack.push(newAccountPage)
+            }
+            showDivider: false
         }
 
         AddAccountLabel {}

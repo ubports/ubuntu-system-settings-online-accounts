@@ -19,6 +19,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Dialog {
     id: root
@@ -28,7 +29,7 @@ Dialog {
 
     signal closed
 
-    title: i18n.dtr("ubuntu-system-settings-online-accounts", "Remove Account")
+    title: i18n.dtr("ubuntu-system-settings-online-accounts", "Remove account")
     text: i18n.dtr("ubuntu-system-settings-online-accounts", "The %1 account will be removed only from your phone. You can add it again later.").arg(accountName)
 
     Button {

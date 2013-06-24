@@ -22,6 +22,7 @@ import Ubuntu.Components 0.1
 Label {
     anchors.left: parent.left
     anchors.right: parent.right
-    text: i18n.dtr(plugin.translations, "Storing account details here lets apps use the accounts without you having to sign in for each app")
+    anchors.margins: units.gu(1)
+    text: i18n.dtr(plugin.translations, "Storing account details here lets apps use the accounts without you having to sign in for each app.")
     wrapMode: Text.WordWrap
 }

@@ -20,6 +20,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.OnlineAccounts 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Column {
     id: root
@@ -31,20 +32,9 @@ Column {
     anchors.left: parent.left
     anchors.right: parent.right
 
-    Item {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: idLabel.height
-        Label {
-            id: idLabel
-            text: i18n.dtr("ubuntu-system-settings-online-accounts", "ID:")
-        }
-        Label {
-            anchors.left: idLabel.right
-            anchors.right: parent.right
-            horizontalAlignment: Text.AlignRight
-            text: account.displayName
-        }
+    ListItem.SingleValue {
+        text: i18n.dtr("ubuntu-system-settings-online-accounts", "ID")
+        value: account.displayName
     }
 
     ServiceSwitches {
@@ -53,12 +43,17 @@ Column {
         opacity: enabled ? 1 : 0.5
     }
 
-    Button {
-        id: removeBtn
-        anchors.left: parent.left
-        anchors.right: parent.right
-        text: i18n.dtr("ubuntu-system-settings-online-accounts", "Remove Account…")
-        onClicked: PopupUtils.open(removalConfirmationComponent, removeBtn)
+    ListItem.SingleControl {
+        control: Button {
+            id: removeBtn
+            anchors {
+                margins: units.gu(1)
+                fill: parent
+            }
+            text: i18n.dtr("ubuntu-system-settings-online-accounts", "Remove account…")
+            onClicked: PopupUtils.open(removalConfirmationComponent, removeBtn)
+        }
+        showDivider: false
     }
 
     Component {

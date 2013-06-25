@@ -1,3 +1,16 @@
+ubuntu-system-settings-online-accounts (0.2~daily13.06.25-0ubuntu1) saucy; urgency=low
+
+  [ Sebastien Bacher ]
+  * Small visual tweaks: - use listitems for list buttons, that gives
+    visual consistency - use the same margin for labels in list than
+    other items - some tweaks to strings to match the design
+    recommendations.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 17
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 25 Jun 2013 07:01:02 +0000
+
 ubuntu-system-settings-online-accounts (0.2~daily13.06.19-0ubuntu1) saucy; urgency=low
 
   [ Ken VanDine ]

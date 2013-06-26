@@ -1,3 +1,9 @@
+ubuntu-system-settings-online-accounts (0.2~daily13.06.25-0ubuntu2) UNRELEASED; urgency=low
+
+  * Account editing: show applications, not services
+
+ -- Alberto Mardegan <alberto.mardegan@canonical.com>  Wed, 26 Jun 2013 09:48:08 +0300
+
 ubuntu-system-settings-online-accounts (0.2~daily13.06.25-0ubuntu1) saucy; urgency=low
 
   [ Sebastien Bacher ]

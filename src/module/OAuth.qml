@@ -24,6 +24,9 @@ import Ubuntu.OnlineAccounts 0.1
 Column {
     id: root
 
+    /* To override the parameters coming from the .provider file: */
+    property variant authenticationParameters: null
+
     property variant authReply
     property bool isNewAccount: false
     property variant __account: account
@@ -94,7 +97,7 @@ Column {
     function credentialsStored() {
         console.log("Credentials stored, id: " + creds.credentialsId)
         if (creds.credentialsId == 0) return
-        globalAccountSettings.authenticate(null)
+        globalAccountSettings.authenticate(authenticationParameters)
     }
 
     function cancel() {

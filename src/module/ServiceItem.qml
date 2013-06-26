@@ -21,19 +21,28 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.OnlineAccounts 0.1
 
-ListItem.Standard {
+Repeater {
     property variant accountServiceHandle
-
-    // Services are currently badly named (usually it's the provider's name)
-    //text: accountService.service.displayName
-    text: accountService.service.id
-    icon: "image://gicon/" + accountService.service.iconName
-    control: Switch {
-        checked: accountService.serviceEnabled
-    }
 
     resources: AccountService {
         id: accountService
         objectHandle: accountServiceHandle
+    }
+
+    model: ApplicationModel {
+        service: accountService.service.id
+    }
+
+    delegate: ListItem.Standard {
+        text: model.displayName
+        icon: "image://gicon/" + model.iconName
+        control: Switch {
+            checked: accountService.serviceEnabled
+            onCheckedChanged: {
+                if (checked != accountService.serviceEnabled) {
+                    accountService.updateServiceEnabled(checked)
+                }
+            }
+        }
     }
 }

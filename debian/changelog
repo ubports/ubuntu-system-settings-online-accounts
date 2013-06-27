@@ -1,8 +1,15 @@
-ubuntu-system-settings-online-accounts (0.2~daily13.06.25-0ubuntu2) UNRELEASED; urgency=low
+ubuntu-system-settings-online-accounts (0.2~+13.10.20130626.1-0ubuntu1) saucy; urgency=low
 
+  [ Alberto Mardegan ]
   * Account editing: show applications, not services
+  * Allow plugins to override the authentication parameters This is
+    going to be needed for google, at least (to get the refresh token).
+    .
 
- -- Alberto Mardegan <alberto.mardegan@canonical.com>  Wed, 26 Jun 2013 09:48:08 +0300
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 20
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 26 Jun 2013 19:36:34 +0000
 
 ubuntu-system-settings-online-accounts (0.2~daily13.06.25-0ubuntu1) saucy; urgency=low
 

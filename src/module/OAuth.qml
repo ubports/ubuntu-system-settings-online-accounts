@@ -71,11 +71,13 @@ Column {
         account: __account.objectHandle
     }
 
-    ListItem.SingleControl {
-        control: Button {
+    // TOFIX: use ListItem.SingleControl when lp #1194844 is fixed
+    ListItem.Base {
+        Button {
             anchors {
-                margins: units.gu(1)
-                fill: parent
+                verticalCenter: parent.verticalCenter
+                right: parent.right
+                left: parent.left
             }
             text: i18n.dtr("ubuntu-system-settings-online-accounts", "Cancel")
             onClicked: root.cancel()

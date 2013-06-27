@@ -43,11 +43,13 @@ Flickable {
             }
         }
 
-        ListItem.SingleControl {
-            control: Button {
+        // TOFIX: use ListItem.SingleControl when lp #1194844 is fixed
+        ListItem.Base {
+            Button {
                 anchors {
-                    margins: units.gu(1)
-                    fill: parent
+                    verticalCenter: parent.verticalCenter
+                    right: parent.right
+                    left: parent.left
                 }
                 text: i18n.dtr(plugin.translations, "Add account…")
                 onClicked: pageStack.push(newAccountPage)

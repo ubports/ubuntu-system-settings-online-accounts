@@ -5,6 +5,8 @@
 #export DH_VERBOSE=1
 
 override_dh_install:
+	rm -rf debian/*/usr/share/accounts/qml-plugins/example
+	rm -rf debian/*/usr/share/accounts/providers
 	dh_install --fail-missing
 
 %:

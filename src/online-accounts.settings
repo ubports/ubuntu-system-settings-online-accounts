@@ -2,7 +2,7 @@
     "name": "Accounts",
     "icon": "/usr/share/settings/system/icons/settings-accounts.svg",
     "translations": "ubuntu-system-settings-online-accounts",
-    "category": "network",
+    "category": "personal",
     "keywords": [
         "accounts",
         "online",

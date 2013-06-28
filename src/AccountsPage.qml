@@ -22,10 +22,9 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Flickable {
     id: root
-
     property variant accountsModel
-
     contentHeight: contentItem.childrenRect.height
+    boundsBehavior: Flickable.StopAtBounds
 
     Column {
         anchors.left: parent.left

@@ -25,6 +25,7 @@ Page {
     Flickable {
         anchors.fill: parent
         contentHeight: contentItem.childrenRect.height
+        boundsBehavior: Flickable.StopAtBounds
 
         ProvidersList {
             onProviderClicked: pageStack.push(accountCreationPage,

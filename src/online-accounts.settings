@@ -3,6 +3,7 @@
     "icon": "/usr/share/settings/system/icons/settings-accounts.svg",
     "translations": "ubuntu-system-settings-online-accounts",
     "category": "personal",
+    "priority": 3,
     "keywords": [
         "accounts",
         "online",

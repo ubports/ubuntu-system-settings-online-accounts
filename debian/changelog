@@ -1,3 +1,20 @@
+ubuntu-system-settings-online-accounts (0.2~+13.10.20130628-0ubuntu1) saucy; urgency=low
+
+  [ Ken VanDine ]
+  * Don't include the example provider and plugin in the installed
+    package .
+
+  [ Sebastien Bacher ]
+  * Use Base items for buttons, instead of SingleControl ones (until bug
+    #1194844 is fixed in the ui toolkit). That should give us correct
+    margins for those items. Use the same spacing for the labels. (LP:
+    #1194844)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 23
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 28 Jun 2013 07:01:01 +0000
+
 ubuntu-system-settings-online-accounts (0.2~+13.10.20130626.1-0ubuntu1) saucy; urgency=low
 
   [ Alberto Mardegan ]

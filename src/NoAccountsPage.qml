@@ -24,8 +24,8 @@ Flickable {
     id: root
 
     property variant accountsModel
-
     contentHeight: contentItem.childrenRect.height
+    boundsBehavior: Flickable.StopAtBounds
 
     Column {
         anchors.left: parent.left

@@ -1,3 +1,15 @@
+ubuntu-system-settings-online-accounts (0.2~+13.10.20130628.1-0ubuntu1) saucy; urgency=low
+
+  [ Ken VanDine ]
+  * set category to personal to match designs .
+  * set priority .
+  * Set boundsBehavior on the flickables .
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 27
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 28 Jun 2013 19:40:37 +0000
+
 ubuntu-system-settings-online-accounts (0.2~+13.10.20130628-0ubuntu1) saucy; urgency=low
 
   [ Ken VanDine ]

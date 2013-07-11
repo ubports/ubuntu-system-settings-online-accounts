@@ -43,15 +43,10 @@ Column {
         opacity: enabled ? 1 : 0.5
     }
 
-    // TOFIX: use ListItem.SingleControl when lp #1194844 is fixed
-    ListItem.Base {
-        Button {
-            anchors {
-                verticalCenter: parent.verticalCenter
-                right: parent.right
-                left: parent.left
-            }
+    ListItem.SingleControl {
+        control: Button {
             text: i18n.dtr("ubuntu-system-settings-online-accounts", "Remove account…")
+            width: parent.width - units.gu(4)
             onClicked: PopupUtils.open(removalConfirmationComponent, removeBtn)
         }
         showDivider: false

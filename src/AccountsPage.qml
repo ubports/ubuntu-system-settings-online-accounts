@@ -42,15 +42,10 @@ Flickable {
             }
         }
 
-        // TOFIX: use ListItem.SingleControl when lp #1194844 is fixed
-        ListItem.Base {
-            Button {
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    right: parent.right
-                    left: parent.left
-                }
+        ListItem.SingleControl {
+            control: Button {
                 text: i18n.dtr(plugin.translations, "Add account…")
+                width: parent.width - units.gu(4)
                 onClicked: pageStack.push(newAccountPage)
             }
             showDivider: false

@@ -1,3 +1,14 @@
+ubuntu-system-settings-online-accounts (0.2~+13.10.20130712-0ubuntu1) saucy; urgency=low
+
+  [ Sebastien Bacher ]
+  * Use SingleControl again, the toolkit margin issues have been fixed.
+  * set up for translations (based on the system settings example).
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 30
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 12 Jul 2013 07:01:46 +0000
+
 ubuntu-system-settings-online-accounts (0.2~+13.10.20130628.1-0ubuntu1) saucy; urgency=low
 
   [ Ken VanDine ]

@@ -1,0 +1,87 @@
+# Spanish translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntu-system-settings-online-accounts\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-07-10 19:34+0200\n"
+"PO-Revision-Date: 2013-07-12 09:54+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitoschido@gmail.com>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-07-13 07:11+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
+
+#: ../plugins/example/Main.qml:33
+msgid "User name"
+msgstr "Nombre de usuario"
+
+#: ../plugins/example/Main.qml:39
+msgid "Password"
+msgstr "Contraseña"
+
+#: ../src/AccountsPage.qml:53
+msgid "Add account…"
+msgstr "Añadir cuenta…"
+
+#: ../src/AddAccountLabel.qml:27
+msgid ""
+"Storing account details here lets apps use the accounts without you having "
+"to sign in for each app."
+msgstr ""
+"Al guardar detalles de cuentas aquí, permitirá que las aplicaciones las usen "
+"sin que tenga que iniciar sesión en cada una."
+
+#: ../src/NewAccountPage.qml:23
+msgid "Add account"
+msgstr "Añadir cuenta"
+
+#: ../src/NoAccountsPage.qml:36
+msgid "No accounts"
+msgstr "No hay cuentas"
+
+#: ../src/NoAccountsPage.qml:44
+msgid "Add account:"
+msgstr "Añadir cuenta:"
+
+#: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: ../src/module/Options.qml:36
+msgid "ID"
+msgstr "Id."
+
+#: ../src/module/Options.qml:54
+msgid "Remove account…"
+msgstr "Eliminar cuenta…"
+
+#: ../src/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr "Eliminar cuenta"
+
+#: ../src/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr ""
+"La cuenta %1 se eliminará solo de su teléfono. Puede volver a añadirla "
+"después."
+
+#: ../src/module/RemovalConfirmation.qml:36
+msgid "Remove"
+msgstr "Eliminar"
+
+#: ../src/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr "Acceso a esta cuenta:"
+
+#: ../.build/settings.js:1
+msgid "Accounts"
+msgstr "Cuentas"

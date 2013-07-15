@@ -1,0 +1,83 @@
+# Chinese (Simplified) translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntu-system-settings-online-accounts\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-07-10 19:34+0200\n"
+"PO-Revision-Date: 2013-07-15 04:51+0000\n"
+"Last-Translator: Wylmer Wang <Unknown>\n"
+"Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-07-15 05:25+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
+
+#: ../plugins/example/Main.qml:33
+msgid "User name"
+msgstr "用户名"
+
+#: ../plugins/example/Main.qml:39
+msgid "Password"
+msgstr "密码"
+
+#: ../src/AccountsPage.qml:53
+msgid "Add account…"
+msgstr "添加帐户…"
+
+#: ../src/AddAccountLabel.qml:27
+msgid ""
+"Storing account details here lets apps use the accounts without you having "
+"to sign in for each app."
+msgstr "在这里保存帐户信息，以便不需每次登录即可让应用使用您的帐户。"
+
+#: ../src/NewAccountPage.qml:23
+msgid "Add account"
+msgstr "添加帐户"
+
+#: ../src/NoAccountsPage.qml:36
+msgid "No accounts"
+msgstr "无帐户"
+
+#: ../src/NoAccountsPage.qml:44
+msgid "Add account:"
+msgstr "添加账户："
+
+#: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
+msgid "Cancel"
+msgstr "取消"
+
+#: ../src/module/Options.qml:36
+msgid "ID"
+msgstr "标识"
+
+#: ../src/module/Options.qml:54
+msgid "Remove account…"
+msgstr "删除帐户..."
+
+#: ../src/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr "移除帐户"
+
+#: ../src/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr "帐户%1 仅在手机中移除。以后还可重新添加。"
+
+#: ../src/module/RemovalConfirmation.qml:36
+msgid "Remove"
+msgstr "移除"
+
+#: ../src/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr "访问该帐户："
+
+#: ../.build/settings.js:1
+msgid "Accounts"
+msgstr "帐户"

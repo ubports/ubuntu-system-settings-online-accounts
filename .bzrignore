@@ -1,9 +1,15 @@
 Makefile*
+moc_*.cpp
+*.moc
+/client/OnlineAccountsClient/OnlineAccountsClient.pc
+/client/OnlineAccountsClient/libOnlineAccountsClient.so*
+/client/tests/tst_client
 /debian/files
 /debian/ubuntu-system-settings-online-accounts/
 /debian/*.log
 /debian/*.substvars
 /plugins/example/libexample.so*
+/po/*.mo
 /src/constants.js
 /src/libonline-accounts.so*
 /src/module/OnlineAccountsPlugin.pc

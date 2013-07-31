@@ -3,7 +3,11 @@ moc_*.cpp
 *.moc
 /client/OnlineAccountsClient/OnlineAccountsClient.pc
 /client/OnlineAccountsClient/libOnlineAccountsClient.so*
+/client/module/Ubuntu/
+/client/module/qmldir
+/client/tests/parameters.txt
 /client/tests/tst_client
+/client/tests/tst_qml_client
 /debian/files
 /debian/ubuntu-system-settings-online-accounts/
 /debian/*.log

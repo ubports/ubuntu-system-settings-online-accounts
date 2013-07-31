@@ -13,6 +13,7 @@ QML_SOURCES = \
     MainPage.qml \
     NewAccountPage.qml \
     NoAccountsPage.qml \
+    NormalStartupPage.qml \
     ProvidersList.qml
 
 OTHER_FILES += \

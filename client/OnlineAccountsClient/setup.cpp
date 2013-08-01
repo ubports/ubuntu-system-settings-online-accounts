@@ -76,6 +76,43 @@ void SetupPrivate::exec()
     m_process.start("system-settings", args);
 }
 
+/*!
+ * \qmltype Setup
+ * \inqmlmodule Ubuntu.OnlineAccounts.Client 0.1
+ * \ingroup Ubuntu
+ *
+ * \brief Invoke the Online Accounts panel
+ *
+ * This object can be used by applications to request the creation of an
+ * account. By calling the \l exec() method, the Online Accounts panel will
+ * appear and guide the user through the creation of an account. Once done, the
+ * \l finished() signal will be emitted. The type of account to be created can
+ * be configured by this object's properties.
+ *
+ * Example:
+ *
+ * \qml
+ * import QtQuick 2.0
+ * import Ubuntu.Components 0.1
+ * import Ubuntu.OnlineAccounts.Client 0.1
+ *
+ * Rectangle {
+ *     width: 400
+ *     height: 300
+ *
+ *     Button {
+ *         anchors.centerIn: parent
+ *         text: "Create Facebook account"
+ *         onClicked: setup.exec()
+ *     }
+ *
+ *     Setup {
+ *         id: setup
+ *         providerId: "facebook"
+ *     }
+ * }
+ * \endqml
+ */
 Setup::Setup(QObject *parent):
     QObject(parent),
     d_ptr(new SetupPrivate(this))
@@ -87,6 +124,11 @@ Setup::~Setup()
     delete d_ptr;
 }
 
+/*!
+ * \qmlproperty string Setup::serviceTypeId
+ * If set to a valid service type, the user will be asked to create an Online
+ * Account which supports this service type.
+ */
 void Setup::setServiceTypeId(const QString &serviceTypeId)
 {
     Q_D(Setup);
@@ -101,6 +143,11 @@ QString Setup::serviceTypeId() const
     return d->m_serviceTypeId;
 }
 
+/*!
+ * \qmlproperty string Setup::providerId
+ * If set to a valid provider, the user will be asked to create an Online
+ * Account provided by this entity.
+ */
 void Setup::setProviderId(const QString &providerId)
 {
     Q_D(Setup);
@@ -115,10 +162,19 @@ QString Setup::providerId() const
     return d->m_providerId;
 }
 
+/*!
+ * \qmlmethod void Setup::exec()
+ * Launches the Online Accounts panel.
+ */
 void Setup::exec()
 {
     Q_D(Setup);
     d->exec();
 }
+
+/*!
+ * \qmlsignal Setup::finished()
+ * Emitted when the Online Accounts panel has been closed.
+ */
 
 #include "setup.moc"

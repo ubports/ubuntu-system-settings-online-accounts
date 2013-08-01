@@ -52,6 +52,17 @@ Architecture: amd64 i386 armhf
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          qtdeclarative5-qtquick2-plugin,
-Description: Let QML applications interact with the Online Accounts panel
+Description: Online Accounts panel library for QML applications
  This module offers an API for applications to invoke the Online Accounts panel
  in order to request the creation/configuration of accounts.
+
+Package: qtdeclarative5-online-accounts-client-plugin-doc
+Section: doc
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends},
+Description: Online Accounts panel library for QML applications - documentation
+ This module offers an API for applications to invoke the Online Accounts panel
+ in order to request the creation/configuration of accounts.
+ .
+ This package contains developer documentation.

@@ -3,6 +3,7 @@ moc_*.cpp
 *.moc
 /client/OnlineAccountsClient/OnlineAccountsClient.pc
 /client/OnlineAccountsClient/libOnlineAccountsClient.so*
+/client/doc/html/*
 /client/module/Ubuntu/
 /client/module/qmldir
 /client/tests/parameters.txt
@@ -12,6 +13,7 @@ moc_*.cpp
 /debian/libonline-accounts-client-dev/
 /debian/libonline-accounts-client1/
 /debian/qtdeclarative5-online-accounts-client-plugin/
+/debian/qtdeclarative5-online-accounts-client-plugin-doc/
 /debian/tmp
 /debian/ubuntu-system-settings-online-accounts/
 /debian/*.debhelper

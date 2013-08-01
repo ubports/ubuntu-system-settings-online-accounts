@@ -9,7 +9,12 @@ moc_*.cpp
 /client/tests/tst_client
 /client/tests/tst_qml_client
 /debian/files
+/debian/libonline-accounts-client-dev/
+/debian/libonline-accounts-client1/
+/debian/qtdeclarative5-online-accounts-client-plugin/
+/debian/tmp
 /debian/ubuntu-system-settings-online-accounts/
+/debian/*.debhelper
 /debian/*.log
 /debian/*.substvars
 /plugins/example/libexample.so*

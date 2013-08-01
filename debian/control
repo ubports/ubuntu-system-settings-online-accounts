@@ -25,3 +25,33 @@ Depends: ${misc:Depends},
          ubuntu-system-settings
 Description: Online Accounts setup for Ubuntu Touch
  Online Accounts setup utility for the Ubuntu Touch System Settings.
+
+Package: libonline-accounts-client1
+Section: libs
+Architecture: i386 amd64 armhf
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+Description: Library to interact with the Online Accounts panel
+ The OnlineAccountsClient library offers an API for applications to invoke the
+ Online Accounts panel in order to request the creation/configuration of
+ accounts.
+
+Package: libonline-accounts-client-dev
+Section: libdevel
+Architecture: i386 amd64 armhf
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         libonline-accounts-client1 (= ${binary:Version}),
+Description: Library to interact with the Online Accounts panel - development files
+ The OnlineAccountsClient library offers an API for applications to invoke the
+ Online Accounts panel in order to request the creation/configuration of
+ accounts.
+
+Package: qtdeclarative5-online-accounts-client-plugin
+Architecture: amd64 i386 armhf
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         qtdeclarative5-qtquick2-plugin,
+Description: Let QML applications interact with the Online Accounts panel
+ This module offers an API for applications to invoke the Online Accounts panel
+ in order to request the creation/configuration of accounts.

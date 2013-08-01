@@ -1,4 +1,4 @@
-usr/lib/pkgconfig/OnlineAccountsPlugin.pc
+usr/lib/*/pkgconfig/OnlineAccountsPlugin.pc
 usr/lib/*/qt5/qml/Ubuntu/OnlineAccounts/Plugin
 usr/share/locale
 usr/share/settings

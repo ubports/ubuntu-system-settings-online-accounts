@@ -3,7 +3,7 @@
 !isEmpty(pkgconfig.files) {
     QMAKE_SUBSTITUTES += $${pkgconfig.files}.in
     pkgconfig.CONFIG = no_check_exist
-    pkgconfig.path  = $${INSTALL_PREFIX}/lib/pkgconfig
+    pkgconfig.path  = $${INSTALL_LIBDIR}/pkgconfig
     QMAKE_EXTRA_TARGETS += pkgconfig
 
     INSTALLS += pkgconfig

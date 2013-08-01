@@ -19,15 +19,11 @@ contains(TEMPLATE, app) {
 #-----------------------------------------------------------------------------
 contains(TEMPLATE, lib) {
     isEmpty(target.path) {
-        target.path  = $${INSTALL_PREFIX}/lib
+        target.path  = $${INSTALL_LIBDIR}
     }
     INSTALLS    += target
     message("====")
     message("==== INSTALLS += target")
-
-    # reset the .pc file's `prefix' variable
-    #include( tools/fix-pc-prefix.pri )
-
 }
 
 #-----------------------------------------------------------------------------

@@ -28,6 +28,18 @@ isEmpty(PREFIX) {
     message("==== install prefix set to `$${INSTALL_PREFIX}'")
 }
 
+INSTALL_LIBDIR = $${INSTALL_PREFIX}/lib
+
+isempty(LIBDIR) {
+    message("====")
+    message("==== NOTE: To override the library installation path run: `qmake LIBDIR=/custom/path'")
+    message("==== (current installation path is `$${INSTALL_LIBDIR}')")
+} else {
+    INSTALL_LIBDIR = $${LIBDIR}
+    message("====")
+    message("==== install prefix set to `$${INSTALL_LIBDIR}'")
+}
+
 ONLINE_ACCOUNTS_PLUGIN_DIR_BASE = share/accounts/qml-plugins
 ONLINE_ACCOUNTS_PLUGIN_DIR = $${INSTALL_PREFIX}/$${ONLINE_ACCOUNTS_PLUGIN_DIR_BASE}
 

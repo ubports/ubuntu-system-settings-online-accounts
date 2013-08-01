@@ -24,6 +24,7 @@
 #include <QQmlComponent>
 #include <QQmlContext>
 #include <QQmlEngine>
+#include <QQmlError>
 #include <QSignalSpy>
 #include <QTest>
 
@@ -74,6 +75,11 @@ void SetupTest::testLoadPlugin()
                       "Setup {}",
                       QUrl());
     QObject *object = component.create();
+    if (component.isError()) {
+        Q_FOREACH(const QQmlError &error, component.errors()) {
+            qDebug() << error;
+        }
+    }
     QVERIFY(object != 0);
     delete object;
 }

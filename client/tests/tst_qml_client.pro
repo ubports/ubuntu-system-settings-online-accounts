@@ -18,6 +18,6 @@ MOCK_PATH = $${TOP_SRC_DIR}/client/tests/
 DEFINES += \
     MOCK_PATH=\\\"$$MOCK_PATH\\\"
 
-check.commands = "xvfb-run -a ./$${TARGET}"
+check.commands = "LD_LIBRARY_PATH=$${TOP_BUILD_DIR}/client/OnlineAccountsClient:${LD_LIBRARY_PATH} xvfb-run -a ./$${TARGET}"
 check.depends = $${TARGET}
 QMAKE_EXTRA_TARGETS += check

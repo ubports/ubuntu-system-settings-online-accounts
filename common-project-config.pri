@@ -30,7 +30,7 @@ isEmpty(PREFIX) {
 
 INSTALL_LIBDIR = $${INSTALL_PREFIX}/lib
 
-isempty(LIBDIR) {
+isEmpty(LIBDIR) {
     message("====")
     message("==== NOTE: To override the library installation path run: `qmake LIBDIR=/custom/path'")
     message("==== (current installation path is `$${INSTALL_LIBDIR}')")

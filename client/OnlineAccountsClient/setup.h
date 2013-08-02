@@ -23,12 +23,13 @@
 #ifndef ONLINE_ACCOUNTS_CLIENT_SETUP_H
 #define ONLINE_ACCOUNTS_CLIENT_SETUP_H
 
+#include "global.h"
 #include <QObject>
 
 namespace OnlineAccountsClient {
 
 class SetupPrivate;
-class Setup: public QObject
+class OAC_EXPORT Setup: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString serviceTypeId READ serviceTypeId \

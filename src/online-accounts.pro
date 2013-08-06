@@ -33,6 +33,6 @@ qml.path = $${PLUGIN_QML_DIR}/$${TARGET}
 INSTALLS += qml
 
 image.files = settings-accounts.svg
-image.path = /usr/share/settings/system/icons
+image.path = $${PLUGIN_MANIFEST_DIR}/icons
 INSTALLS += image
 

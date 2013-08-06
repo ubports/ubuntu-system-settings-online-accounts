@@ -47,7 +47,7 @@ Description: Library to interact with the Online Accounts panel - development fi
  Online Accounts panel in order to request the creation/configuration of
  accounts.
 
-Package: qtdeclarative5-online-accounts-client-plugin
+Package: qtdeclarative5-online-accounts-client0.1
 Architecture: amd64 i386 armhf
 Depends: ${misc:Depends},
          ${shlibs:Depends},

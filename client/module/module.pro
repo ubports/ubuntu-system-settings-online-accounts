@@ -5,8 +5,9 @@ TEMPLATE = lib
 TARGET = OnlineAccountsClient
 
 API_URI = "Ubuntu.OnlineAccounts.Client"
+API_VER = 0.1
 
-DESTDIR = $$replace(API_URI, \\., /)
+DESTDIR = $$replace(API_URI, \\., /).$$API_VER
 PLUGIN_INSTALL_BASE = $$[QT_INSTALL_QML]/$${DESTDIR}
 
 CONFIG += \

@@ -56,7 +56,7 @@ Description: Online Accounts panel library for QML applications
  This module offers an API for applications to invoke the Online Accounts panel
  in order to request the creation/configuration of accounts.
 
-Package: qtdeclarative5-online-accounts-client-plugin-doc
+Package: qtdeclarative5-online-accounts-client-doc
 Section: doc
 Architecture: all
 Multi-Arch: foreign

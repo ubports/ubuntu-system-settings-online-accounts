@@ -1,4 +1,5 @@
 include (../../common-project-config.pri)
+include($${TOP_SRC_DIR}/common-vars.pri)
 
 TEMPLATE = lib
 TARGET = OnlineAccountsClient

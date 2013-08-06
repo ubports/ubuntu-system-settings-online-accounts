@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Ubuntu Desktop Team <ubuntu-desktop@lists.ubuntu.com>
 Build-Depends: debhelper (>= 9),
                pkg-config,
-               libsystemsettings-dev,
+               libsystemsettings-dev (>= 0.1+13.10.20130806)
                qt5-default,
                qtbase5-dev,
                qtdeclarative5-dev,

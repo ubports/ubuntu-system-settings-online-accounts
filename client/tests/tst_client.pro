@@ -23,8 +23,6 @@ MOCK_PATH = $${TOP_SRC_DIR}/client/tests/
 DEFINES += \
     MOCK_PATH=\\\"$$MOCK_PATH\\\"
 
-chown.commands = "chmod a+x system-settings"
-
 check.commands = "xvfb-run -a ./$${TARGET}"
-check.depends = $${TARGET} chown
-QMAKE_EXTRA_TARGETS += chown check
+check.depends = $${TARGET}
+QMAKE_EXTRA_TARGETS += check

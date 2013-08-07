@@ -6,7 +6,7 @@ TARGET = OnlineAccountsPlugin
 
 API_URI = "Ubuntu.OnlineAccounts.Plugin"
 
-PLUGIN_INSTALL_BASE = $$[QT_INSTALL_QML]/$$replace(API_URI, \\., /)
+PLUGIN_INSTALL_BASE = $${PLUGIN_PRIVATE_MODULE_DIR}/$$replace(API_URI, \\., /)
 
 QML_SOURCES = \
     OAuthMain.qml \

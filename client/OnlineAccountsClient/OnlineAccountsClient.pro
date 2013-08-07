@@ -1,7 +1,8 @@
 include (../../common-project-config.pri)
+include($${TOP_SRC_DIR}/common-vars.pri)
 
 TEMPLATE = lib
-TARGET = OnlineAccountsClient
+TARGET = online-accounts-client
 
 CONFIG += \
     qt
@@ -30,5 +31,5 @@ headers.files = $${public_headers}
 
 include($${TOP_SRC_DIR}/common-installs-config.pri)
 
-pkgconfig.files = $${TARGET}.pc
+pkgconfig.files = OnlineAccountsClient.pc
 include($${TOP_SRC_DIR}/common-pkgconfig.pri)

@@ -8,3 +8,9 @@ Copyright: 2013 Canonical Ltd.
 License: GPL-3
  On Debian systems, the complete text of the GNU General
  Public License version 3 can be found in `/usr/share/common-licenses/GPL-3'.
+
+Files: client/*
+Copyright: 2013 Canonical Ltd.
+License: LGPL-3
+ On Debian systems, the complete text of the GNU Lesser General Public License 
+ version 3 can be found in `/usr/share/common-licenses/LGPL-3'.

@@ -28,7 +28,7 @@ HEADERS += \
 INCLUDEPATH += \
     $$TOP_SRC_DIR/client
 QMAKE_LIBDIR = $${TOP_BUILD_DIR}/client/OnlineAccountsClient
-LIBS += -lOnlineAccountsClient
+LIBS += -lonline-accounts-client
 
 QMLDIR_FILES += qmldir
 QMAKE_SUBSTITUTES += qmldir.in

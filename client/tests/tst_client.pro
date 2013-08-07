@@ -16,7 +16,7 @@ INCLUDEPATH += \
     $$TOP_SRC_DIR/client
 QMAKE_LIBDIR = $${TOP_BUILD_DIR}/client/OnlineAccountsClient
 QMAKE_RPATHDIR = $${QMAKE_LIBDIR}
-LIBS += -lOnlineAccountsClient
+LIBS += -lonline-accounts-client
 
 MOCK_PATH = $${TOP_SRC_DIR}/client/tests/
 

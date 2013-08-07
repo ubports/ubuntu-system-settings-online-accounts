@@ -2,7 +2,7 @@ Makefile*
 moc_*.cpp
 *.moc
 /client/OnlineAccountsClient/OnlineAccountsClient.pc
-/client/OnlineAccountsClient/libOnlineAccountsClient.so*
+/client/OnlineAccountsClient/libonline-accounts-client.so*
 /client/doc/html/*
 /client/module/Ubuntu/
 /client/module/qmldir
@@ -12,8 +12,8 @@ moc_*.cpp
 /debian/files
 /debian/libonline-accounts-client-dev/
 /debian/libonline-accounts-client1/
-/debian/qtdeclarative5-online-accounts-client-plugin/
-/debian/qtdeclarative5-online-accounts-client-plugin-doc/
+/debian/qtdeclarative5-online-accounts-client0.1/
+/debian/qtdeclarative5-online-accounts-client-doc/
 /debian/tmp
 /debian/ubuntu-system-settings-online-accounts/
 /debian/*.debhelper

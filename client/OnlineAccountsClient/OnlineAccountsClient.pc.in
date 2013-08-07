@@ -3,7 +3,7 @@ exec_prefix=${prefix}
 libdir=$$INSTALL_LIBDIR
 includedir=${prefix}/include
 
-Name: $$TARGET
+Name: OnlineAccountsClient
 Description: Client for the Online Accounts setup
 Version: $$PROJECT_VERSION
 Requires: Qt5Core

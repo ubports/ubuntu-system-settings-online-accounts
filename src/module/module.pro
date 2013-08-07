@@ -6,7 +6,7 @@ TARGET = OnlineAccountsPlugin
 
 API_URI = "Ubuntu.OnlineAccounts.Plugin"
 
-PLUGIN_INSTALL_BASE = $$[QT_INSTALL_QML]/$$replace(API_URI, \\., /)
+PLUGIN_INSTALL_BASE = $${PLUGIN_PRIVATE_MODULE_DIR}/$$replace(API_URI, \\., /)
 
 QML_SOURCES = \
     OAuthMain.qml \
@@ -30,12 +30,5 @@ qmldir.files = qmldir
 qmldir.path = $${PLUGIN_INSTALL_BASE}
 INSTALLS += qmldir
 
-pkgconfig.CONFIG = no_check_exist
 pkgconfig.files = $${TARGET}.pc
-pkgconfig.path = $${INSTALL_PREFIX}/lib/pkgconfig
-QMAKE_EXTRA_TARGETS += pkgconfig
-INSTALLS += pkgconfig
-
-QMAKE_SUBSTITUTES += $${pkgconfig.files}.in
-
-QMAKE_CLEAN += $${pkgconfig.files}
+include($${TOP_SRC_DIR}/common-pkgconfig.pri)

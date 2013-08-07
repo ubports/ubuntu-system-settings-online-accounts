@@ -6,6 +6,7 @@ CONFIG += ordered
 SUBDIRS = \
     po \
     src \
+    client \
     plugins
 
 include(common-installs-config.pri)

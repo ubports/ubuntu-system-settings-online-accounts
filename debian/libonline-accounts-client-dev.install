@@ -1,0 +1,3 @@
+usr/include
+usr/lib/*/libonline-accounts-client.so
+usr/lib/*/pkgconfig/OnlineAccountsClient.pc

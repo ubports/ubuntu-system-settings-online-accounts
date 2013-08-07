@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Ubuntu Desktop Team <ubuntu-desktop@lists.ubuntu.com>
 Build-Depends: debhelper (>= 9),
                pkg-config,
-               libsystemsettings-dev,
+               libsystemsettings-dev (>= 0.1+13.10.20130806),
                qt5-default,
                qtbase5-dev,
                qtdeclarative5-dev,
@@ -17,7 +17,7 @@ Homepage: https://launchpad.net/ubuntu-system-settings-online-accounts
 Vcs-Bzr: https://code.launchpad.net/~online-accounts/ubuntu-system-settings-online-accounts/trunk
 
 Package: ubuntu-system-settings-online-accounts
-Architecture: i386 amd64 armhf
+Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          qtdeclarative5-accounts-plugin (>= 0.1),
@@ -25,3 +25,44 @@ Depends: ${misc:Depends},
          ubuntu-system-settings
 Description: Online Accounts setup for Ubuntu Touch
  Online Accounts setup utility for the Ubuntu Touch System Settings.
+
+Package: libonline-accounts-client1
+Section: libs
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+Description: Library to interact with the Online Accounts panel
+ The OnlineAccountsClient library offers an API for applications to invoke the
+ Online Accounts panel in order to request the creation/configuration of
+ accounts.
+
+Package: libonline-accounts-client-dev
+Section: libdevel
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         libonline-accounts-client1 (= ${binary:Version}),
+Description: Library to interact with the Online Accounts panel - development files
+ The OnlineAccountsClient library offers an API for applications to invoke the
+ Online Accounts panel in order to request the creation/configuration of
+ accounts.
+
+Package: qtdeclarative5-online-accounts-client0.1
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         qtdeclarative5-qtquick2-plugin,
+Description: Online Accounts panel library for QML applications
+ This module offers an API for applications to invoke the Online Accounts panel
+ in order to request the creation/configuration of accounts.
+
+Package: qtdeclarative5-online-accounts-client-doc
+Section: doc
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends},
+Description: Online Accounts panel library for QML applications - documentation
+ This module offers an API for applications to invoke the Online Accounts panel
+ in order to request the creation/configuration of accounts.
+ .
+ This package contains developer documentation.

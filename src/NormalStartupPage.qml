@@ -17,28 +17,30 @@
  */
 
 import QtQuick 2.0
-import SystemSettings 1.0
-import Ubuntu.Components 0.1
 import Ubuntu.OnlineAccounts 0.1
 
-ItemPage {
+Item {
     id: root
 
-    Loader {
-        id: loader
+    property Item flickable: accountsPage.visible ? accountsPage : noAccountsPage
+
+    AccountServiceModel {
+        id: accountsModel
+        service: "global"
+        includeDisabled: true
+    }
+
+    AccountsPage {
+        id: accountsPage
         anchors.fill: parent
-        sourceComponent: pluginOptions.provider ? accountCreationPage : normalStartupPage
+        accountsModel: accountsModel
+        visible: accountsModel.count > 0
     }
 
-    Component {
-        id: normalStartupPage
-        NormalStartupPage {}
-    }
-
-    Component {
-        id: accountCreationPage
-        AccountCreationPage {
-            providerId: pluginOptions.provider
-        }
+    NoAccountsPage {
+        id: noAccountsPage
+        anchors.fill: parent
+        accountsModel: accountsModel
+        visible: !accountsPage.visible
     }
 }

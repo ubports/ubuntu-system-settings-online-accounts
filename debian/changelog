@@ -1,3 +1,26 @@
+ubuntu-system-settings-online-accounts (0.2~+13.10.20130808.2-0ubuntu1) saucy; urgency=low
+
+  [ Ken VanDine ]
+  * Add OnlineAccountsClient library and QML module This library can be
+    used by applications to invoke the Online Accounts panel in order to
+    request the creation of accounts, by provider or by service-type. On
+    the panel side, only the initiation of account creation by provider
+    name is implemented; the service-type filtering requires some more
+    work and will come later.
+
+  [ Alberto Mardegan ]
+  * Add OnlineAccountsClient library and QML module This library can be
+    used by applications to invoke the Online Accounts panel in order to
+    request the creation of accounts, by provider or by service-type. On
+    the panel side, only the initiation of account creation by provider
+    name is implemented; the service-type filtering requires some more
+    work and will come later.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 37
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 08 Aug 2013 09:28:31 +0000
+
 ubuntu-system-settings-online-accounts (0.2~+13.10.20130712-0ubuntu1) saucy; urgency=low
 
   [ Sebastien Bacher ]

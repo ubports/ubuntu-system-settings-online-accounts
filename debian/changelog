@@ -1,3 +1,13 @@
+ubuntu-system-settings-online-accounts (0.2~+13.10.20130808.3-0ubuntu1) saucy; urgency=low
+
+  [ Ken VanDine ]
+  * multiarch fixes.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 39
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 08 Aug 2013 15:27:04 +0000
+
 ubuntu-system-settings-online-accounts (0.2~+13.10.20130808.2-0ubuntu1) saucy; urgency=low
 
   [ Ken VanDine ]

@@ -7,7 +7,9 @@ TARGET = online-accounts-client
 CONFIG += \
     qt
 
-QT += gui
+QT += \
+    dbus \
+    gui
 
 QMAKE_CXXFLAGS += \
     -fvisibility=hidden
@@ -19,6 +21,14 @@ QMAKE_LFLAGS += $$QMAKE_LFLAGS_NOUNDEF
 public_headers += \
     global.h \
     setup.h Setup
+
+INCLUDEPATH += \
+    $${TOP_SRC_DIR}
+
+ACCESS_CONTROL_SERVICE_SRC = $${TOP_SRC_DIR}/access-control-service
+
+DBUS_INTERFACES += \
+    $${ACCESS_CONTROL_SERVICE_SRC}/com.canonical.OnlineAccounts.AccessControl.xml
 
 SOURCES += \
     setup.cpp

@@ -21,10 +21,15 @@
  */
 
 #include "setup.h"
+#include "accesscontrol_interface.h"
+#include "access-control-service/globals.h"
 
-#include <QProcess>
+#include <QDBusConnection>
+#include <QDBusPendingCallWatcher>
+#include <QDBusPendingReply>
 
 using namespace OnlineAccountsClient;
+using namespace com::canonical::OnlineAccounts;
 
 namespace OnlineAccountsClient {
 
@@ -39,8 +44,11 @@ public:
 
     void exec();
 
+private Q_SLOTS:
+    void onRequestAccessReply(QDBusPendingCallWatcher *watcher);
+
 private:
-    QProcess m_process;
+    AccessControl m_accessControl;
     QString m_serviceTypeId;
     QString m_providerId;
     mutable Setup *q_ptr;
@@ -50,30 +58,48 @@ private:
 
 SetupPrivate::SetupPrivate(Setup *setup):
     QObject(setup),
+    m_accessControl(ACCESS_CONTROL_SERVICE_NAME,
+                    ACCESS_CONTROL_OBJECT_PATH,
+                    QDBusConnection::sessionBus()),
     q_ptr(setup)
 {
-    QObject::connect(&m_process, SIGNAL(finished(int,QProcess::ExitStatus)),
-                     setup, SIGNAL(finished()));
-    QObject::connect(&m_process, SIGNAL(error(QProcess::ProcessError)),
-                     setup, SIGNAL(finished()));
 }
 
 void SetupPrivate::exec()
 {
-    QStringList args;
+    QVariantMap options;
 
     if (!m_serviceTypeId.isEmpty()) {
-        args.append("--option");
-        args.append(QString::fromLatin1("serviceType=%1").arg(m_serviceTypeId));
+        options.insert("serviceType", m_serviceTypeId);
     }
 
     if (!m_providerId.isEmpty()) {
-        args.append("--option");
-        args.append(QString::fromLatin1("provider=%1").arg(m_providerId));
+        options.insert("provider", m_providerId);
     }
 
-    args.append("online-accounts");
-    m_process.start("system-settings", args);
+    QDBusPendingReply<QVariantMap> reply =
+        m_accessControl.requestAccess(options);
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply,
+                                                                   this);
+    QObject::connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
+                     this,
+                     SLOT(onRequestAccessReply(QDBusPendingCallWatcher*)));
+}
+
+void SetupPrivate::onRequestAccessReply(QDBusPendingCallWatcher *watcher)
+{
+    Q_Q(Setup);
+
+    watcher->deleteLater();
+
+    QDBusPendingReply<QVariantMap> reply = *watcher;
+    if (reply.isError()) {
+        qWarning() << "RequestAccess failed:" << reply.error();
+    } else {
+        // At the moment, we don't have any use for the reply.
+    }
+
+    Q_EMIT q->finished();
 }
 
 /*!

@@ -8,7 +8,8 @@ SUBDIRS = \
     access-control-service \
     src \
     client \
-    plugins
+    plugins \
+    tests
 
 include(common-installs-config.pri)
 

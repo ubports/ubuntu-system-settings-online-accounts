@@ -11,9 +11,6 @@ moc_*.cpp
 /client/doc/html/*
 /client/module/Ubuntu/
 /client/module/qmldir
-/client/tests/parameters.txt
-/client/tests/tst_client
-/client/tests/tst_qml_client
 /debian/files
 /debian/libonline-accounts-client-dev/
 /debian/libonline-accounts-client1/
@@ -31,3 +28,5 @@ moc_*.cpp
 /src/module/OnlineAccountsPlugin.pc
 /src/module/libOnlineAccountsPlugin.so*
 /src/module/qmldir
+/tests/client/tst_client
+/tests/client/tst_qml_client

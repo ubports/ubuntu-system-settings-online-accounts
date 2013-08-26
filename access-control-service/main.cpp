@@ -20,7 +20,7 @@
 
 #include "accesscontrol_adaptor.h"
 #include "debug.h"
-#include "../globals.h"
+#include "globals.h"
 #include "i18n.h"
 #include "inactivity-timer.h"
 #include "service.h"

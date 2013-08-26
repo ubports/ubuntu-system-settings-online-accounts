@@ -1,6 +1,11 @@
 Makefile*
 moc_*.cpp
 *.moc
+*_adaptor.cpp
+*_adaptor.h
+*_interface.cpp
+*_interface.h
+/access-control-service/access-control-service
 /client/OnlineAccountsClient/OnlineAccountsClient.pc
 /client/OnlineAccountsClient/libonline-accounts-client.so*
 /client/doc/html/*

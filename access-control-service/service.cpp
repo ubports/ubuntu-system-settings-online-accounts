@@ -18,8 +18,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../globals.h"
 #include "debug.h"
+#include "globals.h"
 #include "request.h"
 #include "service.h"
 

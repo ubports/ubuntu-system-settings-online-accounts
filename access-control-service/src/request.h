@@ -42,10 +42,9 @@ public:
     ~Request();
 
     WId windowId() const;
-
     bool isInProgress() const;
-
     const QVariantMap &parameters() const;
+    QString clientApparmorProfile() const;
 
 public Q_SLOTS:
     virtual void start();

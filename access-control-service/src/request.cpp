@@ -47,12 +47,14 @@ public:
 
 private:
     void setWindow(QWindow *window);
+    QString findClientApparmorProfile();
 
 private:
     mutable Request *q_ptr;
     QDBusConnection m_connection;
     QDBusMessage m_message;
     QVariantMap m_parameters;
+    QString m_clientApparmorProfile;
     bool m_inProgress;
     QPointer<QWindow> m_window;
 };
@@ -71,6 +73,7 @@ RequestPrivate::RequestPrivate(const QDBusConnection &connection,
     m_inProgress(false),
     m_window(0)
 {
+    m_clientApparmorProfile = findClientApparmorProfile();
 }
 
 RequestPrivate::~RequestPrivate()
@@ -92,6 +95,30 @@ void RequestPrivate::setWindow(QWindow *window)
         window->setTransientParent(parent);
     }
     window->show();
+}
+
+QString RequestPrivate::findClientApparmorProfile()
+{
+    QString uniqueConnectionId = m_message.service();
+    QString appId;
+
+    QDBusMessage msg =
+        QDBusMessage::createMethodCall("org.freedesktop.DBus",
+                                       "/org/freedesktop/DBus",
+                                       "org.freedesktop.DBus",
+                                       "GetConnectionAppArmorSecurityContext");
+    QVariantList args;
+    args << uniqueConnectionId;
+    msg.setArguments(args);
+    QDBusMessage reply = m_connection.call(msg, QDBus::Block);
+    if (reply.type() == QDBusMessage::ReplyMessage) {
+        appId = reply.arguments().value(0, QString()).toString();
+        DEBUG() << "App ID:" << appId;
+    } else {
+        qWarning() << "Error getting app ID:" << reply.errorName() <<
+            reply.errorMessage();
+    }
+    return appId;
 }
 
 Request *Request::newRequest(const QDBusConnection &connection,
@@ -146,6 +173,12 @@ const QVariantMap &Request::parameters() const
 {
     Q_D(const Request);
     return d->m_parameters;
+}
+
+QString Request::clientApparmorProfile() const
+{
+    Q_D(const Request);
+    return d->m_clientApparmorProfile;
 }
 
 void Request::start()

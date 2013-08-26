@@ -59,6 +59,8 @@ ProviderRequestPrivate::~ProviderRequestPrivate()
 
 void ProviderRequestPrivate::start()
 {
+    Q_Q(ProviderRequest);
+    DEBUG() << "Client" << q->clientApparmorProfile();
 }
 
 ProviderRequest::ProviderRequest(const QDBusConnection &connection,

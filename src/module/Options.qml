@@ -47,7 +47,7 @@ Column {
         control: Button {
             text: i18n.dtr("ubuntu-system-settings-online-accounts", "Remove account…")
             width: parent.width - units.gu(4)
-            onClicked: PopupUtils.open(removalConfirmationComponent, removeBtn)
+            onClicked: PopupUtils.open(removalConfirmationComponent)
         }
         showDivider: false
     }

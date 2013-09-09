@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=com.canonical.OnlineAccountsUi
+Exec=$${INSTALL_PREFIX}/bin/$${TARGET}

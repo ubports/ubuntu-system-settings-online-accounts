@@ -3,8 +3,6 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
- * This file is part of access-control-service
- *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
  * by the Free Software Foundation.
@@ -18,12 +16,23 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "debug.h"
+#ifndef ONLINE_ACCOUNTS_SYSTEM_SETTINGS_PLUGIN_H
+#define ONLINE_ACCOUNTS_SYSTEM_SETTINGS_PLUGIN_H
 
-int appLoggingLevel = 1; // criticals
+#include <QObject>
+#include <SystemSettings/PluginInterface>
 
-void setLoggingLevel(int level)
+class Plugin: public QObject, public SystemSettings::PluginInterface
 {
-    appLoggingLevel = level;
-}
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "com.ubuntu.SystemSettings.PluginInterface")
+    Q_INTERFACES(SystemSettings::PluginInterface)
 
+public:
+    Plugin();
+
+    SystemSettings::ItemBase *createItem(const QVariantMap &staticData,
+                                         QObject *parent = 0);
+};
+
+#endif // ONLINE_ACCOUNTS_SYSTEM_SETTINGS_PLUGIN_H

@@ -3,7 +3,7 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
- * This file is part of access-control-service
+ * This file is part of online-accounts-ui
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -17,23 +17,31 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef OAU_DEBUG_H
+#define OAU_DEBUG_H
 
-#define NO_TR_OVERRIDE
-#include "i18n.h"
+#include <QDebug>
 
-#include <libintl.h>
+/* 0 - fatal, 1 - critical(default), 2 - info/debug */
+extern int appLoggingLevel;
 
-namespace Acs {
-
-void initTr(const char *domain, const char *localeDir)
+static inline bool debugEnabled()
 {
-    bindtextdomain(domain, localeDir);
-    textdomain(domain);
+    return appLoggingLevel >= 2;
 }
 
-QString _(const char *text, const char *domain)
+static inline int loggingLevel()
 {
-    return QString::fromUtf8(dgettext(domain, text));
+    return appLoggingLevel;
 }
 
-}; // namespace
+void setLoggingLevel(int level);
+
+#ifdef DEBUG_ENABLED
+    #define DEBUG() \
+        if (debugEnabled()) qDebug() << __FILE__ << __LINE__ << __func__
+#else
+    #define DEBUG() while (0) qDebug()
+#endif
+
+#endif // OAU_DEBUG_H

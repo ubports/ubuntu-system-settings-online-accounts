@@ -18,33 +18,35 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.OnlineAccounts 0.1
-import "constants.js" as Constants
+import Ubuntu.Components.ListItems 0.1 as ListItem
 
-Page {
-    property string providerId
+Flickable {
+    id: root
 
-    title: account.provider.displayName
+    property variant accountsModel
+    contentHeight: contentItem.childrenRect.height
+    boundsBehavior: Flickable.StopAtBounds
 
-    Account {
-        id: account
-        objectHandle: Manager.createAccount(providerId)
-    }
+    Column {
+        anchors.left: parent.left
+        anchors.right: parent.right
 
-    Loader {
-        id: loader
-        property var account: account
-
-        anchors.fill: parent
-        source: Constants.qmlPluginPath + providerId + "/Main.qml"
-
-        Connections {
-            target: loader.item
-            onFinished: {
-                console.log("====== PLUGIN FINISHED ======")
-                pageStack.pop()
-                pageStack.pop()
+        ListItem.Base {
+            Label {
+                text: i18n.tr("No accounts")
+                anchors.centerIn: parent
             }
+        }
+
+        AddAccountLabel {}
+
+        ListItem.Standard {
+            text: i18n.tr("Add account:")
+        }
+
+        ProvidersList {
+            onProviderClicked: pageStack.push(accountCreationPage,
+                                              { providerId: providerId })
         }
     }
 }

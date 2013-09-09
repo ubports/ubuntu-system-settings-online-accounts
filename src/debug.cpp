@@ -3,7 +3,7 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
- * This file is part of access-control-service
+ * This file is part of online-accounts-ui
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -18,17 +18,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACS_I18N_H
-#define ACS_I18N_H
+#include "debug.h"
 
-#include <QString>
+int appLoggingLevel = 1; // criticals
 
-namespace Acs {
-
-void initTr(const char *domain, const char *localeDir);
-QString _(const char *text, const char *domain = 0);
-
-} // namespace
-
-#endif // ACS_I18N_H
+void setLoggingLevel(int level)
+{
+    appLoggingLevel = level;
+}
 

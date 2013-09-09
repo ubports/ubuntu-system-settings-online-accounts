@@ -3,7 +3,7 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
- * This file is part of access-control-service
+ * This file is part of online-accounts-ui
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -17,31 +17,40 @@
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef ACS_DEBUG_H
-#define ACS_DEBUG_H
 
-#include <QDebug>
+#ifndef OAU_SERVICE_H
+#define OAU_SERVICE_H
 
-/* 0 - fatal, 1 - critical(default), 2 - info/debug */
-extern int appLoggingLevel;
+#include <QDBusContext>
+#include <QObject>
+#include <QVariantMap>
 
-static inline bool debugEnabled()
+namespace OnlineAccountsUi {
+
+class ServicePrivate;
+
+class Service: public QObject, protected QDBusContext
 {
-    return appLoggingLevel >= 2;
-}
+    Q_OBJECT
+    Q_PROPERTY(bool isIdle READ isIdle NOTIFY isIdleChanged)
 
-static inline int loggingLevel()
-{
-    return appLoggingLevel;
-}
+public:
+    explicit Service(QObject *parent = 0);
+    ~Service();
 
-void setLoggingLevel(int level);
+    bool isIdle() const;
 
-#ifdef DEBUG_ENABLED
-    #define DEBUG() \
-        if (debugEnabled()) qDebug() << __FILE__ << __LINE__ << __func__
-#else
-    #define DEBUG() while (0) qDebug()
-#endif
+public Q_SLOTS:
+    QVariantMap requestAccess(const QVariantMap &options);
 
-#endif // ACS_DEBUG_H
+Q_SIGNALS:
+    void isIdleChanged();
+
+private:
+    ServicePrivate *d_ptr;
+    Q_DECLARE_PRIVATE(Service)
+};
+
+} // namespace
+
+#endif // OAU_SERVICE_H

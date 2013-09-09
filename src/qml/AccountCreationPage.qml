@@ -3,8 +3,6 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
- * This file is part of access-control-service
- *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
  * by the Free Software Foundation.
@@ -18,31 +16,34 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACS_ACCOUNT_MANAGER_H
-#define ACS_ACCOUNT_MANAGER_H
+import QtQuick 2.0
+import Ubuntu.Components 0.1
+import Ubuntu.OnlineAccounts 0.1
 
-#include <Accounts/Manager>
+Page {
+    property string providerId
 
-namespace Acs {
+    title: account.provider.displayName
 
-class AccountManager: public Accounts::Manager
-{
-    Q_OBJECT
+    Account {
+        id: account
+        objectHandle: Manager.createAccount(providerId)
+    }
 
-public:
-    static AccountManager *instance();
+    Loader {
+        id: loader
+        property var account: account
 
-    Accounts::AccountIdList accountListByProvider(
-                                       const QString &providerId) const;
+        anchors.fill: parent
+        source: qmlPluginPath + providerId + "/Main.qml"
 
-protected:
-    explicit AccountManager(QObject *parent = 0);
-    ~AccountManager();
-
-private:
-    static AccountManager *m_instance;
-};
-
-} // namespace
-
-#endif // ACS_ACCOUNT_MANAGER_H
+        Connections {
+            target: loader.item
+            onFinished: {
+                console.log("====== PLUGIN FINISHED ======")
+                pageStack.pop()
+                pageStack.pop()
+            }
+        }
+    }
+}

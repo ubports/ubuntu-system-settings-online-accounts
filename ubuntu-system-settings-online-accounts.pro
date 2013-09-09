@@ -5,9 +5,9 @@ TEMPLATE = subdirs
 CONFIG += ordered
 SUBDIRS = \
     po \
-    access-control-service \
     src \
     client \
+    system-settings-plugin \
     plugins \
     tests
 

@@ -3,7 +3,7 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
- * This file is part of access-control-service
+ * This file is part of online-accounts-ui
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -18,14 +18,14 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACS_INACTIVITY_TIMER_H
-#define ACS_INACTIVITY_TIMER_H
+#ifndef OAU_INACTIVITY_TIMER_H
+#define OAU_INACTIVITY_TIMER_H
 
 #include <QList>
 #include <QObject>
 #include <QTimer>
 
-namespace Acs {
+namespace OnlineAccountsUi {
 
 class InactivityTimer: public QObject
 {
@@ -55,4 +55,4 @@ private:
 
 } // namespace
 
-#endif // ACS_INACTIVITY_TIMER_H
+#endif // OAU_INACTIVITY_TIMER_H

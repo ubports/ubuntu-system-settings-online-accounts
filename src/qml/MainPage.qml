@@ -17,17 +17,36 @@
  */
 
 import QtQuick 2.0
-import SystemSettings 1.0
 import Ubuntu.Components 0.1
 import Ubuntu.OnlineAccounts 0.1
 
-ItemPage {
+MainView {
     id: root
+    width: units.gu(48)
+    height: units.gu(60)
 
-    Loader {
-        id: loader
-        anchors.fill: parent
-        sourceComponent: pluginOptions.provider ? accountCreationPage : normalStartupPage
+    Component.onCompleted: {
+        i18n.domain = "ubuntu-system-settings-online-accounts"
+        pageStack.push(mainPage)
+        /* hack to force the visibility of the back button and make it close
+         * the window */
+        mainPage.tools.back.visible = true
+        mainPage.tools.back.triggered.connect(mainWindow.close)
+    }
+
+    PageStack {
+        id: pageStack
+
+        Page {
+            id: mainPage
+            title: i18n.tr("Online Accounts")
+
+            Loader {
+                id: loader
+                anchors.fill: parent
+                sourceComponent: pluginOptions.provider ? accountCreationPage : normalStartupPage
+            }
+        }
     }
 
     Component {

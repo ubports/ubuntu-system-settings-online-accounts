@@ -3,6 +3,8 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
+ * This file is part of online-accounts-ui
+ *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
  * by the Free Software Foundation.
@@ -16,14 +18,21 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
+#ifndef OAU_GLOBALS_H
+#define OAU_GLOBALS_H
 
-Label {
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.margins: units.gu(2)
-    text: i18n.dtr(plugin.translations, "Storing account details here lets apps use the accounts without you having to sign in for each app.")
-    wrapMode: Text.WordWrap
-}
+#define OAU_SERVICE_NAME    QStringLiteral("com.canonical.OnlineAccountsUi")
+#define OAU_OBJECT_PATH     QStringLiteral("/")
+
+#define OAU_KEY_PROVIDER            QStringLiteral("provider")
+#define OAU_KEY_SERVICE_TYPE        QStringLiteral("serviceType")
+#define OAU_KEY_WINDOW_ID           QStringLiteral("windowId")
+
+// D-Bus error names
+#define OAU_ERROR_PREFIX "com.canonical.OnlineAccountsUi."
+#define OAU_ERROR_USER_CANCELED \
+    QStringLiteral(OAU_ERROR_PREFIX "UserCanceled")
+#define OAU_ERROR_INVALID_PARAMETERS \
+    QStringLiteral(OAU_ERROR_PREFIX "InvalidParameters")
+
+#endif // OAU_GLOBALS_H

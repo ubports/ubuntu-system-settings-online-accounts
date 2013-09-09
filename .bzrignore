@@ -1,5 +1,6 @@
 Makefile*
 moc_*.cpp
+qrc_*.cpp
 *.moc
 *_adaptor.cpp
 *_adaptor.h
@@ -23,10 +24,10 @@ moc_*.cpp
 /debian/*.substvars
 /plugins/example/libexample.so*
 /po/*.mo
-/src/constants.js
-/src/libonline-accounts.so*
+/src/com.canonical.OnlineAccountsUi.service
 /src/module/OnlineAccountsPlugin.pc
 /src/module/libOnlineAccountsPlugin.so*
 /src/module/qmldir
+/src/online-accounts-ui
 /tests/client/tst_client
 /tests/client/tst_qml_client

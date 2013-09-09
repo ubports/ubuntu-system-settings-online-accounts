@@ -3,7 +3,7 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
- * This file is part of access-control-service
+ * This file is part of online-accounts-ui
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -22,7 +22,7 @@
 
 #include "debug.h"
 
-using namespace Acs;
+using namespace OnlineAccountsUi;
 
 InactivityTimer::InactivityTimer(int interval, QObject *parent):
     QObject(parent),

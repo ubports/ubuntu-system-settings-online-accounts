@@ -3,7 +3,7 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
- * This file is part of access-control-service
+ * This file is part of online-accounts-ui
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -18,7 +18,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "accesscontrol_adaptor.h"
 #include "debug.h"
 #include "globals.h"
 #include "i18n.h"
@@ -29,7 +28,7 @@
 #include <QDBusConnection>
 #include <QProcessEnvironment>
 
-using namespace Acs;
+using namespace OnlineAccountsUi;
 
 int main(int argc, char **argv)
 {
@@ -38,10 +37,10 @@ int main(int argc, char **argv)
 
     /* read environment variables */
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
-    if (environment.contains(QLatin1String("ACS_LOGGING_LEVEL"))) {
+    if (environment.contains(QLatin1String("OAU_LOGGING_LEVEL"))) {
         bool isOk;
         int value = environment.value(
-            QLatin1String("ACS_LOGGING_LEVEL")).toInt(&isOk);
+            QLatin1String("OAU_LOGGING_LEVEL")).toInt(&isOk);
         if (isOk)
             setLoggingLevel(value);
     }
@@ -49,11 +48,11 @@ int main(int argc, char **argv)
     /* default daemonTimeout to 5 seconds */
     int daemonTimeout = 5;
 
-    /* override daemonTimeout if ACS_DAEMON_TIMEOUT is set */
-    if (environment.contains(QLatin1String("ACS_DAEMON_TIMEOUT"))) {
+    /* override daemonTimeout if OAU_DAEMON_TIMEOUT is set */
+    if (environment.contains(QLatin1String("OAU_DAEMON_TIMEOUT"))) {
         bool isOk;
         int value = environment.value(
-            QLatin1String("ACS_DAEMON_TIMEOUT")).toInt(&isOk);
+            QLatin1String("OAU_DAEMON_TIMEOUT")).toInt(&isOk);
         if (isOk)
             daemonTimeout = value;
     }
@@ -62,8 +61,8 @@ int main(int argc, char **argv)
 
     Service *service = new Service();
     QDBusConnection connection = QDBusConnection::sessionBus();
-    connection.registerService(ACCESS_CONTROL_SERVICE_NAME);
-    connection.registerObject(ACCESS_CONTROL_OBJECT_PATH, service);
+    connection.registerService(OAU_SERVICE_NAME);
+    connection.registerObject(OAU_OBJECT_PATH, service);
 
     InactivityTimer *inactivityTimer = 0;
     if (daemonTimeout > 0) {
@@ -75,8 +74,8 @@ int main(int argc, char **argv)
 
     int ret = app.exec();
 
-    connection.unregisterService(ACCESS_CONTROL_SERVICE_NAME);
-    connection.unregisterObject(ACCESS_CONTROL_OBJECT_PATH);
+    connection.unregisterService(OAU_SERVICE_NAME);
+    connection.unregisterObject(OAU_OBJECT_PATH);
     delete service;
 
     delete inactivityTimer;

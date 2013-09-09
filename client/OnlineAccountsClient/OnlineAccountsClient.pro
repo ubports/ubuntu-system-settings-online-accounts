@@ -25,10 +25,10 @@ public_headers += \
 INCLUDEPATH += \
     $${TOP_SRC_DIR}
 
-ACCESS_CONTROL_SERVICE_SRC = $${TOP_SRC_DIR}/access-control-service
+ONLINE_ACCOUNTS_UI_SRC = $${TOP_SRC_DIR}/src
 
 DBUS_INTERFACES += \
-    $${ACCESS_CONTROL_SERVICE_SRC}/com.canonical.OnlineAccounts.AccessControl.xml
+    $${ONLINE_ACCOUNTS_UI_SRC}/com.canonical.OnlineAccountsUi.xml
 
 SOURCES += \
     setup.cpp

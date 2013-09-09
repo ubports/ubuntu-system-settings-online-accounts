@@ -3,7 +3,7 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
- * This file is part of access-control-service
+ * This file is part of online-accounts-ui
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -20,14 +20,15 @@
 
 #include "debug.h"
 #include "globals.h"
+#include "onlineaccountsui_adaptor.h"
 #include "request.h"
 #include "service.h"
 
 #include <QQueue>
 
-using namespace Acs;
+using namespace OnlineAccountsUi;
 
-namespace Acs {
+namespace OnlineAccountsUi {
 
 typedef QQueue<Request*> RequestQueue;
 
@@ -138,6 +139,7 @@ Service::Service(QObject *parent):
     QObject(parent),
     d_ptr(new ServicePrivate(this))
 {
+    new OnlineAccountsUiAdaptor(this);
 }
 
 Service::~Service()
@@ -166,7 +168,7 @@ QVariantMap Service::requestAccess(const QVariantMap &options)
     if (request) {
         d->enqueue(request);
     } else {
-        sendErrorReply(ACS_ERROR_INVALID_PARAMETERS,
+        sendErrorReply(OAU_ERROR_INVALID_PARAMETERS,
                        QStringLiteral("Invalid request"));
     }
 

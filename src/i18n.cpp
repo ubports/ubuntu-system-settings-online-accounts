@@ -3,6 +3,8 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
+ * This file is part of online-accounts-ui
+ *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
  * by the Free Software Foundation.
@@ -16,20 +18,22 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+#define NO_TR_OVERRIDE
+#include "i18n.h"
 
-Page {
-    title: i18n.dtr(plugin.translations, "Add account")
+#include <libintl.h>
 
-    Flickable {
-        anchors.fill: parent
-        contentHeight: contentItem.childrenRect.height
-        boundsBehavior: Flickable.StopAtBounds
+namespace OnlineAccountsUi {
 
-        ProvidersList {
-            onProviderClicked: pageStack.push(accountCreationPage,
-                                              { providerId: providerId })
-        }
-    }
+void initTr(const char *domain, const char *localeDir)
+{
+    bindtextdomain(domain, localeDir);
+    textdomain(domain);
 }
+
+QString _(const char *text, const char *domain)
+{
+    return QString::fromUtf8(dgettext(domain, text));
+}
+
+}; // namespace

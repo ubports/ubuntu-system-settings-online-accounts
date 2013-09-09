@@ -20,7 +20,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#include "access-control-service/globals.h"
+#include "src/globals.h"
 
 #include <QDBusConnection>
 #include <QDebug>
@@ -35,7 +35,7 @@ class Service: public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface",
-                "com.canonical.OnlineAccounts.AccessControl")
+                "com.canonical.OnlineAccountsUi")
 
 public:
     Service(): QObject() {}
@@ -79,10 +79,9 @@ void SetupTest::initTestCase()
 {
     qputenv("QML2_IMPORT_PATH", PLUGIN_PATH);
     QDBusConnection connection = QDBusConnection::sessionBus();
-    connection.registerObject(ACCESS_CONTROL_OBJECT_PATH,
-                              &m_service,
+    connection.registerObject(OAU_OBJECT_PATH, &m_service,
                               QDBusConnection::ExportAllContents);
-    connection.registerService(ACCESS_CONTROL_SERVICE_NAME);
+    connection.registerService(OAU_SERVICE_NAME);
 }
 
 void SetupTest::testLoadPlugin()
@@ -138,8 +137,8 @@ void SetupTest::testExec()
     QVERIFY(QMetaObject::invokeMethod(object, "exec"));
 
     QVERIFY(finished.wait());
-    QCOMPARE(options().contains(ACS_KEY_PROVIDER), false);
-    QCOMPARE(options().contains(ACS_KEY_SERVICE_TYPE), false);
+    QCOMPARE(options().contains(OAU_KEY_PROVIDER), false);
+    QCOMPARE(options().contains(OAU_KEY_SERVICE_TYPE), false);
 }
 
 void SetupTest::testExecWithServiceType()
@@ -156,7 +155,7 @@ void SetupTest::testExecWithServiceType()
     QVERIFY(QMetaObject::invokeMethod(object, "exec"));
 
     QVERIFY(finished.wait());
-    QCOMPARE(options().value(ACS_KEY_SERVICE_TYPE).toString(),
+    QCOMPARE(options().value(OAU_KEY_SERVICE_TYPE).toString(),
              QStringLiteral("e-mail"));
 }
 

@@ -3,7 +3,7 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
- * This file is part of access-control-service
+ * This file is part of online-accounts-ui
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -20,14 +20,14 @@
 
 #include "debug.h"
 #include "globals.h"
-#include "provider-request.h"
+#include "panel-request.h"
 #include "request.h"
 
 #include <QPointer>
 
-using namespace Acs;
+using namespace OnlineAccountsUi;
 
-namespace Acs {
+namespace OnlineAccountsUi {
 
 class RequestPrivate: public QObject
 {
@@ -42,7 +42,7 @@ public:
     ~RequestPrivate();
 
     WId windowId() const {
-        return m_parameters[ACS_KEY_WINDOW_ID].toUInt();
+        return m_parameters[OAU_KEY_WINDOW_ID].toUInt();
     }
 
 private:
@@ -130,11 +130,11 @@ Request *Request::newRequest(const QDBusConnection &connection,
      * different subclasses for handling them, and in this method we examine
      * the @parameters argument to figure out which subclass is the most apt to
      * handle the request. */
-    if (parameters.contains(ACS_KEY_PROVIDER)) {
-        return new ProviderRequest(connection, message, parameters, parent);
-    } else {
-        qWarning() << "Don't know how to handle this request" << parameters;
+    if (parameters.contains(OAU_KEY_PROVIDER)) {
+        // TODO
         return 0;
+    } else {
+        return new PanelRequest(connection, message, parameters, parent);
     }
 }
 
@@ -207,7 +207,7 @@ void Request::fail(const QString &name, const QString &message)
 
 void Request::setCanceled()
 {
-    fail(ACS_ERROR_USER_CANCELED, QStringLiteral("Canceled"));
+    fail(OAU_ERROR_USER_CANCELED, QStringLiteral("Canceled"));
 }
 
 void Request::setResult(const QVariantMap &result)

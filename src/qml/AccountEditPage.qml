@@ -3,8 +3,6 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
- * This file is part of access-control-service
- *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
  * by the Free Software Foundation.
@@ -18,39 +16,33 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ACS_SERVICE_H
-#define ACS_SERVICE_H
+import QtQuick 2.0
+import Ubuntu.Components 0.1
+import Ubuntu.OnlineAccounts 0.1
 
-#include <QDBusContext>
-#include <QObject>
-#include <QVariantMap>
+Page {
+    property variant accountHandle
 
-namespace Acs {
+    title: account.provider.displayName
 
-class ServicePrivate;
+    Account {
+        id: account
+        objectHandle: accountHandle
+    }
 
-class Service: public QObject, protected QDBusContext
-{
-    Q_OBJECT
-    Q_PROPERTY(bool isIdle READ isIdle NOTIFY isIdleChanged)
+    Loader {
+        id: loader
+        property var account: account
 
-public:
-    explicit Service(QObject *parent = 0);
-    ~Service();
+        anchors.fill: parent
+        source: qmlPluginPath + account.provider.id + "/Main.qml"
 
-    bool isIdle() const;
-
-    QVariantMap requestAccess(const QVariantMap &options);
-
-Q_SIGNALS:
-    void isIdleChanged();
-
-private:
-    ServicePrivate *d_ptr;
-    Q_DECLARE_PRIVATE(Service)
-};
-
-} // namespace
-
-#endif // ACS_SERVICE_H
-
+        Connections {
+            target: loader.item
+            onFinished: {
+                console.log("====== PLUGIN FINISHED ======")
+                pageStack.pop()
+            }
+        }
+    }
+}

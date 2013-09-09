@@ -3,6 +3,8 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
+ * This file is part of online-accounts-ui
+ *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
  * by the Free Software Foundation.
@@ -16,34 +18,32 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.OnlineAccounts 0.1
-import "constants.js" as Constants
+#ifndef OAU_PANEL_REQUEST_H
+#define OAU_PANEL_REQUEST_H
 
-Page {
-    property variant accountHandle
+#include "request.h"
 
-    title: account.provider.displayName
+namespace OnlineAccountsUi {
 
-    Account {
-        id: account
-        objectHandle: accountHandle
-    }
+class PanelRequestPrivate;
+class PanelRequest: public Request
+{
+    Q_OBJECT
 
-    Loader {
-        id: loader
-        property var account: account
+public:
+    explicit PanelRequest(const QDBusConnection &connection,
+                             const QDBusMessage &message,
+                             const QVariantMap &parameters,
+                             QObject *parent = 0);
+    ~PanelRequest();
 
-        anchors.fill: parent
-        source: Constants.qmlPluginPath + account.provider.id + "/Main.qml"
+    void start() Q_DECL_OVERRIDE;
 
-        Connections {
-            target: loader.item
-            onFinished: {
-                console.log("====== PLUGIN FINISHED ======")
-                pageStack.pop()
-            }
-        }
-    }
-}
+private:
+    PanelRequestPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(PanelRequest)
+};
+
+} // namespace
+
+#endif // OAU_PANEL_REQUEST_H

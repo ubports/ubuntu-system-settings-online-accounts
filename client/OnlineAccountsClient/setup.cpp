@@ -20,16 +20,16 @@
  * <http://www.gnu.org/licenses/>.
  */
 
+#include "onlineaccountsui_interface.h"
 #include "setup.h"
-#include "accesscontrol_interface.h"
-#include "access-control-service/globals.h"
+#include "src/globals.h"
 
 #include <QDBusConnection>
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
 
 using namespace OnlineAccountsClient;
-using namespace com::canonical::OnlineAccounts;
+using namespace com::canonical;
 
 namespace OnlineAccountsClient {
 
@@ -48,7 +48,7 @@ private Q_SLOTS:
     void onRequestAccessReply(QDBusPendingCallWatcher *watcher);
 
 private:
-    AccessControl m_accessControl;
+    OnlineAccountsUi m_onlineAccountsUi;
     QString m_serviceTypeId;
     QString m_providerId;
     mutable Setup *q_ptr;
@@ -58,9 +58,9 @@ private:
 
 SetupPrivate::SetupPrivate(Setup *setup):
     QObject(setup),
-    m_accessControl(ACCESS_CONTROL_SERVICE_NAME,
-                    ACCESS_CONTROL_OBJECT_PATH,
-                    QDBusConnection::sessionBus()),
+    m_onlineAccountsUi(OAU_SERVICE_NAME,
+                       OAU_OBJECT_PATH,
+                       QDBusConnection::sessionBus()),
     q_ptr(setup)
 {
 }
@@ -78,7 +78,7 @@ void SetupPrivate::exec()
     }
 
     QDBusPendingReply<QVariantMap> reply =
-        m_accessControl.requestAccess(options);
+        m_onlineAccountsUi.requestAccess(options);
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(reply,
                                                                    this);
     QObject::connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),

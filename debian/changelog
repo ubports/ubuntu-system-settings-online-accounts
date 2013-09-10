@@ -1,3 +1,9 @@
+ubuntu-system-settings-online-accounts (0.2~+13.10.20130910.3-0ubuntu1) saucy; urgency=low
+
+  * Automatic snapshot from revision 42
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 10 Sep 2013 19:19:58 +0000
+
 ubuntu-system-settings-online-accounts (0.2~+13.10.20130808.3-0ubuntu1) saucy; urgency=low
 
   [ Ken VanDine ]

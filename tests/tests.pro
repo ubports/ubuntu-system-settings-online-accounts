@@ -1,3 +1,4 @@
 TEMPLATE = subdirs
 SUBDIRS = \
-    client
+    client \
+    online-accounts-ui

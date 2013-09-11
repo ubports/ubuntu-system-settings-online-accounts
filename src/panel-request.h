@@ -32,9 +32,9 @@ class PanelRequest: public Request
 
 public:
     explicit PanelRequest(const QDBusConnection &connection,
-                             const QDBusMessage &message,
-                             const QVariantMap &parameters,
-                             QObject *parent = 0);
+                          const QDBusMessage &message,
+                          const QVariantMap &parameters,
+                          QObject *parent = 0);
     ~PanelRequest();
 
     void start() Q_DECL_OVERRIDE;

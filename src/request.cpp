@@ -110,7 +110,7 @@ QString RequestPrivate::findClientApparmorProfile()
     QVariantList args;
     args << uniqueConnectionId;
     msg.setArguments(args);
-    QDBusMessage reply = m_connection.call(msg, QDBus::Block);
+    QDBusMessage reply = QDBusConnection::sessionBus().call(msg, QDBus::Block);
     if (reply.type() == QDBusMessage::ReplyMessage) {
         appId = reply.arguments().value(0, QString()).toString();
         DEBUG() << "App ID:" << appId;
@@ -121,6 +121,11 @@ QString RequestPrivate::findClientApparmorProfile()
     return appId;
 }
 
+/* Some unit tests might need to provide a different implementation for the
+ * Request::newRequest() factory method; for this reason, we allow the method
+ * to be excluded from compilation.
+ */
+#ifndef NO_REQUEST_FACTORY
 Request *Request::newRequest(const QDBusConnection &connection,
                              const QDBusMessage &message,
                              const QVariantMap &parameters,
@@ -137,6 +142,7 @@ Request *Request::newRequest(const QDBusConnection &connection,
         return new PanelRequest(connection, message, parameters, parent);
     }
 }
+#endif
 
 Request::Request(const QDBusConnection &connection,
                  const QDBusMessage &message,

@@ -30,6 +30,7 @@ qrc_*.cpp
 /src/module/OnlineAccountsPlugin.pc
 /src/module/libOnlineAccountsPlugin.so*
 /src/module/qmldir
+/src/online-accounts-ui.desktop
 /src/online-accounts-ui
 /tests/client/tst_client
 /tests/client/tst_qml_client

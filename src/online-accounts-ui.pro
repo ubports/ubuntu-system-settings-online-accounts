@@ -14,8 +14,10 @@ QT += \
     qml \
     quick
 
+I18N_DOMAIN="ubuntu-system-settings-online-accounts"
+
 DEFINES += \
-    I18N_DOMAIN=\\\"ubuntu-system-settings-online-accounts\\\"
+    I18N_DOMAIN=\\\"$${I18N_DOMAIN}\\\"
 
 DBUS_ADAPTORS += \
     com.canonical.OnlineAccountsUi.xml
@@ -62,12 +64,17 @@ OTHER_FILES += \
     $${RESOURCES}
 
 QMAKE_SUBSTITUTES += \
-    com.canonical.OnlineAccountsUi.service.in
+    com.canonical.OnlineAccountsUi.service.in \
+    online-accounts-ui.desktop.in
 
 service.path = $${INSTALL_PREFIX}/share/dbus-1/services
 service.files = \
     com.canonical.OnlineAccountsUi.service
 INSTALLS += service
+
+desktop.path = $${INSTALL_PREFIX}/share/applications
+desktop.files += online-accounts-ui.desktop
+INSTALLS += desktop
 
 include($${TOP_SRC_DIR}/common-installs-config.pri)
 

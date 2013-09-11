@@ -61,6 +61,7 @@ public:
     }
 
     void start() Q_DECL_OVERRIDE {
+        Request::start();
         m_timer.start();
     }
 

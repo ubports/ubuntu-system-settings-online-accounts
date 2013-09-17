@@ -27,6 +27,8 @@
 #include <QDBusConnection>
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
+#include <QGuiApplication>
+#include <QWindow>
 
 using namespace OnlineAccountsClient;
 using namespace com::canonical;
@@ -43,6 +45,7 @@ public:
     ~SetupPrivate() {};
 
     void exec();
+    QWindow *clientWindow() const;
 
 private Q_SLOTS:
     void onRequestAccessReply(QDBusPendingCallWatcher *watcher);
@@ -69,12 +72,17 @@ void SetupPrivate::exec()
 {
     QVariantMap options;
 
+    QWindow *window = clientWindow();
+    if (window) {
+        options.insert(OAU_KEY_WINDOW_ID, window->winId());
+    }
+
     if (!m_serviceTypeId.isEmpty()) {
-        options.insert("serviceType", m_serviceTypeId);
+        options.insert(OAU_KEY_SERVICE_TYPE, m_serviceTypeId);
     }
 
     if (!m_providerId.isEmpty()) {
-        options.insert("provider", m_providerId);
+        options.insert(OAU_KEY_PROVIDER, m_providerId);
     }
 
     QDBusPendingReply<QVariantMap> reply =
@@ -84,6 +92,17 @@ void SetupPrivate::exec()
     QObject::connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
                      this,
                      SLOT(onRequestAccessReply(QDBusPendingCallWatcher*)));
+}
+
+QWindow *SetupPrivate::clientWindow() const
+{
+    QWindow *window = QGuiApplication::focusWindow();
+    if (window) return window;
+
+    /* Otherwise, just return the first toplevel window; later on, if the need
+     * arises, we might add a property to let the client explicitly specify
+     * which window to use. */
+    return QGuiApplication::topLevelWindows().value(0, 0);
 }
 
 void SetupPrivate::onRequestAccessReply(QDBusPendingCallWatcher *watcher)

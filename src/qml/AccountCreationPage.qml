@@ -21,6 +21,8 @@ import Ubuntu.Components 0.1
 import Ubuntu.OnlineAccounts 0.1
 
 Page {
+    id: root
+
     property string providerId
 
     title: account.provider.displayName
@@ -36,6 +38,7 @@ Page {
 
         anchors.fill: parent
         source: qmlPluginPath + providerId + "/Main.qml"
+        onLoaded: checkFlickable()
 
         Connections {
             target: loader.item
@@ -43,6 +46,12 @@ Page {
                 console.log("====== PLUGIN FINISHED ======")
                 pageStack.pop()
                 pageStack.pop()
+            }
+        }
+
+        function checkFlickable() {
+            if (item.hasOwnProperty("flickable")) {
+                root.flickable = item.flickable
             }
         }
     }

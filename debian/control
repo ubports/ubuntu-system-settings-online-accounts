@@ -8,6 +8,8 @@ Build-Depends: debhelper (>= 9),
                qt5-default,
                qtbase5-dev,
                qtdeclarative5-dev,
+               qtdeclarative5-qtquick2-plugin,
+               qtdeclarative5-test-plugin,
                dbus-test-runner,
                xvfb,
 Standards-Version: 3.9.4

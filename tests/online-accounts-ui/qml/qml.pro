@@ -1,4 +1,4 @@
-include(../../common-project-config.pri)
+include(../../../common-project-config.pri)
 
 TARGET = tst_online_accounts_qml
 

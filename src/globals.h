@@ -24,6 +24,7 @@
 #define OAU_SERVICE_NAME    QStringLiteral("com.canonical.OnlineAccountsUi")
 #define OAU_OBJECT_PATH     QStringLiteral("/")
 
+#define OAU_KEY_APPLICATION         QStringLiteral("application")
 #define OAU_KEY_PROVIDER            QStringLiteral("provider")
 #define OAU_KEY_SERVICE_TYPE        QStringLiteral("serviceType")
 #define OAU_KEY_WINDOW_ID           QStringLiteral("windowId")

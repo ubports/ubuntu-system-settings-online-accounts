@@ -66,6 +66,7 @@ private Q_SLOTS:
     void testExec();
     void testExecWithProvider();
     void testExecWithServiceType();
+    void testExecWithApplication();
 
 private:
     Service m_service;
@@ -88,8 +89,12 @@ void SetupTest::testProperties()
 {
     Setup setup;
 
+    QCOMPARE(setup.applicationId(), QString());
     QCOMPARE(setup.providerId(), QString());
     QCOMPARE(setup.serviceTypeId(), QString());
+
+    setup.setApplicationId("hi!");
+    QCOMPARE(setup.applicationId(), QString("hi!"));
 
     setup.setProviderId("ciao");
     QCOMPARE(setup.providerId(), QString("ciao"));
@@ -106,6 +111,7 @@ void SetupTest::testExec()
     setup.exec();
 
     QVERIFY(finished.wait());
+    QCOMPARE(options().contains(OAU_KEY_APPLICATION), false);
     QCOMPARE(options().contains(OAU_KEY_PROVIDER), false);
     QCOMPARE(options().contains(OAU_KEY_SERVICE_TYPE), false);
 }
@@ -134,6 +140,19 @@ void SetupTest::testExecWithServiceType()
     QVERIFY(finished.wait());
     QCOMPARE(options().value(OAU_KEY_SERVICE_TYPE).toString(),
              QStringLiteral("e-mail"));
+}
+
+void SetupTest::testExecWithApplication()
+{
+    Setup setup;
+    setup.setApplicationId("MyApp");
+
+    QSignalSpy finished(&setup, SIGNAL(finished()));
+    setup.exec();
+
+    QVERIFY(finished.wait());
+    QCOMPARE(options().value(OAU_KEY_APPLICATION).toString(),
+             QStringLiteral("MyApp"));
 }
 
 QTEST_MAIN(SetupTest);

@@ -49,6 +49,7 @@ private Q_SLOTS:
 
 private:
     OnlineAccountsUi m_onlineAccountsUi;
+    QString m_applicationId;
     QString m_serviceTypeId;
     QString m_providerId;
     mutable Setup *q_ptr;
@@ -68,6 +69,10 @@ SetupPrivate::SetupPrivate(Setup *setup):
 void SetupPrivate::exec()
 {
     QVariantMap options;
+
+    if (!m_applicationId.isEmpty()) {
+        options.insert(OAU_KEY_APPLICATION, m_applicationId);
+    }
 
     if (!m_serviceTypeId.isEmpty()) {
         options.insert("serviceType", m_serviceTypeId);
@@ -134,6 +139,7 @@ void SetupPrivate::onRequestAccessReply(QDBusPendingCallWatcher *watcher)
  *
  *     Setup {
  *         id: setup
+ *         applicationId: "MyApp"
  *         providerId: "facebook"
  *     }
  * }
@@ -148,6 +154,27 @@ Setup::Setup(QObject *parent):
 Setup::~Setup()
 {
     delete d_ptr;
+}
+
+/*!
+ * \qmlproperty string Setup::applicationId
+ * Specifies which application is asking for access. The value of this string
+ * must be equal to the filename of the XML application file (installed in \c
+ * /usr/share/accounts/applications/ or \c
+ * ~/.local/share/accounts/applications/) minus the \c .application suffix.
+ */
+void Setup::setApplicationId(const QString &applicationId)
+{
+    Q_D(Setup);
+    if (applicationId == d->m_applicationId) return;
+    d->m_applicationId = applicationId;
+    Q_EMIT applicationIdChanged();
+}
+
+QString Setup::applicationId() const
+{
+    Q_D(const Setup);
+    return d->m_applicationId;
 }
 
 /*!

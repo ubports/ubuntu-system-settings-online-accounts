@@ -24,6 +24,8 @@ import "constants.js" as Constants
 Page {
     property string providerId
 
+    signal finished
+
     title: account.provider.displayName
 
     Account {
@@ -42,8 +44,7 @@ Page {
             target: loader.item
             onFinished: {
                 console.log("====== PLUGIN FINISHED ======")
-                pageStack.pop()
-                pageStack.pop()
+                finished()
             }
         }
     }

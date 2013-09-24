@@ -18,37 +18,24 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
 
-Flickable {
+ProvidersList {
     id: root
 
-    property variant accountsModel
-    contentHeight: contentItem.childrenRect.height
-    boundsBehavior: Flickable.StopAtBounds
+    property variant __creationPage: null
 
-    Column {
-        anchors.left: parent.left
-        anchors.right: parent.right
+    signal creationFinished
 
-        ListItem.Base {
-            Label {
-                text: i18n.dtr(plugin.translations, "No accounts")
-                anchors.centerIn: parent
-            }
-        }
+    onProviderClicked: {
+        __creationPage = accountCreationPage.createObject(null, {
+            "providerId": providerId })
+        __creationPage.finished.connect(__onCreationFinished)
+        pageStack.push(__creationPage)
+    }
 
-        AddAccountLabel {}
-
-        ListItem.Standard {
-            text: i18n.dtr(plugin.translations, "Add account:")
-        }
-
-        ProviderPluginList {
-            onCreationFinished: {
-                // pop the creation page; remain in this page
-                pageStack.pop()
-            }
-        }
+    function __onCreationFinished() {
+        __creationPage.destroy(1000)
+        __creationPage = null
+        creationFinished()
     }
 }

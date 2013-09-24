@@ -27,9 +27,12 @@ Page {
         contentHeight: contentItem.childrenRect.height
         boundsBehavior: Flickable.StopAtBounds
 
-        ProvidersList {
-            onProviderClicked: pageStack.push(accountCreationPage,
-                                              { providerId: providerId })
+        ProviderPluginList {
+            onCreationFinished: {
+                // pop the creation page and this page (go back to parent page)
+                pageStack.pop()
+                pageStack.pop()
+            }
         }
     }
 }

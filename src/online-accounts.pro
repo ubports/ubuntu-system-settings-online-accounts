@@ -14,6 +14,7 @@ QML_SOURCES = \
     NewAccountPage.qml \
     NoAccountsPage.qml \
     NormalStartupPage.qml \
+    ProviderPluginList.qml \
     ProvidersList.qml
 
 OTHER_FILES += \

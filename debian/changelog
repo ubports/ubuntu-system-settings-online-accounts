@@ -1,3 +1,15 @@
+ubuntu-system-settings-online-accounts (0.2~+13.10.20130925-0ubuntu1) saucy; urgency=low
+
+  [ Alberto Mardegan ]
+  * Pop the correct number of pages after account creation Let the
+    calling page decide how many times pageStack.pop() should be called.
+    (LP: #1223963)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 45
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 25 Sep 2013 11:12:16 +0000
+
 ubuntu-system-settings-online-accounts (0.2~+13.10.20130910.3-0ubuntu1) saucy; urgency=low
 
   * Automatic snapshot from revision 42

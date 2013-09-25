@@ -26,7 +26,7 @@ ListItem.Subtitled {
 
     text: providerName
     subText: displayName
-    icon: "image://gicon/" + globalService.provider.iconName
+    icon: "image://theme/" + globalService.provider.iconName
     progression: true
     opacity: globalService.enabled ? 1 : 0.5
 

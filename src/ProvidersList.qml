@@ -38,7 +38,7 @@ Column {
 
         delegate: ListItem.Standard {
             text: displayName
-            icon: "image://gicon/" + iconName
+            icon: "image://theme/" + iconName
             progression: true
             onClicked: root.providerClicked(providerId)
         }

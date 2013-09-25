@@ -7,7 +7,8 @@ SUBDIRS = \
     po \
     src \
     client \
-    plugins
+    plugins \
+    tests
 
 include(common-installs-config.pri)
 

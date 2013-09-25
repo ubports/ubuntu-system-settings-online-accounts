@@ -70,3 +70,17 @@ Description: Online Accounts panel library for QML applications - documentation
  in order to request the creation/configuration of accounts.
  .
  This package contains developer documentation.
+
+Package: ubuntu-system-settings-online-accounts-autopilot
+Architecture: all
+Section: debug
+Priority: extra
+Depends: ${misc:Depends},
+         autopilot-qt5,
+         ubuntu-system-settings-online-accounts (>= ${binary:Version}),
+         libqt5test5,
+         python-autopilot,
+Description: Online Accounts setup for Ubuntu Touch - tests
+ Online Accounts setup utility for the Ubuntu Touch System Settings.
+ .
+ This package contains the autopilot tests for Online Accounts.

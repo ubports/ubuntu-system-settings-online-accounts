@@ -16,6 +16,7 @@ moc_*.cpp
 /debian/qtdeclarative5-online-accounts-client-doc/
 /debian/tmp
 /debian/ubuntu-system-settings-online-accounts/
+/debian/ubuntu-system-settings-online-accounts-autopilot/
 /debian/*.debhelper
 /debian/*.log
 /debian/*.substvars

@@ -88,7 +88,7 @@ void SetupTest::testExec()
     QSignalSpy finished(&setup, SIGNAL(finished()));
     setup.exec();
 
-    QVERIFY(finished.wait());
+    QVERIFY(finished.wait(10000));
     QCOMPARE(parameters(), QString("online-accounts"));
 }
 
@@ -100,7 +100,7 @@ void SetupTest::testExecWithProvider()
     QSignalSpy finished(&setup, SIGNAL(finished()));
     setup.exec();
 
-    QVERIFY(finished.wait());
+    QVERIFY(finished.wait(10000));
     QCOMPARE(parameters(),
              QString("--option provider=lethal-provider online-accounts"));
 }
@@ -113,7 +113,7 @@ void SetupTest::testExecWithServiceType()
     QSignalSpy finished(&setup, SIGNAL(finished()));
     setup.exec();
 
-    QVERIFY(finished.wait());
+    QVERIFY(finished.wait(10000));
     QCOMPARE(parameters(),
              QString("--option serviceType=e-mail online-accounts"));
 }

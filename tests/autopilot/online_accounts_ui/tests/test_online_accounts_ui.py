@@ -95,6 +95,8 @@ class OnlineAccountsUiTests(AutopilotTestCase):
         super(OnlineAccountsUiTests, self).setUp()
         self.pointer = Pointer(self.input_device_class.create())
         self.app = self.launch_test_application('system-settings', 'online-accounts',
+                '--desktop_file_hint=/usr/share/applications/ubuntu-system-settings.desktop',
+                app_type='qt',
                 emulator_base=EmulatorBase,
                 capture_output=True)
         self.window = self.app.select_single("QQuickView")
@@ -117,6 +119,10 @@ class OnlineAccountsUiTests(AutopilotTestCase):
 
     def test_create_oauth2_account(self):
         """ Test the creation of an OAuth 2.0 account """
+        # WebKit2 cannot ignore SSL errors, so this test fails on the phone
+        if model() != 'Desktop':
+            return
+
         self.server = LocalServer()
         self.server.run()
 

@@ -89,7 +89,7 @@ class OAuth1Handler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
         print "Got GET to %s. headers: %s" % (self.path, self.headers)
         oauth_request = oauth.OAuthRequest.from_request(self.command,
-                'http://%s:%s%s' % (self.server.server_name, self.server.server_port, self.path),
+                'http://localhost:%s%s' % (self.server.server_port, self.path),
                 headers=self.headers)
         # get the request token
         self.server.token = self.server.oauth_server.fetch_request_token(oauth_request)
@@ -136,7 +136,7 @@ class OAuth1Handler(BaseHTTPServer.BaseHTTPRequestHandler):
         length = int(self.headers.getheader('content-length'))
         postdata = self.rfile.read(length)
         oauth_request = oauth.OAuthRequest.from_request(self.command,
-                'http://%s:%s%s' % (self.server.server_name, self.server.server_port, self.path),
+                'http://localhost:%s%s' % (self.server.server_port, self.path),
                 headers=self.headers, query_string=postdata)
 
         if self.path == '/oauth1/request_token':

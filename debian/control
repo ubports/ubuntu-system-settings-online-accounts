@@ -81,6 +81,7 @@ Depends: ${misc:Depends},
          uoa-integration-tests,
          libqt5test5,
          python-autopilot,
+         python-oauth,
 Description: Online Accounts setup for Ubuntu Touch - tests
  Online Accounts setup utility for the Ubuntu Touch System Settings.
  .

@@ -88,32 +88,33 @@ class OAuth1Handler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def do_GET(self):
         print "Got GET to %s. headers: %s" % (self.path, self.headers)
-        oauth_request = oauth.OAuthRequest.from_request(self.command,
-                'http://localhost:%s%s' % (self.server.server_port, self.path),
-                headers=self.headers)
-        # get the request token
-        self.server.token = self.server.oauth_server.fetch_request_token(oauth_request)
+        if self.path.startswith('/oauth1/authorize'):
+            oauth_request = oauth.OAuthRequest.from_request(self.command,
+                    'http://localhost:%s%s' % (self.server.server_port, self.path),
+                    headers=self.headers)
+            # get the request token
+            self.server.token = self.server.oauth_server.fetch_request_token(oauth_request)
 
-        self.send_response(200)
-        self.send_header("Content-type", "text/html")
-        self.send_header('Content-Encoding', 'utf-8')
-        self.end_headers()
-        self.wfile.write("""
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head><title>Login here</title></head>
-<body>
-<h3>Login form</h3>
-<form method="POST" action="http://localhost:%(port)s/login.html">
-  Username: <input type="text" name="username" size="15" /><br />
-  Password: <input type="password" name="password" size="15" /><br />
-  <p><input type="submit" value="Login" /></p>
-</form>
-</body>
-</html>
-""" % { 'port': self.server.server_port })
-        self.server.show_login_event.set()
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.send_header('Content-Encoding', 'utf-8')
+            self.end_headers()
+            self.wfile.write("""
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head><title>Login here</title></head>
+    <body>
+    <h3>Login form</h3>
+    <form method="POST" action="http://localhost:%(port)s/login.html">
+      Username: <input type="text" name="username" size="15" /><br />
+      Password: <input type="password" name="password" size="15" /><br />
+      <p><input type="submit" value="Login" /></p>
+    </form>
+    </body>
+    </html>
+    """ % { 'port': self.server.server_port })
+            self.server.show_login_event.set()
 
     def do_POST(self):
         if self.path == '/login.html':

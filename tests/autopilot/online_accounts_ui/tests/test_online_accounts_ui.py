@@ -108,7 +108,6 @@ class OAuth1Handler(BaseHTTPServer.BaseHTTPRequestHandler):
     <h3>Login form</h3>
     <form method="POST" action="http://localhost:%(port)s/login.html">
       Username: <input type="text" name="username" size="15" /><br />
-      Password: <input type="password" name="password" size="15" /><br />
       <p><input type="submit" value="Login" /></p>
     </form>
     </body>
@@ -316,8 +315,6 @@ class OnlineAccountsUiTests(AutopilotTestCase):
         # Move to the username field
         self.keyboard.press_and_release('Tab')
         self.keyboard.type('funnyguy')
-        self.keyboard.press_and_release('Tab')
-        self.keyboard.type('loser')
         self.keyboard.press_and_release('Enter')
 
         # At this point signon-ui should make a post request with the login

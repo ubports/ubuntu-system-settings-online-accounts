@@ -276,6 +276,9 @@ class OnlineAccountsUiTests(AutopilotTestCase):
 
     def test_create_oauth1_account(self):
         """ Test the creation of an OAuth 1.0 account """
+        # On the phone, this fails because of https://bugs.launchpad.net/bugs/1231968
+        if model() != 'Desktop':
+            return
         server = OAuth1LocalServer()
         server.run()
 

@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Ubuntu Desktop Team <ubuntu-desktop@lists.ubuntu.com>
 Build-Depends: debhelper (>= 9),
                pkg-config,
+               python:any (>= 2.7),
                libsystemsettings-dev (>= 0.1+13.10.20130806),
                qt5-default,
                qtbase5-dev,
@@ -15,6 +16,7 @@ Homepage: https://launchpad.net/ubuntu-system-settings-online-accounts
 # changes, just go ahead.  ~online-accounts will notice and sync up the
 # code again.
 Vcs-Bzr: https://code.launchpad.net/~online-accounts/ubuntu-system-settings-online-accounts/trunk
+X-Python-Version: 2.7
 
 Package: ubuntu-system-settings-online-accounts
 Architecture: any
@@ -76,6 +78,7 @@ Architecture: all
 Section: debug
 Priority: extra
 Depends: ${misc:Depends},
+         ${python:Depends},
          autopilot-qt5,
          ubuntu-system-settings-online-accounts (>= ${binary:Version}),
          uoa-integration-tests,

@@ -1,3 +1,16 @@
+ubuntu-system-settings-online-accounts (0.2~+13.10.20131002-0ubuntu1) saucy; urgency=low
+
+  [ Alberto Mardegan ]
+  * Add autopilot tests.
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * Fix to use dh_python2 for the -autopilot package
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 48
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 02 Oct 2013 04:09:06 +0000
+
 ubuntu-system-settings-online-accounts (0.2~+13.10.20130925-0ubuntu1) saucy; urgency=low
 
   [ Alberto Mardegan ]

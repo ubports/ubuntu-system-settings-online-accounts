@@ -22,7 +22,10 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.OnlineAccounts 0.1
 
 ListItem.Subtitled {
+    property variant accountHandle
     property variant globalServiceHandle
+    property variant __editPage: null
+    property bool running: false
 
     text: providerName
     subText: displayName
@@ -30,8 +33,29 @@ ListItem.Subtitled {
     progression: true
     opacity: globalService.enabled ? 1 : 0.5
 
-    resources: AccountService {
-        id: globalService
-        objectHandle: globalServiceHandle
+    resources: [
+        AccountService {
+            id: globalService
+            objectHandle: globalServiceHandle
+        },
+        Component {
+            id: accountEditPage
+            AccountEditPage {}
+        }
+    ]
+
+    onClicked: {
+        __editPage = accountEditPage.createObject(null, {
+            "accountHandle": accountHandle })
+        __editPage.finished.connect(__onEditFinished)
+        pageStack.push(__editPage)
+        running = true;
+    }
+
+    function __onEditFinished() {
+        __editPage.destroy(1000)
+        __editPage = null
+        pageStack.pop()
+        running = false
     }
 }

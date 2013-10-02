@@ -30,15 +30,19 @@ Flickable {
         anchors.left: parent.left
         anchors.right: parent.right
 
-        Repeater {
+        ListView {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            interactive: false
+            height: contentHeight
             model: accountsModel
 
             delegate: AccountItem {
+                ListView.delayRemove: running
                 text: providerName
                 subText: displayName
+                accountHandle: account
                 globalServiceHandle: accountService
-                onClicked: pageStack.push(accountEditPage,
-                                          { accountHandle: account })
             }
         }
 
@@ -57,10 +61,5 @@ Flickable {
     Component {
         id: newAccountPage
         NewAccountPage {}
-    }
-
-    Component {
-        id: accountEditPage
-        AccountEditPage {}
     }
 }

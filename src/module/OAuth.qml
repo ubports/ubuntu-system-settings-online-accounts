@@ -26,6 +26,8 @@ Column {
 
     /* To override the parameters coming from the .provider file: */
     property variant authenticationParameters: null
+    /* To override the default access control list: */
+    property variant accessControlList: ["unconfined"]
 
     property variant authReply
     property bool isNewAccount: false
@@ -48,7 +50,7 @@ Column {
     Credentials {
         id: creds
         caption: account.provider.id
-        acl: ["*"]
+        acl: accessControlList
         onCredentialsIdChanged: root.credentialsStored()
     }
 

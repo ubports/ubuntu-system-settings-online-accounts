@@ -1,0 +1,85 @@
+# Arabic translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntu-system-settings-online-accounts\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-07-10 19:34+0200\n"
+"PO-Revision-Date: 2013-10-03 19:50+0000\n"
+"Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
+"Language-Team: Arabic <ar@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-10-04 06:11+0000\n"
+"X-Generator: Launchpad (build 16791)\n"
+
+#: ../plugins/example/Main.qml:33
+msgid "User name"
+msgstr "اسم المستخدم"
+
+#: ../plugins/example/Main.qml:39
+msgid "Password"
+msgstr "كلمة السر"
+
+#: ../src/AccountsPage.qml:53
+msgid "Add account…"
+msgstr "إضافة حساب..."
+
+#: ../src/AddAccountLabel.qml:27
+msgid ""
+"Storing account details here lets apps use the accounts without you having "
+"to sign in for each app."
+msgstr ""
+"تخزين تفاصيل الحساب هنا يتيح للتطبيقات استخدام الحسابات دون الحاجة للولوج "
+"لكل تطبيق."
+
+#: ../src/NewAccountPage.qml:23
+msgid "Add account"
+msgstr "إضافة حساب"
+
+#: ../src/NoAccountsPage.qml:36
+msgid "No accounts"
+msgstr "لا حسابات"
+
+#: ../src/NoAccountsPage.qml:44
+msgid "Add account:"
+msgstr "إضافة حساب:"
+
+#: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: ../src/module/Options.qml:36
+msgid "ID"
+msgstr "المعرّف"
+
+#: ../src/module/Options.qml:54
+msgid "Remove account…"
+msgstr "إزالة حساب..."
+
+#: ../src/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr "أزِل الحساب"
+
+#: ../src/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr "سيُحذف حساب \"%1\" من هاتفك فقط. يمكنك إضافته مُجددا في وقت لاحق."
+
+#: ../src/module/RemovalConfirmation.qml:36
+msgid "Remove"
+msgstr "أزِل"
+
+#: ../src/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr "الوصول إلى هذا الحساب:"
+
+#: ../.build/settings.js:1
+msgid "Accounts"
+msgstr "الحسابات"

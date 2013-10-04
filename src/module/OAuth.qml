@@ -105,6 +105,7 @@ Column {
     }
 
     ListItem.SingleControl {
+        showDivider: false
         control: Button {
             text: i18n.dtr("ubuntu-system-settings-online-accounts", "Cancel")
             width: parent.width - units.gu(4)

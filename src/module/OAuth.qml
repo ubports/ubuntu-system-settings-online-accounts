@@ -33,6 +33,7 @@ Column {
     property bool isNewAccount: false
     property variant __account: account
     property alias globalAccountService: globalAccountSettings
+    property bool loading: true
 
     signal authenticated(variant reply)
     signal authenticationError(variant error)
@@ -40,6 +41,7 @@ Column {
 
     anchors.left: parent.left
     anchors.right: parent.right
+    spacing: units.gu(2)
 
     Component.onCompleted: {
         isNewAccount = (account.accountId === 0)
@@ -71,6 +73,35 @@ Column {
         id: accountServices
         includeDisabled: true
         account: __account.objectHandle
+    }
+
+    ListItem.Base {
+        visible: loading = true
+        height: units.gu(7)
+        showDivider: false
+
+        Item {
+            height: units.gu(5)
+            width: units.gu(30)
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.margins: units.gu(1)
+
+            ActivityIndicator {
+                id: loadingIndicator
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: units.gu(5)
+                running: loading = true
+                z: 1
+            }
+            Label {
+                text: i18n.dtr("ubuntu-system-settings-online-accounts", "Loading...")
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: loadingIndicator.right
+                anchors.leftMargin: units.gu(3)
+            }
+        }
     }
 
     ListItem.SingleControl {
@@ -142,4 +173,6 @@ Column {
     onAuthenticated: completeCreation(reply)
 
     onAuthenticationError: root.cancel()
+
+    onFinished: loading = false
 }

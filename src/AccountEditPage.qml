@@ -22,7 +22,11 @@ import Ubuntu.OnlineAccounts 0.1
 import "constants.js" as Constants
 
 Page {
+    id: root
+
     property variant accountHandle
+
+    signal finished
 
     title: account.provider.displayName
 
@@ -42,7 +46,7 @@ Page {
             target: loader.item
             onFinished: {
                 console.log("====== PLUGIN FINISHED ======")
-                pageStack.pop()
+                root.finished()
             }
         }
     }

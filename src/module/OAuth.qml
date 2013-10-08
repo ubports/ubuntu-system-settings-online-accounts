@@ -25,7 +25,7 @@ Column {
     id: root
 
     /* To override the parameters coming from the .provider file: */
-    property variant authenticationParameters: null
+    property variant authenticationParameters: {}
     /* To override the default access control list: */
     property variant accessControlList: ["unconfined"]
 
@@ -96,7 +96,13 @@ Column {
     function credentialsStored() {
         console.log("Credentials stored, id: " + creds.credentialsId)
         if (creds.credentialsId == 0) return
-        globalAccountSettings.authenticate(authenticationParameters)
+        var parameters = {
+            "X-PageComponent": "file:///usr/share/signon-ui/online-accounts-ui/Page.qml"
+        }
+        for (p in authenticationParameters) {
+            parameters[p] = authenticationParameters[p]
+        }
+        globalAccountSettings.authenticate(parameters)
     }
 
     function cancel() {

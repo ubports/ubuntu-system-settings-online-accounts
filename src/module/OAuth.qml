@@ -76,7 +76,7 @@ Column {
     }
 
     ListItem.Base {
-        visible: loading = true
+        visible: loading
         height: units.gu(7)
         showDivider: false
 
@@ -92,7 +92,7 @@ Column {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: units.gu(5)
-                running: loading = true
+                running: loading
                 z: 1
             }
             Label {

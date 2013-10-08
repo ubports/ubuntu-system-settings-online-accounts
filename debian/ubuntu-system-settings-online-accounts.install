@@ -1,4 +1,5 @@
 usr/lib/*/pkgconfig/OnlineAccountsPlugin.pc
 usr/share/locale
+usr/share/signon-ui/online-accounts-ui
 usr/share/ubuntu/settings
 usr/lib/*/ubuntu-system-settings

@@ -35,6 +35,7 @@ ProvidersList {
 
     function __onCreationFinished() {
         __creationPage.destroy(1000)
+        __creationPage.finished.disconnect(__onCreationFinished)
         __creationPage = null
         creationFinished()
     }

@@ -32,6 +32,7 @@ Column {
     property variant authReply
     property bool isNewAccount: false
     property variant __account: account
+    property bool __isAuthenticating: false
     property alias globalAccountService: globalAccountSettings
     property bool loading: true
 
@@ -63,10 +64,14 @@ Column {
         autoSync: false
 
         onAuthenticated: {
+            __isAuthenticating = false
             authReply = reply
             root.authenticated(reply)
         }
-        onAuthenticationError: root.authenticationError(error)
+        onAuthenticationError: {
+            __isAuthenticating = false
+            root.authenticationError(error)
+        }
     }
 
     AccountServiceModel {
@@ -134,10 +139,17 @@ Column {
         for (p in authenticationParameters) {
             parameters[p] = authenticationParameters[p]
         }
+        __isAuthenticating = true
         globalAccountSettings.authenticate(parameters)
     }
 
     function cancel() {
+        if (__isAuthenticating) {
+            /* This will cause the authentication to fail, and this method will
+             * be invoked again to delete the credentials. */
+            globalAccountSettings.cancelAuthentication()
+            return
+        }
         if (isNewAccount && creds.credentialsId != 0) {
             console.log("Removing credentials...")
             creds.remove()

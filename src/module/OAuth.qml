@@ -96,7 +96,7 @@ Column {
                 z: 1
             }
             Label {
-                text: i18n.dtr("ubuntu-system-settings-online-accounts", "Loading...")
+                text: i18n.dtr("ubuntu-system-settings-online-accounts", "Loading…")
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: loadingIndicator.right
                 anchors.leftMargin: units.gu(3)

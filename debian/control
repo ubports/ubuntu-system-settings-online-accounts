@@ -22,7 +22,7 @@ Package: ubuntu-system-settings-online-accounts
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
-         qtdeclarative5-accounts-plugin (>= 0.1),
+         qtdeclarative5-accounts-plugin (>= 0.2),
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
          ubuntu-system-settings
 Description: Online Accounts setup for Ubuntu Touch

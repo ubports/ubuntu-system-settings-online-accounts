@@ -22,6 +22,8 @@ import Ubuntu.OnlineAccounts 0.1
 import "constants.js" as Constants
 
 Page {
+    id: root
+
     property string providerId
 
     signal finished
@@ -39,12 +41,19 @@ Page {
 
         anchors.fill: parent
         source: Constants.qmlPluginPath + providerId + "/Main.qml"
+        onLoaded: checkFlickable()
 
         Connections {
             target: loader.item
             onFinished: {
                 console.log("====== PLUGIN FINISHED ======")
                 finished()
+            }
+        }
+
+        function checkFlickable() {
+            if (item.hasOwnProperty("flickable")) {
+                root.flickable = item.flickable
             }
         }
     }

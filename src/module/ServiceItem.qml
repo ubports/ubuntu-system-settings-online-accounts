@@ -35,7 +35,7 @@ Repeater {
 
     delegate: ListItem.Standard {
         text: model.displayName
-        icon: "image://gicon/" + model.iconName
+        icon: "image://theme/" + model.iconName
         control: Switch {
             checked: accountService.serviceEnabled
             onCheckedChanged: {

@@ -1,3 +1,31 @@
+ubuntu-system-settings-online-accounts (0.2~+13.10.20131011-0ubuntu1) saucy; urgency=low
+
+  [ Ken VanDine ]
+  * Put the cancel button in a ListItem to ensure consistent spacing
+    with other elements in system-settings.
+
+  [ Andrew Starr-Bochicchio ]
+  * Add loading indicator to OAuth page. (LP: #1235004)
+
+  [ Alberto Mardegan ]
+  * Delay destruction of the delegate until the edit page is popped Use
+    ListView.delayRemove feature to delay the destruction of the
+    delegate until we have removed the edit page from the stack. . (LP:
+    #1231729)
+  * Add a Cancel button to the OAuth authentication pages Use signon-
+    ui's new X-PageComponent key to specify a QML page to be used. (LP:
+    #1231691)
+  * Close the WebView when the authentication is cancelled. (LP:
+    #1231680)
+  * AccountCreationPage: look for a "flickable" property from the
+    plugin. (LP: #1221845)
+  * Stop using deprecated gicon image provider .
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 65
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 11 Oct 2013 08:47:24 +0000
+
 ubuntu-system-settings-online-accounts (0.2~+13.10.20131004-0ubuntu1) saucy; urgency=low
 
   [ Alberto Mardegan ]

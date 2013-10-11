@@ -1,0 +1,88 @@
+# Khmer translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntu-system-settings-online-accounts\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-07-10 19:34+0200\n"
+"PO-Revision-Date: 2013-10-11 04:23+0000\n"
+"Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
+"Language-Team: Khmer <km@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-10-11 05:58+0000\n"
+"X-Generator: Launchpad (build 16799)\n"
+
+#: ../plugins/example/Main.qml:33
+msgid "User name"
+msgstr "ឈ្មោះ​អ្នក​ប្រើ"
+
+#: ../plugins/example/Main.qml:39
+msgid "Password"
+msgstr "ពាក្យសម្ងាត់"
+
+#: ../src/AccountsPage.qml:53
+msgid "Add account…"
+msgstr "បន្ថែម​គណនី…"
+
+#: ../src/AddAccountLabel.qml:27
+msgid ""
+"Storing account details here lets apps use the accounts without you having "
+"to sign in for each app."
+msgstr ""
+"រក្សាទុក​ព័ត៌មាន​លម្អិត​គណនី​នៅ​ទីនេះ "
+"អនុញ្ញាត​ឲ្យ​កម្មវិធី​ប្រើ​គណនី​ដោយ​មិន​ចាំបាច់​ឲ្យ​អ្នក​ចូល​សម្រាប់​កម្មវិធី"
+"​នីមួយៗ។"
+
+#: ../src/NewAccountPage.qml:23
+msgid "Add account"
+msgstr "បន្ថែម​គណនី"
+
+#: ../src/NoAccountsPage.qml:36
+msgid "No accounts"
+msgstr "គ្មាន​គណនី"
+
+#: ../src/NoAccountsPage.qml:44
+msgid "Add account:"
+msgstr "បន្ថែម​គណនី៖"
+
+#: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
+msgid "Cancel"
+msgstr "បោះ​បង់"
+
+#: ../src/module/Options.qml:36
+msgid "ID"
+msgstr "លេខ​សម្គាល់"
+
+#: ../src/module/Options.qml:54
+msgid "Remove account…"
+msgstr "លុប​គណនី…"
+
+#: ../src/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr "លុប​គណនី"
+
+#: ../src/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr ""
+"គណនី %1 នឹង​ត្រូវ​បាន​លុប​តែ​ពី​ទូរស័ព្ទ​របស់​អ្នក​ប៉ុណ្ណោះ។ "
+"អ្នក​អាច​បន្ថែម​ម្ដង​ទៀត​ពេល​ក្រោយ។"
+
+#: ../src/module/RemovalConfirmation.qml:36
+msgid "Remove"
+msgstr "លុប​ចេញ"
+
+#: ../src/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr "ចូល​គណនី​នេះ៖"
+
+#: ../.build/settings.js:1
+msgid "Accounts"
+msgstr "គណនី"

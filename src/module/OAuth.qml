@@ -136,7 +136,7 @@ Column {
         var parameters = {
             "X-PageComponent": "file:///usr/share/signon-ui/online-accounts-ui/Page.qml"
         }
-        for (p in authenticationParameters) {
+        for (var p in authenticationParameters) {
             parameters[p] = authenticationParameters[p]
         }
         __isAuthenticating = true

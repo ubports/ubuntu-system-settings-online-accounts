@@ -1,3 +1,15 @@
+ubuntu-system-settings-online-accounts (0.2~+13.10.20131016-0ubuntu1) saucy; urgency=low
+
+  [ Alberto Mardegan ]
+  * Fix OAuth authentication with parameters Fix an obvious JS error. .
+    (LP: #1240513)
+  * Enforce single-account for providers who require it . (LP: #1234282)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 70
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 16 Oct 2013 14:02:41 +0000
+
 ubuntu-system-settings-online-accounts (0.2~+13.10.20131011-0ubuntu1) saucy; urgency=low
 
   [ Ken VanDine ]

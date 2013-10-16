@@ -38,9 +38,25 @@ Column {
 
         delegate: ListItem.Standard {
             text: displayName
+            enabled: !isSingleAccount || hasNoAccounts(providerId)
             icon: "image://theme/" + iconName
             progression: true
             onClicked: root.providerClicked(providerId)
         }
+    }
+
+    Component {
+        id: accountModel
+        AccountServiceModel {
+            includeDisabled: true
+        }
+    }
+
+    function hasNoAccounts(providerId) {
+        var model = accountModel.createObject(null, {
+            "provider": providerId })
+        var hasAccounts = (model.count > 0)
+        model.destroy()
+        return !hasAccounts
     }
 }

@@ -1,0 +1,83 @@
+# Brazilian Portuguese translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntu-system-settings-online-accounts\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-07-10 19:34+0200\n"
+"PO-Revision-Date: 2013-10-17 00:10+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-10-17 06:05+0000\n"
+"X-Generator: Launchpad (build 16799)\n"
+
+#: ../plugins/example/Main.qml:33
+msgid "User name"
+msgstr ""
+
+#: ../plugins/example/Main.qml:39
+msgid "Password"
+msgstr ""
+
+#: ../src/AccountsPage.qml:53
+msgid "Add account…"
+msgstr ""
+
+#: ../src/AddAccountLabel.qml:27
+msgid ""
+"Storing account details here lets apps use the accounts without you having "
+"to sign in for each app."
+msgstr ""
+
+#: ../src/NewAccountPage.qml:23
+msgid "Add account"
+msgstr ""
+
+#: ../src/NoAccountsPage.qml:36
+msgid "No accounts"
+msgstr ""
+
+#: ../src/NoAccountsPage.qml:44
+msgid "Add account:"
+msgstr ""
+
+#: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
+msgid "Cancel"
+msgstr ""
+
+#: ../src/module/Options.qml:36
+msgid "ID"
+msgstr ""
+
+#: ../src/module/Options.qml:54
+msgid "Remove account…"
+msgstr ""
+
+#: ../src/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr ""
+
+#: ../src/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr ""
+
+#: ../src/module/RemovalConfirmation.qml:36
+msgid "Remove"
+msgstr ""
+
+#: ../src/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr ""
+
+#: ../.build/settings.js:1
+msgid "Accounts"
+msgstr ""

@@ -21,6 +21,7 @@
 #include "debug.h"
 #include "globals.h"
 #include "panel-request.h"
+#include "provider-request.h"
 #include "request.h"
 
 #include <QPointer>
@@ -100,6 +101,10 @@ void RequestPrivate::setWindow(QWindow *window)
 QString RequestPrivate::findClientApparmorProfile()
 {
     QString uniqueConnectionId = m_message.service();
+    /* This is mainly for unit tests: real messages on the session bus always
+     * have a service name. */
+    if (uniqueConnectionId.isEmpty()) return QString();
+
     QString appId;
 
     QDBusMessage msg =
@@ -136,8 +141,7 @@ Request *Request::newRequest(const QDBusConnection &connection,
      * the @parameters argument to figure out which subclass is the most apt to
      * handle the request. */
     if (parameters.contains(OAU_KEY_PROVIDER)) {
-        // TODO
-        return 0;
+        return new ProviderRequest(connection, message, parameters, parent);
     } else {
         return new PanelRequest(connection, message, parameters, parent);
     }

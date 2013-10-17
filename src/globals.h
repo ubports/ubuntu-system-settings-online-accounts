@@ -24,6 +24,7 @@
 #define OAU_SERVICE_NAME    QStringLiteral("com.canonical.OnlineAccountsUi")
 #define OAU_OBJECT_PATH     QStringLiteral("/")
 
+#define OAU_KEY_APPLICATION         QStringLiteral("application")
 #define OAU_KEY_PROVIDER            QStringLiteral("provider")
 #define OAU_KEY_SERVICE_TYPE        QStringLiteral("serviceType")
 #define OAU_KEY_WINDOW_ID           QStringLiteral("windowId")
@@ -34,5 +35,7 @@
     QStringLiteral(OAU_ERROR_PREFIX "UserCanceled")
 #define OAU_ERROR_INVALID_PARAMETERS \
     QStringLiteral(OAU_ERROR_PREFIX "InvalidParameters")
+#define OAU_ERROR_INVALID_APPLICATION \
+    QStringLiteral(OAU_ERROR_PREFIX "InvalidApplication")
 
 #endif // OAU_GLOBALS_H

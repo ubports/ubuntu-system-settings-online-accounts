@@ -22,7 +22,6 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Flickable {
     id: root
-
     property variant accountsModel
     contentHeight: contentItem.childrenRect.height
     boundsBehavior: Flickable.StopAtBounds
@@ -31,24 +30,36 @@ Flickable {
         anchors.left: parent.left
         anchors.right: parent.right
 
-        ListItem.Base {
-            Label {
-                text: i18n.dtr(plugin.translations, "No accounts")
-                anchors.centerIn: parent
+        ListView {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            interactive: false
+            height: contentHeight
+            model: accountsModel
+
+            delegate: AccountItem {
+                ListView.delayRemove: running
+                text: providerName
+                subText: displayName
+                accountHandle: account
+                globalServiceHandle: accountService
             }
+        }
+
+        ListItem.SingleControl {
+            control: Button {
+                text: i18n.tr("Add account…")
+                width: parent.width - units.gu(4)
+                onClicked: pageStack.push(newAccountPage)
+            }
+            showDivider: false
         }
 
         AddAccountLabel {}
+    }
 
-        ListItem.Standard {
-            text: i18n.dtr(plugin.translations, "Add account:")
-        }
-
-        ProviderPluginList {
-            onCreationFinished: {
-                // pop the creation page; remain in this page
-                pageStack.pop()
-            }
-        }
+    Component {
+        id: newAccountPage
+        NewAccountPage {}
     }
 }

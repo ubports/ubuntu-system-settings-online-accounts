@@ -1,3 +1,5 @@
 TEMPLATE = subdirs
 SUBDIRS = \
-    autopilot
+    autopilot \
+    client \
+    online-accounts-ui

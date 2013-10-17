@@ -11,5 +11,5 @@
     ],
     "has-dynamic-keywords": true,
     "has-dynamic-visibility": false,
-    "page-component": "MainPage.qml"
+    "plugin": "online-accounts"
 }

@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 SUBDIRS = \
     module \
-    online-accounts.pro \
+    online-accounts-ui.pro \
     signon-ui

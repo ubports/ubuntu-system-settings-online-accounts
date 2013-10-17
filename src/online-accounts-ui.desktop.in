@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Online Accounts
+Comment=Create and edit Online Accounts
+Exec=$${target.path}/$$TARGET
+Icon=
+Type=Application
+Terminal=false
+NoDisplay=true
+X-Ubuntu-Gettext-Domain=$${I18N_DOMAIN}

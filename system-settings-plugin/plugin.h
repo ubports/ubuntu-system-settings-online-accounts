@@ -16,14 +16,23 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
+#ifndef ONLINE_ACCOUNTS_SYSTEM_SETTINGS_PLUGIN_H
+#define ONLINE_ACCOUNTS_SYSTEM_SETTINGS_PLUGIN_H
 
-Label {
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.margins: units.gu(2)
-    text: i18n.dtr(plugin.translations, "Storing account details here lets apps use the accounts without you having to sign in for each app.")
-    wrapMode: Text.WordWrap
-}
+#include <QObject>
+#include <SystemSettings/PluginInterface>
+
+class Plugin: public QObject, public SystemSettings::PluginInterface
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "com.ubuntu.SystemSettings.PluginInterface")
+    Q_INTERFACES(SystemSettings::PluginInterface)
+
+public:
+    Plugin();
+
+    SystemSettings::ItemBase *createItem(const QVariantMap &staticData,
+                                         QObject *parent = 0);
+};
+
+#endif // ONLINE_ACCOUNTS_SYSTEM_SETTINGS_PLUGIN_H

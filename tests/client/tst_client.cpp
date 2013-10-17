@@ -20,7 +20,10 @@
  * <http://www.gnu.org/licenses/>.
  */
 
+#include "src/globals.h"
+
 #include <OnlineAccountsClient/Setup>
+#include <QDBusConnection>
 #include <QDebug>
 #include <QFile>
 #include <QProcessEnvironment>
@@ -29,12 +32,33 @@
 
 using namespace OnlineAccountsClient;
 
+class Service: public QObject
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface",
+                "com.canonical.OnlineAccountsUi")
+
+public:
+    Service(): QObject() {}
+    QVariantMap options() const { return m_options; }
+
+public Q_SLOTS:
+    QVariantMap requestAccess(const QVariantMap &options) {
+        m_options = options;
+        return QVariantMap();
+    }
+
+private:
+    QVariantMap m_options;
+};
+
 class SetupTest: public QObject
 {
     Q_OBJECT
 
 public:
     SetupTest();
+    QVariantMap options() const { return m_service.options(); }
 
 private Q_SLOTS:
     void initTestCase();
@@ -44,7 +68,7 @@ private Q_SLOTS:
     void testExecWithServiceType();
 
 private:
-    QString parameters();
+    Service m_service;
 };
 
 SetupTest::SetupTest():
@@ -52,19 +76,12 @@ SetupTest::SetupTest():
 {
 }
 
-QString SetupTest::parameters()
-{
-    QFile file("parameters.txt");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        return QString("no file created!");
-    }
-
-    return QString::fromUtf8(file.readAll()).simplified();
-}
-
 void SetupTest::initTestCase()
 {
-    qputenv("PATH", MOCK_PATH);
+    QDBusConnection connection = QDBusConnection::sessionBus();
+    connection.registerObject(OAU_OBJECT_PATH, &m_service,
+                              QDBusConnection::ExportAllContents);
+    connection.registerService(OAU_SERVICE_NAME);
 }
 
 void SetupTest::testProperties()
@@ -89,7 +106,8 @@ void SetupTest::testExec()
     setup.exec();
 
     QVERIFY(finished.wait(10000));
-    QCOMPARE(parameters(), QString("online-accounts"));
+    QCOMPARE(options().contains(OAU_KEY_PROVIDER), false);
+    QCOMPARE(options().contains(OAU_KEY_SERVICE_TYPE), false);
 }
 
 void SetupTest::testExecWithProvider()
@@ -101,8 +119,8 @@ void SetupTest::testExecWithProvider()
     setup.exec();
 
     QVERIFY(finished.wait(10000));
-    QCOMPARE(parameters(),
-             QString("--option provider=lethal-provider online-accounts"));
+    QCOMPARE(options().value(OAU_KEY_PROVIDER).toString(),
+             QStringLiteral("lethal-provider"));
 }
 
 void SetupTest::testExecWithServiceType()
@@ -114,8 +132,8 @@ void SetupTest::testExecWithServiceType()
     setup.exec();
 
     QVERIFY(finished.wait(10000));
-    QCOMPARE(parameters(),
-             QString("--option serviceType=e-mail online-accounts"));
+    QCOMPARE(options().value(OAU_KEY_SERVICE_TYPE).toString(),
+             QStringLiteral("e-mail"));
 }
 
 QTEST_MAIN(SetupTest);

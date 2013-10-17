@@ -18,42 +18,20 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.OnlineAccounts 0.1
-import "constants.js" as Constants
 
 Page {
-    id: root
+    title: i18n.tr("Add account")
 
-    property string providerId
-
-    signal finished
-
-    title: account.provider.displayName
-
-    Account {
-        id: account
-        objectHandle: Manager.createAccount(providerId)
-    }
-
-    Loader {
-        id: loader
-        property var account: account
-
+    Flickable {
         anchors.fill: parent
-        source: Constants.qmlPluginPath + providerId + "/Main.qml"
-        onLoaded: checkFlickable()
+        contentHeight: contentItem.childrenRect.height
+        boundsBehavior: Flickable.StopAtBounds
 
-        Connections {
-            target: loader.item
-            onFinished: {
-                console.log("====== PLUGIN FINISHED ======")
-                finished()
-            }
-        }
-
-        function checkFlickable() {
-            if (item.hasOwnProperty("flickable")) {
-                root.flickable = item.flickable
+        ProviderPluginList {
+            onCreationFinished: {
+                // pop the creation page and this page (go back to parent page)
+                pageStack.pop()
+                pageStack.pop()
             }
         }
     }

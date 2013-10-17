@@ -17,12 +17,14 @@ SOURCES += \
     $${TOP_BUILD_DIR}/src/onlineaccountsui_adaptor.cpp \
     $${TOP_SRC_DIR}/src/request.cpp \
     $${TOP_SRC_DIR}/src/service.cpp \
+    mock/qwindow.cpp \
     tst_service.cpp
 
 HEADERS += \
     $${TOP_BUILD_DIR}/src/onlineaccountsui_adaptor.h \
     $${TOP_SRC_DIR}/src/request.h \
-    $${TOP_SRC_DIR}/src/service.h
+    $${TOP_SRC_DIR}/src/service.h \
+    window-watcher.h
 
 INCLUDEPATH += \
     $${TOP_SRC_DIR}/src

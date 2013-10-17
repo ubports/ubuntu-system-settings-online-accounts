@@ -66,6 +66,7 @@ private Q_SLOTS:
     void testExec();
     void testExecWithProvider();
     void testExecWithServiceType();
+    void testWindowId();
 
 private:
     Service m_service;
@@ -108,6 +109,7 @@ void SetupTest::testExec()
     QVERIFY(finished.wait(10000));
     QCOMPARE(options().contains(OAU_KEY_PROVIDER), false);
     QCOMPARE(options().contains(OAU_KEY_SERVICE_TYPE), false);
+    QCOMPARE(options().contains(OAU_KEY_WINDOW_ID), false);
 }
 
 void SetupTest::testExecWithProvider()
@@ -134,6 +136,19 @@ void SetupTest::testExecWithServiceType()
     QVERIFY(finished.wait(10000));
     QCOMPARE(options().value(OAU_KEY_SERVICE_TYPE).toString(),
              QStringLiteral("e-mail"));
+}
+
+void SetupTest::testWindowId()
+{
+    Setup setup;
+
+    QWindow window;
+    QSignalSpy finished(&setup, SIGNAL(finished()));
+    setup.exec();
+
+    QVERIFY(finished.wait());
+    QCOMPARE(options().value(OAU_KEY_WINDOW_ID).toUInt(),
+             uint(window.winId()));
 }
 
 QTEST_MAIN(SetupTest);

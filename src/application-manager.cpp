@@ -75,5 +75,18 @@ QVariantMap ApplicationManager::applicationInfo(const QString &applicationId,
     app.insert(QStringLiteral("id"), applicationId);
     app.insert(QStringLiteral("displayName"), application.displayName());
     app.insert(QStringLiteral("icon"), application.iconName());
+    app.insert(QStringLiteral("profile"), profile);
+
+    /* List all the services supported by this application */
+    QVariantList serviceIds;
+    Accounts::ServiceList allServices =
+        AccountManager::instance()->serviceList();
+    Q_FOREACH(const Accounts::Service &service, allServices) {
+        if (!application.serviceUsage(service).isEmpty()) {
+            serviceIds.append(service.name());
+        }
+    }
+    app.insert(QStringLiteral("services"), serviceIds);
+
     return app;
 }

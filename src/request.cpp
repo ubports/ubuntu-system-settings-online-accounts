@@ -217,16 +217,23 @@ void Request::fail(const QString &name, const QString &message)
 
 void Request::setCanceled()
 {
-    fail(OAU_ERROR_USER_CANCELED, QStringLiteral("Canceled"));
+    Q_D(Request);
+    if (d->m_inProgress) {
+        fail(OAU_ERROR_USER_CANCELED, QStringLiteral("Canceled"));
+        d->m_inProgress = false;
+    }
 }
 
 void Request::setResult(const QVariantMap &result)
 {
     Q_D(Request);
-    QDBusMessage reply = d->m_message.createReply(result);
-    d->m_connection.send(reply);
+    if (d->m_inProgress) {
+        QDBusMessage reply = d->m_message.createReply(result);
+        d->m_connection.send(reply);
 
-    Q_EMIT completed();
+        Q_EMIT completed();
+        d->m_inProgress = false;
+    }
 }
 
 #include "request.moc"

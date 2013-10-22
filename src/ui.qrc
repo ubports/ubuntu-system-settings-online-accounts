@@ -5,6 +5,7 @@
     <file>qml/AccountItem.qml</file>
     <file>qml/AccountsPage.qml</file>
     <file>qml/AddAccountLabel.qml</file>
+    <file>qml/AuthorizationPage.qml</file>
     <file>qml/MainPage.qml</file>
     <file>qml/NewAccountPage.qml</file>
     <file>qml/NoAccountsPage.qml</file>

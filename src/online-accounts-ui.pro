@@ -59,6 +59,7 @@ QML_SOURCES = \
     qml/AccountItem.qml \
     qml/AccountsPage.qml \
     qml/AddAccountLabel.qml \
+    qml/AuthorizationPage.qml \
     qml/MainPage.qml \
     qml/NewAccountPage.qml \
     qml/NoAccountsPage.qml \

@@ -18,7 +18,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "account-manager.h"
 #include "application-manager.h"
 #include "debug.h"
 #include "globals.h"
@@ -89,7 +88,7 @@ void ProviderRequestPrivate::start()
     }
 
     QString providerId = q->parameters().value(OAU_KEY_PROVIDER).toString();
-    QVariantMap provider = providerInfo(providerId);
+    QVariantMap providerInfo = appManager->providerInfo(providerId);
 
     m_view = new QQuickView;
     QObject::connect(m_view, SIGNAL(visibleChanged(bool)),
@@ -101,7 +100,7 @@ void ProviderRequestPrivate::start()
 
     context->setContextProperty("qmlPluginPath",
                                 QUrl::fromLocalFile(OAU_PLUGIN_DIR));
-    context->setContextProperty("provider", provider);
+    context->setContextProperty("provider", providerInfo);
     context->setContextProperty("application", m_applicationInfo);
     context->setContextProperty("mainWindow", m_view);
 
@@ -112,19 +111,6 @@ void ProviderRequestPrivate::start()
     QObject::connect(root, SIGNAL(allowed(int)),
                      this, SLOT(onAllowed(int)));
     q->setWindow(m_view);
-}
-
-QVariantMap
-ProviderRequestPrivate::providerInfo(const QString &providerId) const
-{
-    Accounts::Provider provider =
-        AccountManager::instance()->provider(providerId);
-
-    QVariantMap info;
-    info.insert(QStringLiteral("id"), providerId);
-    info.insert(QStringLiteral("displayName"), provider.displayName());
-    info.insert(QStringLiteral("icon"), provider.iconName());
-    return info;
 }
 
 void ProviderRequestPrivate::onWindowVisibleChanged(bool visible)

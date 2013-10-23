@@ -90,3 +90,15 @@ QVariantMap ApplicationManager::applicationInfo(const QString &applicationId,
 
     return app;
 }
+
+QVariantMap ApplicationManager::providerInfo(const QString &providerId) const
+{
+    Accounts::Provider provider =
+        AccountManager::instance()->provider(providerId);
+
+    QVariantMap info;
+    info.insert(QStringLiteral("id"), providerId);
+    info.insert(QStringLiteral("displayName"), provider.displayName());
+    info.insert(QStringLiteral("icon"), provider.iconName());
+    return info;
+}

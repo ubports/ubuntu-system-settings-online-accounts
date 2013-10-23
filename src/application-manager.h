@@ -36,6 +36,7 @@ public:
 
     Q_INVOKABLE QVariantMap applicationInfo(const QString &applicationId,
                                             const QString &profile);
+    QVariantMap providerInfo(const QString &providerId) const;
 
 protected:
     explicit ApplicationManager(QObject *parent = 0);

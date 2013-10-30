@@ -30,6 +30,11 @@ AccountManager *AccountManager::instance()
 {
     if (!m_instance) {
         m_instance = new AccountManager;
+        /* to ensure that all the installed services are parsed into
+         * libaccounts' DB, we enumerate them here.
+         * TODO: a click package hook would be a more proper fix.
+         */
+        m_instance->serviceList();
     }
 
     return m_instance;

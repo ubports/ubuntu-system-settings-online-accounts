@@ -18,8 +18,10 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "globals.h"
 #include "request.h"
 #include "service.h"
+#include "window-watcher.h"
 
 #include <QDBusArgument>
 #include <QDBusConnection>
@@ -62,6 +64,8 @@ public:
 
     void start() Q_DECL_OVERRIDE {
         Request::start();
+        QWindow *window = new QWindow;
+        setWindow(window);
         m_timer.start();
     }
 
@@ -149,6 +153,8 @@ private Q_SLOTS:
     void testResults();
     void testFailure();
     void testIdle();
+    void testWindow();
+    void testWindowTransiency();
 
 protected Q_SLOTS:
     void onNewConnection(const QDBusConnection &connection);
@@ -245,6 +251,50 @@ void ServiceTest::testIdle()
     QVERIFY(callFinished.wait());
     QCOMPARE(call->isError(), false);
     delete call;
+}
+
+void ServiceTest::testWindow()
+{
+    QVariantMap parameters;
+    parameters.insert(keyTimeout, 10);
+    RequestReply *call = sendRequest(parameters);
+    QSignalSpy callFinished(call, SIGNAL(finished()));
+    QSignalSpy windowShown(WindowWatcher::instance(),
+                           SIGNAL(windowShown(QObject*)));
+
+    QVERIFY(windowShown.wait());
+    QWindow *window =
+        qobject_cast<QWindow*>(windowShown.at(0).at(0).value<QObject*>());
+    QVERIFY(window->property("transientParent").isNull());
+    QVERIFY(callFinished.wait());
+    QCOMPARE(call->isError(), false);
+    delete call;
+
+    QCOMPARE(windowShown.count(), 1);
+}
+
+void ServiceTest::testWindowTransiency()
+{
+    QVariantMap parameters;
+    parameters.insert(keyTimeout, 10);
+    parameters.insert(OAU_KEY_WINDOW_ID, 371);
+    RequestReply *call = sendRequest(parameters);
+    QSignalSpy callFinished(call, SIGNAL(finished()));
+    QSignalSpy windowShown(WindowWatcher::instance(),
+                           SIGNAL(windowShown(QObject*)));
+
+    QVERIFY(windowShown.wait());
+    QWindow *window =
+        qobject_cast<QWindow*>(windowShown.at(0).at(0).value<QObject*>());
+    QObject *transientParentObject =
+        window->property("transientParent").value<QObject*>();
+    QWindow *transientParent = qobject_cast<QWindow*>(transientParentObject);
+    QCOMPARE(transientParent->property("winId").toUInt(), uint(371));
+    QVERIFY(callFinished.wait());
+    QCOMPARE(call->isError(), false);
+    delete call;
+
+    QCOMPARE(windowShown.count(), 1);
 }
 
 QTEST_MAIN(ServiceTest);

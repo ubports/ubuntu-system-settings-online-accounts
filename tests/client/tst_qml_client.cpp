@@ -20,6 +20,9 @@
  * <http://www.gnu.org/licenses/>.
  */
 
+#include "src/globals.h"
+
+#include <QDBusConnection>
 #include <QDebug>
 #include <QQmlComponent>
 #include <QQmlContext>
@@ -28,12 +31,33 @@
 #include <QSignalSpy>
 #include <QTest>
 
+class Service: public QObject
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface",
+                "com.canonical.OnlineAccountsUi")
+
+public:
+    Service(): QObject() {}
+    QVariantMap options() const { return m_options; }
+
+public Q_SLOTS:
+    QVariantMap requestAccess(const QVariantMap &options) {
+        m_options = options;
+        return QVariantMap();
+    }
+
+private:
+    QVariantMap m_options;
+};
+
 class SetupTest: public QObject
 {
     Q_OBJECT
 
 public:
     SetupTest();
+    QVariantMap options() const { return m_service.options(); }
 
 private Q_SLOTS:
     void initTestCase();
@@ -43,7 +67,7 @@ private Q_SLOTS:
     void testExecWithServiceType();
 
 private:
-    QString parameters();
+    Service m_service;
 };
 
 SetupTest::SetupTest():
@@ -51,20 +75,13 @@ SetupTest::SetupTest():
 {
 }
 
-QString SetupTest::parameters()
-{
-    QFile file("parameters.txt");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        return QString("no file created!");
-    }
-
-    return QString::fromUtf8(file.readAll()).simplified();
-}
-
 void SetupTest::initTestCase()
 {
-    qputenv("QML2_IMPORT_PATH", "../module");
-    qputenv("PATH", MOCK_PATH);
+    qputenv("QML2_IMPORT_PATH", PLUGIN_PATH);
+    QDBusConnection connection = QDBusConnection::sessionBus();
+    connection.registerObject(OAU_OBJECT_PATH, &m_service,
+                              QDBusConnection::ExportAllContents);
+    connection.registerService(OAU_SERVICE_NAME);
 }
 
 void SetupTest::testLoadPlugin()
@@ -120,7 +137,8 @@ void SetupTest::testExec()
     QVERIFY(QMetaObject::invokeMethod(object, "exec"));
 
     QVERIFY(finished.wait());
-    QCOMPARE(parameters(), QString("online-accounts"));
+    QCOMPARE(options().contains(OAU_KEY_PROVIDER), false);
+    QCOMPARE(options().contains(OAU_KEY_SERVICE_TYPE), false);
 }
 
 void SetupTest::testExecWithServiceType()
@@ -137,8 +155,8 @@ void SetupTest::testExecWithServiceType()
     QVERIFY(QMetaObject::invokeMethod(object, "exec"));
 
     QVERIFY(finished.wait());
-    QCOMPARE(parameters(),
-             QString("--option serviceType=e-mail online-accounts"));
+    QCOMPARE(options().value(OAU_KEY_SERVICE_TYPE).toString(),
+             QStringLiteral("e-mail"));
 }
 
 QTEST_MAIN(SetupTest);

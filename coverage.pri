@@ -26,8 +26,8 @@ CONFIG(coverage) {
     generate-coverage-html.commands = \
         "@echo Collecting coverage data"; \
         "lcov --directory $${TOP_SRC_DIR} --capture --output-file coverage.info --no-checksum --compat-libtool"; \
-        "lcov --extract coverage.info \"*/src/*.cpp\" -o coverage.info"; \
-        "lcov --remove coverage.info \"moc_*.cpp\" -o coverage.info"; \
+        "lcov --extract coverage.info \"*/src/*.cpp\" --extract coverage.info \"*/client/OnlineAccountsClient/*.cpp\" -o coverage.info"; \
+        "lcov --remove coverage.info \"moc_*.cpp\" --remove coverage.info \"tests/*.cpp\" -o coverage.info"; \
         "LANG=C genhtml --prefix $${TOP_SRC_DIR} --output-directory coverage-html --title \"Code Coverage\" --legend --show-details coverage.info"
   
     clean-coverage-html.depends = clean-gcda

@@ -3,6 +3,8 @@
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
+ * This file is part of online-accounts-ui
+ *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
  * by the Free Software Foundation.
@@ -16,29 +18,41 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import SystemSettings 1.0
-import Ubuntu.Components 0.1
-import Ubuntu.OnlineAccounts 0.1
+#ifndef OAU_INACTIVITY_TIMER_H
+#define OAU_INACTIVITY_TIMER_H
 
-ItemPage {
-    id: root
+#include <QList>
+#include <QObject>
+#include <QTimer>
 
-    Loader {
-        id: loader
-        anchors.fill: parent
-        sourceComponent: pluginOptions.provider ? accountCreationPage : normalStartupPage
-    }
+namespace OnlineAccountsUi {
 
-    Component {
-        id: normalStartupPage
-        NormalStartupPage {}
-    }
+class InactivityTimer: public QObject
+{
+    Q_OBJECT
 
-    Component {
-        id: accountCreationPage
-        AccountCreationPage {
-            providerId: pluginOptions.provider
-        }
-    }
-}
+public:
+    InactivityTimer(int interval, QObject *parent = 0);
+    ~InactivityTimer() {}
+
+    void watchObject(QObject *object);
+
+Q_SIGNALS:
+    void timeout();
+
+private Q_SLOTS:
+    void onIdleChanged();
+    void onTimeout();
+
+private:
+    bool allObjectsAreIdle() const;
+
+private:
+    QList<QObject*> m_watchedObjects;
+    QTimer m_timer;
+    int m_interval;
+};
+
+} // namespace
+
+#endif // OAU_INACTIVITY_TIMER_H

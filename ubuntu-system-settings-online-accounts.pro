@@ -7,6 +7,7 @@ SUBDIRS = \
     po \
     src \
     client \
+    system-settings-plugin \
     plugins \
     tests
 

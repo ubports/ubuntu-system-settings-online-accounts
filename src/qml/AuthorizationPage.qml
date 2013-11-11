@@ -43,22 +43,18 @@ Flickable {
             wrapMode: Text.WordWrap
         }
 
-        Label {
-            id: singleAccountLabel
-            anchors.horizontalCenter: parent.horizontalCenter
-            visible: model.count === 1
-            text: model.get(0, "displayName")
-        }
-
         ListItem.ItemSelector {
             id: accountSelector
             anchors.left: parent.left
             anchors.right: parent.right
-            visible: !singleAccountLabel.visible
             text: "Account"
             model: root.model
             delegate: OptionSelectorDelegate {
                 property string modelData: model.displayName
+            }
+            onDelegateClicked: {
+                /* The last item in the model is the "Add another..." label */
+                if (index == model.count - 1) root.createAccount();
             }
         }
 
@@ -74,13 +70,6 @@ Flickable {
             width: parent.width - units.gu(4)
             text: i18n.tr("Don't allow")
             onClicked: root.denied()
-        }
-
-        Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width - units.gu(4)
-            text: i18n.tr("Add another")
-            onClicked: root.createAccount()
         }
     }
 }

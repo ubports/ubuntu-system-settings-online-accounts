@@ -31,6 +31,7 @@ DEFINES += \
     PLUGIN_PRIVATE_MODULE_DIR=\\\"$${PLUGIN_PRIVATE_MODULE_DIR}\\\"
 
 SOURCES += \
+    access-model.cpp \
     account-manager.cpp \
     application-manager.cpp \
     debug.cpp \
@@ -43,6 +44,7 @@ SOURCES += \
     service.cpp
 
 HEADERS += \
+    access-model.h \
     account-manager.h \
     application-manager.h \
     debug.h \

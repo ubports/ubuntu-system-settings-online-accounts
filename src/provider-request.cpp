@@ -18,6 +18,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "access-model.h"
 #include "application-manager.h"
 #include "debug.h"
 #include "globals.h"
@@ -29,6 +30,8 @@
 #include <QQuickView>
 
 using namespace OnlineAccountsUi;
+
+static bool firstTime = true;
 
 namespace OnlineAccountsUi {
 
@@ -64,6 +67,12 @@ ProviderRequestPrivate::ProviderRequestPrivate(ProviderRequest *request):
     q_ptr(request),
     m_view(0)
 {
+    if (firstTime) {
+        qmlRegisterType<QAbstractItemModel>();
+        qmlRegisterType<AccessModel>("Ubuntu.OnlineAccounts.Internal",
+                                     1, 0, "AccessModel");
+        firstTime = false;
+    }
 }
 
 ProviderRequestPrivate::~ProviderRequestPrivate()

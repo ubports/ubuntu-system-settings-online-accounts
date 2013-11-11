@@ -19,6 +19,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.OnlineAccounts 0.1
+import Ubuntu.OnlineAccounts.Internal 1.0
 
 MainView {
     id: root
@@ -35,6 +36,7 @@ MainView {
 
     Component.onCompleted: {
         i18n.domain = "ubuntu-system-settings-online-accounts"
+        loader.active = true
         pageStack.push(mainPage)
     }
 
@@ -48,7 +50,8 @@ MainView {
             Loader {
                 id: loader
                 anchors.fill: parent
-                sourceComponent: accountsModel.count === 0 ? accountCreationPage : authorizationPage
+                active: false
+                sourceComponent: accessModel.count <= 1 ? accountCreationPage : authorizationPage
             }
         }
     }
@@ -64,6 +67,13 @@ MainView {
                 root.__createdAccountId = 0
             }
         }
+    }
+
+    AccessModel {
+        id: accessModel
+        accountModel: accountsModel
+        applicationId: applicationInfo.id
+        lastItemText: i18n.tr("Add another")
     }
 
     Component {
@@ -83,7 +93,7 @@ MainView {
     Component {
         id: authorizationPage
         AuthorizationPage {
-            model: accountsModel
+            model: accessModel
             application: applicationInfo
             provider: providerInfo
             onDenied: root.denied()

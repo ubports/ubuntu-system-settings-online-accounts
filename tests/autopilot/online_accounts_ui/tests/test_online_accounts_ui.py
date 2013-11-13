@@ -18,6 +18,7 @@ from time import sleep
 import BaseHTTPServer, SimpleHTTPServer, SocketServer, ssl, cgi
 import threading
 import oauth.oauth as oauth
+import os
 
 from online_accounts_ui.emulators.items import EmulatorBase
 
@@ -252,6 +253,10 @@ class OnlineAccountsUiTests(AutopilotTestCase):
     def setUp(self):
         super(OnlineAccountsUiTests, self).setUp()
         self.pointer = Pointer(self.input_device_class.create())
+        # Increase the timeout of online-accounts-ui, to make sure it won't
+        # quit before the system settings panel asks it to open.
+        #os.environ['OAU_DAEMON_TIMEOUT'] = '20'
+        self.patch_environment('OAU_DAEMON_TIMEOUT', '20')
         self.app = self.launch_test_application('online-accounts-ui',
                 '--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop',
                 app_type='qt',
@@ -295,7 +300,7 @@ class OnlineAccountsUiTests(AutopilotTestCase):
         self.pointer.move_to_object(page)
         (page_center_x, page_center_y) = self.pointer.position()
         page_bottom = page.globalRect[1] + page.globalRect[3]
-        while provider_item.center[1] > page_bottom:
+        while provider_item.center[1] > page_bottom - 20:
             self.pointer.move(page_center_x, page_center_y)
             self.pointer.press()
             self.pointer.move(page_center_x, page_center_y - provider_item.height * 2)
@@ -367,7 +372,7 @@ class OnlineAccountsUiTests(AutopilotTestCase):
         self.pointer.move_to_object(page)
         (page_center_x, page_center_y) = self.pointer.position()
         page_bottom = page.globalRect[1] + page.globalRect[3]
-        while provider_item.center[1] > page_bottom:
+        while provider_item.center[1] > page_bottom - 20:
             self.pointer.move(page_center_x, page_center_y)
             self.pointer.press()
             self.pointer.move(page_center_x, page_center_y - provider_item.height * 2)
@@ -455,7 +460,7 @@ class OnlineAccountsUiTests(AutopilotTestCase):
         self.pointer.move_to_object(page)
         (page_center_x, page_center_y) = self.pointer.position()
         page_bottom = page.globalRect[1] + page.globalRect[3]
-        while provider_item.center[1] > page_bottom:
+        while provider_item.center[1] > page_bottom - 20:
             self.pointer.move(page_center_x, page_center_y)
             self.pointer.press()
             self.pointer.move(page_center_x, page_center_y - provider_item.height * 2)

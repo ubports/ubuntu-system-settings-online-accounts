@@ -255,8 +255,7 @@ class OnlineAccountsUiTests(AutopilotTestCase):
         self.pointer = Pointer(self.input_device_class.create())
         # Increase the timeout of online-accounts-ui, to make sure it won't
         # quit before the system settings panel asks it to open.
-        #os.environ['OAU_DAEMON_TIMEOUT'] = '20'
-        self.patch_environment('OAU_DAEMON_TIMEOUT', '20')
+        self.patch_environment('OAU_DAEMON_TIMEOUT', '120')
         self.app = self.launch_test_application('online-accounts-ui',
                 '--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop',
                 app_type='qt',

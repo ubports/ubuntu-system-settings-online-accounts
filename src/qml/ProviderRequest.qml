@@ -40,6 +40,8 @@ MainView {
         pageStack.push(mainPage)
     }
 
+    on__CreatedAccountIdChanged: grantAccessIfReady()
+
     PageStack {
         id: pageStack
 
@@ -61,11 +63,14 @@ MainView {
         service: "global"
         provider: providerInfo.id
         includeDisabled: true
-        onCountChanged: {
-            if (root.__createdAccountId != 0) {
-                root.grantAccess(root.__createdAccountId)
-                root.__createdAccountId = 0
+        onCountChanged: root.grantAccessIfReady()
+
+        function indexOfAccount(accountId) {
+            for (var i = 0; i < accountsModel.count; i++) {
+                if (accountsModel.get(i, "accountId") == accountId)
+                    return i
             }
+            return -1
         }
     }
 
@@ -153,14 +158,19 @@ MainView {
         }
     }
 
-    function grantAccess(accountId) {
-        // find the index in the model for this account
-        for (var i = 0; i < accountsModel.count; i++) {
-            if (accountsModel.get(i, "accountId") == accountId)
-            break
+    function grantAccessIfReady() {
+        if (root.__createdAccountId != 0 &&
+            accountsModel.indexOfAccount(root.__createdAccountId) >= 0) {
+            root.grantAccess(root.__createdAccountId)
+            root.__createdAccountId = 0
         }
+    }
 
-        if (i >= accountsModel.count) {
+    function grantAccess(accountId) {
+        console.log("granting access to account " + accountId)
+        // find the index in the model for this account
+        var i = accountsModel.indexOfAccount(accountId)
+        if (i < 0) {
             // very unlikely; maybe the account has been deleted in the meantime
             console.log("Account not found:" + accountId)
             root.denied()

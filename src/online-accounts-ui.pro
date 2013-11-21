@@ -23,7 +23,7 @@ DEFINES += \
     I18N_DOMAIN=\\\"$${I18N_DOMAIN}\\\"
 
 DBUS_ADAPTORS += \
-    com.canonical.OnlineAccountsUi.xml
+    com.ubuntu.OnlineAccountsUi.xml
 
 DEFINES += \
     DEBUG_ENABLED \
@@ -78,12 +78,12 @@ OTHER_FILES += \
     $${RESOURCES}
 
 QMAKE_SUBSTITUTES += \
-    com.canonical.OnlineAccountsUi.service.in \
+    com.ubuntu.OnlineAccountsUi.service.in \
     online-accounts-ui.desktop.in
 
 service.path = $${INSTALL_PREFIX}/share/dbus-1/services
 service.files = \
-    com.canonical.OnlineAccountsUi.service
+    com.ubuntu.OnlineAccountsUi.service
 INSTALLS += service
 
 desktop.path = $${INSTALL_PREFIX}/share/applications

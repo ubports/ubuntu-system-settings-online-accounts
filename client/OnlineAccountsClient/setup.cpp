@@ -32,7 +32,7 @@
 #include <climits>
 
 using namespace OnlineAccountsClient;
-using namespace com::canonical;
+using namespace com::ubuntu;
 
 namespace OnlineAccountsClient {
 

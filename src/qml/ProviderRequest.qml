@@ -54,6 +54,11 @@ MainView {
                 anchors.fill: parent
                 active: false
                 sourceComponent: accessModel.count <= 1 ? accountCreationPage : authorizationPage
+                onLoaded: {
+                    // use this trick to break the sourceComponent binding
+                    var tmp = sourceComponent
+                    sourceComponent = tmp
+                }
             }
         }
     }
@@ -147,7 +152,7 @@ MainView {
         id: accountCredentials
         credentialsId: globalAccountService.objectHandle != null ? globalAccountService.authData.credentialsId : 0
         onSynced: {
-            console.log("Credentials ready")
+            console.log("Credentials ready (store secret = " + storeSecret + ")")
             if (acl.indexOf(applicationInfo.profile) >= 0) {
                 console.log("Application is in ACL: " + acl)
                 root.aclDone()

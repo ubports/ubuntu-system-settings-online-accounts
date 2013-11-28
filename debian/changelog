@@ -4,6 +4,32 @@ ubuntu-system-settings-online-accounts (0.3-0ubuntu1) UNRELEASED; urgency=low
 
  -- Alberto Mardegan <alberto.mardegan@canonical.com>  Tue, 12 Nov 2013 14:44:35 +0200
 
+ubuntu-system-settings-online-accounts (0.2~+14.04.20131108-0ubuntu1) trusty; urgency=low
+
+  [ Alberto Mardegan ]
+  * Move OnlineAccounts into its own process Create the
+    com.canonical.OnlineAccountsUI D-Bus service, whose task is to show
+    the Online Accounts UI when clients request it. The SystemSettings
+    plugin for Online Accounts becomes just one of these clients. The
+    rationale for the change is that it has been decided by design that
+    multiple instances of Online Accounts can be running at the same
+    time (because the Online Accounts UI will be modal to the
+    application which invoked it), yet they need to coordinate in order
+    to avoid the creation of the same account in two different places.
+    Using a single process with multiple windows and exposing a D-Bus
+    API seems to be the best approach and is also flexible enough to
+    accomodate for most of the design changes that might pop up. It's
+    also a proved approach, used already by signon-ui (in fact, most of
+    the code is taken from there). .
+  * Implement window transiency Let the service know what QWindow is
+    active in the client process, and use that one as parent window for
+    the transiency.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 77
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 08 Nov 2013 11:39:33 +0000
+
 ubuntu-system-settings-online-accounts (0.2~+13.10.20131016-0ubuntu1) saucy; urgency=low
 
   [ Alberto Mardegan ]

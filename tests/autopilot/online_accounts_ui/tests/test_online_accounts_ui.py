@@ -273,12 +273,20 @@ class OnlineAccountsUiTests(AutopilotTestCase):
 
     def test_title(self):
         """ Checks whether the Online Accounts window title is correct """
+        # On the phone, this fails because of https://bugs.launchpad.net/bugs/1252294
+        if model() != 'Desktop':
+            return
+
         header = self.window.select_single('Header', visible=True)
         self.assertThat(header, NotEquals(None))
         self.assertThat(header.title, Eventually(Equals('Online Accounts')))
 
     def test_available_providers(self):
         """ Checks whether all the expected providers are available """
+        # On the phone, this fails because of https://bugs.launchpad.net/bugs/1252294
+        if model() != 'Desktop':
+            return
+
         required_providers = [
                 'FakeOAuth',
                 ]

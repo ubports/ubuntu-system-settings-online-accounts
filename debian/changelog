@@ -1,3 +1,15 @@
+ubuntu-system-settings-online-accounts (0.2~+14.04.20131129-0ubuntu1) trusty; urgency=low
+
+  [ Alberto Mardegan ]
+  * Disable autopilot test on the phone We have to do this because of
+    https://bugs.launchpad.net/bugs/1252294. (LP: #1252294)
+  * Test, setUp(): don't launch the app on the phone.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 82
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 29 Nov 2013 14:05:40 +0000
+
 ubuntu-system-settings-online-accounts (0.2~+14.04.20131108-0ubuntu1) trusty; urgency=low
 
   [ Alberto Mardegan ]

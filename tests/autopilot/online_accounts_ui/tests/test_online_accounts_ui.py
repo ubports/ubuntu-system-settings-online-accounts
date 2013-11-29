@@ -250,6 +250,11 @@ class OnlineAccountsUiTests(AutopilotTestCase):
 
     def setUp(self):
         super(OnlineAccountsUiTests, self).setUp()
+
+        # On the phone, this fails because of https://bugs.launchpad.net/bugs/1252294
+        if model() != 'Desktop':
+            return
+
         self.pointer = Pointer(self.input_device_class.create())
         self.app = self.launch_test_application('system-settings', 'online-accounts',
                 '--desktop_file_hint=/usr/share/applications/ubuntu-system-settings.desktop',

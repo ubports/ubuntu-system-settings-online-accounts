@@ -41,8 +41,8 @@ Flickable {
                 ListView.delayRemove: running
                 text: providerName
                 subText: displayName
-                accountHandle: account
-                globalServiceHandle: accountService
+                accountHandle: model.accountHandle
+                globalServiceHandle: accountServiceHandle
             }
         }
 

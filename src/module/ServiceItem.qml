@@ -21,26 +21,32 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.OnlineAccounts 0.1
 
-Repeater {
+Item {
     property variant accountServiceHandle
 
-    resources: AccountService {
-        id: accountService
-        objectHandle: accountServiceHandle
-    }
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: childrenRect.height
 
-    model: ApplicationModel {
-        service: accountService.service.id
-    }
+    Repeater {
+        resources: AccountService {
+            id: accountService
+            objectHandle: accountServiceHandle
+        }
 
-    delegate: ListItem.Standard {
-        text: model.displayName
-        icon: "image://theme/" + model.iconName
-        control: Switch {
-            checked: accountService.serviceEnabled
-            onCheckedChanged: {
-                if (checked != accountService.serviceEnabled) {
-                    accountService.updateServiceEnabled(checked)
+        model: ApplicationModel {
+            service: accountService.service.id
+        }
+
+        delegate: ListItem.Standard {
+            text: model.displayName
+            iconName: model.iconName
+            control: Switch {
+                checked: accountService.serviceEnabled
+                onCheckedChanged: {
+                    if (checked != accountService.serviceEnabled) {
+                        accountService.updateServiceEnabled(checked)
+                    }
                 }
             }
         }

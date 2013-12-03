@@ -42,7 +42,7 @@ Column {
     Repeater {
         model: accountServices
         delegate: ServiceItem {
-            accountServiceHandle: accountService
+            accountServiceHandle: model.accountServiceHandle
         }
     }
 }

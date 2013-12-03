@@ -39,7 +39,7 @@ Column {
         delegate: ListItem.Standard {
             text: displayName
             enabled: !isSingleAccount || hasNoAccounts(providerId)
-            icon: "image://theme/" + iconName
+            iconName: model.iconName
             progression: true
             onClicked: root.providerClicked(providerId)
         }

@@ -27,9 +27,7 @@ ListItem.Subtitled {
     property variant __editPage: null
     property bool running: false
 
-    text: providerName
-    subText: displayName
-    icon: "image://theme/" + globalService.provider.iconName
+    iconName: globalService.provider.iconName
     progression: true
     opacity: globalService.enabled ? 1 : 0.5
 

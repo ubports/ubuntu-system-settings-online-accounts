@@ -1,3 +1,19 @@
+ubuntu-system-settings-online-accounts (0.2~+14.04.20131205-0ubuntu1) trusty; urgency=low
+
+  [ Alberto Mardegan ]
+  * Use new iconName property for list items Also, avoid using the
+    deprecated model roles from accounts-qml-module: account ->
+    accountHandle accountService -> accountServiceHandle Introducing a
+    new Item as root item in the ServiceItem component is needed in
+    order to hide the Repeater's "model" property, which would otherwise
+    conflict with the homonymous context property in
+    ServiceSwitches.qml. . (LP: #1257028)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 85
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 05 Dec 2013 08:41:58 +0000
+
 ubuntu-system-settings-online-accounts (0.2~+14.04.20131129-0ubuntu1) trusty; urgency=low
 
   [ Alberto Mardegan ]

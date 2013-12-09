@@ -1,0 +1,4 @@
+Pattern: ${home}/.local/share/accounts/providers/${id}.provider
+User-Level: yes
+Hook-Name: accounts-provider
+

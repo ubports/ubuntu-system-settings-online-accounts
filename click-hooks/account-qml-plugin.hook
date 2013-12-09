@@ -1,4 +1,2 @@
 Pattern: ${home}/.local/share/accounts/qml-plugins/${id}
 User-Level: yes
-Hook-Name: accounts-qml-plugins
-

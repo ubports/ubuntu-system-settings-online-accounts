@@ -3,9 +3,9 @@ include(common-project-config.pri)
 
 TEMPLATE = subdirs
 SUBDIRS = \
-    apparmor-hooks \
     po \
     src \
+    click-hooks \
     client \
     system-settings-plugin \
     plugins \

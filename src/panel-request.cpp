@@ -22,6 +22,7 @@
 #include "globals.h"
 #include "panel-request.h"
 
+#include <QDir>
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickView>
@@ -76,8 +77,11 @@ void PanelRequestPrivate::start()
 
     QQmlContext *context = m_view->rootContext();
 
-    context->setContextProperty("qmlPluginPath",
+    context->setContextProperty("systemQmlPluginPath",
                                 QUrl::fromLocalFile(OAU_PLUGIN_DIR));
+    context->setContextProperty("localQmlPluginPath",
+                                QUrl::fromLocalFile(QDir::homePath() +
+                                "/.local/share/accounts/qml-plugins/"));
     context->setContextProperty("pluginOptions", QVariantMap());
     context->setContextProperty("mainWindow", m_view);
 

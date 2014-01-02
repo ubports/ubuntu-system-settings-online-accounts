@@ -20,6 +20,10 @@
 
     The parameters currently recognized for the @options argument are:
     - provider: unique ID of the account provider
+    - application: application ID (as defined in the Online Accounts
+      .application file)
+    - serviceType: service type the application is interested in
+    - windowId: an unsigned integer identifying the client window
 
     The @result argument is currently unused.
   -->

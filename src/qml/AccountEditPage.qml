@@ -43,7 +43,6 @@ Page {
 
         onStatusChanged: {
             if (loader.status == Loader.Error) {
-                loader.source = "" // Clear the source
                 loader.source = localQmlPluginPath + providerId + "/Main.qml"
             }
         }

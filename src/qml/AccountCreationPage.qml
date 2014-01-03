@@ -39,12 +39,12 @@ Page {
         property var account: account
 
         anchors.fill: parent
-        source: systemQmlPluginPath + providerId + "/Main.qml"
+        source: localQmlPluginPath + providerId + "/Main.qml"
         onLoaded: checkFlickable()
 
         onStatusChanged: {
             if (loader.status == Loader.Error) {
-                loader.source = localQmlPluginPath + providerId + "/Main.qml"
+                loader.source = systemQmlPluginPath + providerId + "/Main.qml"
             }
         }
 

@@ -3,7 +3,7 @@ import QtTest 1.0
 import Source 1.0
 
 Item {
-    property string systemQmlPluginPath: "../../tests/online-accounts-ui/qml/"
+    property string localQmlPluginPath: "../../tests/online-accounts-ui/qml/"
     width: 200
     height: 200
 

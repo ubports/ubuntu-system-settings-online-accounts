@@ -8,60 +8,62 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2013-10-08 18:06+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2014-01-02 12:52+0000\n"
+"Last-Translator: Ondra Kadlec <o.kadlec@seznam.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-27 05:54+0000\n"
-"X-Generator: Launchpad (build 16845)\n"
+"X-Launchpad-Export-Date: 2014-01-03 06:27+0000\n"
+"X-Generator: Launchpad (build 16877)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
-msgstr ""
+msgstr "Uživatelské jméno"
 
 #: ../plugins/example/Main.qml:39
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: ../src/AccountsPage.qml:53
 msgid "Add account…"
-msgstr ""
+msgstr "Přidat účet..."
 
 #: ../src/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
+"Uložení podrobností účtů umožňuje aplikacím používat vaše účty, aniž byste "
+"se museli pokaždé přihlašovat do každé aplikace zvlášť."
 
 #: ../src/NewAccountPage.qml:23
 msgid "Add account"
-msgstr ""
+msgstr "Přidat účet"
 
 #: ../src/NoAccountsPage.qml:36
 msgid "No accounts"
-msgstr ""
+msgstr "Žádné účty"
 
 #: ../src/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr ""
+msgstr "Přidat účet:"
 
 #: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: ../src/module/Options.qml:36
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: ../src/module/Options.qml:54
 msgid "Remove account…"
-msgstr ""
+msgstr "Odebrat účet..."
 
 #: ../src/module/RemovalConfirmation.qml:32
 msgid "Remove account"
-msgstr ""
+msgstr "Odebrat účet"
 
 #: ../src/module/RemovalConfirmation.qml:33
 #, qt-format
@@ -69,15 +71,17 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
+"Účet %1 bude odebrán pouze z vašeho telefonu. Můžete jej přidat později "
+"znovu."
 
 #: ../src/module/RemovalConfirmation.qml:36
 msgid "Remove"
-msgstr ""
+msgstr "Odebrat"
 
 #: ../src/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr ""
+msgstr "Přístup k tomuto účtu:"
 
 #: ../.build/settings.js:1
 msgid "Accounts"
-msgstr ""
+msgstr "Účty"

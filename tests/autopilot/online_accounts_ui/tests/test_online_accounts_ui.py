@@ -252,6 +252,11 @@ class OnlineAccountsUiTests(AutopilotTestCase):
 
     def setUp(self):
         super(OnlineAccountsUiTests, self).setUp()
+
+        # On the phone, this fails because of https://bugs.launchpad.net/bugs/1252294
+        if model() != 'Desktop':
+            return
+
         self.pointer = Pointer(self.input_device_class.create())
         # Increase the timeout of online-accounts-ui, to make sure it won't
         # quit before the system settings panel asks it to open.

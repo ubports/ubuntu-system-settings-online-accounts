@@ -24,6 +24,7 @@ Page {
     id: root
 
     property string providerId
+    property alias exportedLoader: loader
 
     signal finished
 

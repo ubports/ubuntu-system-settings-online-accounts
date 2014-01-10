@@ -27,12 +27,8 @@ Item {
             localQmlPluginPath = "/dummy/path/"
             var page = pageComponent.createObject(null, {
                 "providerId": "testPlugin" })
-            /* FIXME: Work around a weird issue with Qt.resolvedUrl where the
-               "tests" part of the path is repeated, which fails the comparison.
-               Only check the end of the source path to make sure it's changed.*/
-            verify(page.exportedLoader.source.toString().substr(-43) ==
-                 Qt.resolvedUrl(systemQmlPluginPath +
-                    "testPlugin/Main.qml").toString().substr(-43))
+            // If flickable is set then the plugin was loaded correctly
+            verify(page.flickable != null)
             page.destroy()
         }
     }

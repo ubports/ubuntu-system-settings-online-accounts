@@ -39,8 +39,14 @@ Page {
         property var account: account
 
         anchors.fill: parent
-        source: qmlPluginPath + providerId + "/Main.qml"
+        source: localQmlPluginPath + providerId + "/Main.qml"
         onLoaded: checkFlickable()
+
+        onStatusChanged: {
+            if (loader.status == Loader.Error) {
+                loader.source = systemQmlPluginPath + providerId + "/Main.qml"
+            }
+        }
 
         Connections {
             target: loader.item

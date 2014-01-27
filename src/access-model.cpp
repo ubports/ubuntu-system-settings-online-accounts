@@ -148,6 +148,7 @@ void AccessModel::setAccountModel(QAbstractItemModel *accountModel)
     Q_D(AccessModel);
 
     d->setSourceModel(accountModel);
+    Q_EMIT accountModelChanged();
 }
 
 QAbstractItemModel *AccessModel::accountModel() const
@@ -169,7 +170,8 @@ void AccessModel::setLastItemText(const QString &text)
     d->m_lastItemText = text;
     Q_EMIT lastItemTextChanged();
 
-    // TODO: emit dataChanged
+    QModelIndex lastItemIndex = index(d->rowCount(), 0);
+    Q_EMIT dataChanged(lastItemIndex, lastItemIndex);
 }
 
 QString AccessModel::lastItemText() const
@@ -206,9 +208,11 @@ QVariant AccessModel::get(int row, const QString &roleName) const
 QVariant AccessModel::data(const QModelIndex &index, int role) const
 {
     Q_D(const AccessModel);
-    if (index.row() < d->rowCount()) {
+    int row = index.row();
+    if (row < d->rowCount()) {
         return QIdentityProxyModel::data(index, role);
     } else {
+        if (Q_UNLIKELY(row > d->rowCount())) return QVariant();
         return d->m_lastItemText;
     }
 }

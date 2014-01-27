@@ -126,8 +126,6 @@ void ProviderRequestPrivate::onWindowVisibleChanged(bool visible)
 {
     Q_Q(ProviderRequest);
 
-    DEBUG() << visible;
-
     if (!visible) {
         q->setResult(QVariantMap());
     }

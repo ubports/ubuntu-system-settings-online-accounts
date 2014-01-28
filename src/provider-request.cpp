@@ -28,6 +28,7 @@
 #include <QQmlEngine>
 #include <QQuickItem>
 #include <QQuickView>
+#include <QStandardPaths>
 
 using namespace OnlineAccountsUi;
 
@@ -107,8 +108,12 @@ void ProviderRequestPrivate::start()
 
     QQmlContext *context = m_view->rootContext();
 
-    context->setContextProperty("qmlPluginPath",
+    context->setContextProperty("systemQmlPluginPath",
                                 QUrl::fromLocalFile(OAU_PLUGIN_DIR));
+    context->setContextProperty("localQmlPluginPath",
+                                QUrl::fromLocalFile(QStandardPaths::writableLocation(
+                                    QStandardPaths::GenericDataLocation) +
+                                "/accounts/qml-plugins/"));
     context->setContextProperty("provider", providerInfo);
     context->setContextProperty("application", m_applicationInfo);
     context->setContextProperty("mainWindow", m_view);

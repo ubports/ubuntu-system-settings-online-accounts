@@ -23,6 +23,7 @@
 #include "debug.h"
 
 #include <Accounts/Application>
+#include <QFile>
 #include <QSettings>
 
 using namespace OnlineAccountsUi;
@@ -58,7 +59,16 @@ bool ApplicationManagerPrivate::applicationMatchesProfile(const Accounts::Applic
      * X-Ubuntu-Application-ID field is the same we are seeing.
      * If we cannot determine that, then we assume that the application is not
      * a click package, and we don't restrict it. */
-    QSettings desktopFile(application.desktopFilePath(), QSettings::IniFormat);
+    QString desktopFilePath = application.desktopFilePath();
+    if (!QFile::exists(desktopFilePath)) {
+        DEBUG() << "Desktop file not found:" << desktopFilePath;
+        /* Every app, be it click or a package from the archive, should have a
+         * desktop file. If we don't find it, something is likely to be wrong
+         * and it's safer not to continue. */
+        return false;
+    }
+
+    QSettings desktopFile(desktopFilePath, QSettings::IniFormat);
     QString appId =
         desktopFile.value(QStringLiteral("Desktop Entry/X-Ubuntu-Application-ID")).
         toString();

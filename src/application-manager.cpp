@@ -23,6 +23,8 @@
 #include "debug.h"
 
 #include <Accounts/Application>
+#include <QFile>
+#include <QSettings>
 
 using namespace OnlineAccountsUi;
 
@@ -33,11 +35,49 @@ class ApplicationManagerPrivate
 {
 public:
     ApplicationManagerPrivate();
+
+    bool applicationMatchesProfile(const Accounts::Application &application,
+                                   const QString &profile) const;
 };
 } // namespace
 
 ApplicationManagerPrivate::ApplicationManagerPrivate()
 {
+}
+
+bool ApplicationManagerPrivate::applicationMatchesProfile(const Accounts::Application &application,
+                                                          const QString &profile) const
+{
+    /* We don't restrict unconfined apps. */
+    if (profile == QStringLiteral("unconfined")) return true;
+
+    /* It's a confined app. We must make sure that the applicationId it
+     * specified matches the apparmor profile.
+     *
+     * For click packages, this is relatively easy: we load the .desktop
+     * file and checks whether the profile declared in the
+     * X-Ubuntu-Application-ID field is the same we are seeing.
+     * If we cannot determine that, then we assume that the application is not
+     * a click package, and we don't restrict it. */
+    QString desktopFilePath = application.desktopFilePath();
+    if (!QFile::exists(desktopFilePath)) {
+        DEBUG() << "Desktop file not found:" << desktopFilePath;
+        /* Every app, be it click or a package from the archive, should have a
+         * desktop file. If we don't find it, something is likely to be wrong
+         * and it's safer not to continue. */
+        return false;
+    }
+
+    QSettings desktopFile(desktopFilePath, QSettings::IniFormat);
+    QString appId =
+        desktopFile.value(QStringLiteral("Desktop Entry/X-Ubuntu-Application-ID")).
+        toString();
+    if (appId.isEmpty()) {
+        // non click package?
+        return true;
+    }
+
+    return appId == profile;
 }
 
 ApplicationManager *ApplicationManager::instance()
@@ -63,13 +103,18 @@ ApplicationManager::~ApplicationManager()
 QVariantMap ApplicationManager::applicationInfo(const QString &applicationId,
                                                 const QString &profile)
 {
+    Q_D(const ApplicationManager);
+
     if (Q_UNLIKELY(profile.isEmpty())) return QVariantMap();
 
     Accounts::Application application =
         AccountManager::instance()->application(applicationId);
 
-    /* TODO: load the .desktop file and check if it matches the apparmor
-     * profile */
+    /* Make sure that the app is who it claims to be */
+    if (!d->applicationMatchesProfile(application, profile)) {
+        DEBUG() << "Given applicationId doesn't match profile";
+        return QVariantMap();
+    }
 
     QVariantMap app;
     app.insert(QStringLiteral("id"), applicationId);

@@ -1,6 +1,6 @@
 <node>
 <!--
-  com.canonical.OnlineAccountsUi:
+  com.ubuntu.OnlineAccountsUi:
   @short_description: interface for requesting access to Online Accounts.
 
   This is a private D-Bus API, not to be used directly by applications;
@@ -10,7 +10,7 @@
   It serves to let applications request access to the online accounts they
   intend to use.
 -->
-<interface name="com.canonical.OnlineAccountsUi">
+<interface name="com.ubuntu.OnlineAccountsUi">
   <!--
     requestAccess:
     @options: dictionary of option parameters.
@@ -20,6 +20,10 @@
 
     The parameters currently recognized for the @options argument are:
     - provider: unique ID of the account provider
+    - application: application ID (as defined in the Online Accounts
+      .application file)
+    - serviceType: service type the application is interested in
+    - windowId: an unsigned integer identifying the client window
 
     The @result argument is currently unused.
   -->

@@ -27,7 +27,7 @@ qrc_*.cpp
 /debian/*.substvars
 /plugins/example/libexample.so*
 /po/*.mo
-/src/com.canonical.OnlineAccountsUi.service
+/src/com.ubuntu.OnlineAccountsUi.service
 /src/module/OnlineAccountsPlugin.pc
 /src/module/libOnlineAccountsPlugin.so*
 /src/module/qmldir

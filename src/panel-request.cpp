@@ -102,9 +102,9 @@ void PanelRequestPrivate::onWindowVisibleChanged(bool visible)
 }
 
 PanelRequest::PanelRequest(const QDBusConnection &connection,
-                                 const QDBusMessage &message,
-                                 const QVariantMap &parameters,
-                                 QObject *parent):
+                           const QDBusMessage &message,
+                           const QVariantMap &parameters,
+                           QObject *parent):
     Request(connection, message, parameters, parent),
     d_ptr(new PanelRequestPrivate(this))
 {

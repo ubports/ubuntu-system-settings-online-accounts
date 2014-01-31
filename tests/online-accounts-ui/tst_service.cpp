@@ -42,7 +42,7 @@ static const QString keyFail(QStringLiteral("fail"));
 
 #define P2P_SOCKET "unix:path=/tmp/tst_service_%1"
 #define TEST_SERVICE_NAME \
-    QStringLiteral("com.canonical.OnlineAccountsUi.Test")
+    QStringLiteral("com.ubuntu.OnlineAccountsUi.Test")
 #define TEST_OBJECT_PATH QStringLiteral("/")
 
 class TestRequest: public Request
@@ -141,7 +141,7 @@ private:
         QDBusMessage msg =
             QDBusMessage::createMethodCall(TEST_SERVICE_NAME,
                                            TEST_OBJECT_PATH,
-                                           "com.canonical.OnlineAccountsUi",
+                                           "com.ubuntu.OnlineAccountsUi",
                                            "requestAccess");
         msg.setArguments(QVariantList() << parameters);
         QDBusPendingCall call = m_connection.asyncCall(msg);
@@ -216,7 +216,7 @@ void ServiceTest::testResults()
 
 void ServiceTest::testFailure()
 {
-    QString errorName("com.canonical.OnlineAccountsUi.BadLuck");
+    QString errorName("com.ubuntu.OnlineAccountsUi.BadLuck");
     QVariantMap parameters;
     parameters.insert(keyTimeout, 10);
     parameters.insert("fail", errorName);

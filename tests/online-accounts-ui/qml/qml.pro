@@ -9,6 +9,6 @@ CONFIG += \
 SOURCES += \
     tst_online_accounts_qml.cpp
 
-check.commands = "xvfb-run -a dbus-test-runner -t "
+check.commands = "xvfb-run -s '-screen 0 640x480x24' -a dbus-test-runner -t "
 check.depends = $${TARGET}
 QMAKE_EXTRA_TARGETS += check

@@ -10,9 +10,9 @@
     </service-type>
   </service-types>
 
-	<services>
-		<service id="coolshare">
-			<description>Mailer can even share stuff on CoolShare</description>
-		</service>
-	</services>
+  <services>
+    <service id="coolshare">
+      <description>Mailer can even share stuff on CoolShare</description>
+    </service>
+  </services>
 </application>

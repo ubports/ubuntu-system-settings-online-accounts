@@ -1,0 +1,86 @@
+# Asturian translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntu-system-settings-online-accounts\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-07-10 19:34+0200\n"
+"PO-Revision-Date: 2014-02-06 20:02+0000\n"
+"Last-Translator: Xuacu Saturio <xuacusk8@gmail.com>\n"
+"Language-Team: Asturian <ast@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-02-07 07:17+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
+
+#: ../plugins/example/Main.qml:33
+msgid "User name"
+msgstr "Nome d'usuariu"
+
+#: ../plugins/example/Main.qml:39
+msgid "Password"
+msgstr "Contraseña"
+
+#: ../src/AccountsPage.qml:53
+msgid "Add account…"
+msgstr "Amestar cuenta…"
+
+#: ../src/AddAccountLabel.qml:27
+msgid ""
+"Storing account details here lets apps use the accounts without you having "
+"to sign in for each app."
+msgstr ""
+"Guardar equí la información de la cuenta permitirá que les aplicaciones la "
+"usen ensin tener qu'aniciar sesión con caúna d'elles."
+
+#: ../src/NewAccountPage.qml:23
+msgid "Add account"
+msgstr "Amestar cuenta"
+
+#: ../src/NoAccountsPage.qml:36
+msgid "No accounts"
+msgstr "Nun hai cuentes"
+
+#: ../src/NoAccountsPage.qml:44
+msgid "Add account:"
+msgstr "Amestar cuenta:"
+
+#: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
+msgid "Cancel"
+msgstr "Encaboxar"
+
+#: ../src/module/Options.qml:36
+msgid "ID"
+msgstr "ID"
+
+#: ../src/module/Options.qml:54
+msgid "Remove account…"
+msgstr "Desaniciar cuenta..."
+
+#: ../src/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr "Desaniciar cuenta"
+
+#: ../src/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr ""
+"La cuenta %1 desaniciaráse sólo del teléfonu. Pue volver a amestala más sero."
+
+#: ../src/module/RemovalConfirmation.qml:36
+msgid "Remove"
+msgstr "Desaniciar"
+
+#: ../src/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr "Entrar a esta cuenta:"
+
+#: ../.build/settings.js:1
+msgid "Accounts"
+msgstr "Cuentes"

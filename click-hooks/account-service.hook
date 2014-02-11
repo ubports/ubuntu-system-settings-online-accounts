@@ -1,2 +1,2 @@
-Pattern: ${home}/.local/share/accounts/services/${id}.service
+Pattern: ${home}/.local/share/accounts/services/${short-id}.service
 User-Level: yes

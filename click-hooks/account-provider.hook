@@ -1,2 +1,2 @@
-Pattern: ${home}/.local/share/accounts/providers/${id}.provider
+Pattern: ${home}/.local/share/accounts/providers/${short-id}.provider
 User-Level: yes

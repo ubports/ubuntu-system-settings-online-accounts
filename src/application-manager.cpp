@@ -100,12 +100,20 @@ ApplicationManager::~ApplicationManager()
     delete d_ptr;
 }
 
-QVariantMap ApplicationManager::applicationInfo(const QString &applicationId,
+QVariantMap ApplicationManager::applicationInfo(const QString &claimedAppId,
                                                 const QString &profile)
 {
     Q_D(const ApplicationManager);
 
     if (Q_UNLIKELY(profile.isEmpty())) return QVariantMap();
+
+    QString applicationId = claimedAppId;
+    if (profile.startsWith(applicationId)) {
+        /* Click packages might declare just the package name as application
+         * ID, but in order to find the correct application file we need the
+         * complete ID (with application title and version. */
+        applicationId = profile;
+    }
 
     Accounts::Application application =
         AccountManager::instance()->application(applicationId);

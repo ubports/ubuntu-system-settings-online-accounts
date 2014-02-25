@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2014-02-17 17:35+0000\n"
-"Last-Translator: Rouxel <vincent.rouxel@mailoo.org>\n"
+"PO-Revision-Date: 2014-02-24 08:58+0000\n"
+"Last-Translator: Herve <kerivo@gmail.com>\n"
 "Language-Team: Breton <br@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-18 05:43+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-02-25 06:27+0000\n"
+"X-Generator: Launchpad (build 16926)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -34,10 +34,12 @@ msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
+"Mirout munudoù ar gont amañ a lezo an arloadoù da ober gant ar c'hontoù hep "
+"goulen diganeoc'h sinañ evit pep arload."
 
 #: ../src/NewAccountPage.qml:23
 msgid "Add account"
-msgstr ""
+msgstr "Ouzhpennañ ur gont"
 
 #: ../src/NoAccountsPage.qml:36
 msgid "No accounts"
@@ -45,7 +47,7 @@ msgstr "Kont ebet"
 
 #: ../src/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr "ouzhpenan ur gont :"
+msgstr "Ouzhpennañ ur gont"
 
 #: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
 msgid "Cancel"
@@ -61,7 +63,7 @@ msgstr "Dilemel ar gont"
 
 #: ../src/module/RemovalConfirmation.qml:32
 msgid "Remove account"
-msgstr ""
+msgstr "Dilemel ar gont"
 
 #: ../src/module/RemovalConfirmation.qml:33
 #, qt-format
@@ -69,15 +71,17 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
+"Ar gont  %1 a vo lemet kuit  war ho pellgomz nemet ken. Tu vo deoc'h "
+"adlakaat anezhañ diwezhatoc'h."
 
 #: ../src/module/RemovalConfirmation.qml:36
 msgid "Remove"
-msgstr "Dilemel"
+msgstr "Lemel kuit"
 
 #: ../src/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr ""
+msgstr "Mont d'ar gont-mañ:"
 
 #: ../.build/settings.js:1
 msgid "Accounts"
-msgstr "Kont"
+msgstr "Kontoù"

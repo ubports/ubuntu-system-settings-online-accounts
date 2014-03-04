@@ -1,0 +1,2 @@
+Pattern: ${home}/.local/share/accounts/qml-plugins/${short-id}
+User-Level: yes

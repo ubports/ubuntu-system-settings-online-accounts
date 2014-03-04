@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<application id="mailer">
+  <description>Mailer application</description>
+  <translations>mailer-catalog</translations>
+  <desktop-entry>mailer.desktop</desktop-entry>
+
+  <service-types>
+    <service-type id="e-mail">
+      <description>Mailer can retrieve your e-mails</description>
+    </service-type>
+  </service-types>
+
+  <services>
+    <service id="coolshare">
+      <description>Mailer can even share stuff on CoolShare</description>
+    </service>
+  </services>
+</application>

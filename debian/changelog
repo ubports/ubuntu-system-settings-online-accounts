@@ -1,6 +1,6 @@
 ubuntu-system-settings-online-accounts (0.3-0ubuntu1) UNRELEASED; urgency=low
 
-  * Define access request API for applications.
+  * Implement access request API for applications.
 
  -- Alberto Mardegan <alberto.mardegan@canonical.com>  Tue, 12 Nov 2013 14:44:35 +0200
 

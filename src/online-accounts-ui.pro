@@ -14,6 +14,9 @@ QT += \
     qml \
     quick
 
+PKGCONFIG += \
+    accounts-qt5
+
 I18N_DOMAIN="ubuntu-system-settings-online-accounts"
 
 DEFINES += \
@@ -28,19 +31,27 @@ DEFINES += \
     PLUGIN_PRIVATE_MODULE_DIR=\\\"$${PLUGIN_PRIVATE_MODULE_DIR}\\\"
 
 SOURCES += \
+    access-model.cpp \
+    account-manager.cpp \
+    application-manager.cpp \
     debug.cpp \
     i18n.cpp \
     inactivity-timer.cpp \
     main.cpp \
     panel-request.cpp \
+    provider-request.cpp \
     request.cpp \
     service.cpp
 
 HEADERS += \
+    access-model.h \
+    account-manager.h \
+    application-manager.h \
     debug.h \
     i18n.h \
     inactivity-timer.h \
     panel-request.h \
+    provider-request.h \
     request.h \
     service.h
 
@@ -50,11 +61,13 @@ QML_SOURCES = \
     qml/AccountItem.qml \
     qml/AccountsPage.qml \
     qml/AddAccountLabel.qml \
+    qml/AuthorizationPage.qml \
     qml/MainPage.qml \
     qml/NewAccountPage.qml \
     qml/NoAccountsPage.qml \
     qml/NormalStartupPage.qml \
     qml/ProviderPluginList.qml \
+    qml/ProviderRequest.qml \
     qml/ProvidersList.qml
 
 RESOURCES += \

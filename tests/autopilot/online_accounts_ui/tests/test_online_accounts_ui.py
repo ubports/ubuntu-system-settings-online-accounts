@@ -12,11 +12,13 @@ from autopilot.testcase import AutopilotTestCase
 from autopilot.input import Mouse, Touch, Pointer
 from autopilot.platform import model
 from autopilot.matchers import Eventually
+from subprocess import Popen
 from testtools.matchers import Contains, Equals, NotEquals, GreaterThan
 from time import sleep
 import BaseHTTPServer, SimpleHTTPServer, SocketServer, ssl, cgi
 import threading
 import oauth.oauth as oauth
+import os
 
 from online_accounts_ui.emulators.items import EmulatorBase
 
@@ -256,13 +258,23 @@ class OnlineAccountsUiTests(AutopilotTestCase):
             return
 
         self.pointer = Pointer(self.input_device_class.create())
-        self.app = self.launch_test_application('system-settings', 'online-accounts',
-                '--desktop_file_hint=/usr/share/applications/ubuntu-system-settings.desktop',
+        # Increase the timeout of online-accounts-ui, to make sure it won't
+        # quit before the system settings panel asks it to open.
+        self.patch_environment('OAU_DAEMON_TIMEOUT', '120')
+        self.app = self.launch_test_application('online-accounts-ui',
+                '--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop',
                 app_type='qt',
                 emulator_base=EmulatorBase,
                 capture_output=True)
+        self.system_settings = Popen(['system-settings', 'online-accounts',
+            '--desktop_file_hint=/usr/share/applications/ubuntu-system-settings.desktop'])
+        sleep(1)
         self.window = self.app.select_single("QQuickView")
         self.assertThat(self.window.visible, Eventually(Equals(True)))
+
+    def tearDown(self):
+        super(OnlineAccountsUiTests, self).tearDown()
+        self.system_settings.terminate()
 
     def test_title(self):
         """ Checks whether the Online Accounts window title is correct """
@@ -272,7 +284,7 @@ class OnlineAccountsUiTests(AutopilotTestCase):
 
         header = self.window.select_single('Header', visible=True)
         self.assertThat(header, NotEquals(None))
-        self.assertThat(header.title, Eventually(Equals('Accounts')))
+        self.assertThat(header.title, Eventually(Equals('Online Accounts')))
 
     def test_available_providers(self):
         """ Checks whether all the expected providers are available """
@@ -286,6 +298,72 @@ class OnlineAccountsUiTests(AutopilotTestCase):
         for provider in required_providers:
             provider_item = self.app.select_single('Standard', text=provider)
             self.assertThat(provider_item, NotEquals(None))
+
+    def test_create_account_with_form(self):
+        """ Test the creation of an account using a username/password form"""
+        page = self.app.select_single('NoAccountsPage')
+        self.assertThat(page, NotEquals(None))
+
+        provider_item = self.app.select_single('Standard', text='TestLogin')
+        self.assertThat(provider_item, NotEquals(None))
+
+        # Depending on the number of installed providers, it may be that our
+        # test provider is not visible; in that case, scroll the page
+        self.pointer.move_to_object(page)
+        (page_center_x, page_center_y) = self.pointer.position()
+        page_bottom = page.globalRect[1] + page.globalRect[3]
+        while provider_item.center[1] > page_bottom - 20:
+            self.pointer.move(page_center_x, page_center_y)
+            self.pointer.press()
+            self.pointer.move(page_center_x, page_center_y - provider_item.height * 2)
+            # wait some time before releasing, to avoid a flick
+            sleep(0.2)
+            self.pointer.release()
+        self.pointer.move_to_object(provider_item)
+        self.pointer.click()
+
+        # Move to the username field
+        username_field = self.app.select_single('TextField', objectName='usernameField')
+        self.pointer.move_to_object(username_field)
+        self.pointer.click()
+        self.keyboard.type('pinkuser')
+        self.keyboard.press_and_release('Tab')
+        self.keyboard.type('lolcat')
+        # Submit
+        continue_btn = self.app.select_single('Button', objectName='continueButton')
+        self.pointer.move_to_object(continue_btn)
+        self.pointer.click()
+
+        # The account should be created shortly
+        sleep(5)
+        account_item = self.app.select_single('AccountItem', text='TestLogin')
+        self.assertThat(account_item, NotEquals(None))
+        self.assertThat(account_item.subText, Equals('pinkuser'))
+
+        # Delete it
+        self.pointer.move_to_object(account_item)
+        self.pointer.click()
+
+        sleep(1)
+        edit_page = self.app.select_single('AccountEditPage')
+        self.assertThat(edit_page, NotEquals(None))
+        remove_button = edit_page.select_single('Button')
+        self.assertThat(remove_button, NotEquals(None))
+        self.pointer.move_to_object(remove_button)
+        self.pointer.click()
+
+        sleep(1)
+        removal_page = self.app.select_single('RemovalConfirmation')
+        self.assertThat(removal_page, NotEquals(None))
+        remove_button = removal_page.select_single('Button', text='Remove')
+        self.assertThat(remove_button, NotEquals(None))
+        self.pointer.move_to_object(remove_button)
+        self.pointer.click()
+
+        # Check that the account has been deleted
+        sleep(2) # weird: with 1 second only, org.freedesktop.DBus.Error.NoReply is received
+        account_item = self.app.select_single('AccountItem', text='TestLogin')
+        self.assertThat(account_item, Equals(None))
 
     def test_create_oauth1_account(self):
         """ Test the creation of an OAuth 1.0 account """
@@ -306,7 +384,7 @@ class OnlineAccountsUiTests(AutopilotTestCase):
         self.pointer.move_to_object(page)
         (page_center_x, page_center_y) = self.pointer.position()
         page_bottom = page.globalRect[1] + page.globalRect[3]
-        while provider_item.center[1] > page_bottom:
+        while provider_item.center[1] > page_bottom - 20:
             self.pointer.move(page_center_x, page_center_y)
             self.pointer.press()
             self.pointer.move(page_center_x, page_center_y - provider_item.height * 2)
@@ -370,7 +448,7 @@ class OnlineAccountsUiTests(AutopilotTestCase):
         self.pointer.click()
 
         # Check that the account has been deleted
-        sleep(1)
+        sleep(2)
         account_item = self.app.select_single('AccountItem', text='FakeOAuth')
         self.assertThat(account_item, Equals(None))
 
@@ -394,7 +472,7 @@ class OnlineAccountsUiTests(AutopilotTestCase):
         self.pointer.move_to_object(page)
         (page_center_x, page_center_y) = self.pointer.position()
         page_bottom = page.globalRect[1] + page.globalRect[3]
-        while provider_item.center[1] > page_bottom:
+        while provider_item.center[1] > page_bottom - 20:
             self.pointer.move(page_center_x, page_center_y)
             self.pointer.press()
             self.pointer.move(page_center_x, page_center_y - provider_item.height * 2)
@@ -460,6 +538,6 @@ class OnlineAccountsUiTests(AutopilotTestCase):
         self.pointer.click()
 
         # Check that the account has been deleted
-        sleep(1)
+        sleep(2)
         account_item = self.app.select_single('AccountItem', text='FakeOAuth')
         self.assertThat(account_item, Equals(None))

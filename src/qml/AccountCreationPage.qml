@@ -25,7 +25,7 @@ Page {
 
     property string providerId
 
-    signal finished
+    signal finished(int accountId)
 
     title: account.provider.displayName
 
@@ -52,7 +52,7 @@ Page {
             target: loader.item
             onFinished: {
                 console.log("====== PLUGIN FINISHED ======")
-                finished()
+                finished(account.accountId)
             }
         }
 

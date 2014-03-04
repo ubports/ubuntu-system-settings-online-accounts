@@ -1,8 +1,18 @@
-ubuntu-system-settings-online-accounts (0.3-0ubuntu1) UNRELEASED; urgency=low
+ubuntu-system-settings-online-accounts (0.3+14.04.20140304-0ubuntu1) trusty; urgency=low
 
+  [ Alberto Mardegan ]
   * Implement access request API for applications.
 
- -- Alberto Mardegan <alberto.mardegan@canonical.com>  Tue, 12 Nov 2013 14:44:35 +0200
+  [ Timo Jyrinki ]
+  * Use extra xvfb parameters to fix tests (LP: #1272198). (LP:
+    #1272198)
+
+  [ Scott Sweeny ]
+  * Support loading the qml page for an account service from
+    ~/.local/share/accounts/qml-plugins if one does not exist in the
+    system-wide directory.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 04 Mar 2014 15:12:42 +0000
 
 ubuntu-system-settings-online-accounts (0.2~+14.04.20131205-0ubuntu1) trusty; urgency=low
 

@@ -274,6 +274,9 @@ class OnlineAccountsUiTests(AutopilotTestCase):
 
     def tearDown(self):
         super(OnlineAccountsUiTests, self).tearDown()
+        # This matches the logic in setUp()
+        if model() != 'Desktop':
+            return
         self.system_settings.terminate()
 
     def test_title(self):
@@ -301,6 +304,9 @@ class OnlineAccountsUiTests(AutopilotTestCase):
 
     def test_create_account_with_form(self):
         """ Test the creation of an account using a username/password form"""
+        # On the phone, this fails because of https://bugs.launchpad.net/bugs/1252294
+        if model() != 'Desktop':
+            return
         page = self.app.select_single('NoAccountsPage')
         self.assertThat(page, NotEquals(None))
 

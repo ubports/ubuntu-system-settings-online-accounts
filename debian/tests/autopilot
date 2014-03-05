@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -e
+
+autopilot run online_accounts_ui 2> /dev/null
+

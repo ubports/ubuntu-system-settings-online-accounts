@@ -23,6 +23,7 @@ Homepage: https://launchpad.net/ubuntu-system-settings-online-accounts
 # code again.
 Vcs-Bzr: https://code.launchpad.net/~online-accounts/ubuntu-system-settings-online-accounts/trunk
 X-Python-Version: 2.7
+XS-Testsuite: autopkgtest
 
 Package: ubuntu-system-settings-online-accounts
 Architecture: any

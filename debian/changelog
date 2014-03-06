@@ -1,3 +1,10 @@
+ubuntu-system-settings-online-accounts (0.3+14.04.20140304.is.0.2~+14.04.20131205-0ubuntu1) trusty; urgency=medium
+
+  * Reverting as desktop image isn't installable (main/universe
+    mismatch) and causing all signon-ui tests on Touch failing
+
+ -- Didier Roche <didrocks@ubuntu.com>  Wed, 05 Mar 2014 12:20:04 +0100
+
 ubuntu-system-settings-online-accounts (0.3+14.04.20140304-0ubuntu1) trusty; urgency=low
 
   [ Alberto Mardegan ]

@@ -25,7 +25,7 @@ Page {
 
     property string providerId
 
-    signal finished(int accountId)
+    signal finished
 
     title: account.provider.displayName
 
@@ -39,20 +39,14 @@ Page {
         property var account: account
 
         anchors.fill: parent
-        source: localQmlPluginPath + providerId + "/Main.qml"
+        source: qmlPluginPath + providerId + "/Main.qml"
         onLoaded: checkFlickable()
-
-        onStatusChanged: {
-            if (loader.status == Loader.Error) {
-                loader.source = systemQmlPluginPath + providerId + "/Main.qml"
-            }
-        }
 
         Connections {
             target: loader.item
             onFinished: {
                 console.log("====== PLUGIN FINISHED ======")
-                finished(account.accountId)
+                finished()
             }
         }
 

@@ -29,6 +29,6 @@ HEADERS += \
 INCLUDEPATH += \
     $${TOP_SRC_DIR}/src
 
-check.commands = "xvfb-run -s '-screen 0 640x480x24' -a dbus-test-runner -t ./$${TARGET}"
+check.commands = "xvfb-run -a dbus-test-runner -t ./$${TARGET}"
 check.depends = $${TARGET}
 QMAKE_EXTRA_TARGETS += check

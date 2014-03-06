@@ -160,6 +160,13 @@ Column {
     }
 
     function enableAccount() {
+        for (var i = 0; i < accountServices.count; i++) {
+            var accountServiceHandle = accountServices.get(i, "accountService")
+            var accountService = accountServiceComponent.createObject(null,
+                                     { "objectHandle": accountServiceHandle })
+            accountService.updateServiceEnabled(true)
+            accountService.destroy(1000)
+        }
         globalAccountSettings.updateServiceEnabled(true)
     }
 

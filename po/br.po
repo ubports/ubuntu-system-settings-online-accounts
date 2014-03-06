@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2014-02-24 08:58+0000\n"
-"Last-Translator: Herve <kerivo@gmail.com>\n"
+"PO-Revision-Date: 2014-03-05 10:15+0000\n"
+"Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-25 06:27+0000\n"
-"X-Generator: Launchpad (build 16926)\n"
+"X-Launchpad-Export-Date: 2014-03-06 06:18+0000\n"
+"X-Generator: Launchpad (build 16948)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -35,7 +35,7 @@ msgid ""
 "to sign in for each app."
 msgstr ""
 "Mirout munudoù ar gont amañ a lezo an arloadoù da ober gant ar c'hontoù hep "
-"goulen diganeoc'h sinañ evit pep arload."
+"goulenn diganeoc'h en em gevreañ evit pep arload."
 
 #: ../src/NewAccountPage.qml:23
 msgid "Add account"
@@ -47,7 +47,7 @@ msgstr "Kont ebet"
 
 #: ../src/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr "Ouzhpennañ ur gont"
+msgstr "Ouzhpennañ ur gont :"
 
 #: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
 msgid "Cancel"
@@ -59,7 +59,7 @@ msgstr "ID"
 
 #: ../src/module/Options.qml:54
 msgid "Remove account…"
-msgstr "Dilemel ar gont"
+msgstr "Dilemel ur gont..."
 
 #: ../src/module/RemovalConfirmation.qml:32
 msgid "Remove account"
@@ -71,16 +71,16 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
-"Ar gont  %1 a vo lemet kuit  war ho pellgomz nemet ken. Tu vo deoc'h "
-"adlakaat anezhañ diwezhatoc'h."
+"Ar gont  %1 a vo lamet kuit  diwar ho pellgomzer nemetken. Gallout a reoc'h "
+"adlakaat anezhi diwezhatoc'h."
 
 #: ../src/module/RemovalConfirmation.qml:36
 msgid "Remove"
-msgstr "Lemel kuit"
+msgstr "Dilemel"
 
 #: ../src/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr "Mont d'ar gont-mañ:"
+msgstr "Mont d'ar gont-mañ :"
 
 #: ../.build/settings.js:1
 msgid "Accounts"

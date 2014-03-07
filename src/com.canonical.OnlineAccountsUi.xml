@@ -1,0 +1,33 @@
+<node>
+<!--
+  com.canonical.OnlineAccountsUi:
+  @short_description: interface for requesting access to Online Accounts.
+
+  This is a private D-Bus API, not to be used directly by applications;
+  applications should use the Ubuntu.OnlineAccounts.Client QML module or the
+  OnlineAccountsClient Qt library from C++.
+
+  It serves to let applications request access to the online accounts they
+  intend to use.
+-->
+<interface name="com.canonical.OnlineAccountsUi">
+  <!--
+    requestAccess:
+    @options: dictionary of option parameters.
+    @result: dictionary of result information.
+
+    Requests access to the online accounts identified by the @options parameter.
+
+    The parameters currently recognized for the @options argument are:
+    - provider: unique ID of the account provider
+
+    The @result argument is currently unused.
+  -->
+  <method name="requestAccess">
+    <annotation name="org.qtproject.QtDBus.QtTypeName.In0" value="QVariantMap"/>
+    <annotation name="org.qtproject.QtDBus.QtTypeName.Out0" value="QVariantMap"/>
+    <arg name="options" type="a{sv}" direction="in"/>
+    <arg name="result" type="a{sv}" direction="out"/>
+  </method>
+</interface>
+</node>

@@ -21,6 +21,6 @@ QMAKE_LIBDIR = $${TOP_BUILD_DIR}/client/OnlineAccountsClient
 QMAKE_RPATHDIR = $${QMAKE_LIBDIR}
 LIBS += -lonline-accounts-client
 
-check.commands = "xvfb-run -a dbus-test-runner -t ./$${TARGET}"
+check.commands = "xvfb-run -s '-screen 0 640x480x24' -a dbus-test-runner -t ./$${TARGET}"
 check.depends = $${TARGET}
 QMAKE_EXTRA_TARGETS += check

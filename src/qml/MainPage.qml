@@ -39,7 +39,7 @@ MainView {
 
         Page {
             id: mainPage
-            title: i18n.tr("Online Accounts")
+            title: i18n.tr("Accounts")
 
             Loader {
                 id: loader

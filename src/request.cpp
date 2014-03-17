@@ -21,7 +21,6 @@
 #include "debug.h"
 #include "globals.h"
 #include "panel-request.h"
-#include "provider-request.h"
 #include "request.h"
 
 #include <QPointer>
@@ -101,10 +100,6 @@ void RequestPrivate::setWindow(QWindow *window)
 QString RequestPrivate::findClientApparmorProfile()
 {
     QString uniqueConnectionId = m_message.service();
-    /* This is mainly for unit tests: real messages on the session bus always
-     * have a service name. */
-    if (uniqueConnectionId.isEmpty()) return QString();
-
     QString appId;
 
     QDBusMessage msg =
@@ -141,7 +136,8 @@ Request *Request::newRequest(const QDBusConnection &connection,
      * the @parameters argument to figure out which subclass is the most apt to
      * handle the request. */
     if (parameters.contains(OAU_KEY_PROVIDER)) {
-        return new ProviderRequest(connection, message, parameters, parent);
+        // TODO
+        return 0;
     } else {
         return new PanelRequest(connection, message, parameters, parent);
     }
@@ -217,23 +213,16 @@ void Request::fail(const QString &name, const QString &message)
 
 void Request::setCanceled()
 {
-    Q_D(Request);
-    if (d->m_inProgress) {
-        fail(OAU_ERROR_USER_CANCELED, QStringLiteral("Canceled"));
-        d->m_inProgress = false;
-    }
+    fail(OAU_ERROR_USER_CANCELED, QStringLiteral("Canceled"));
 }
 
 void Request::setResult(const QVariantMap &result)
 {
     Q_D(Request);
-    if (d->m_inProgress) {
-        QDBusMessage reply = d->m_message.createReply(result);
-        d->m_connection.send(reply);
+    QDBusMessage reply = d->m_message.createReply(result);
+    d->m_connection.send(reply);
 
-        Q_EMIT completed();
-        d->m_inProgress = false;
-    }
+    Q_EMIT completed();
 }
 
 #include "request.moc"

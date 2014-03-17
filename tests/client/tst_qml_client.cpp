@@ -35,7 +35,7 @@ class Service: public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface",
-                "com.ubuntu.OnlineAccountsUi")
+                "com.canonical.OnlineAccountsUi")
 
 public:
     Service(): QObject() {}

@@ -32,8 +32,6 @@ class SetupPrivate;
 class OAC_EXPORT Setup: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString applicationId READ applicationId \
-               WRITE setApplicationId NOTIFY applicationIdChanged)
     Q_PROPERTY(QString serviceTypeId READ serviceTypeId \
                WRITE setServiceTypeId NOTIFY serviceTypeIdChanged)
     Q_PROPERTY(QString providerId READ providerId \
@@ -42,9 +40,6 @@ class OAC_EXPORT Setup: public QObject
 public:
     Setup(QObject *parent = 0);
     ~Setup();
-
-    void setApplicationId(const QString &applicationId);
-    QString applicationId() const;
 
     void setServiceTypeId(const QString &serviceTypeId);
     QString serviceTypeId() const;
@@ -55,7 +50,6 @@ public:
     Q_INVOKABLE void exec();
 
 Q_SIGNALS:
-    void applicationIdChanged();
     void serviceTypeIdChanged();
     void providerIdChanged();
     void finished();

@@ -28,7 +28,7 @@ INCLUDEPATH += \
 ONLINE_ACCOUNTS_UI_SRC = $${TOP_SRC_DIR}/src
 
 DBUS_INTERFACES += \
-    $${ONLINE_ACCOUNTS_UI_SRC}/com.ubuntu.OnlineAccountsUi.xml
+    $${ONLINE_ACCOUNTS_UI_SRC}/com.canonical.OnlineAccountsUi.xml
 
 SOURCES += \
     setup.cpp

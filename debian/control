@@ -5,6 +5,7 @@ Maintainer: Ubuntu Desktop Team <ubuntu-desktop@lists.ubuntu.com>
 Build-Depends: debhelper (>= 9),
                pkg-config,
                python:any (>= 2.7),
+               libaccounts-qt5-dev,
                libsystemsettings-dev (>= 0.1+13.10.20130806),
                qt5-default,
                qtbase5-dev,

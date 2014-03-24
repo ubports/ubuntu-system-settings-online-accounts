@@ -30,6 +30,7 @@
 #include <QGuiApplication>
 #include <QWindow>
 #include <climits>
+#include <unistd.h>
 
 using namespace OnlineAccountsClient;
 using namespace com::ubuntu;
@@ -78,6 +79,14 @@ void SetupPrivate::exec()
     QWindow *window = clientWindow();
     if (window) {
         options.insert(OAU_KEY_WINDOW_ID, window->winId());
+        /* TODO: remove this hack once Mir supports window reparenting.
+         * Since Mir always return the same window Id for all windows, we use
+         * the process ID instead; for the time being this is acceptable since
+         * Mir/unity8 don't support more than one window per process.
+         * See: https://bugs.launchpad.net/bugs/1153666 */
+        if (QGuiApplication::platformName().startsWith("ubuntu")) {
+            options.insert(OAU_KEY_WINDOW_ID, uint(getpid()));
+        }
     }
 
     if (!m_applicationId.isEmpty()) {

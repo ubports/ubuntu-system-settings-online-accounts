@@ -1,3 +1,13 @@
+ubuntu-system-settings-online-accounts (0.3+14.04.20140328-0ubuntu1) trusty; urgency=low
+
+  [ Alberto Mardegan ]
+  * Fix a few UI issues: Application title should be "Accounts".
+    Explanatory text should use the Caption style. Cancel button when
+    starting the OAuth process moved to the bottom of the page. (see the
+    linked bugs for details) (LP: #1289406)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 28 Mar 2014 12:52:06 +0000
+
 ubuntu-system-settings-online-accounts (0.3+14.04.20140307.1-0ubuntu1) trusty; urgency=low
 
   * New rebuild forced

@@ -20,7 +20,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.OnlineAccounts 0.1
 
-Flickable {
+Item {
     id: root
 
     property url creationComponentUrl: "OAuth.qml"
@@ -32,14 +32,11 @@ Flickable {
 
     signal finished
 
-    anchors.left: parent.left
-    anchors.right: parent.right
-    contentHeight: contentItem.childrenRect.height
+    anchors.fill: parent
 
     Loader {
         id: loader
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.fill: parent
         source: sourceComponent === null ? (account.accountId != 0 ? editingComponentUrl : creationComponentUrl) : ""
         sourceComponent: account.accountId != 0 ? editingComponent : creationComponent
 

@@ -20,10 +20,9 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
-Label {
+ListItem.Caption {
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.margins: units.gu(2)
     text: i18n.tr("Storing account details here lets apps use the accounts without you having to sign in for each app.")
-    wrapMode: Text.WordWrap
 }

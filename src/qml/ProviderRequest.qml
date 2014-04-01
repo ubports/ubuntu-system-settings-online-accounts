@@ -47,7 +47,7 @@ MainView {
 
         Page {
             id: mainPage
-            title: i18n.tr("Online Accounts")
+            title: i18n.tr("Accounts")
 
             Loader {
                 id: loader
@@ -115,7 +115,7 @@ MainView {
     Component {
         id: createAccountPageComponent
         Page {
-            title: i18n.tr("Online Accounts")
+            title: i18n.tr("Accounts")
             Loader {
                 anchors.fill: parent
                 sourceComponent: accountCreationPage

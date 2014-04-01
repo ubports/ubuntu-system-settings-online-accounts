@@ -21,7 +21,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.OnlineAccounts 0.1
 
-Column {
+Item {
     id: root
 
     /* To override the parameters coming from the .provider file: */
@@ -40,9 +40,7 @@ Column {
     signal authenticationError(variant error)
     signal finished
 
-    anchors.left: parent.left
-    anchors.right: parent.right
-    spacing: units.gu(2)
+    anchors.fill: parent
 
     Component.onCompleted: {
         isNewAccount = (account.accountId === 0)
@@ -84,6 +82,7 @@ Column {
         visible: loading
         height: units.gu(7)
         showDivider: false
+        anchors.top: parent.top
 
         Item {
             height: units.gu(5)
@@ -110,6 +109,7 @@ Column {
     }
 
     ListItem.SingleControl {
+        anchors.bottom: parent.bottom
         showDivider: false
         control: Button {
             text: i18n.dtr("ubuntu-system-settings-online-accounts", "Cancel")

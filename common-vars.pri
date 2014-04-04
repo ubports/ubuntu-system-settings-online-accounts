@@ -13,6 +13,6 @@ PROJECT_NAME = ubuntu-system-settings-online-accounts
 # Project version
 # remember to update debian/* files if you changes this
 #-----------------------------------------------------------------------------
-PROJECT_VERSION = 0.2
+PROJECT_VERSION = 0.3
 
 # End of File

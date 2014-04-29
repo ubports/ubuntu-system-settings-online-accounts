@@ -1,5 +1,5 @@
 /*
- * This file is part of signon-ui
+ * This file is part of online-accounts-ui
  *
  * Copyright (C) 2013 Canonical Ltd.
  *

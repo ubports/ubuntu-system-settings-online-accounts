@@ -20,6 +20,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.OnlineAccounts 0.1
+import Ubuntu.OnlineAccounts.Plugin 1.0
 
 Item {
     id: root
@@ -34,7 +35,7 @@ Item {
     property variant __account: account
     property bool __isAuthenticating: false
     property alias globalAccountService: globalAccountSettings
-    property bool loading: true
+    property bool loading: loader.status == Loader.Null || loader.status == Loader.Loading
 
     signal authenticated(variant reply)
     signal authenticationError(variant error)
@@ -46,6 +47,22 @@ Item {
         isNewAccount = (account.accountId === 0)
         enableAccount()
         authenticate()
+    }
+
+    RequestHandler {
+        id: requestHandler
+        onRequestChanged: {
+            if (request) {
+                console.log("RequestHandler captured request!")
+                loader.setSource("WebView.qml", {
+                    "rootDir": request.rootDir,
+                    "signonRequest": request
+                })
+            } else {
+                console.log("Request destroyed!")
+                loader.source = ""
+            }
+        }
     }
 
     Credentials {
@@ -108,7 +125,25 @@ Item {
         }
     }
 
+    Loader {
+        id: loader
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            bottom: cancelButton.top
+            bottomMargin: Math.max(osk.height - cancelButton.height, 0)
+        }
+        focus: true
+        visible: !loading
+    }
+
+    KeyboardRectangle {
+        id: osk
+    }
+
     ListItem.SingleControl {
+        id: cancelButton
         anchors.bottom: parent.bottom
         showDivider: false
         control: Button {
@@ -133,9 +168,8 @@ Item {
     function credentialsStored() {
         console.log("Credentials stored, id: " + creds.credentialsId)
         if (creds.credentialsId == 0) return
-        var parameters = {
-            "X-PageComponent": "file:///usr/share/signon-ui/online-accounts-ui/Page.qml"
-        }
+        var parameters = {}
+        parameters[requestHandler.matchKey] = requestHandler.matchId
         for (var p in authenticationParameters) {
             parameters[p] = authenticationParameters[p]
         }

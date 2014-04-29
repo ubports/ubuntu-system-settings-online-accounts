@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * This file is part of signon-ui
+ *
+ * Copyright (C) 2011 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
- *
- * This file is part of online-accounts-ui
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -18,27 +18,31 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OAU_SERVICE_H
-#define OAU_SERVICE_H
+#ifndef SIGNON_UI_SERVICE_H
+#define SIGNON_UI_SERVICE_H
 
 #include <QDBusContext>
 #include <QObject>
 #include <QVariantMap>
 
-namespace OnlineAccountsUi {
+namespace SignOnUi {
 
 class ServicePrivate;
 
 class Service: public QObject, protected QDBusContext
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "com.nokia.singlesignonui")
 
 public:
     explicit Service(QObject *parent = 0);
     ~Service();
 
 public Q_SLOTS:
-    QVariantMap requestAccess(const QVariantMap &options);
+    QVariantMap queryDialog(const QVariantMap &parameters);
+    QVariantMap refreshDialog(const QVariantMap &newParameters);
+    Q_NOREPLY void cancelUiRequest(const QString &requestId);
+    void removeIdentityData(quint32 id);
 
 private:
     ServicePrivate *d_ptr;
@@ -47,4 +51,5 @@ private:
 
 } // namespace
 
-#endif // OAU_SERVICE_H
+#endif // SIGNON_UI_SERVICE_H
+

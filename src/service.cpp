@@ -22,122 +22,13 @@
 #include "globals.h"
 #include "onlineaccountsui_adaptor.h"
 #include "request.h"
+#include "request-manager.h"
 #include "service.h"
-
-#include <QQueue>
 
 using namespace OnlineAccountsUi;
 
-namespace OnlineAccountsUi {
-
-typedef QQueue<Request*> RequestQueue;
-
-class ServicePrivate: public QObject
-{
-    Q_OBJECT
-    Q_DECLARE_PUBLIC(Service)
-
-public:
-    ServicePrivate(Service *service);
-    ~ServicePrivate();
-
-    RequestQueue &queueForWindowId(WId windowId);
-    void enqueue(Request *request);
-    void runQueue(RequestQueue &queue);
-
-private Q_SLOTS:
-    void onRequestCompleted();
-
-private:
-    mutable Service *q_ptr;
-    /* each window Id has a different queue */
-    QMap<WId,RequestQueue> m_requests;
-};
-
-} // namespace
-
-ServicePrivate::ServicePrivate(Service *service):
-    QObject(service),
-    q_ptr(service)
-{
-}
-
-ServicePrivate::~ServicePrivate()
-{
-}
-
-RequestQueue &ServicePrivate::queueForWindowId(WId windowId)
-{
-    if (!m_requests.contains(windowId)) {
-        RequestQueue queue;
-        m_requests.insert(windowId, queue);
-    }
-    return m_requests[windowId];
-}
-
-void ServicePrivate::enqueue(Request *request)
-{
-    Q_Q(Service);
-    bool wasIdle = q->isIdle();
-
-    WId windowId = request->windowId();
-
-    RequestQueue &queue = queueForWindowId(windowId);
-    queue.enqueue(request);
-
-    if (wasIdle) {
-        Q_EMIT q->isIdleChanged();
-    }
-
-    runQueue(queue);
-}
-
-void ServicePrivate::runQueue(RequestQueue &queue)
-{
-    Request *request = queue.head();
-    DEBUG() << "Head:" << request;
-
-    if (request->isInProgress()) {
-        DEBUG() << "Already in progress";
-        return; // Nothing to do
-    }
-
-    QObject::connect(request, SIGNAL(completed()),
-                     this, SLOT(onRequestCompleted()));
-    request->start();
-}
-
-void ServicePrivate::onRequestCompleted()
-{
-    Q_Q(Service);
-
-    Request *request = qobject_cast<Request*>(sender());
-    WId windowId = request->windowId();
-
-    RequestQueue &queue = queueForWindowId(windowId);
-    if (request != queue.head()) {
-        qCritical("Completed request is not first in queue!");
-        return;
-    }
-
-    queue.dequeue();
-    request->deleteLater();
-
-    if (queue.isEmpty()) {
-        m_requests.remove(windowId);
-    } else {
-        /* start the next request */
-        runQueue(queue);
-    }
-
-    if (q->isIdle()) {
-        Q_EMIT q->isIdleChanged();
-    }
-}
-
 Service::Service(QObject *parent):
-    QObject(parent),
-    d_ptr(new ServicePrivate(this))
+    QObject(parent)
 {
     new OnlineAccountsUiAdaptor(this);
 }
@@ -146,16 +37,8 @@ Service::~Service()
 {
 }
 
-bool Service::isIdle() const
-{
-    Q_D(const Service);
-    return d->m_requests.isEmpty();
-}
-
 QVariantMap Service::requestAccess(const QVariantMap &options)
 {
-    Q_D(Service);
-
     DEBUG() << "Got request:" << options;
 
     /* The following line tells QtDBus not to generate a reply now */
@@ -166,7 +49,8 @@ QVariantMap Service::requestAccess(const QVariantMap &options)
                                            options,
                                            this);
     if (request) {
-        d->enqueue(request);
+        RequestManager *manager = RequestManager::instance();
+        manager->enqueue(request);
     } else {
         sendErrorReply(OAU_ERROR_INVALID_PARAMETERS,
                        QStringLiteral("Invalid request"));
@@ -174,5 +58,3 @@ QVariantMap Service::requestAccess(const QVariantMap &options)
 
     return QVariantMap();
 }
-
-#include "service.moc"

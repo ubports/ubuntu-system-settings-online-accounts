@@ -19,16 +19,31 @@
  */
 
 #include "debug.h"
+// TODO #include "dialog-request.h"
 #include "globals.h"
 #include "panel-request.h"
 #include "provider-request.h"
 #include "request.h"
+#include "signonui-request.h"
 
 #include <QPointer>
 
 using namespace OnlineAccountsUi;
 
+static bool mapIsSuperset(const QVariantMap &test, const QVariantMap &set)
+{
+    QMapIterator<QString, QVariant> it(set);
+    while (it.hasNext()) {
+        it.next();
+        if (test.value(it.key()) != it.value()) return false;
+    }
+
+    return true;
+}
+
 namespace OnlineAccountsUi {
+
+static QList<Request *> allRequests;
 
 class RequestPrivate: public QObject
 {
@@ -140,10 +155,16 @@ Request *Request::newRequest(const QDBusConnection &connection,
      * different subclasses for handling them, and in this method we examine
      * the @parameters argument to figure out which subclass is the most apt to
      * handle the request. */
-    if (parameters.contains(OAU_KEY_PROVIDER)) {
-        return new ProviderRequest(connection, message, parameters, parent);
+    if (message.interface() == OAU_INTERFACE) {
+        if (parameters.contains(OAU_KEY_PROVIDER)) {
+            return new ProviderRequest(connection, message, parameters, parent);
+        } else {
+            return new PanelRequest(connection, message, parameters, parent);
+        }
     } else {
-        return new PanelRequest(connection, message, parameters, parent);
+        Q_ASSERT(message.interface() == SIGNONUI_INTERFACE);
+        return SignOnUi::Request::newRequest(connection, message,
+                                             parameters, parent);
     }
 }
 #endif
@@ -155,10 +176,23 @@ Request::Request(const QDBusConnection &connection,
     QObject(parent),
     d_ptr(new RequestPrivate(connection, message, parameters, this))
 {
+    allRequests.append(this);
 }
 
 Request::~Request()
 {
+    allRequests.removeOne(this);
+}
+
+Request *Request::find(const QVariantMap &match)
+{
+    Q_FOREACH(Request *r, allRequests) {
+        if (mapIsSuperset(r->parameters(), match)) {
+            return r;
+        }
+    }
+
+    return 0;
 }
 
 void Request::setWindow(QWindow *window)
@@ -189,6 +223,12 @@ QString Request::clientApparmorProfile() const
 {
     Q_D(const Request);
     return d->m_clientApparmorProfile;
+}
+
+QWindow *Request::window() const
+{
+    Q_D(const Request);
+    return d->m_window;
 }
 
 void Request::start()

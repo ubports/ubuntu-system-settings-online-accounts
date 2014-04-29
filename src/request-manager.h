@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2014 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -18,33 +18,40 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OAU_SERVICE_H
-#define OAU_SERVICE_H
+#ifndef OAU_REQUEST_MANAGER_H
+#define OAU_REQUEST_MANAGER_H
 
-#include <QDBusContext>
 #include <QObject>
 #include <QVariantMap>
 
 namespace OnlineAccountsUi {
 
-class ServicePrivate;
+class Request;
+class RequestManagerPrivate;
 
-class Service: public QObject, protected QDBusContext
+class RequestManager: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool isIdle READ isIdle NOTIFY isIdleChanged)
 
 public:
-    explicit Service(QObject *parent = 0);
-    ~Service();
+    explicit RequestManager(QObject *parent = 0);
+    ~RequestManager();
 
-public Q_SLOTS:
-    QVariantMap requestAccess(const QVariantMap &options);
+    static RequestManager *instance();
+
+    void enqueue(Request *request);
+
+    bool isIdle() const;
+
+Q_SIGNALS:
+    void isIdleChanged();
 
 private:
-    ServicePrivate *d_ptr;
-    Q_DECLARE_PRIVATE(Service)
+    RequestManagerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(RequestManager)
 };
 
 } // namespace
 
-#endif // OAU_SERVICE_H
+#endif // OAU_REQUEST_MANAGER_H

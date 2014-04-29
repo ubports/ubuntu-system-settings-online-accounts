@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * This file is part of signon-ui
+ *
+ * Copyright (C) 2011-2014 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
- *
- * This file is part of online-accounts-ui
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -18,19 +18,17 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OAU_REQUEST_H
-#define OAU_REQUEST_H
+#ifndef SIGNON_UI_REQUEST_H
+#define SIGNON_UI_REQUEST_H
 
-#include <QDBusConnection>
-#include <QDBusMessage>
-#include <QObject>
-#include <QVariantMap>
-#include <QWindow>
+#include "request.h"
 
-namespace OnlineAccountsUi {
+namespace SignOnUi {
 
+class RequestHandler;
 class RequestPrivate;
-class Request: public QObject
+
+class Request: public OnlineAccountsUi::Request
 {
     Q_OBJECT
 
@@ -41,32 +39,26 @@ public:
                                QObject *parent = 0);
     ~Request();
 
-    static Request *find(const QVariantMap &match);
+    static QString id(const QVariantMap &parameters);
+    QString id() const;
 
-    WId windowId() const;
-    bool isInProgress() const;
-    const QVariantMap &parameters() const;
-    QString clientApparmorProfile() const;
-    QWindow *window() const;
+    uint identity() const;
+    QString method() const;
+    QString mechanism() const;
 
-public Q_SLOTS:
-    virtual void start();
-    void cancel();
+    const QVariantMap &clientData() const;
 
-Q_SIGNALS:
-    void completed();
+    void setHandler(RequestHandler *handler);
+    RequestHandler *handler() const;
+    bool hasHandler() const { return handler() != 0; }
 
 protected:
     explicit Request(const QDBusConnection &connection,
                      const QDBusMessage &message,
                      const QVariantMap &parameters,
                      QObject *parent = 0);
-    virtual void setWindow(QWindow *window);
-
-protected Q_SLOTS:
-    void fail(const QString &name, const QString &message);
-    virtual void setCanceled();
-    void setResult(const QVariantMap &result);
+    virtual void setWindow(QWindow *window) Q_DECL_OVERRIDE;
+    virtual void setCanceled() Q_DECL_OVERRIDE;
 
 private:
     RequestPrivate *d_ptr;
@@ -75,4 +67,5 @@ private:
 
 } // namespace
 
-#endif // OAU_REQUEST_H
+#endif // SIGNON_UI_REQUEST_H
+

@@ -54,8 +54,7 @@ SOURCES += \
     request-manager.cpp \
     service.cpp \
     signonui-request.cpp \
-    signonui-service.cpp \
-    webcredentials_interface.cpp
+    signonui-service.cpp
 
 HEADERS += \
     access-model.h \
@@ -75,8 +74,7 @@ HEADERS += \
     request-manager.h \
     service.h \
     signonui-request.h \
-    signonui-service.h \
-    webcredentials_interface.h
+    signonui-service.h
 
 QML_SOURCES = \
     qml/AccountCreationPage.qml \
@@ -105,12 +103,8 @@ QMAKE_SUBSTITUTES += \
     com.ubuntu.OnlineAccountsUi.service.in \
     online-accounts-ui.desktop.in
 
-SIGNONUI_DBUS_ADAPTORS += \
+DBUS_ADAPTORS += \
     com.canonical.indicators.webcredentials.xml
-SIGNONUI_DBUS_INCLUDES += \
-    indicator-service.h
-
-include(signonui_dbus_adaptor.pri)
 
 service.path = $${INSTALL_PREFIX}/share/dbus-1/services
 service.files = \

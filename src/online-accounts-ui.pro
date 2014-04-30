@@ -100,6 +100,7 @@ OTHER_FILES += \
 
 QMAKE_SUBSTITUTES += \
     com.canonical.indicators.webcredentials.service.in \
+    com.nokia.singlesignonui.service.in \
     com.ubuntu.OnlineAccountsUi.service.in \
     online-accounts-ui.desktop.in
 

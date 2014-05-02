@@ -1,3 +1,9 @@
+ubuntu-system-settings-online-accounts (0.3+14.04.20140501-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Complete the service-side implementation of the access request API.
+
+ -- Alberto Mardegan <alberto.mardegan@canonical.com>  Fri, 02 May 2014 13:38:41 +0300
+
 ubuntu-system-settings-online-accounts (0.3+14.04.20140328-0ubuntu1) trusty; urgency=low
 
   [ Alberto Mardegan ]

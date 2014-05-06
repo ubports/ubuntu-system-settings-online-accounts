@@ -39,7 +39,14 @@ Page {
         property var account: account
 
         anchors.fill: parent
-        source: qmlPluginPath + account.provider.id + "/Main.qml"
+        source: localQmlPluginPath + account.provider.id + "/Main.qml"
+
+        onStatusChanged: {
+            if (loader.status == Loader.Error) {
+                loader.source = systemQmlPluginPath + account.provider.id + "/Main.qml"
+            }
+        }
+
 
         Connections {
             target: loader.item

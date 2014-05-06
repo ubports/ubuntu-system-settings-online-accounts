@@ -9,6 +9,10 @@ qrc_*.cpp
 *_interface.cpp
 *_interface.h
 /access-control-service/access-control-service
+/click-hooks/account-application.hook
+/click-hooks/account-provider.hook
+/click-hooks/account-service.hook
+/click-hooks/online-accounts-hooks
 /client/OnlineAccountsClient/OnlineAccountsClient.pc
 /client/OnlineAccountsClient/libonline-accounts-client.so*
 /client/doc/html/*
@@ -33,6 +37,7 @@ qrc_*.cpp
 /src/module/qmldir
 /src/online-accounts-ui.desktop
 /src/online-accounts-ui
+/tests/click-hooks/tst_online_accounts_hooks
 /tests/client/tst_client
 /tests/client/tst_qml_client
 /tests/online-accounts-ui/qml/tst_online_accounts_qml

@@ -1,8 +1,12 @@
-ubuntu-system-settings-online-accounts (0.3+14.04.20140501-0ubuntu1) UNRELEASED; urgency=medium
+ubuntu-system-settings-online-accounts (0.3+14.10.20140506.1-0ubuntu1) utopic; urgency=medium
 
+  [ Alberto Mardegan ]
   * Complete the service-side implementation of the access request API.
 
- -- Alberto Mardegan <alberto.mardegan@canonical.com>  Fri, 02 May 2014 13:38:41 +0300
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 06 May 2014 12:50:51 +0000
 
 ubuntu-system-settings-online-accounts (0.3+14.04.20140328-0ubuntu3) trusty; urgency=medium
 

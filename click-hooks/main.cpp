@@ -18,6 +18,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <Accounts/Manager>
 #include <QCoreApplication>
 #include <QDebug>
 #include <QDir>
@@ -152,6 +153,13 @@ int main(int argc, char **argv)
         xml.addProfile(appId);
         xml.writeTo(destination);
     }
+
+    /* To ensure that all the installed services are parsed into
+     * libaccounts' DB, we enumerate them now.
+     */
+    Accounts::Manager *manager = new Accounts::Manager;
+    manager->serviceList();
+    delete manager;
 
     return EXIT_SUCCESS;
 }

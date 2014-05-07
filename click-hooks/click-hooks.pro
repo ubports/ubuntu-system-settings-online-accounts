@@ -4,10 +4,14 @@ TEMPLATE = app
 TARGET = online-accounts-hooks
 
 CONFIG += \
+    link_pkgconfig \
     qt
 
 QT += \
     xml
+
+PKGCONFIG += \
+    accounts-qt5
 
 SOURCES += \
     main.cpp

@@ -1,3 +1,9 @@
+ubuntu-system-settings-online-accounts (0.3+14.10.20140508-0ubuntu1) UNRELEASED; urgency=medium
+
+  * Complete the service-side implementation of the access request API.
+
+ -- Alberto Mardegan <alberto.mardegan@canonical.com>  Fri, 02 May 2014 13:38:41 +0300
+
 ubuntu-system-settings-online-accounts (0.3+14.04.20140328-0ubuntu3) trusty; urgency=medium
 
   * debian/control: alternatively depend on the OpenGLES version of
@@ -49,6 +55,12 @@ ubuntu-system-settings-online-accounts (0.3+14.04.20140304-0ubuntu1) trusty; urg
     system-wide directory.
 
  -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 04 Mar 2014 15:12:42 +0000
+
+ubuntu-system-settings-online-accounts (0.3-0ubuntu1) UNRELEASED; urgency=low
+
+  * Implement access request API for applications.
+
+ -- Alberto Mardegan <alberto.mardegan@canonical.com>  Tue, 12 Nov 2013 14:44:35 +0200
 
 ubuntu-system-settings-online-accounts (0.2~+14.04.20131205-0ubuntu1) trusty; urgency=low
 

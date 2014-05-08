@@ -1,4 +1,4 @@
-ubuntu-system-settings-online-accounts (0.3+14.04.20140501-0ubuntu1) UNRELEASED; urgency=medium
+ubuntu-system-settings-online-accounts (0.3+14.10.20140508-0ubuntu1) UNRELEASED; urgency=medium
 
   * Complete the service-side implementation of the access request API.
 

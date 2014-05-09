@@ -24,6 +24,9 @@ import Ubuntu.OnlineAccounts 0.1
 Item {
     property variant accountServiceHandle
 
+    signal applicationAdded(string applicationId)
+    signal applicationRemoved(string applicationId)
+
     anchors.left: parent.left
     anchors.right: parent.right
     height: childrenRect.height
@@ -45,6 +48,11 @@ Item {
                 checked: accountService.serviceEnabled
                 onCheckedChanged: {
                     if (checked != accountService.serviceEnabled) {
+                        if (checked) {
+                            applicationAdded(model.applicationId)
+                        } else {
+                            applicationRemoved(model.applicationId)
+                        }
                         accountService.updateServiceEnabled(checked)
                     }
                 }

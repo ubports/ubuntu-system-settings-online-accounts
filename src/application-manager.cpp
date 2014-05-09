@@ -23,8 +23,11 @@
 #include "debug.h"
 
 #include <Accounts/Application>
+#include <QDomDocument>
+#include <QDomElement>
 #include <QFile>
 #include <QSettings>
+#include <QStandardPaths>
 
 using namespace OnlineAccountsUi;
 
@@ -36,13 +39,41 @@ class ApplicationManagerPrivate
 public:
     ApplicationManagerPrivate();
 
+    QString applicationProfile(const QString &applicationId) const;
     bool applicationMatchesProfile(const Accounts::Application &application,
                                    const QString &profile) const;
+    static QString stripVersion(const QString &appId);
 };
 } // namespace
 
 ApplicationManagerPrivate::ApplicationManagerPrivate()
 {
+}
+
+QString ApplicationManagerPrivate::applicationProfile(const QString &applicationId) const
+{
+    /* We need to load the XML file and look for the "profile" element. The
+     * file lookup would become unnecessary if a domDocument() method were
+     * added to the Accounts::Application class. */
+    QString localShare =
+        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    QFile file(QString("%1/accounts/applications/%2.application").
+               arg(localShare).arg(applicationId));
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        DEBUG() << "file not found:" << file.fileName();
+        /* libaccounts would fall back to looking into /usr/share/accounts/,
+         * but we know that .click packages don't install files in there, and
+         * currently the profile information is only attached to click
+         * applications. Therefore, if we don't find the file in
+         * ~/.local/share/accounts/, we can assume we won't find the profile
+         * info anywhere.
+         */
+        return QString();
+    }
+    QDomDocument doc;
+    doc.setContent(&file);
+    const QDomElement root = doc.documentElement();
+    return root.firstChildElement(QStringLiteral("profile")).text();
 }
 
 bool ApplicationManagerPrivate::applicationMatchesProfile(const Accounts::Application &application,
@@ -53,31 +84,24 @@ bool ApplicationManagerPrivate::applicationMatchesProfile(const Accounts::Applic
 
     /* It's a confined app. We must make sure that the applicationId it
      * specified matches the apparmor profile.
+     */
+    QString declaredProfile = applicationProfile(application.name());
+    return declaredProfile == profile;
+}
+
+QString ApplicationManagerPrivate::stripVersion(const QString &appId)
+{
+    QStringList components = appId.split('_');
+    if (components.count() != 3) return QString();
+
+    /* Click packages have a profile of the form
+     *  $name_$application_$version
+     * (see https://wiki.ubuntu.com/SecurityTeam/Specifications/ApplicationConfinement/Manifest#Click)
      *
-     * For click packages, this is relatively easy: we load the .desktop
-     * file and checks whether the profile declared in the
-     * X-Ubuntu-Application-ID field is the same we are seeing.
-     * If we cannot determine that, then we assume that the application is not
-     * a click package, and we don't restrict it. */
-    QString desktopFilePath = application.desktopFilePath();
-    if (!QFile::exists(desktopFilePath)) {
-        DEBUG() << "Desktop file not found:" << desktopFilePath;
-        /* Every app, be it click or a package from the archive, should have a
-         * desktop file. If we don't find it, something is likely to be wrong
-         * and it's safer not to continue. */
-        return false;
-    }
-
-    QSettings desktopFile(desktopFilePath, QSettings::IniFormat);
-    QString appId =
-        desktopFile.value(QStringLiteral("Desktop Entry/X-Ubuntu-Application-ID")).
-        toString();
-    if (appId.isEmpty()) {
-        // non click package?
-        return true;
-    }
-
-    return appId == profile;
+     * We assume that this is a click package, and strip out the last part.
+     */
+    components.removeLast();
+    return components.join('_');
 }
 
 ApplicationManager *ApplicationManager::instance()
@@ -154,4 +178,43 @@ QVariantMap ApplicationManager::providerInfo(const QString &providerId) const
     info.insert(QStringLiteral("displayName"), provider.displayName());
     info.insert(QStringLiteral("icon"), provider.iconName());
     return info;
+}
+
+QStringList
+ApplicationManager::addApplicationToAcl(const QStringList &acl,
+                                        const QString &applicationId) const
+{
+    Q_D(const ApplicationManager);
+
+    QStringList newAcl = acl;
+    QString profile = d->applicationProfile(applicationId);
+    DEBUG() << "profile of" << applicationId << ":" << profile;
+    if (!profile.isEmpty()) {
+        newAcl.append(profile);
+    }
+    return newAcl;
+}
+
+QStringList
+ApplicationManager::removeApplicationFromAcl(const QStringList &acl,
+                                             const QString &applicationId) const
+{
+    Q_D(const ApplicationManager);
+
+    QString profile = d->applicationProfile(applicationId);
+    if (profile.isEmpty()) {
+        return acl;
+    }
+
+    QStringList newAcl;
+    QString unversionedProfile =
+        ApplicationManagerPrivate::stripVersion(profile);
+    Q_FOREACH(const QString &app, acl) {
+        if (app != profile &&
+            (unversionedProfile.isEmpty() ||
+             !acl.startsWith(unversionedProfile))) {
+            newAcl.append(app);
+        }
+    }
+    return newAcl;
 }

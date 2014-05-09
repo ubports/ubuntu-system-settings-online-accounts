@@ -86,11 +86,11 @@ Section: debug
 Priority: extra
 Depends: ${misc:Depends},
          ${python:Depends},
-         autopilot-desktop,
          autopilot-qt5,
          ubuntu-system-settings-online-accounts (>= ${binary:Version}),
          uoa-integration-tests,
          libqt5test5,
+         python-autopilot,
 Description: Online Accounts setup for Ubuntu Touch - tests
  Online Accounts setup utility for the Ubuntu Touch System Settings.
  .

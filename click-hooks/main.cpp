@@ -51,18 +51,23 @@ public:
     void checkId(const QString &shortAppId);
     void addProfile(const QString &appId);
     bool writeTo(const QString &fileName) const;
+    bool isValid() const { return m_isValid; }
 
 private:
     QFileInfo m_hookFileInfo;
+    bool m_isValid;
 };
 
 LibAccountsFile::LibAccountsFile(const QFileInfo &hookFileInfo):
     QDomDocument(),
-    m_hookFileInfo(hookFileInfo)
+    m_hookFileInfo(hookFileInfo),
+    m_isValid(false)
 {
     QFile file(hookFileInfo.filePath());
     if (file.open(QIODevice::ReadOnly)) {
-        setContent(&file);
+        if (setContent(&file)) {
+            m_isValid = true;
+        }
         file.close();
     }
 }
@@ -147,7 +152,7 @@ int main(int argc, char **argv)
         if (QFile::exists(destination)) continue;
 
         LibAccountsFile xml = LibAccountsFile(fileInfo);
-        if (xml.isNull()) continue;
+        if (!xml.isValid()) continue;
 
         xml.checkId(shortAppId);
         xml.addProfile(appId);

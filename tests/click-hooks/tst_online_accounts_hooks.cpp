@@ -124,6 +124,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
     QTest::addColumn<QString>("contents");
     QTest::addColumn<QString>("installedName");
     QTest::addColumn<QString>("profile");
+    QTest::addColumn<bool>("isValid");
 
     QTest::newRow("service") <<
         "com.ubuntu.test_MyApp_0.1.service" <<
@@ -134,7 +135,8 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "  <provider>example</provider>\n"
         "</service>" <<
         "services/com.ubuntu.test_MyApp.service" <<
-        "com.ubuntu.test_MyApp_0.1";
+        "com.ubuntu.test_MyApp_0.1" <<
+        true;
 
     QTest::newRow("application") <<
         "com.ubuntu.test_MyApp_0.2.application" <<
@@ -146,7 +148,8 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "  </service-types>\n"
         "</application>" <<
         "applications/com.ubuntu.test_MyApp.application" <<
-        "com.ubuntu.test_MyApp_0.2";
+        "com.ubuntu.test_MyApp_0.2" <<
+        true;
 
     QTest::newRow("provider") <<
         "com.ubuntu.test_Plugin_0.1.provider" <<
@@ -155,7 +158,34 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "  <name>My provider</name>\n"
         "</provider>" <<
         "providers/com.ubuntu.test_Plugin.provider" <<
-        "com.ubuntu.test_Plugin_0.1";
+        "com.ubuntu.test_Plugin_0.1" <<
+        true;
+
+    QTest::newRow("invalid application") <<
+        "com.ubuntu.test_Invalid_0.1.application" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application>\n"
+        "  <description>My application</description>\n"
+        "  <service-types>\n"
+        "    <service-type>some type</service-type>\n"
+        "  </service-types>\n"
+        "</application /* invalid XML!" <<
+        "applications/com.ubuntu.test_Invalid.application" <<
+        "com.ubuntu.test_Invalid_0.1" <<
+        false;
+
+    QTest::newRow("application with wrong id") <<
+        "com.ubuntu.test_MyAppId_0.1.application" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"wrongid\">\n"
+        "  <description>My application</description>\n"
+        "  <service-types>\n"
+        "    <service-type>some type</service-type>\n"
+        "  </service-types>\n"
+        "</application>" <<
+        "applications/com.ubuntu.test_MyAppId.application" <<
+        "com.ubuntu.test_MyAppId_0.1" <<
+        true;
 }
 
 void OnlineAccountsHooksTest::testValidHooks()
@@ -164,13 +194,16 @@ void OnlineAccountsHooksTest::testValidHooks()
     QFETCH(QString, contents);
     QFETCH(QString, installedName);
     QFETCH(QString, profile);
+    QFETCH(bool, isValid);
 
     writeHookFile(hookName, contents);
     QVERIFY(runHookProcess());
 
-    // check that the file has been created
+    // check that the file has been created, if the file was valid
     QFileInfo fileInfo(m_installDir.absoluteFilePath(installedName));
-    QVERIFY(fileInfo.exists());
+    QCOMPARE(fileInfo.exists(), isValid);
+
+    if (!isValid) return;
 
     QFile file(fileInfo.absoluteFilePath());
     QVERIFY(file.open(QIODevice::ReadOnly));

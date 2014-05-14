@@ -132,15 +132,14 @@ QVariantMap ApplicationManager::applicationInfo(const QString &claimedAppId,
     if (Q_UNLIKELY(profile.isEmpty())) return QVariantMap();
 
     QString applicationId = claimedAppId;
-    if (profile.startsWith(applicationId)) {
-        /* Click packages might declare just the package name as application
-         * ID, but in order to find the correct application file we need the
-         * complete ID (with application title and version. */
-        applicationId = profile;
-    }
-
     Accounts::Application application =
         AccountManager::instance()->application(applicationId);
+    if (!application.isValid() && profile.startsWith(applicationId)) {
+        /* Handle the case where in the future we might decide to use the full
+         * profile (including the version number) as application id. */
+        applicationId = profile;
+        application = AccountManager::instance()->application(applicationId);
+    }
 
     /* Make sure that the app is who it claims to be */
     if (!d->applicationMatchesProfile(application, profile)) {

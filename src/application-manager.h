@@ -25,6 +25,8 @@
 #include <QStringList>
 #include <QVariantMap>
 
+class ApplicationManagerTest;
+
 namespace OnlineAccountsUi {
 
 class ApplicationManagerPrivate;
@@ -52,6 +54,7 @@ private:
     static ApplicationManager *m_instance;
     ApplicationManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(ApplicationManager)
+    friend class ::ApplicationManagerTest;
 };
 
 } // namespace

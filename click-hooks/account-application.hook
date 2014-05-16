@@ -1,2 +1,0 @@
-User-Level: yes
-Pattern: ${home}/.local/share/accounts/applications/${id}.application

@@ -1,2 +1,0 @@
-Pattern: ${home}/.local/share/accounts/providers/${short-id}.provider
-User-Level: yes

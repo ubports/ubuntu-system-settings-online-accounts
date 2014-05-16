@@ -77,7 +77,7 @@ class OnlineAccountsUiTests(AutopilotTestCase):
 
         header = self.window.select_single('Header', visible=True)
         self.assertThat(header, NotEquals(None))
-        self.assertThat(header.title, Eventually(Equals('Online Accounts')))
+        self.assertThat(header.title, Eventually(Equals('Accounts')))
 
     def test_available_providers(self):
         """ Checks whether all the expected providers are available """

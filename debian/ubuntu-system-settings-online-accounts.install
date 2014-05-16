@@ -1,3 +1,4 @@
+usr/bin/online-accounts-hooks
 usr/bin/online-accounts-ui
 usr/lib/*/pkgconfig/OnlineAccountsPlugin.pc
 usr/lib/*/ubuntu-system-settings

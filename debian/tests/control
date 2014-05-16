@@ -1,2 +1,3 @@
 Tests: autopilot
-Depends: @, autopilot-desktop-legacy
+Depends: @, autopilot-desktop-legacy, dbus-x11, xvfb
+Restrictions: allow-stderr

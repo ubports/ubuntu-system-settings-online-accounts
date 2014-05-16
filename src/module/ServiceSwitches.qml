@@ -39,10 +39,38 @@ Column {
         account: root.account.objectHandle
     }
 
+    AccountService {
+        id: globalAccountService
+        objectHandle: root.account.accountServiceHandle
+    }
+
+    Credentials {
+        id: credentials
+        credentialsId: globalAccountService.authData.credentialsId
+    }
+
     Repeater {
         model: accountServices
         delegate: ServiceItem {
             accountServiceHandle: model.accountServiceHandle
+            onApplicationAdded: {
+                var newAcl = ApplicationManager.addApplicationToAcl(credentials.acl,
+                                                                    applicationId)
+                if (newAcl != credentials.acl) {
+                    credentials.acl = newAcl
+                    credentials.sync()
+                }
+            }
+
+            onApplicationRemoved: {
+                var newAcl =
+                    ApplicationManager.removeApplicationFromAcl(credentials.acl,
+                                                                applicationId)
+                if (newAcl != credentials.acl) {
+                    credentials.acl = newAcl
+                    credentials.sync()
+                }
+            }
         }
     }
 }

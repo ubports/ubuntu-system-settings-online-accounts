@@ -1,2 +1,2 @@
 Tests: autopilot
-Depends: @
+Depends: @, autopilot-desktop-legacy

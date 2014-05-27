@@ -2,5 +2,5 @@
 
 set -e
 
-dbus-launch --exit-with-session xvfb-run -s '-screen 0 1024x768x24' autopilot run online_accounts_ui
+autopilot3-sandbox-run -v online_accounts_ui
 

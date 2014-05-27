@@ -18,4 +18,4 @@ override_dh_install:
 	dh_install --fail-missing
 
 %:
-	dh $@ --with python2
+	dh $@ --with python3

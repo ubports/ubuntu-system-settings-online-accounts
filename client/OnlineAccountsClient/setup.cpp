@@ -27,6 +27,7 @@
 #include <QDBusConnection>
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
+#include <QDesktopServices>
 #include <QGuiApplication>
 #include <QWindow>
 #include <climits>
@@ -108,6 +109,10 @@ void SetupPrivate::exec()
     QObject::connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
                      this,
                      SLOT(onRequestAccessReply(QDBusPendingCallWatcher*)));
+    /* FIXME HACK: remove when window reparenting is implemented */
+    if (QGuiApplication::platformName().startsWith("ubuntu")) {
+        QDesktopServices::openUrl(QUrl("application:///online-accounts-ui"));
+    }
 }
 
 QWindow *SetupPrivate::clientWindow() const

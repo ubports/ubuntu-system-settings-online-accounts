@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * This file is part of online-accounts-ui
+ *
+ * Copyright (C) 2014 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
- *
- * This file is part of online-accounts-ui
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -18,33 +18,45 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OAU_SERVICE_H
-#define OAU_SERVICE_H
+#ifndef SIGNON_UI_DIALOG_H
+#define SIGNON_UI_DIALOG_H
 
-#include <QDBusContext>
 #include <QObject>
-#include <QVariantMap>
+#include <QQuickView>
 
-namespace OnlineAccountsUi {
+namespace SignOnUi {
 
-class ServicePrivate;
-
-class Service: public QObject, protected QDBusContext
+class Dialog: public QQuickView
 {
     Q_OBJECT
 
 public:
-    explicit Service(QObject *parent = 0);
-    ~Service();
+    enum DialogCode {
+        Rejected = 0,
+        Accepted,
+    };
+    enum ShowMode {
+        TopLevel = 0,
+        Transient,
+        Embedded,
+    };
+    explicit Dialog(QWindow *parent = 0);
+    ~Dialog();
+
+    void show(WId parent, ShowMode mode);
 
 public Q_SLOTS:
-    QVariantMap requestAccess(const QVariantMap &options);
+    void accept();
+    void reject();
+    void done(int result);
 
-private:
-    ServicePrivate *d_ptr;
-    Q_DECLARE_PRIVATE(Service)
+Q_SIGNALS:
+    void finished(int result);
+
+protected:
+    bool event(QEvent *e);
 };
 
 } // namespace
 
-#endif // OAU_SERVICE_H
+#endif // SIGNON_UI_DIALOG_H

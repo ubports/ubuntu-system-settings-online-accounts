@@ -15,12 +15,17 @@ QT += \
     quick
 
 PKGCONFIG += \
-    accounts-qt5
+    accounts-qt5 \
+    libnotify \
+    libsignon-qt5 \
+    signon-plugins-common
 
 I18N_DOMAIN="ubuntu-system-settings-online-accounts"
+SIGNONUI_I18N_DOMAIN="signon-ui"
 
 DEFINES += \
-    I18N_DOMAIN=\\\"$${I18N_DOMAIN}\\\"
+    I18N_DOMAIN=\\\"$${I18N_DOMAIN}\\\" \
+    SIGNONUI_I18N_DOMAIN=\\\"$${SIGNONUI_I18N_DOMAIN}\\\"
 
 DBUS_ADAPTORS += \
     com.ubuntu.OnlineAccountsUi.xml
@@ -34,26 +39,42 @@ SOURCES += \
     access-model.cpp \
     account-manager.cpp \
     application-manager.cpp \
+    browser-request.cpp \
     debug.cpp \
+    dialog.cpp \
     i18n.cpp \
     inactivity-timer.cpp \
+    indicator-service.cpp \
     main.cpp \
     panel-request.cpp \
     provider-request.cpp \
+    reauthenticator.cpp \
     request.cpp \
-    service.cpp
+    request-handler.cpp \
+    request-manager.cpp \
+    service.cpp \
+    signonui-request.cpp \
+    signonui-service.cpp
 
 HEADERS += \
     access-model.h \
     account-manager.h \
     application-manager.h \
+    browser-request.h \
     debug.h \
+    dialog.h \
     i18n.h \
     inactivity-timer.h \
+    indicator-service.h \
     panel-request.h \
     provider-request.h \
+    reauthenticator.h \
     request.h \
-    service.h
+    request-handler.h \
+    request-manager.h \
+    service.h \
+    signonui-request.h \
+    signonui-service.h
 
 QML_SOURCES = \
     qml/AccountCreationPage.qml \
@@ -78,11 +99,18 @@ OTHER_FILES += \
     $${RESOURCES}
 
 QMAKE_SUBSTITUTES += \
+    com.canonical.indicators.webcredentials.service.in \
+    com.nokia.singlesignonui.service.in \
     com.ubuntu.OnlineAccountsUi.service.in \
     online-accounts-ui.desktop.in
 
+DBUS_ADAPTORS += \
+    com.canonical.indicators.webcredentials.xml
+
 service.path = $${INSTALL_PREFIX}/share/dbus-1/services
 service.files = \
+    com.canonical.indicators.webcredentials.service \
+    com.nokia.singlesignonui.service \
     com.ubuntu.OnlineAccountsUi.service
 INSTALLS += service
 

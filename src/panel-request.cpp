@@ -105,7 +105,7 @@ void PanelRequestPrivate::onWindowVisibleChanged(bool visible)
         q->setResult(QVariantMap());
         /* FIXME HACK: remove when window reparenting is implemented */
         if (QGuiApplication::platformName().startsWith("ubuntu")) {
-            QDesktopServices::openUrl(QUrl("application:///system-settings"));
+            QDesktopServices::openUrl(QUrl("application:///ubuntu-system-settings.desktop"));
         }
     }
 }
@@ -128,6 +128,11 @@ void PanelRequest::start()
     Q_D(PanelRequest);
     Request::start();
     d->start();
+}
+
+bool PanelRequest::allowMultiple() const
+{
+    return false;
 }
 
 #include "panel-request.moc"

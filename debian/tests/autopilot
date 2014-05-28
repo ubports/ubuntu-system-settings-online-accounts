@@ -2,5 +2,5 @@
 
 set -e
 
-autopilot3-sandbox-run -v online_accounts_ui
+autopilot3-sandbox-run -a '-v' online_accounts_ui
 

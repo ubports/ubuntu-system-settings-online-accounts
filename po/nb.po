@@ -1,16 +1,16 @@
-# Polish translation for ubuntu-system-settings-online-accounts
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# Norwegian Bokmal translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2013-10-13 13:23+0000\n"
-"Last-Translator: GTriderXC <gtriderxc@yahoo.com>\n"
-"Language-Team: Polish <pl@li.org>\n"
+"PO-Revision-Date: 2014-05-15 17:09+0000\n"
+"Last-Translator: Åka Sikrom <Unknown>\n"
+"Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,39 +19,39 @@ msgstr ""
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
-msgstr "Nazwa użytkownika"
+msgstr "Brukernavn"
 
 #: ../plugins/example/Main.qml:39
 msgid "Password"
-msgstr "Hasło"
+msgstr "Passord"
 
 #: ../src/AccountsPage.qml:53
 msgid "Add account…"
-msgstr "Dodaj konto..."
+msgstr "Legg til konto …"
 
 #: ../src/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
-"Zapamiętane tutaj dane logowania pozwolą aplikacjom logować się "
-"automatycznie na konta użytkownika"
+"Hvis du lagrer kontoinformasjon her, kan programmer bruke kontoene uten at "
+"du må logge inn på hver av dem, hver gang."
 
 #: ../src/NewAccountPage.qml:23
 msgid "Add account"
-msgstr "Dodanie konta"
+msgstr "Legg til konto"
 
 #: ../src/NoAccountsPage.qml:36
 msgid "No accounts"
-msgstr "Brak kont"
+msgstr "Ingen kontoer"
 
 #: ../src/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr "Dodaj konto:"
+msgstr "Legg til konto:"
 
 #: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
 msgid "Cancel"
-msgstr "Anuluj"
+msgstr "Avbryt"
 
 #: ../src/module/Options.qml:36
 msgid "ID"
@@ -59,11 +59,11 @@ msgstr "ID"
 
 #: ../src/module/Options.qml:54
 msgid "Remove account…"
-msgstr "Usunięcie konta..."
+msgstr "Fjern konto …"
 
 #: ../src/module/RemovalConfirmation.qml:32
 msgid "Remove account"
-msgstr "Usuń konto"
+msgstr "Fjern konto"
 
 #: ../src/module/RemovalConfirmation.qml:33
 #, qt-format
@@ -71,17 +71,17 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
-"Konto %1 zostanie usunięte tylko z telefonu. W przyszłości można je dodać "
-"ponownie."
+"%1-kontoen blir bare fjernet fra telefonen. Du kan legge den til igjen "
+"senere."
 
 #: ../src/module/RemovalConfirmation.qml:36
 msgid "Remove"
-msgstr "Usuń"
+msgstr "Fjern"
 
 #: ../src/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr "Dostęp do tego konta:"
+msgstr "Kontotilgang:"
 
 #: ../.build/settings.js:1
 msgid "Accounts"
-msgstr "Konta"
+msgstr "Kontoer"

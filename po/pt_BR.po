@@ -8,60 +8,62 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2013-10-17 00:10+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2014-05-15 14:41+0000\n"
+"Last-Translator: Pablo Diego Moço <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-04-22 08:29+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-05-16 06:51+0000\n"
+"X-Generator: Launchpad (build 17007)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
-msgstr ""
+msgstr "Nome de usuário"
 
 #: ../plugins/example/Main.qml:39
 msgid "Password"
-msgstr ""
+msgstr "Senha"
 
 #: ../src/AccountsPage.qml:53
 msgid "Add account…"
-msgstr ""
+msgstr "Adicionar conta..."
 
 #: ../src/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
+"Armazenar detalhes da conta aqui permite que os aplicativos usem as contas "
+"sem que você tenha que entrar com as informações para cada aplicativo."
 
 #: ../src/NewAccountPage.qml:23
 msgid "Add account"
-msgstr ""
+msgstr "Adicionar conta"
 
 #: ../src/NoAccountsPage.qml:36
 msgid "No accounts"
-msgstr ""
+msgstr "Nenhuma conta"
 
 #: ../src/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr ""
+msgstr "Adicionar conta:"
 
 #: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: ../src/module/Options.qml:36
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: ../src/module/Options.qml:54
 msgid "Remove account…"
-msgstr ""
+msgstr "Remover conta…"
 
 #: ../src/module/RemovalConfirmation.qml:32
 msgid "Remove account"
-msgstr ""
+msgstr "Remover conta"
 
 #: ../src/module/RemovalConfirmation.qml:33
 #, qt-format
@@ -69,15 +71,17 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
+"A conta %1 será removida somente do seu telefone. Você pode adicioná-la "
+"novamente mais tarde."
 
 #: ../src/module/RemovalConfirmation.qml:36
 msgid "Remove"
-msgstr ""
+msgstr "Remover"
 
 #: ../src/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr ""
+msgstr "Acesso a essa conta:"
 
 #: ../.build/settings.js:1
 msgid "Accounts"
-msgstr ""
+msgstr "Contas"

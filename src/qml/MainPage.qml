@@ -24,14 +24,11 @@ MainView {
     id: root
     width: units.gu(48)
     height: units.gu(60)
+    useDeprecatedToolbar: false
 
     Component.onCompleted: {
         i18n.domain = "ubuntu-system-settings-online-accounts"
         pageStack.push(mainPage)
-        /* hack to force the visibility of the back button and make it close
-         * the window */
-        mainPage.tools.back.visible = true
-        mainPage.tools.back.triggered.connect(mainWindow.close)
     }
 
     PageStack {
@@ -40,6 +37,14 @@ MainView {
         Page {
             id: mainPage
             title: i18n.tr("Accounts")
+            tools: ToolbarItems {
+                back: ActionItem {
+                    action: Action {
+                        iconName: "back"
+                        onTriggered: mainWindow.close()
+                    }
+                }
+            }
 
             Loader {
                 id: loader

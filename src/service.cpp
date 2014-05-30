@@ -49,10 +49,6 @@ QVariantMap Service::requestAccess(const QVariantMap &options)
                                            options,
                                            this);
     if (request) {
-        if (!request->allowMultiple() && Request::find(options)) {
-            setDelayedReply(false);
-            return QVariantMap();
-        }
         RequestManager *manager = RequestManager::instance();
         manager->enqueue(request);
     } else {

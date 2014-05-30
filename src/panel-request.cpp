@@ -130,9 +130,4 @@ void PanelRequest::start()
     d->start();
 }
 
-bool PanelRequest::allowMultiple() const
-{
-    return false;
-}
-
 #include "panel-request.moc"

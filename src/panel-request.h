@@ -38,7 +38,6 @@ public:
     ~PanelRequest();
 
     void start() Q_DECL_OVERRIDE;
-    bool allowMultiple() const Q_DECL_OVERRIDE;
 
 private:
     PanelRequestPrivate *d_ptr;

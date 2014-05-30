@@ -49,8 +49,6 @@ public:
     QString clientApparmorProfile() const;
     QWindow *window() const;
 
-    virtual bool allowMultiple() const;
-
 public Q_SLOTS:
     virtual void start();
     void cancel();

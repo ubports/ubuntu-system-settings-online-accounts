@@ -231,11 +231,6 @@ QWindow *Request::window() const
     return d->m_window;
 }
 
-bool Request::allowMultiple() const
-{
-    return true;
-}
-
 void Request::start()
 {
     Q_D(Request);

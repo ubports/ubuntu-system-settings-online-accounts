@@ -20,6 +20,8 @@
 
 #include <OnlineAccountsClient/Setup>
 #include <QDebug>
+#include <QDesktopServices>
+#include <QGuiApplication>
 #include <QStringList>
 #include <SystemSettings/ItemBase>
 
@@ -36,13 +38,20 @@ public:
     QQmlComponent *pageComponent(QQmlEngine *engine,
                                  QObject *parent = 0) Q_DECL_OVERRIDE;
 
+private Q_SLOTS:
+    void onFinished();
+
 private:
     OnlineAccountsClient::Setup m_setup;
+    bool m_isOpen;
 };
 
 Item::Item(const QVariantMap &staticData, QObject *parent):
-    ItemBase(staticData, parent)
+    ItemBase(staticData, parent),
+    m_isOpen(false)
 {
+    QObject::connect(&m_setup, SIGNAL(finished()),
+                     this, SLOT(onFinished()));
 }
 
 Item::~Item()
@@ -54,9 +63,24 @@ QQmlComponent *Item::pageComponent(QQmlEngine *engine,
 {
     Q_UNUSED(engine);
     Q_UNUSED(parent);
-    qDebug() << "Opening Online Accounts";
-    m_setup.exec();
+
+    if (m_isOpen) {
+        qDebug() << "Raising Online Accounts";
+        /* FIXME HACK: remove when window reparenting is implemented */
+        if (QGuiApplication::platformName().startsWith("ubuntu")) {
+            QDesktopServices::openUrl(QUrl("application:///online-accounts-ui.desktop"));
+        }
+    } else {
+        qDebug() << "Opening Online Accounts";
+        m_isOpen = true;
+        m_setup.exec();
+    }
     return 0;
+}
+
+void Item::onFinished()
+{
+    m_isOpen = false;
 }
 
 Plugin::Plugin():

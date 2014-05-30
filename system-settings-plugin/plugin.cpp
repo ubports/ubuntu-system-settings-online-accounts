@@ -64,13 +64,12 @@ QQmlComponent *Item::pageComponent(QQmlEngine *engine,
     Q_UNUSED(engine);
     Q_UNUSED(parent);
 
-    if (m_isOpen) {
-        qDebug() << "Raising Online Accounts";
-        /* FIXME HACK: remove when window reparenting is implemented */
-        if (QGuiApplication::platformName().startsWith("ubuntu")) {
-            QDesktopServices::openUrl(QUrl("application:///online-accounts-ui.desktop"));
-        }
-    } else {
+    /* FIXME HACK: remove when window reparenting is implemented */
+    if (QGuiApplication::platformName().startsWith("ubuntu")) {
+        QDesktopServices::openUrl(QUrl("application:///online-accounts-ui.desktop"));
+    }
+
+    if (!m_isOpen) {
         qDebug() << "Opening Online Accounts";
         m_isOpen = true;
         m_setup.exec();

@@ -20,8 +20,6 @@
 
 #include <OnlineAccountsClient/Setup>
 #include <QDebug>
-#include <QDesktopServices>
-#include <QGuiApplication>
 #include <QStringList>
 #include <SystemSettings/ItemBase>
 
@@ -63,11 +61,6 @@ QQmlComponent *Item::pageComponent(QQmlEngine *engine,
 {
     Q_UNUSED(engine);
     Q_UNUSED(parent);
-
-    /* FIXME HACK: remove when window reparenting is implemented */
-    if (QGuiApplication::platformName().startsWith("ubuntu")) {
-        QDesktopServices::openUrl(QUrl("application:///online-accounts-ui.desktop"));
-    }
 
     if (!m_isOpen) {
         qDebug() << "Opening Online Accounts";

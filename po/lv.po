@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2014-01-11 17:04+0000\n"
+"PO-Revision-Date: 2014-05-22 20:32+0000\n"
 "Last-Translator: Jānis-Marks Gailis <jeanmarc.gailis@gmail.com>\n"
 "Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-04-22 08:29+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-05-23 09:12+0000\n"
+"X-Generator: Launchpad (build 17017)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -41,11 +41,11 @@ msgstr "Pievienot kontu"
 
 #: ../src/NoAccountsPage.qml:36
 msgid "No accounts"
-msgstr ""
+msgstr "Nav kontu"
 
 #: ../src/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr ""
+msgstr "Pievienot kontu:"
 
 #: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
 msgid "Cancel"
@@ -61,7 +61,7 @@ msgstr "Noņemt kontu..."
 
 #: ../src/module/RemovalConfirmation.qml:32
 msgid "Remove account"
-msgstr ""
+msgstr "Izņemt kontu"
 
 #: ../src/module/RemovalConfirmation.qml:33
 #, qt-format
@@ -69,15 +69,17 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
+"%1 konts tiks izdzēsts tikai no jūsu telefona. Jūs to varēsiet vēlāk atkal "
+"pievienot."
 
 #: ../src/module/RemovalConfirmation.qml:36
 msgid "Remove"
-msgstr ""
+msgstr "Izņemt"
 
 #: ../src/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr ""
+msgstr "Piekļūt šim kontam:"
 
 #: ../.build/settings.js:1
 msgid "Accounts"
-msgstr ""
+msgstr "Konti"

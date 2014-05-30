@@ -9,12 +9,15 @@ API_URI = "Ubuntu.OnlineAccounts.Plugin"
 PLUGIN_INSTALL_BASE = $${PLUGIN_PRIVATE_MODULE_DIR}/$$replace(API_URI, \\., /)
 
 QML_SOURCES = \
+    KeyboardRectangle.qml \
     OAuthMain.qml \
     OAuth.qml \
     Options.qml \
     RemovalConfirmation.qml \
     ServiceItem.qml \
-    ServiceSwitches.qml
+    ServiceSwitches.qml \
+    StandardAnimation.qml \
+    WebView.qml
 
 OTHER_FILES += $${QML_SOURCES}
 

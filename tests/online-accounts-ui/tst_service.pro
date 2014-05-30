@@ -16,6 +16,7 @@ DEFINES += \
 SOURCES += \
     $${TOP_BUILD_DIR}/src/onlineaccountsui_adaptor.cpp \
     $${TOP_SRC_DIR}/src/request.cpp \
+    $${TOP_SRC_DIR}/src/request-manager.cpp \
     $${TOP_SRC_DIR}/src/service.cpp \
     mock/qwindow.cpp \
     tst_service.cpp
@@ -23,6 +24,7 @@ SOURCES += \
 HEADERS += \
     $${TOP_BUILD_DIR}/src/onlineaccountsui_adaptor.h \
     $${TOP_SRC_DIR}/src/request.h \
+    $${TOP_SRC_DIR}/src/request-manager.h \
     $${TOP_SRC_DIR}/src/service.h \
     window-watcher.h
 

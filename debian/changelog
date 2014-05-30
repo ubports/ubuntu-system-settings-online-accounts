@@ -1,3 +1,22 @@
+ubuntu-system-settings-online-accounts (0.3+14.10.20140516.1-0ubuntu1) utopic; urgency=low
+
+  [ Martin Pitt ]
+  * Fix wrong title check in autopilot test. Run autopilot under Xvfb
+    and dbus-launch in the autopkgtest, and add missing autopilot-
+    desktop test dependency. (LP: #1320175)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 16 May 2014 12:29:42 +0000
+
+ubuntu-system-settings-online-accounts (0.3+14.10.20140506.1-0ubuntu1) utopic; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Complete the service-side implementation of the access request API.
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 06 May 2014 12:50:51 +0000
+
 ubuntu-system-settings-online-accounts (0.3+14.04.20140328-0ubuntu3) trusty; urgency=medium
 
   * debian/control: alternatively depend on the OpenGLES version of

@@ -23,6 +23,7 @@
 
 #define OAU_SERVICE_NAME    QStringLiteral("com.ubuntu.OnlineAccountsUi")
 #define OAU_OBJECT_PATH     QStringLiteral("/")
+#define OAU_INTERFACE       OAU_SERVICE_NAME
 
 #define OAU_KEY_APPLICATION         QStringLiteral("application")
 #define OAU_KEY_PROVIDER            QStringLiteral("provider")
@@ -37,5 +38,15 @@
     QStringLiteral(OAU_ERROR_PREFIX "InvalidParameters")
 #define OAU_ERROR_INVALID_APPLICATION \
     QStringLiteral(OAU_ERROR_PREFIX "InvalidApplication")
+
+/* SignOnUi service */
+#define SIGNONUI_SERVICE_NAME   QStringLiteral("com.nokia.singlesignonui")
+#define SIGNONUI_OBJECT_PATH    QStringLiteral("/SignonUi")
+#define SIGNONUI_INTERFACE      SIGNONUI_SERVICE_NAME
+
+#define SIGNON_UI_ERROR_PREFIX "com.ubuntu.SignonUi."
+
+#define SIGNON_UI_ERROR_INTERNAL \
+    QStringLiteral(SIGNON_UI_ERROR_PREFIX "InternalError")
 
 #endif // OAU_GLOBALS_H

@@ -32,19 +32,13 @@ class ServicePrivate;
 class Service: public QObject, protected QDBusContext
 {
     Q_OBJECT
-    Q_PROPERTY(bool isIdle READ isIdle NOTIFY isIdleChanged)
 
 public:
     explicit Service(QObject *parent = 0);
     ~Service();
 
-    bool isIdle() const;
-
 public Q_SLOTS:
     QVariantMap requestAccess(const QVariantMap &options);
-
-Q_SIGNALS:
-    void isIdleChanged();
 
 private:
     ServicePrivate *d_ptr;

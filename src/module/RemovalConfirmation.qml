@@ -32,6 +32,8 @@ Dialog {
     title: i18n.dtr("ubuntu-system-settings-online-accounts", "Remove account")
     text: i18n.dtr("ubuntu-system-settings-online-accounts", "The %1 account will be removed only from your phone. You can add it again later.").arg(accountName)
 
+    onVisibleChanged: if (!visible) closed()
+
     Button {
         text: i18n.dtr("ubuntu-system-settings-online-accounts", "Remove")
         onClicked: setConfirmed(true)
@@ -45,6 +47,5 @@ Dialog {
     function setConfirmed(isConfirmed) {
         confirmed = isConfirmed
         PopupUtils.close(root)
-        closed()
     }
 }

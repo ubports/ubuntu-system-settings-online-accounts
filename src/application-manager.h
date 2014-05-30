@@ -22,7 +22,10 @@
 #define OAU_APPLICATION_MANAGER_H
 
 #include <QObject>
+#include <QStringList>
 #include <QVariantMap>
+
+class ApplicationManagerTest;
 
 namespace OnlineAccountsUi {
 
@@ -38,6 +41,11 @@ public:
                                             const QString &profile);
     QVariantMap providerInfo(const QString &providerId) const;
 
+    Q_INVOKABLE QStringList addApplicationToAcl(const QStringList &acl,
+                                                const QString &appId) const;
+    Q_INVOKABLE QStringList removeApplicationFromAcl(const QStringList &acl,
+                                                     const QString &appId) const;
+
 protected:
     explicit ApplicationManager(QObject *parent = 0);
     ~ApplicationManager();
@@ -46,6 +54,7 @@ private:
     static ApplicationManager *m_instance;
     ApplicationManagerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(ApplicationManager)
+    friend class ::ApplicationManagerTest;
 };
 
 } // namespace

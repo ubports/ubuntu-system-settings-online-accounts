@@ -20,6 +20,7 @@
 
 #include "globals.h"
 #include "request.h"
+#include "request-manager.h"
 #include "service.h"
 #include "window-watcher.h"
 
@@ -160,6 +161,7 @@ protected Q_SLOTS:
     void onNewConnection(const QDBusConnection &connection);
 
 private:
+    RequestManager m_requestManager;
     Service m_service;
     QDBusConnection m_connection;
 };
@@ -231,9 +233,9 @@ void ServiceTest::testFailure()
 
 void ServiceTest::testIdle()
 {
-    QCOMPARE(m_service.isIdle(), true);
+    QCOMPARE(m_requestManager.isIdle(), true);
 
-    QSignalSpy isIdleChanged(&m_service, SIGNAL(isIdleChanged()));
+    QSignalSpy isIdleChanged(&m_requestManager, SIGNAL(isIdleChanged()));
 
     QVariantMap parameters;
     parameters.insert(keyTimeout, 10);
@@ -241,12 +243,12 @@ void ServiceTest::testIdle()
     QSignalSpy callFinished(call, SIGNAL(finished()));
 
     QVERIFY(isIdleChanged.wait());
-    QCOMPARE(m_service.isIdle(), false);
+    QCOMPARE(m_requestManager.isIdle(), false);
 
     /* the request will terminate after 10 milliseconds, so expect the service
      * to be idle again */
     QVERIFY(isIdleChanged.wait());
-    QCOMPARE(m_service.isIdle(), true);
+    QCOMPARE(m_requestManager.isIdle(), true);
 
     QVERIFY(callFinished.wait());
     QCOMPARE(call->isError(), false);

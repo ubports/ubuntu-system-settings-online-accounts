@@ -18,10 +18,13 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "application-manager.h"
 #include "debug.h"
 #include "globals.h"
 #include "panel-request.h"
 
+#include <QDesktopServices>
+#include <QGuiApplication>
 #include <QStandardPaths>
 #include <QQmlContext>
 #include <QQmlEngine>
@@ -85,6 +88,8 @@ void PanelRequestPrivate::start()
                                 "/accounts/qml-plugins/"));
     context->setContextProperty("pluginOptions", QVariantMap());
     context->setContextProperty("mainWindow", m_view);
+    context->setContextProperty("ApplicationManager",
+                                ApplicationManager::instance());
 
     m_view->setSource(QUrl(QStringLiteral("qrc:/qml/MainPage.qml")));
     q->setWindow(m_view);
@@ -98,6 +103,10 @@ void PanelRequestPrivate::onWindowVisibleChanged(bool visible)
 
     if (!visible) {
         q->setResult(QVariantMap());
+        /* FIXME HACK: remove when window reparenting is implemented */
+        if (QGuiApplication::platformName().startsWith("ubuntu")) {
+            QDesktopServices::openUrl(QUrl("application:///ubuntu-system-settings.desktop"));
+        }
     }
 }
 

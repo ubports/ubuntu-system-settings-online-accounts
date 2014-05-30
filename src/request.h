@@ -41,10 +41,13 @@ public:
                                QObject *parent = 0);
     ~Request();
 
+    static Request *find(const QVariantMap &match);
+
     WId windowId() const;
     bool isInProgress() const;
     const QVariantMap &parameters() const;
     QString clientApparmorProfile() const;
+    QWindow *window() const;
 
 public Q_SLOTS:
     virtual void start();
@@ -58,11 +61,11 @@ protected:
                      const QDBusMessage &message,
                      const QVariantMap &parameters,
                      QObject *parent = 0);
-    void setWindow(QWindow *window);
+    virtual void setWindow(QWindow *window);
 
 protected Q_SLOTS:
     void fail(const QString &name, const QString &message);
-    void setCanceled();
+    virtual void setCanceled();
     void setResult(const QVariantMap &result);
 
 private:

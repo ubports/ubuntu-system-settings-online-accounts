@@ -1,2 +1,0 @@
-Pattern: ${home}/.local/share/accounts/services/${short-id}.service
-User-Level: yes

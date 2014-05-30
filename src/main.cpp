@@ -22,7 +22,10 @@
 #include "globals.h"
 #include "i18n.h"
 #include "inactivity-timer.h"
+#include "indicator-service.h"
+#include "request-manager.h"
 #include "service.h"
+#include "signonui-service.h"
 
 #include <QGuiApplication>
 #include <QDBusConnection>
@@ -81,24 +84,49 @@ int main(int argc, char **argv)
 
     initTr(I18N_DOMAIN, NULL);
 
+    RequestManager *requestManager = new RequestManager();
+
     Service *service = new Service();
     QDBusConnection connection = QDBusConnection::sessionBus();
     connection.registerService(OAU_SERVICE_NAME);
     connection.registerObject(OAU_OBJECT_PATH, service);
 
+    SignOnUi::Service *signonuiService = new SignOnUi::Service();
+    connection.registerService(SIGNONUI_SERVICE_NAME);
+    connection.registerObject(SIGNONUI_OBJECT_PATH, signonuiService,
+                              QDBusConnection::ExportAllContents);
+
+    SignOnUi::IndicatorService *indicatorService =
+        new SignOnUi::IndicatorService();
+    connection.registerService(WEBCREDENTIALS_BUS_NAME);
+    connection.registerObject(WEBCREDENTIALS_OBJECT_PATH,
+                              indicatorService->serviceObject());
+
+
     InactivityTimer *inactivityTimer = 0;
     if (daemonTimeout > 0) {
         inactivityTimer = new InactivityTimer(daemonTimeout * 1000);
-        inactivityTimer->watchObject(service);
+        inactivityTimer->watchObject(requestManager);
+        inactivityTimer->watchObject(indicatorService);
         QObject::connect(inactivityTimer, SIGNAL(timeout()),
                          &app, SLOT(quit()));
     }
 
     int ret = app.exec();
 
+    connection.unregisterService(WEBCREDENTIALS_BUS_NAME);
+    connection.unregisterObject(WEBCREDENTIALS_OBJECT_PATH);
+    delete indicatorService;
+
+    connection.unregisterService(SIGNONUI_SERVICE_NAME);
+    connection.unregisterObject(SIGNONUI_OBJECT_PATH);
+    delete signonuiService;
+
     connection.unregisterService(OAU_SERVICE_NAME);
     connection.unregisterObject(OAU_OBJECT_PATH);
     delete service;
+
+    delete requestManager;
 
     delete inactivityTimer;
 

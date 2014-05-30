@@ -24,6 +24,8 @@
 #include "globals.h"
 #include "provider-request.h"
 
+#include <QDesktopServices>
+#include <QGuiApplication>
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickItem>
@@ -133,6 +135,14 @@ void ProviderRequestPrivate::onWindowVisibleChanged(bool visible)
 
     if (!visible) {
         q->setResult(QVariantMap());
+        /* FIXME HACK: remove when window reparenting is implemented */
+        QString profile =
+            m_applicationInfo.value(QStringLiteral("profile")).toString();
+        if (QGuiApplication::platformName().startsWith("ubuntu") &&
+            !profile.isEmpty()) {
+            QDesktopServices::openUrl(
+                QUrl(QString("application:///%1.desktop").arg(profile)));
+        }
     }
 }
 

@@ -23,6 +23,8 @@
 #include "globals.h"
 #include "panel-request.h"
 
+#include <QDesktopServices>
+#include <QGuiApplication>
 #include <QStandardPaths>
 #include <QQmlContext>
 #include <QQmlEngine>
@@ -101,6 +103,10 @@ void PanelRequestPrivate::onWindowVisibleChanged(bool visible)
 
     if (!visible) {
         q->setResult(QVariantMap());
+        /* FIXME HACK: remove when window reparenting is implemented */
+        if (QGuiApplication::platformName().startsWith("ubuntu")) {
+            QDesktopServices::openUrl(QUrl("application:///ubuntu-system-settings.desktop"));
+        }
     }
 }
 

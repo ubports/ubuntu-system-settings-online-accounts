@@ -1,3 +1,21 @@
+ubuntu-system-settings-online-accounts (0.3+14.10.20140530.1-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Release development branch Features landing with this branch:
+    Updating the ACL when applications are enabled/disabled in System
+    Settings. Write profile information in the XML files installed by
+    click hooks. Run tests with Python 3 autopilot. Merge signon-ui into
+    online-accounts-ui .
+
+  [ Alberto Mardegan ]
+  * Release development branch Features landing with this branch:
+    Updating the ACL when applications are enabled/disabled in System
+    Settings. Write profile information in the XML files installed by
+    click hooks. Run tests with Python 3 autopilot. Merge signon-ui into
+    online-accounts-ui .
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 30 May 2014 13:30:35 +0000
+
 ubuntu-system-settings-online-accounts (0.3+14.10.20140516.1-0ubuntu1) utopic; urgency=low
 
   [ Martin Pitt ]

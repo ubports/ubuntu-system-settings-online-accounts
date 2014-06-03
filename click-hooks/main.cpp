@@ -20,6 +20,7 @@
 
 #include <Accounts/Manager>
 #include <QCoreApplication>
+#include <QDateTime>
 #include <QDebug>
 #include <QDir>
 #include <QDomDocument>
@@ -50,6 +51,7 @@ public:
 
     void checkId(const QString &shortAppId);
     void addProfile(const QString &appId);
+    QString profile() const;
     bool writeTo(const QString &fileName) const;
     bool isValid() const { return m_isValid; }
 
@@ -88,6 +90,12 @@ void LibAccountsFile::addProfile(const QString &appId)
     root.appendChild(elem);
 }
 
+QString LibAccountsFile::profile() const
+{
+    QDomElement root = documentElement();
+    return root.firstChildElement("profile").text();
+}
+
 bool LibAccountsFile::writeTo(const QString &fileName) const
 {
     /* Make sure that the target directory exists */
@@ -105,6 +113,41 @@ bool LibAccountsFile::writeTo(const QString &fileName) const
     } else {
         QFile::remove(fileName);
         return false;
+    }
+}
+
+static void removeStaleFiles(const QStringList &fileTypes,
+                             const QString &localShare,
+                             const QDir &hooksDirIn)
+{
+    /* Walk through all of
+     * ~/.local/share/accounts/{providers,services,service-types,applications}/
+     * and remove files which are no longer present in hooksDirIn.
+     */
+    Q_FOREACH(const QString &fileType, fileTypes) {
+        QDir dir(QString("%1/accounts/%2s").arg(localShare).arg(fileType));
+        dir.setFilter(QDir::Files | QDir::Readable);
+        QStringList fileTypeFilter;
+        fileTypeFilter << "*." + fileType;
+        dir.setNameFilters(fileTypeFilter);
+
+        Q_FOREACH(const QFileInfo &fileInfo, dir.entryInfoList()) {
+            LibAccountsFile file(fileInfo.filePath());
+
+            QString profile = file.profile();
+
+            /* If there is no <profile> element, then this file was not created
+             * by our hook; let's ignore it. */
+            if (profile.isEmpty()) continue;
+
+            /* Check that the hook file is still there; if it isn't, then it
+             * means that the click package was removed, and we must remove our
+             * copy as well. */
+            QString hookFileName = profile + "." + fileType;
+            if (!hooksDirIn.exists(hookFileName)) {
+                QFile::remove(fileInfo.filePath());
+            }
+        }
     }
 }
 
@@ -129,6 +172,9 @@ int main(int argc, char **argv)
     const QString localShare =
         QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
     QDir hooksDirIn(localShare + "/" HOOK_FILES_SUBDIR);
+
+    removeStaleFiles(fileTypes, localShare, hooksDirIn);
+
     Q_FOREACH(const QFileInfo &fileInfo, hooksDirIn.entryInfoList()) {
         const QString fileType = fileInfo.suffix();
         // Filter out the files which we don't support
@@ -148,8 +194,12 @@ int main(int argc, char **argv)
         QString destination = QString("%1/accounts/%2s/%3.%2").
             arg(localShare).arg(fileInfo.suffix()).arg(shortAppId);
 
-        /* If the destination is there, we assume it's up to date */
-        if (QFile::exists(destination)) continue;
+        QFileInfo destinationInfo(destination);
+        /* If the destination is there and up to date, we have nothing to do */
+        if (destinationInfo.exists() &&
+            destinationInfo.lastModified() >= fileInfo.lastModified()) {
+            continue;
+        }
 
         LibAccountsFile xml = LibAccountsFile(fileInfo);
         if (!xml.isValid()) continue;

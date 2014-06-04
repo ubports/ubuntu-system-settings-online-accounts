@@ -23,6 +23,7 @@ qrc_*.cpp
 /debian/libonline-accounts-client1/
 /debian/qtdeclarative5-online-accounts-client0.1/
 /debian/qtdeclarative5-online-accounts-client-doc/
+/debian/signon-ui-service/
 /debian/tmp
 /debian/ubuntu-system-settings-online-accounts/
 /debian/ubuntu-system-settings-online-accounts-autopilot/
@@ -32,6 +33,7 @@ qrc_*.cpp
 /plugins/example/libexample.so*
 /po/*.mo
 /src/com.canonical.indicators.webcredentials.service
+/src/com.nokia.singlesignonui.service
 /src/com.ubuntu.OnlineAccountsUi.service
 /src/module/OnlineAccountsPlugin.pc
 /src/module/libOnlineAccountsPlugin.so*

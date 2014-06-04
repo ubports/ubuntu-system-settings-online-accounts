@@ -34,12 +34,20 @@ Depends: ${misc:Depends},
          ${shlibs:Depends},
          qtdeclarative5-accounts-plugin (>= 0.3),
          qtdeclarative5-ubuntu-ui-toolkit-plugin | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles,
+         signon-ui-service,
          ubuntu-system-settings
-Conflicts: signon-ui
 Provides: signon-ui
-Replaces: signon-ui
 Description: Online Accounts setup for Ubuntu Touch
  Online Accounts setup utility for the Ubuntu Touch System Settings.
+
+Package: signon-ui-service
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}
+Conflicts: signon-ui (<< 0.17)
+Replaces: signon-ui (<< 0.17)
+Description: D-Bus service file for signon-ui
+ This D-Bus service is used to provide a UI for authenticating online accounts.
 
 Package: libonline-accounts-client1
 Section: libs

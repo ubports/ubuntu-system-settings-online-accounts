@@ -40,15 +40,6 @@ Provides: signon-ui
 Description: Online Accounts setup for Ubuntu Touch
  Online Accounts setup utility for the Ubuntu Touch System Settings.
 
-Package: signon-ui-service
-Architecture: all
-Multi-Arch: foreign
-Depends: ${misc:Depends}
-Breaks: signon-ui (<< 0.17), ubuntu-system-settings-online-accounts (<< 0.4)
-Replaces: signon-ui (<< 0.17), ubuntu-system-settings-online-accounts (<< 0.4)
-Description: D-Bus service file for signon-ui
- This D-Bus service is used to provide a UI for authenticating online accounts.
-
 Package: libonline-accounts-client1
 Section: libs
 Architecture: any

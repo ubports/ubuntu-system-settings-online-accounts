@@ -1,3 +1,0 @@
-[D-BUS Service]
-Name=com.nokia.singlesignonui
-Exec=/bin/sh -c "'if [ ! -x /usr/bin/signon-ui ] || [ \"$QT_QPA_PLATFORM\" = \"ubuntumirclient\" ]; then exec $${INSTALL_PREFIX}/bin/$${TARGET} --desktop_file_hint=$${desktop.path}/$${TARGET}.desktop; else exec /usr/bin/signon-ui; fi'"

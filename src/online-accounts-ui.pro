@@ -99,8 +99,6 @@ OTHER_FILES += \
     $${RESOURCES}
 
 QMAKE_SUBSTITUTES += \
-    com.canonical.indicators.webcredentials.service.in \
-    com.nokia.singlesignonui.service.in \
     com.ubuntu.OnlineAccountsUi.service.in \
     online-accounts-ui.desktop.in
 
@@ -109,8 +107,6 @@ DBUS_ADAPTORS += \
 
 service.path = $${INSTALL_PREFIX}/share/dbus-1/services
 service.files = \
-    com.canonical.indicators.webcredentials.service \
-    com.nokia.singlesignonui.service \
     com.ubuntu.OnlineAccountsUi.service
 INSTALLS += service
 

@@ -31,7 +31,6 @@ qrc_*.cpp
 /debian/*.substvars
 /plugins/example/libexample.so*
 /po/*.mo
-/src/com.canonical.indicators.webcredentials.service
 /src/com.ubuntu.OnlineAccountsUi.service
 /src/module/OnlineAccountsPlugin.pc
 /src/module/libOnlineAccountsPlugin.so*

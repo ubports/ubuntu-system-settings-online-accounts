@@ -105,7 +105,7 @@ Accounts::Account *RequestPrivate::findAccount()
     if (m_accountManager == 0) {
         m_accountManager = new Accounts::Manager(this);
     }
-    foreach (Accounts::AccountId accountId, m_accountManager->accountList()) {
+    Q_FOREACH(Accounts::AccountId accountId, m_accountManager->accountList()) {
         Accounts::Account *account = m_accountManager->account(accountId);
         if (account == 0) continue;
 

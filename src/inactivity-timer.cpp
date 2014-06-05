@@ -59,7 +59,7 @@ void InactivityTimer::onTimeout()
 
 bool InactivityTimer::allObjectsAreIdle() const
 {
-    foreach (const QObject *object, m_watchedObjects) {
+    Q_FOREACH(const QObject *object, m_watchedObjects) {
         if (!object->property("isIdle").toBool()) {
             return false;
         }

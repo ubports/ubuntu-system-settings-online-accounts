@@ -6,6 +6,7 @@ TARGET = online-accounts-ui
 
 CONFIG += \
     link_pkgconfig \
+    no_keywords \
     qt
 
 QT += \
@@ -46,6 +47,7 @@ SOURCES += \
     inactivity-timer.cpp \
     indicator-service.cpp \
     main.cpp \
+    notification.cpp \
     panel-request.cpp \
     provider-request.cpp \
     reauthenticator.cpp \
@@ -66,6 +68,7 @@ HEADERS += \
     i18n.h \
     inactivity-timer.h \
     indicator-service.h \
+    notification.h \
     panel-request.h \
     provider-request.h \
     reauthenticator.h \

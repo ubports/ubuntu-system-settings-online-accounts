@@ -41,12 +41,15 @@ private Q_SLOTS:
     void testNoFiles();
     void testValidHooks_data();
     void testValidHooks();
+    void testRemoval();
+    void testUpdate();
 
 private:
     void clearHooksDir();
     void clearInstallDir();
     bool runHookProcess();
     void writeHookFile(const QString &name, const QString &contents);
+    void writeInstalledFile(const QString &name, const QString &contents);
 
 private:
     QDir m_testDir;
@@ -83,6 +86,20 @@ void OnlineAccountsHooksTest::writeHookFile(const QString &name,
                                             const QString &contents)
 {
     QFile file(m_hooksDir.filePath(name));
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Could not write file" << name;
+        return;
+    }
+
+    file.write(contents.toUtf8());
+}
+
+void OnlineAccountsHooksTest::writeInstalledFile(const QString &name,
+                                                 const QString &contents)
+{
+    QFileInfo fileInfo(name);
+    m_installDir.mkpath(fileInfo.path());
+    QFile file(m_installDir.filePath(name));
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qWarning() << "Could not write file" << name;
         return;
@@ -221,6 +238,114 @@ void OnlineAccountsHooksTest::testValidHooks()
     QDomElement profileElement = root.firstChildElement("profile");
     QVERIFY(!profileElement.isNull());
     QCOMPARE(profileElement.text(), profile);
+}
+
+void OnlineAccountsHooksTest::testRemoval()
+{
+    clearHooksDir();
+    clearInstallDir();
+
+    QString stillInstalled("applications/com.ubuntu.test_StillInstalled.application");
+    writeInstalledFile(stillInstalled,
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application>\n"
+        "  <description>My application</description>\n"
+        "  <service-types>\n"
+        "    <service-type>some type</service-type>\n"
+        "  </service-types>\n"
+        "  <profile>com-ubuntu.test_StillInstalled_2.0</profile>\n"
+        "</application>");
+    QVERIFY(m_installDir.exists(stillInstalled));
+
+    QString myApp("applications/com.ubuntu.test_MyApp.application");
+    writeInstalledFile(myApp,
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application>\n"
+        "  <description>My application</description>\n"
+        "  <service-types>\n"
+        "    <service-type>some type</service-type>\n"
+        "  </service-types>\n"
+        "  <profile>com-ubuntu.test_MyApp_3.0</profile>\n"
+        "</application>");
+    QVERIFY(m_installDir.exists(myApp));
+
+    QString noProfile("applications/com.ubuntu.test_NoProfile.application");
+    writeInstalledFile(noProfile,
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application>\n"
+        "  <description>My application</description>\n"
+        "  <service-types>\n"
+        "    <service-type>some type</service-type>\n"
+        "  </service-types>\n"
+        "</application>");
+    QVERIFY(m_installDir.exists(noProfile));
+
+    writeHookFile("com-ubuntu.test_StillInstalled_2.0.application",
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application>\n"
+        "  <description>My application</description>\n"
+        "  <service-types>\n"
+        "    <service-type>some type</service-type>\n"
+        "  </service-types>\n"
+        "</application>");
+
+    QVERIFY(runHookProcess());
+
+    QVERIFY(m_installDir.exists(stillInstalled));
+    QVERIFY(!m_installDir.exists(myApp));
+    QVERIFY(m_installDir.exists(noProfile));
+}
+
+void OnlineAccountsHooksTest::testUpdate()
+{
+    clearHooksDir();
+    clearInstallDir();
+
+    writeHookFile("com-ubuntu.test_MyApp_1.0.application",
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application>\n"
+        "  <description>My application</description>\n"
+        "  <service-types>\n"
+        "    <service-type>some type</service-type>\n"
+        "  </service-types>\n"
+        "</application>");
+
+    QVERIFY(runHookProcess());
+
+    QString installedName("applications/com-ubuntu.test_MyApp.application");
+
+    // check that the file has been created, and with the correct profile
+    QFile file(m_installDir.absoluteFilePath(installedName));
+    QVERIFY(file.open(QIODevice::ReadOnly));
+
+    // check that's a valid XML file
+    QDomDocument doc;
+    QVERIFY(doc.setContent(&file));
+    QDomElement root = doc.documentElement();
+    QCOMPARE(root.firstChildElement("profile").text(),
+             QString("com-ubuntu.test_MyApp_1.0"));
+
+    /* Now remove the hook file and write a newer version of it */
+    clearHooksDir();
+    writeHookFile("com-ubuntu.test_MyApp_1.1.application",
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application>\n"
+        "  <description>My application</description>\n"
+        "  <service-types>\n"
+        "    <service-type>some type</service-type>\n"
+        "  </service-types>\n"
+        "</application>");
+
+    QVERIFY(runHookProcess());
+
+    // check that the file has been updated with the correct profile
+    file.close();
+    file.setFileName(m_installDir.absoluteFilePath(installedName));
+    QVERIFY(file.open(QIODevice::ReadOnly));
+    QVERIFY(doc.setContent(&file));
+    root = doc.documentElement();
+    QCOMPARE(root.firstChildElement("profile").text(),
+             QString("com-ubuntu.test_MyApp_1.1"));
 }
 
 QTEST_MAIN(OnlineAccountsHooksTest);

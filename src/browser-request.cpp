@@ -208,7 +208,7 @@ void BrowserRequestPrivate::onLoadStarted()
 
 void BrowserRequestPrivate::onLoadFinished(bool ok)
 {
-    Q_Q(const BrowserRequest);
+    Q_Q(BrowserRequest);
 
     DEBUG() << "Load finished" << ok;
 
@@ -219,9 +219,7 @@ void BrowserRequestPrivate::onLoadFinished(bool ok)
 
     if (m_dialog && !m_dialog->isVisible()) {
         if (m_responseUrl.isEmpty()) {
-            Dialog::ShowMode mode =
-                (q->windowId() == 0) ? Dialog::TopLevel : Dialog::Transient;
-            m_dialog->show(q->windowId(), mode);
+            q->setWindow(m_dialog);
         } else {
             onFinished();
         }

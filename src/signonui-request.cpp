@@ -79,18 +79,16 @@ RequestPrivate::~RequestPrivate()
 {
 }
 
-bool RequestPrivate::setWindow(QWindow *window)
+void RequestPrivate::setWindow(QWindow *window)
 {
     Q_Q(Request);
-    Q_UNUSED(window);
 
-    /* If the window has no parent and the webcredentials indicator service is
-     * up, dispatch the request to it. */
-    if (q->windowId() == 0 && dispatchToIndicator()) {
-        return true;
+    /* Don't show the window yet: the user must be presented with a
+     * snap-decision, and we'll show the window only if he decides to
+     * authenticate. */
+    if (!dispatchToIndicator()) {
+        q->fail(SIGNON_UI_ERROR_INTERNAL, "Couldn't create snap decision");
     }
-
-    return false;
 }
 
 Accounts::Account *RequestPrivate::findAccount()
@@ -189,8 +187,7 @@ QString Request::id() const
 void Request::setWindow(QWindow *window)
 {
     Q_D(Request);
-    if (!d->setWindow(window))
-        OnlineAccountsUi::Request::setWindow(window);
+    d->setWindow(window);
 }
 
 uint Request::identity() const

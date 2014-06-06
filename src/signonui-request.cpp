@@ -20,10 +20,12 @@
 
 #include "signonui-request.h"
 
+#include "application-manager.h"
 #include "browser-request.h"
 #include "debug.h"
 #include "globals.h"
 #include "indicator-service.h"
+#include "notification.h"
 
 #include <Accounts/Account>
 #include <Accounts/Manager>
@@ -45,7 +47,7 @@ public:
     ~RequestPrivate();
 
 private:
-    bool setWindow(QWindow *window);
+    void setWindow(QWindow *window);
     Accounts::Account *findAccount();
     bool dispatchToIndicator();
 
@@ -55,6 +57,7 @@ private:
     bool m_inProgress;
     RequestHandler *m_handler;
     Accounts::Manager *m_accountManager;
+    OnlineAccountsUi::Notification *m_notification;
 };
 
 } // namespace
@@ -86,9 +89,20 @@ void RequestPrivate::setWindow(QWindow *window)
     /* Don't show the window yet: the user must be presented with a
      * snap-decision, and we'll show the window only if he decides to
      * authenticate. */
-    if (!dispatchToIndicator()) {
-        q->fail(SIGNON_UI_ERROR_INTERNAL, "Couldn't create snap decision");
+    Accounts::Account *account = findAccount();
+    if (Q_UNLIKELY(!account)) {
+        QVariantMap result;
+        result[SSOUI_KEY_ERROR] = SignOn::QUERY_ERROR_FORBIDDEN;
+        q->setResult(result);
+        return;
     }
+
+    OnlineAccountsUi::ApplicationManager *appManager =
+        OnlineAccountsUi::ApplicationManager::instance();
+    m_applicationInfo =
+        appManager->applicationInfo(QString(), q->clientApparmorProfile());
+    if (Q_UNLIKELY(m_applicationInfo.isEmpty())) {
+    m_notification = new OnlineAccountsUi::Notification(
 }
 
 Accounts::Account *RequestPrivate::findAccount()

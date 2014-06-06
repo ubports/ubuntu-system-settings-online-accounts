@@ -51,6 +51,8 @@ private Q_SLOTS:
     void testAclAdd();
     void testAclRemove_data();
     void testAclRemove();
+    void testApplicationFromProfile_data();
+    void testApplicationFromProfile();
 
 private:
     void clearApplicationsDir();
@@ -358,6 +360,76 @@ void ApplicationManagerTest::testAclRemove()
 
     QStringList acl = manager.removeApplicationFromAcl(oldAcl, applicationId);
     QCOMPARE(acl.toSet(), newAcl.toSet());
+}
+
+void ApplicationManagerTest::testApplicationFromProfile_data()
+{
+    QTest::addColumn<QString>("applicationId");
+    QTest::addColumn<QString>("contents");
+    QTest::addColumn<QString>("profile");
+    QTest::addColumn<bool>("isValid");
+
+    QTest::newRow("id-same-as-profile") <<
+        "com.ubuntu.test_MyApp_0.2" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"com.ubuntu.test_MyApp\">\n"
+        "  <description>My application</description>\n"
+        "  <profile>com.ubuntu.test_MyApp_0.2</profile>\n"
+        "</application>" <<
+        "com.ubuntu.test_MyApp_0.2" <<
+        true;
+
+    QTest::newRow("id-with-no-version") <<
+        "com.ubuntu.test_MyApp2" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"com.ubuntu.test_MyApp2\">\n"
+        "  <description>My application 2</description>\n"
+        "  <profile>com.ubuntu.test_MyApp2_0.2</profile>\n"
+        "</application>" <<
+        "com.ubuntu.test_MyApp2_0.2" <<
+        true;
+
+    QTest::newRow("id-is-just-package") <<
+        "com.ubuntu.test" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"com.ubuntu.test_MyApp3\">\n"
+        "  <description>My application 3</description>\n"
+        "  <profile>com.ubuntu.test_MyApp3_0.2</profile>\n"
+        "</application>" <<
+        "com.ubuntu.test_MyApp3_0.2" <<
+        true;
+
+    QTest::newRow("not found") <<
+        "com.ubuntu.test_MyApp5" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"com.ubuntu.test_MyApp4\">\n"
+        "  <description>My application 4</description>\n"
+        "  <profile>com.ubuntu.test_MyApp4_0.2</profile>\n"
+        "</application>" <<
+        "com.ubuntu.test_MyApp4_0.2" <<
+        false;
+}
+
+void ApplicationManagerTest::testApplicationFromProfile()
+{
+    clearApplicationsDir();
+
+    QFETCH(QString, applicationId);
+    QFETCH(QString, contents);
+    QFETCH(QString, profile);
+    QFETCH(bool, isValid);
+
+    writeAccountsFile(applicationId + ".application", contents);
+
+    ApplicationManager manager;
+
+    Accounts::Application app = manager.applicationFromProfile(profile);
+    if (!isValid) {
+        QVERIFY(!app.isValid());
+    } else {
+        QVERIFY(app.isValid());
+        QCOMPARE(app.name(), applicationId);
+    }
 }
 
 QTEST_MAIN(ApplicationManagerTest);

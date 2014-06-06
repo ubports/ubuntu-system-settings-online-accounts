@@ -1,7 +1,7 @@
 /*
  * This file is part of online-accounts-ui
  *
- * Copyright (C) 2012 Canonical Ltd.
+ * Copyright (C) 2014 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -22,14 +22,12 @@
 
 #include "debug.h"
 #include "i18n.h"
+#include "notification.h"
 #include "reauthenticator.h"
 #include "webcredentials_adaptor.h"
 
 #include <QByteArray>
 #include <QDBusContext>
-#undef signals
-#include <libnotify/notification.h>
-#include <libnotify/notify.h>
 
 using namespace OnlineAccountsUi;
 using namespace SignOnUi;
@@ -37,7 +35,7 @@ using namespace SignOnUi;
 QDBusArgument &operator<<(QDBusArgument &argument, const QSet<uint> &set)
 {
     argument.beginArray(qMetaTypeId<uint>());
-    foreach (uint id, set) {
+    Q_FOREACH(uint id, set) {
         argument << id;
     }
     argument.endArray();
@@ -109,7 +107,6 @@ IndicatorServicePrivate::IndicatorServicePrivate(IndicatorService *service):
     m_errorStatus(false)
 {
     qDBusRegisterMetaType< QSet<uint> >();
-    notify_init("webcredentials-indicator");
 }
 
 void IndicatorServicePrivate::ClearErrorStatus()
@@ -229,20 +226,8 @@ void IndicatorServicePrivate::showNotification(const QVariantMap &parameters)
                         "menu to reinstate access to this account.",
                         SIGNONUI_I18N_DOMAIN);
 
-    QByteArray summaryUtf8 = summary.toUtf8();
-    QByteArray messageUtf8 = message.toUtf8();
-    NotifyNotification *notification =
-        notify_notification_new(summaryUtf8.constData(),
-                                messageUtf8.constData(),
-                                NULL);
-
-    GError *error = NULL;
-    if (!notify_notification_show(notification, &error)) {
-        qWarning() << "Couldn't show notification:" << error->message;
-        g_clear_error(&error);
-    }
-
-    g_object_unref(notification);
+    Notification notification(summary, message);
+    notification.show();
 }
 
 void IndicatorServicePrivate::notifyPropertyChanged(const char *propertyName)

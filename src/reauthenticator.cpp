@@ -79,7 +79,7 @@ ReauthenticatorPrivate::~ReauthenticatorPrivate()
 
 void ReauthenticatorPrivate::start()
 {
-    foreach (const AuthData &authData, m_clientData) {
+    Q_FOREACH(const AuthData &authData, m_clientData) {
         Identity *identity =
             Identity::existingIdentity(authData.identity, this);
         if (identity == 0) { m_errorCount++; continue; }

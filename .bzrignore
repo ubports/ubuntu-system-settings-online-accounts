@@ -46,3 +46,4 @@ qrc_*.cpp
 /tests/online-accounts-ui/tst_inactivity_timer
 /tests/online-accounts-ui/tst_notification
 /tests/online-accounts-ui/tst_service
+/tests/online-accounts-ui/tst_signonui_request

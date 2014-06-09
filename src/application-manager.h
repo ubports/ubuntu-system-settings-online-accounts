@@ -21,6 +21,7 @@
 #ifndef OAU_APPLICATION_MANAGER_H
 #define OAU_APPLICATION_MANAGER_H
 
+#include <Accounts/Application>
 #include <QObject>
 #include <QStringList>
 #include <QVariantMap>
@@ -45,6 +46,7 @@ public:
                                                 const QString &appId) const;
     Q_INVOKABLE QStringList removeApplicationFromAcl(const QStringList &acl,
                                                      const QString &appId) const;
+    Accounts::Application applicationFromProfile(const QString &profile);
 
 protected:
     explicit ApplicationManager(QObject *parent = 0);

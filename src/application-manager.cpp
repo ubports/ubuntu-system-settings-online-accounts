@@ -22,7 +22,6 @@
 #include "application-manager.h"
 #include "debug.h"
 
-#include <Accounts/Application>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QFile>
@@ -134,11 +133,9 @@ QVariantMap ApplicationManager::applicationInfo(const QString &claimedAppId,
     QString applicationId = claimedAppId;
     Accounts::Application application =
         AccountManager::instance()->application(applicationId);
-    if (!application.isValid() && profile.startsWith(applicationId)) {
-        /* Handle the case where in the future we might decide to use the full
-         * profile (including the version number) as application id. */
-        applicationId = profile;
-        application = AccountManager::instance()->application(applicationId);
+    if (!application.isValid()) {
+        application = applicationFromProfile(profile);
+        applicationId = application.name();
     }
 
     /* Make sure that the app is who it claims to be */
@@ -216,4 +213,26 @@ ApplicationManager::removeApplicationFromAcl(const QStringList &acl,
         }
     }
     return newAcl;
+}
+
+Accounts::Application
+ApplicationManager::applicationFromProfile(const QString &profile)
+{
+    /* If the profile is not a click package profile, we have no way of knowing
+     * what application it is. */
+    QStringList components = profile.split('_');
+    if (components.count() != 3) return Accounts::Application();
+
+    /* First try to see if we can use the full profile as app ID; if not, strip
+     * out the version, and if that fails as well then use only the package
+     * name. */
+    AccountManager *manager = AccountManager::instance();
+    Accounts::Application application = manager->application(profile);
+    if (application.isValid()) return application;
+
+    QString applicationId = components[0] + "_" + components[1];
+    application = manager->application(applicationId);
+    if (application.isValid()) return application;
+
+    return manager->application(components[0]);
 }

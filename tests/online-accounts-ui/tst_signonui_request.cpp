@@ -19,6 +19,7 @@
  */
 
 #include "globals.h"
+#include "request-handler.h"
 #include "signonui-request.h"
 #include "mock/notification-mock.h"
 #include "mock/request-mock.h"
@@ -65,8 +66,12 @@ private Q_SLOTS:
     void initTestCase();
     void testParameters_data();
     void testParameters();
+    void testHandler();
     void testSnapDecision_data();
     void testSnapDecision();
+
+private:
+    bool mustCreateAccount(uint credentialsId) { return credentialsId > 10; }
 
 private:
     QDBusConnection m_connection;
@@ -97,11 +102,13 @@ void SignonuiRequestTest::testParameters_data()
     QTest::addColumn<uint>("identity");
     QTest::addColumn<QString>("method");
     QTest::addColumn<QString>("mechanism");
+    QTest::addColumn<QString>("id");
     QTest::addColumn<QVariantMap>("clientData");
 
     QTest::newRow("empty") <<
         QVariantMap() <<
         uint(0) <<
+        QString() <<
         QString() <<
         QString() <<
         QVariantMap();
@@ -114,6 +121,7 @@ void SignonuiRequestTest::testParameters_data()
     parameters.insert(SSOUI_KEY_IDENTITY, uint(45));
     parameters.insert(SSOUI_KEY_METHOD, QString("a method"));
     parameters.insert(SSOUI_KEY_MECHANISM, QString("a mechanism"));
+    parameters.insert(SSOUI_KEY_REQUESTID, QString("/id-4"));
 
 
     QTest::newRow("basic") <<
@@ -121,6 +129,7 @@ void SignonuiRequestTest::testParameters_data()
         uint(45) <<
         "a method" <<
         "a mechanism" <<
+        "/id-4" <<
         clientData;
 }
 
@@ -129,12 +138,33 @@ void SignonuiRequestTest::testParameters()
     QFETCH(QVariantMap, parameters);
     QFETCH(QString, method);
     QFETCH(QString, mechanism);
+    QFETCH(QString, id);
     QFETCH(QVariantMap, clientData);
 
     TestRequest request(m_connection, m_message, parameters);
     QCOMPARE(request.method(), method);
     QCOMPARE(request.mechanism(), mechanism);
+    QCOMPARE(request.id(), id);
     QCOMPARE(request.clientData(), clientData);
+}
+
+void SignonuiRequestTest::testHandler()
+{
+    QVariantMap parameters;
+    TestRequest request(m_connection, m_message, parameters);
+    QVERIFY(request.handler() == 0);
+
+    SignOnUi::RequestHandler *handler = new SignOnUi::RequestHandler;
+    request.setHandler(handler);
+    QCOMPARE(request.handler(), handler);
+
+    /* Try to set another handler; this won't be allowed */
+    SignOnUi::RequestHandler *handler2 = new SignOnUi::RequestHandler;
+    request.setHandler(handler2);
+    QCOMPARE(request.handler(), handler);
+
+    delete handler2;
+    delete handler;
 }
 
 void SignonuiRequestTest::testSnapDecision_data()
@@ -150,7 +180,10 @@ void SignonuiRequestTest::testSnapDecision_data()
     acceptedResult.insert("some key", QString("some value"));
 
     QVariantMap declinedResult;
-    declinedResult.insert(SSOUI_KEY_ERROR, SignOn::QUERY_ERROR_FORBIDDEN);
+    declinedResult.insert(SSOUI_KEY_ERROR, SignOn::QUERY_ERROR_CANCELED);
+
+    QVariantMap errorResult;
+    errorResult.insert(SSOUI_KEY_ERROR, SignOn::QUERY_ERROR_FORBIDDEN);
 
     QTest::newRow("no account") <<
         uint(0) <<
@@ -158,7 +191,15 @@ void SignonuiRequestTest::testSnapDecision_data()
         "com.ubuntu.tests_application_0.3" <<
         QString() <<
         false <<
-        declinedResult;
+        errorResult;
+
+    QTest::newRow("invalid account") <<
+        uint(1) <<
+        "tom@example.com" <<
+        "com.ubuntu.tests_application_0.3" <<
+        QString() <<
+        false <<
+        errorResult;
 
     QTest::newRow("valid application, accepted") <<
         uint(14231) <<
@@ -207,7 +248,7 @@ void SignonuiRequestTest::testSnapDecision()
     Accounts::Manager *manager = new Accounts::Manager(this);
     Accounts::Provider provider = manager->provider(providerId);
     QVERIFY(provider.isValid());
-    if (credentialsId != 0) {
+    if (mustCreateAccount(credentialsId)) {
         Accounts::Account *account = manager->createAccount(providerId);
         QVERIFY(account != 0);
         account->setEnabled(true);
@@ -238,7 +279,7 @@ void SignonuiRequestTest::testSnapDecision()
                                SIGNAL(setWindowCalled(QWindow*)));
     request.setWindow(window);
     QCOMPARE(setWindowCalled.count(), 0);
-    if (credentialsId) {
+    if (mustCreateAccount(credentialsId)) {
         QCOMPARE(NotificationPrivate::allNotifications.count(), 1);
     } else {
         /* If the account is not found, no notification should appear, and an

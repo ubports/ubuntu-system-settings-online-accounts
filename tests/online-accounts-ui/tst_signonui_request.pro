@@ -27,6 +27,7 @@ SOURCES += \
     $${SRCDIR}/account-manager.cpp \
     $${SRCDIR}/application-manager.cpp \
     $${SRCDIR}/debug.cpp \
+    $${SRCDIR}/request-handler.cpp \
     $${SRCDIR}/signonui-request.cpp \
     mock/notification-mock.cpp \
     mock/request-mock.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     $${SRCDIR}/application-manager.h \
     $${SRCDIR}/notification.h \
     $${SRCDIR}/request.h \
+    $${SRCDIR}/request-handler.h \
     $${SRCDIR}/signonui-request.h \
     mock/notification-mock.h \
     mock/request-mock.h \

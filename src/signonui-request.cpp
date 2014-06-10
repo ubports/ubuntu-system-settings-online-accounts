@@ -164,9 +164,7 @@ void RequestPrivate::onActionInvoked(const QString &action)
     if (action == QStringLiteral("continue")) {
         q->setWindow(m_window);
     } else {
-        QVariantMap result;
-        result[SSOUI_KEY_ERROR] = SignOn::QUERY_ERROR_FORBIDDEN;
-        q->setResult(result);
+        q->cancel();
     }
 
     m_notification->deleteLater();
@@ -281,12 +279,10 @@ RequestHandler *Request::handler() const
 
 void Request::setCanceled()
 {
-    if (isInProgress()) {
-        QVariantMap result;
-        result[SSOUI_KEY_ERROR] = SignOn::QUERY_ERROR_CANCELED;
+    QVariantMap result;
+    result[SSOUI_KEY_ERROR] = SignOn::QUERY_ERROR_CANCELED;
 
-        setResult(result);
-    }
+    setResult(result);
 }
 
 #include "signonui-request.moc"

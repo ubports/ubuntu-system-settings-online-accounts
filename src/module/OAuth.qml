@@ -55,7 +55,6 @@ Item {
             if (request) {
                 console.log("RequestHandler captured request!")
                 loader.setSource("WebView.qml", {
-                    "rootDir": request.rootDir,
                     "signonRequest": request
                 })
             } else {

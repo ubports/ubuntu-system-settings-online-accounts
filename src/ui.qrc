@@ -13,5 +13,6 @@
     <file>qml/ProviderPluginList.qml</file>
     <file>qml/ProviderRequest.qml</file>
     <file>qml/ProvidersList.qml</file>
+    <file>qml/SignOnUiPage.qml</file>
 </qresource>
 </RCC>

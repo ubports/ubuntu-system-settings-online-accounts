@@ -161,19 +161,24 @@ void RequestPrivate::onActionInvoked(const QString &action)
 {
     Q_Q(Request);
 
+    DEBUG() << action;
+
+    QObject::disconnect(m_notification, 0, this, 0);
+    m_notification->deleteLater();
+    m_notification = 0;
+
     if (action == QStringLiteral("continue")) {
         q->setWindow(m_window);
     } else {
         q->cancel();
     }
-
-    m_notification->deleteLater();
-    m_notification = 0;
 }
 
 void RequestPrivate::onNotificationClosed()
 {
     Q_Q(Request);
+
+    DEBUG();
 
     /* setResult() should have been called by onActionInvoked(), but calling it
      * twice won't harm because only the first invocation counts. */
@@ -226,6 +231,10 @@ QString Request::id() const
 void Request::setWindow(QWindow *window)
 {
     Q_D(Request);
+
+    /* While a notification is shown, ignore any further calls to
+     * setWindow(). */
+    if (d->m_notification) return;
 
     /* The first time that this method is called, we handle it by presenting a
      * snap decision to the user.

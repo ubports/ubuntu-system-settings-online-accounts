@@ -68,6 +68,12 @@ void Notification::addAction(const QString &action, const QString &label)
     d->m_actions.append(ActionPair(action, label));
 }
 
+void Notification::setSnapDecision(bool snapDecision)
+{
+    Q_D(Notification);
+    d->m_isSnapDecision = snapDecision;
+}
+
 void Notification::show()
 {
     Q_D(Notification);

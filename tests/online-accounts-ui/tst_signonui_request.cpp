@@ -299,6 +299,7 @@ void SignonuiRequestTest::testSnapDecision()
     QCOMPARE(mockNotification->m_body,
              QString("Please authorize %1 to access your %2 account %3").
              arg(applicationName).arg(provider.displayName()).arg(accountName));
+    QVERIFY(mockNotification->m_isSnapDecision);
 
     /* Invoke the action on the snap decision */
     QString action = mustAccept ? "continue" : "cancel";

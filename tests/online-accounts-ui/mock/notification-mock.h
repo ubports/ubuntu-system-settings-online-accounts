@@ -57,6 +57,7 @@ public:
     QString m_summary;
     QString m_body;
     QList<ActionPair> m_actions;
+    bool m_isSnapDecision;
     mutable Notification *q_ptr;
 };
 

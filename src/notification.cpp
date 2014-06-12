@@ -108,6 +108,14 @@ void Notification::addAction(const QString &action, const QString &label)
                                    this, NULL);
 }
 
+void Notification::setSnapDecision(bool snapDecision)
+{
+    Q_D(Notification);
+    notify_notification_set_hint(d->m_notification,
+                                 "x-canonical-snap-decisions",
+                                 g_variant_new_boolean(snapDecision));
+}
+
 void Notification::show()
 {
     Q_D(Notification);

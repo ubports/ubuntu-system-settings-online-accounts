@@ -121,6 +121,7 @@ void RequestPrivate::setWindow(QWindow *window)
         new OnlineAccountsUi::Notification("Authentication request", summary);
     m_notification->addAction("cancel", "Cancel");
     m_notification->addAction("continue", "Authorize...");
+    m_notification->setSnapDecision(true);
     QObject::connect(m_notification, SIGNAL(actionInvoked(const QString &)),
                      this, SLOT(onActionInvoked(const QString &)));
     QObject::connect(m_notification, SIGNAL(closed()),

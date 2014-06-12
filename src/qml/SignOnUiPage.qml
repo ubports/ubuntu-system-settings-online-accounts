@@ -18,7 +18,7 @@ MainView {
 
             anchors {
                 fill: parent
-                bottomMargin: Math.max(osk.height - cancelButton.height, 0)
+                bottomMargin: Math.max(osk.height, cancelButton.height)
             }
         }
 

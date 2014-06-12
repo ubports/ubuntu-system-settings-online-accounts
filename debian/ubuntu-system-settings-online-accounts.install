@@ -4,8 +4,6 @@ usr/lib/*/pkgconfig/OnlineAccountsPlugin.pc
 usr/lib/*/ubuntu-system-settings
 usr/share/applications/online-accounts-ui.desktop
 usr/share/click/hooks
-usr/share/dbus-1/services/com.canonical.indicators.webcredentials.service
-usr/share/dbus-1/services/com.nokia.singlesignonui.service
 usr/share/dbus-1/services/com.ubuntu.OnlineAccountsUi.service
 usr/share/locale
 usr/share/ubuntu/settings

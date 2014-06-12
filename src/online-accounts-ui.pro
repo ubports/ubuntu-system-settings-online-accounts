@@ -6,6 +6,7 @@ TARGET = online-accounts-ui
 
 CONFIG += \
     link_pkgconfig \
+    no_keywords \
     qt
 
 QT += \
@@ -46,6 +47,7 @@ SOURCES += \
     inactivity-timer.cpp \
     indicator-service.cpp \
     main.cpp \
+    notification.cpp \
     panel-request.cpp \
     provider-request.cpp \
     reauthenticator.cpp \
@@ -66,6 +68,7 @@ HEADERS += \
     i18n.h \
     inactivity-timer.h \
     indicator-service.h \
+    notification.h \
     panel-request.h \
     provider-request.h \
     reauthenticator.h \
@@ -99,8 +102,6 @@ OTHER_FILES += \
     $${RESOURCES}
 
 QMAKE_SUBSTITUTES += \
-    com.canonical.indicators.webcredentials.service.in \
-    com.nokia.singlesignonui.service.in \
     com.ubuntu.OnlineAccountsUi.service.in \
     online-accounts-ui.desktop.in
 
@@ -109,8 +110,6 @@ DBUS_ADAPTORS += \
 
 service.path = $${INSTALL_PREFIX}/share/dbus-1/services
 service.files = \
-    com.canonical.indicators.webcredentials.service \
-    com.nokia.singlesignonui.service \
     com.ubuntu.OnlineAccountsUi.service
 INSTALLS += service
 

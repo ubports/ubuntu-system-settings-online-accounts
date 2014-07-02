@@ -5,7 +5,6 @@ import com.canonical.Oxide 1.0
 
 UbuntuWebView {
     property QtObject signonRequest
-    property url rootDir
 
     Component.onCompleted: url = signonRequest.startUrl
 
@@ -22,6 +21,6 @@ UbuntuWebView {
     onUrlChanged: signonRequest.currentUrl = url
 
     context: UbuntuWebContext {
-        dataPath: rootDir
+        dataPath: signonRequest.rootDir
     }
 }

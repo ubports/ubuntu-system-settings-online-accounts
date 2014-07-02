@@ -92,7 +92,8 @@ QML_SOURCES = \
     qml/NormalStartupPage.qml \
     qml/ProviderPluginList.qml \
     qml/ProviderRequest.qml \
-    qml/ProvidersList.qml
+    qml/ProvidersList.qml \
+    qml/SignOnUiPage.qml
 
 RESOURCES += \
     ui.qrc

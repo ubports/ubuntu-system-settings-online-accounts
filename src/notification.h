@@ -37,6 +37,7 @@ public:
     ~Notification();
 
     void addAction(const QString &action, const QString &label);
+    void setSnapDecision(bool snapDecision);
 
 public Q_SLOTS:
     void show();

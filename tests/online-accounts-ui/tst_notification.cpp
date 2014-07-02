@@ -26,6 +26,7 @@
 #include <QPair>
 #include <QSignalSpy>
 #include <QTest>
+#include <QVariantMap>
 #include <libnotify/notification.h>
 #include <libnotify/notify.h>
 
@@ -52,6 +53,7 @@ struct MockNotification {
     QString summary;
     QString body;
     QList<ActionPair> actions;
+    QVariantMap hints;
     bool visible;
 
     MockNotification();
@@ -167,6 +169,22 @@ void notify_notification_add_action(NotifyNotification *notification,
     callbackData.userData = user_data;
 }
 
+void notify_notification_set_hint(NotifyNotification *notification,
+                                  const char *key,
+                                  GVariant *value)
+{
+    MockNotification *mock =
+        reinterpret_cast<MockNotification*>(notification);
+    QVariant variant;
+    if (g_variant_is_of_type(value, G_VARIANT_TYPE_BOOLEAN)) {
+        variant = bool(g_variant_get_boolean(value));
+    } else {
+        /* Add support for any needed types */
+        qWarning() << "Unsupported variant type";
+    }
+    mock->hints.insert(QString::fromUtf8(key), variant);
+}
+
 /* End of mock code */
 
 class NotificationTest: public QObject
@@ -180,6 +198,7 @@ private Q_SLOTS:
     void testInitialization();
     void testDestruction();
     void testContents();
+    void testSnapDecision();
     void testVisibility();
     void testClosing();
     void testActions();
@@ -220,6 +239,20 @@ void NotificationTest::testContents()
     MockNotification *mock = *(notifications.begin());
     QCOMPARE(mock->summary, QString("Summary"));
     QCOMPARE(mock->body, QString("Body"));
+    QVERIFY(mock->hints.isEmpty());
+}
+
+void NotificationTest::testSnapDecision()
+{
+    Notification first("Summary", "Body");
+    MockNotification *mock = *(notifications.begin());
+    QVERIFY(mock->hints.isEmpty());
+
+    first.setSnapDecision(true);
+    QCOMPARE(mock->hints["x-canonical-snap-decisions"].toBool(), true);
+
+    first.setSnapDecision(false);
+    QCOMPARE(mock->hints["x-canonical-snap-decisions"].toBool(), false);
 }
 
 void NotificationTest::testVisibility()

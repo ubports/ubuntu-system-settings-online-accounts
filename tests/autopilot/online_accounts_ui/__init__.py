@@ -38,7 +38,7 @@ class OnlineAccountsUI():
     def __init__(self, application_proxy):
         super().__init__()
         self.application_proxy = application_proxy
-        self.main_view = self.application_proxy.select_single(MainView)
+        self.main_view = self.application_proxy.wait_select_single(MainView)
 
 
 class MainView(ubuntuuitoolkit.MainView):

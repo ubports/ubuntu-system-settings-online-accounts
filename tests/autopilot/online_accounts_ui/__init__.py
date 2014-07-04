@@ -18,8 +18,11 @@
 
 import logging
 
+
 # TODO This is a workaround for bug #1327325 that will make phabet-test-run
 # fail if something is printed to stdout. --elopio - 2014-07-03
+logging.basicConfig(filename='warning.log', level=logging.WARNING)
+
 
 import autopilot.logging
 

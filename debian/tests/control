@@ -1,3 +1,3 @@
 Tests: autopilot
-Depends: @, autopilot-desktop (>= 1.5.0+14.10.20140526), python3-evdev, dbus-x11, xvfb
+Depends: @, ubuntu-ui-toolkit-autopilot (>= 0.1.49), autopilot-desktop (>= 1.5.0+14.10.20140526), python3-evdev, dbus-x11, xvfb
 Restrictions: allow-stderr

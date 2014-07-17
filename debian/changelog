@@ -1,3 +1,9 @@
+ubuntu-system-settings-online-accounts (0.4+14.10.20140708-0ubuntu2) utopic; urgency=medium
+
+  * Add forgotten test-dep on ubuntu-ui-toolkit-autopilot.
+
+ -- Iain Lane <iain@orangesquash.org.uk>  Tue, 08 Jul 2014 15:13:08 +0100
+
 ubuntu-system-settings-online-accounts (0.4+14.10.20140708-0ubuntu1) utopic; urgency=low
 
   [ Leo Arias ]

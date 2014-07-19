@@ -8,76 +8,76 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2013-11-08 08:00+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2014-07-18 15:41+0000\n"
+"Last-Translator: MinSik CHO <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-20 06:09+0000\n"
-"X-Generator: Launchpad (build 17058)\n"
+"X-Launchpad-Export-Date: 2014-07-19 06:19+0000\n"
+"X-Generator: Launchpad (build 17114)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
-msgstr ""
+msgstr "사용자 이름"
 
 #: ../plugins/example/Main.qml:39
 msgid "Password"
-msgstr ""
+msgstr "비밀번호"
 
 #: ../src/AccountsPage.qml:53
 msgid "Add account…"
-msgstr ""
+msgstr "계정 추가…"
 
 #: ../src/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
-msgstr ""
+msgstr "어플리케이션별로 사용자가 직접 로그인 하지 않고 자동으로 로그인 하도록 계정 정보를 저장합니다."
 
 #: ../src/NewAccountPage.qml:23
 msgid "Add account"
-msgstr ""
+msgstr "계정 추가"
 
 #: ../src/NoAccountsPage.qml:36
 msgid "No accounts"
-msgstr ""
+msgstr "계정 없음"
 
 #: ../src/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr ""
+msgstr "계정 추가:"
 
 #: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
 msgid "Cancel"
-msgstr ""
+msgstr "취소"
 
 #: ../src/module/Options.qml:36
 msgid "ID"
-msgstr ""
+msgstr "아이디"
 
 #: ../src/module/Options.qml:54
 msgid "Remove account…"
-msgstr ""
+msgstr "계정 삭제..."
 
 #: ../src/module/RemovalConfirmation.qml:32
 msgid "Remove account"
-msgstr ""
+msgstr "계정 제거"
 
 #: ../src/module/RemovalConfirmation.qml:33
 #, qt-format
 msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
-msgstr ""
+msgstr "%1 계정은 휴대전화에서만 제거 됩니다. 나중에 다시 추가 할 수 있습니다."
 
 #: ../src/module/RemovalConfirmation.qml:36
 msgid "Remove"
-msgstr ""
+msgstr "제거"
 
 #: ../src/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr ""
+msgstr "이 계정에 접근:"
 
 #: ../.build/settings.js:1
 msgid "Accounts"
-msgstr ""
+msgstr "계정"

@@ -1,16 +1,16 @@
-# Dutch translation for ubuntu-system-settings-online-accounts
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# Danish translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2014-07-20 17:26+0000\n"
-"Last-Translator: rob <linuxned@gmail.com>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"PO-Revision-Date: 2014-07-20 20:47+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,51 +19,49 @@ msgstr ""
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
-msgstr "Gebruikersnaam"
+msgstr ""
 
 #: ../plugins/example/Main.qml:39
 msgid "Password"
-msgstr "Wachtwoord"
+msgstr ""
 
 #: ../src/AccountsPage.qml:53
 msgid "Add account…"
-msgstr "Account toevoegen…"
+msgstr ""
 
 #: ../src/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
-"Door hier accountgegevens op te slaan, kunnen apps de accounts gebruiken "
-"zonder dat u zich voor elke toepassing apart hoeft aan te melden."
 
 #: ../src/NewAccountPage.qml:23
 msgid "Add account"
-msgstr "Account toevoegen"
+msgstr ""
 
 #: ../src/NoAccountsPage.qml:36
 msgid "No accounts"
-msgstr "Geen accounts"
+msgstr ""
 
 #: ../src/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr "Account toevoegen:"
+msgstr ""
 
 #: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
 msgid "Cancel"
-msgstr "Annuleren"
+msgstr ""
 
 #: ../src/module/Options.qml:36
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #: ../src/module/Options.qml:54
 msgid "Remove account…"
-msgstr "Account verwijderen…"
+msgstr ""
 
 #: ../src/module/RemovalConfirmation.qml:32
 msgid "Remove account"
-msgstr "Account verwijderen"
+msgstr ""
 
 #: ../src/module/RemovalConfirmation.qml:33
 #, qt-format
@@ -71,17 +69,15 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
-"De %1-account zal alleen van uw telefoon verwijderd worden. U kunt deze "
-"later weer toevoegen."
 
 #: ../src/module/RemovalConfirmation.qml:36
 msgid "Remove"
-msgstr "Verwijderen"
+msgstr ""
 
 #: ../src/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr "Toegang tot deze account:"
+msgstr ""
 
 #: ../.build/settings.js:1
 msgid "Accounts"
-msgstr "Accounts"
+msgstr ""

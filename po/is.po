@@ -1,70 +1,67 @@
-# Swedish translation for ubuntu-system-settings-online-accounts
-# Copyright © 2014 Rosetta Contributors and Canonical Ltd 2014
+# Icelandic translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
-# Josef Andersson <josef.andersson@fripost.org>, 2014.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2014-07-24 13:56+0000\n"
-"Last-Translator: Josef Andersson <Unknown>\n"
-"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"PO-Revision-Date: 2014-07-24 10:37+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
+"Language-Team: Icelandic <is@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2014-07-25 07:53+0000\n"
 "X-Generator: Launchpad (build 17114)\n"
-"Language: sv\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
-msgstr "Användarnamn"
+msgstr "Notandanafn"
 
 #: ../plugins/example/Main.qml:39
 msgid "Password"
-msgstr "Lösenord"
+msgstr "Lykilorð"
 
 #: ../src/AccountsPage.qml:53
 msgid "Add account…"
-msgstr "Lägg till konto…"
+msgstr "Bæta við aðgangi..."
 
 #: ../src/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
-"Om du lagrar dina kontodetaljer här kan program använda kontona utan att du "
-"behöver logga in för varje program."
 
 #: ../src/NewAccountPage.qml:23
 msgid "Add account"
-msgstr "Lägg till konto"
+msgstr "Bæta við aðgangi"
 
 #: ../src/NoAccountsPage.qml:36
 msgid "No accounts"
-msgstr "Inga konton"
+msgstr "Engir aðgangsreikningar"
 
 #: ../src/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr "Lägg till konto:"
+msgstr "Bæta við aðgangi:"
 
 #: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
 msgid "Cancel"
-msgstr "Avbryt"
+msgstr "Hætta við"
 
 #: ../src/module/Options.qml:36
 msgid "ID"
-msgstr "Id"
+msgstr "Auðkenni (ID)"
 
 #: ../src/module/Options.qml:54
 msgid "Remove account…"
-msgstr "Ta bort konto…"
+msgstr "Fjarlægja aðgang..."
 
 #: ../src/module/RemovalConfirmation.qml:32
 msgid "Remove account"
-msgstr "Ta bort konto"
+msgstr "Fjarlægja aðgang"
 
 #: ../src/module/RemovalConfirmation.qml:33
 #, qt-format
@@ -72,17 +69,15 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
-"%1-kontot kommer bara tas bort från din telefon. Du kan lägga till det igen "
-"senare."
 
 #: ../src/module/RemovalConfirmation.qml:36
 msgid "Remove"
-msgstr "Ta bort"
+msgstr "Fjarlægja"
 
 #: ../src/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr "Åtkomst till detta konto:"
+msgstr ""
 
 #: ../.build/settings.js:1
 msgid "Accounts"
-msgstr "Konton"
+msgstr "Aðgangar"

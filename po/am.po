@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2014-07-20 18:32+0000\n"
+"PO-Revision-Date: 2014-07-27 17:39+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-21 06:59+0000\n"
-"X-Generator: Launchpad (build 17114)\n"
+"X-Launchpad-Export-Date: 2014-07-28 06:44+0000\n"
+"X-Generator: Launchpad (build 17131)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -34,6 +34,8 @@ msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
+"መግለጫን እዚህ ማስቀመጥ መተግበሪያውን ሁል ጊዜ መጠቀም ያስችለዋል ለ እያንዳንዱ መተግበሪያ እርስዎን እንዲፈርሙ "
+"ክመጠየቅ ይልቅ"
 
 #: ../src/NewAccountPage.qml:23
 msgid "Add account"
@@ -68,7 +70,7 @@ msgstr "መግለጫ ማስወገጃ"
 msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
-msgstr ""
+msgstr "ይህ %1 መግለጫ ከ ስልኩ ውስጥ ብቻ ይወገዳል ፡ በኋላ እንደገና ሊጨምሩት ይችላሉ"
 
 #: ../src/module/RemovalConfirmation.qml:36
 msgid "Remove"
@@ -76,7 +78,7 @@ msgstr "ማስወገጃ"
 
 #: ../src/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr ""
+msgstr "ወደ እዚህ መግለጫ ጋር ለመድረስ"
 
 #: ../.build/settings.js:1
 msgid "Accounts"

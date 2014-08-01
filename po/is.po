@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2014-07-24 10:37+0000\n"
+"PO-Revision-Date: 2014-07-31 16:17+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <is@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-25 07:53+0000\n"
-"X-Generator: Launchpad (build 17114)\n"
+"X-Launchpad-Export-Date: 2014-08-01 07:13+0000\n"
+"X-Generator: Launchpad (build 17141)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -34,6 +34,8 @@ msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
+"Það að geyma upplýsingar aðgangsreiknings hér gerir forritum kleift að nota "
+"hann án þess að þú þurfir að skrá þig inn í hverju forriti fyrir sig."
 
 #: ../src/NewAccountPage.qml:23
 msgid "Add account"
@@ -69,6 +71,8 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
+"Aðgangsreikningurinn %1 verður fjarlægður úr símanum. Þú getur bætt honum "
+"við aftur síðar."
 
 #: ../src/module/RemovalConfirmation.qml:36
 msgid "Remove"
@@ -76,7 +80,7 @@ msgstr "Fjarlægja"
 
 #: ../src/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr ""
+msgstr "Aðgangur að þessum aðgangsreikningi:"
 
 #: ../.build/settings.js:1
 msgid "Accounts"

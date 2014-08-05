@@ -43,6 +43,7 @@ SOURCES += \
     browser-request.cpp \
     debug.cpp \
     dialog.cpp \
+    dialog-request.cpp \
     i18n.cpp \
     inactivity-timer.cpp \
     indicator-service.cpp \
@@ -65,6 +66,7 @@ HEADERS += \
     browser-request.h \
     debug.h \
     dialog.h \
+    dialog-request.h \
     i18n.h \
     inactivity-timer.h \
     indicator-service.h \

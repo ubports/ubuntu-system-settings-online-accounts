@@ -24,6 +24,7 @@
 #include "application-manager.h"
 #include "browser-request.h"
 #include "debug.h"
+#include "dialog-request.h"
 #include "globals.h"
 #include "notification.h"
 
@@ -201,7 +202,8 @@ Request *Request::newRequest(const QDBusConnection &connection,
         return new SignOnUi::BrowserRequest(connection, message,
                                             parameters, parent);
     } else {
-        return 0; // TODO new DialogRequest(connection, message, parameters, parent);
+        return new SignOnUi::DialogRequest(connection, message,
+                                           parameters, parent);
     }
 }
 #endif

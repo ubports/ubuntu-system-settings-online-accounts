@@ -17,12 +17,8 @@ QT += \
 
 PKGCONFIG += \
     accounts-qt5 \
-    libnotify \
     libsignon-qt5 \
     signon-plugins-common
-
-I18N_DOMAIN="ubuntu-system-settings-online-accounts"
-SIGNONUI_I18N_DOMAIN="signon-ui"
 
 DEFINES += \
     I18N_DOMAIN=\\\"$${I18N_DOMAIN}\\\" \
@@ -47,13 +43,10 @@ SOURCES += \
     inactivity-timer.cpp \
     indicator-service.cpp \
     main.cpp \
-    notification.cpp \
     panel-request.cpp \
     provider-request.cpp \
-    reauthenticator.cpp \
     request.cpp \
     request-handler.cpp \
-    request-manager.cpp \
     service.cpp \
     signonui-request.cpp \
     signonui-service.cpp
@@ -68,13 +61,10 @@ HEADERS += \
     i18n.h \
     inactivity-timer.h \
     indicator-service.h \
-    notification.h \
     panel-request.h \
     provider-request.h \
-    reauthenticator.h \
     request.h \
     request-handler.h \
-    request-manager.h \
     service.h \
     signonui-request.h \
     signonui-service.h

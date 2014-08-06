@@ -18,8 +18,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OAU_REQUEST_MANAGER_H
-#define OAU_REQUEST_MANAGER_H
+#ifndef OAU_PLUGIN_PROXY_H
+#define OAU_PLUGIN_PROXY_H
 
 #include <QObject>
 #include <QVariantMap>
@@ -27,31 +27,28 @@
 namespace OnlineAccountsUi {
 
 class Request;
-class RequestManagerPrivate;
 
-class RequestManager: public QObject
+class UiProxyPrivate;
+class UiProxy: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool isIdle READ isIdle NOTIFY isIdleChanged)
 
 public:
-    explicit RequestManager(QObject *parent = 0);
-    ~RequestManager();
+    explicit UiProxy(QObject *parent = 0);
+    ~UiProxy();
 
-    static RequestManager *instance();
-
-    void enqueue(Request *request);
-
-    bool isIdle() const;
+    bool init();
+    void handleRequest(Request *request);
+    bool hasHandlerFor(const QVariantMap &parameters);
 
 Q_SIGNALS:
-    void isIdleChanged();
+    void finished();
 
 private:
-    RequestManagerPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(RequestManager)
+    UiProxyPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(UiProxy)
 };
 
 } // namespace
 
-#endif // OAU_REQUEST_MANAGER_H
+#endif // OAU_PLUGIN_PROXY_H

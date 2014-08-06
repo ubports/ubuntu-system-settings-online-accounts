@@ -21,6 +21,7 @@
 #include "debug.h"
 #include "request.h"
 #include "request-manager.h"
+#include "ui-proxy.h"
 
 #include <QQueue>
 
@@ -41,17 +42,19 @@ public:
     RequestManagerPrivate(RequestManager *service);
     ~RequestManagerPrivate();
 
-    RequestQueue &queueForWindowId(WId windowId);
+    RequestQueue &queueForWindowId(quint64 windowId);
     void enqueue(Request *request);
     void runQueue(RequestQueue &queue);
 
 private Q_SLOTS:
     void onRequestCompleted();
+    void onProxyFinished();
 
 private:
     mutable RequestManager *q_ptr;
     /* each window Id has a different queue */
-    QMap<WId,RequestQueue> m_requests;
+    QMap<quint64,RequestQueue> m_requests;
+    QList<UiProxy*> m_proxies;
 };
 
 } // namespace
@@ -66,7 +69,7 @@ RequestManagerPrivate::~RequestManagerPrivate()
 {
 }
 
-RequestQueue &RequestManagerPrivate::queueForWindowId(WId windowId)
+RequestQueue &RequestManagerPrivate::queueForWindowId(quint64 windowId)
 {
     if (!m_requests.contains(windowId)) {
         RequestQueue queue;
@@ -78,9 +81,20 @@ RequestQueue &RequestManagerPrivate::queueForWindowId(WId windowId)
 void RequestManagerPrivate::enqueue(Request *request)
 {
     Q_Q(RequestManager);
+
+    /* First, see if any of the existing proxies can handle this request */
+    Q_FOREACH(UiProxy *proxy, m_proxies) {
+        if (proxy->hasHandlerFor(request->parameters())) {
+            QObject::connect(request, SIGNAL(completed()),
+                             request, SLOT(deleteLater()));
+            proxy->handleRequest(request);
+            return;
+        }
+    }
+
     bool wasIdle = q->isIdle();
 
-    WId windowId = request->windowId();
+    quint64 windowId = request->windowId();
 
     RequestQueue &queue = queueForWindowId(windowId);
     queue.enqueue(request);
@@ -102,9 +116,18 @@ void RequestManagerPrivate::runQueue(RequestQueue &queue)
         return; // Nothing to do
     }
 
+    UiProxy *proxy = new UiProxy(this);
+    if (Q_UNLIKELY(!proxy->init())) {
+        qWarning() << "UiProxy initialization failed!";
+        runQueue(queue);
+        return;
+    }
     QObject::connect(request, SIGNAL(completed()),
                      this, SLOT(onRequestCompleted()));
-    request->start();
+    QObject::connect(proxy, SIGNAL(finished()),
+                     this, SLOT(onProxyFinished()));
+    m_proxies.append(proxy);
+    proxy->handleRequest(request);
 }
 
 void RequestManagerPrivate::onRequestCompleted()
@@ -112,7 +135,7 @@ void RequestManagerPrivate::onRequestCompleted()
     Q_Q(RequestManager);
 
     Request *request = qobject_cast<Request*>(sender());
-    WId windowId = request->windowId();
+    quint64 windowId = request->windowId();
 
     RequestQueue &queue = queueForWindowId(windowId);
     if (request != queue.head()) {
@@ -133,6 +156,16 @@ void RequestManagerPrivate::onRequestCompleted()
     if (q->isIdle()) {
         Q_EMIT q->isIdleChanged();
     }
+}
+
+void RequestManagerPrivate::onProxyFinished()
+{
+    Q_Q(RequestManager);
+
+    UiProxy *proxy = qobject_cast<UiProxy*>(sender());
+    m_proxies.removeOne(proxy);
+
+    proxy->deleteLater();
 }
 
 RequestManager::RequestManager(QObject *parent):

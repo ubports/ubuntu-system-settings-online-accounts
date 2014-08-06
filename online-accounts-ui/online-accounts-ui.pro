@@ -1,4 +1,4 @@
 TEMPLATE = subdirs
 SUBDIRS = \
     module \
-    online-accounts-ui.pro
+    online-accounts-ui-helper.pro

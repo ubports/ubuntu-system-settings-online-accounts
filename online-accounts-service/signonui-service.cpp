@@ -20,14 +20,12 @@
 
 #include "debug.h"
 #include "request.h"
-#include "request-handler.h"
 #include "request-manager.h"
-#include "signonui-request.h"
 #include "signonui-service.h"
-#include "browser-request.h"
 
 #include <QDBusArgument>
-#include <QtQml>
+#include <QDir>
+#include <QStandardPaths>
 #include <SignOn/uisessiondata_priv.h>
 
 using namespace SignOnUi;
@@ -77,6 +75,8 @@ public:
     void cancelUiRequest(const QString &requestId);
     void removeIdentityData(quint32 id);
 
+    static QString rootDirForIdentity(quint32 id);
+
 private:
     mutable Service *q_ptr;
 };
@@ -106,20 +106,24 @@ void ServicePrivate::cancelUiRequest(const QString &requestId)
     }
 }
 
+QString ServicePrivate::rootDirForIdentity(quint32 id)
+{
+    QString cachePath =
+        QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    return cachePath + QString("/id-%1").arg(id);
+}
+
 void ServicePrivate::removeIdentityData(quint32 id)
 {
     /* Remove any data associated with the given identity. */
-
-    /* The BrowserRequest class creates a directory to store the cookies */
-    BrowserRequest::removeIdentityData(id);
+    QDir rootDir(ServicePrivate::rootDirForIdentity(id));
+    rootDir.removeRecursively();
 }
 
 Service::Service(QObject *parent):
     QObject(parent),
     d_ptr(new ServicePrivate(this))
 {
-    qmlRegisterType<SignOnUi::RequestHandler>("Ubuntu.OnlineAccounts.Plugin",
-                                              1, 0, "RequestHandler");
 }
 
 Service::~Service()
@@ -135,29 +139,12 @@ QVariantMap Service::queryDialog(const QVariantMap &parameters)
     setDelayedReply(true);
 
     OnlineAccountsUi::Request *request =
-        OnlineAccountsUi::Request::newRequest(connection(),
-                                              message(),
-                                              cleanParameters,
-                                              this);
+        new OnlineAccountsUi::Request(connection(),
+                                      message(),
+                                      cleanParameters,
+                                      this);
 
-    /* Check if a RequestHandler has been setup to handle this request. If
-     * so, bing the request object to the handler and start the request
-     * immediately. */
-    SignOnUi::Request *signonRequest =
-        qobject_cast<SignOnUi::Request*>(request);
-    Q_ASSERT(signonRequest != 0);
-
-    RequestHandler *handler = RequestHandler::findMatching(cleanParameters);
-    if (handler != 0) {
-        DEBUG() << "Found RequestHandler!";
-        signonRequest->setHandler(handler);
-        QObject::connect(signonRequest, SIGNAL(completed()),
-                         signonRequest, SLOT(deleteLater()));
-        signonRequest->start();
-    } else {
-        // proceed normally
-        OnlineAccountsUi::RequestManager::instance()->enqueue(request);
-    }
+    OnlineAccountsUi::RequestManager::instance()->enqueue(request);
 
     return QVariantMap();
 }
@@ -165,7 +152,6 @@ QVariantMap Service::queryDialog(const QVariantMap &parameters)
 QVariantMap Service::refreshDialog(const QVariantMap &newParameters)
 {
     QVariantMap cleanParameters = expandDBusArguments(newParameters);
-    QString requestId = Request::id(cleanParameters);
     // TODO find the request and update it
 
     /* The following line tells QtDBus not to generate a reply now */

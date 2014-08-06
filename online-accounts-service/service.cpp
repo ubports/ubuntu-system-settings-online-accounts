@@ -44,17 +44,9 @@ QVariantMap Service::requestAccess(const QVariantMap &options)
     /* The following line tells QtDBus not to generate a reply now */
     setDelayedReply(true);
 
-    Request *request = Request::newRequest(connection(),
-                                           message(),
-                                           options,
-                                           this);
-    if (request) {
-        RequestManager *manager = RequestManager::instance();
-        manager->enqueue(request);
-    } else {
-        sendErrorReply(OAU_ERROR_INVALID_PARAMETERS,
-                       QStringLiteral("Invalid request"));
-    }
+    Request *request = new Request(connection(), message(), options, this);
+    RequestManager *manager = RequestManager::instance();
+    manager->enqueue(request);
 
     return QVariantMap();
 }

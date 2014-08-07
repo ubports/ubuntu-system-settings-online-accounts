@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2014 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -18,33 +18,40 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OAU_PROVIDER_REQUEST_H
-#define OAU_PROVIDER_REQUEST_H
+#ifndef OAU_UI_SERVER_H
+#define OAU_UI_SERVER_H
 
-#include "request.h"
+#include <QObject>
+#include <QVariantMap>
+
+namespace SignOnUi {
+class RequestHandler;
+}
 
 namespace OnlineAccountsUi {
 
-class ProviderRequestPrivate;
-class ProviderRequest: public Request
+class UiServerPrivate;
+class UiServer: public QObject
 {
     Q_OBJECT
 
 public:
-    explicit ProviderRequest(const QString &interface,
-                             int id,
-                             const QString &clientProfile,
-                             const QVariantMap &parameters,
-                             QObject *parent = 0);
-    ~ProviderRequest();
+    explicit UiServer(const QString &address, QObject *parent = 0);
+    ~UiServer();
 
-    void start() Q_DECL_OVERRIDE;
+    static UiServer *instance();
+
+    bool init();
+    void registerHandler(SignOnUi::RequestHandler *handler);
+
+Q_SIGNALS:
+    void finished();
 
 private:
-    ProviderRequestPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(ProviderRequest)
+    UiServerPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(UiServer)
 };
 
 } // namespace
 
-#endif // OAU_PROVIDER_REQUEST_H
+#endif // OAU_UI_SERVER_H

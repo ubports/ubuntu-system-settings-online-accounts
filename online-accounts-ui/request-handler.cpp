@@ -21,6 +21,7 @@
 #include "request-handler.h"
 
 #include "debug.h"
+#include "ui-server.h"
 
 #include <SignOn/uisessiondata_priv.h>
 #include <QDBusArgument>
@@ -66,6 +67,11 @@ RequestHandler::RequestHandler(QObject *parent):
     d_ptr(new RequestHandlerPrivate(this))
 {
     allRequestHandlers.append(this);
+
+    OnlineAccountsUi::UiServer *server =
+        OnlineAccountsUi::UiServer::instance();
+    Q_ASSERT(server);
+    server->registerHandler(this);
 }
 
 RequestHandler::~RequestHandler()

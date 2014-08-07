@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2013-2014 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -21,14 +21,9 @@
 #include "debug.h"
 #include "globals.h"
 #include "i18n.h"
-#include "inactivity-timer.h"
-#include "indicator-service.h"
-#include "request-manager.h"
-#include "service.h"
-#include "signonui-service.h"
+#include "ui-server.h"
 
 #include <QGuiApplication>
-#include <QDBusConnection>
 #include <QLibrary>
 #include <QProcessEnvironment>
 
@@ -37,7 +32,6 @@ using namespace OnlineAccountsUi;
 int main(int argc, char **argv)
 {
     QGuiApplication app(argc, argv);
-    app.setQuitOnLastWindowClosed(false);
 
     /* The testability driver is only loaded by QApplication but not by
      * QGuiApplication.  However, QApplication depends on QWidget which would
@@ -70,66 +64,22 @@ int main(int argc, char **argv)
             setLoggingLevel(value);
     }
 
-    /* default daemonTimeout to 5 seconds */
-    int daemonTimeout = 5;
-
-    /* override daemonTimeout if OAU_DAEMON_TIMEOUT is set */
-    if (environment.contains(QLatin1String("OAU_DAEMON_TIMEOUT"))) {
-        bool isOk;
-        int value = environment.value(
-            QLatin1String("OAU_DAEMON_TIMEOUT")).toInt(&isOk);
-        if (isOk)
-            daemonTimeout = value;
-    }
-
     initTr(I18N_DOMAIN, NULL);
 
-    RequestManager *requestManager = new RequestManager();
-
-    Service *service = new Service();
-    QDBusConnection connection = QDBusConnection::sessionBus();
-    connection.registerService(OAU_SERVICE_NAME);
-    connection.registerObject(OAU_OBJECT_PATH, service);
-
-    SignOnUi::Service *signonuiService = new SignOnUi::Service();
-    connection.registerService(SIGNONUI_SERVICE_NAME);
-    connection.registerObject(SIGNONUI_OBJECT_PATH, signonuiService,
-                              QDBusConnection::ExportAllContents);
-
-    SignOnUi::IndicatorService *indicatorService =
-        new SignOnUi::IndicatorService();
-    connection.registerService(WEBCREDENTIALS_BUS_NAME);
-    connection.registerObject(WEBCREDENTIALS_OBJECT_PATH,
-                              indicatorService->serviceObject());
-
-
-    InactivityTimer *inactivityTimer = 0;
-    if (daemonTimeout > 0) {
-        inactivityTimer = new InactivityTimer(daemonTimeout * 1000);
-        inactivityTimer->watchObject(requestManager);
-        inactivityTimer->watchObject(indicatorService);
-        QObject::connect(inactivityTimer, SIGNAL(timeout()),
-                         &app, SLOT(quit()));
+    QStringList arguments = app.arguments();
+    int i = arguments.indexOf("--socket");
+    if (i < 0 || i + 1 >= arguments.count()) {
+        qWarning() << "Missing --socket argument";
+        return EXIT_FAILURE;
     }
 
-    int ret = app.exec();
+    UiServer server(arguments[i + 1]);
+    QObject::connect(&server, SIGNAL(finished()),
+                     &app, SLOT(quit()));
+    if (Q_UNLIKELY(!server.init())) {
+        qWarning() << "Could not connect to socket";
+        return EXIT_FAILURE;
+    }
 
-    connection.unregisterService(WEBCREDENTIALS_BUS_NAME);
-    connection.unregisterObject(WEBCREDENTIALS_OBJECT_PATH);
-    delete indicatorService;
-
-    connection.unregisterService(SIGNONUI_SERVICE_NAME);
-    connection.unregisterObject(SIGNONUI_OBJECT_PATH);
-    delete signonuiService;
-
-    connection.unregisterService(OAU_SERVICE_NAME);
-    connection.unregisterObject(OAU_OBJECT_PATH);
-    delete service;
-
-    delete requestManager;
-
-    delete inactivityTimer;
-
-    return ret;
+    return app.exec();
 }
-

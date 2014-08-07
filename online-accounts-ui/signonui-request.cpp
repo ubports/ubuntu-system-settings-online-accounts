@@ -192,13 +192,13 @@ void RequestPrivate::onNotificationClosed()
 }
 
 #ifndef NO_REQUEST_FACTORY
-Request *Request::newRequest(const QDBusConnection &connection,
-                             const QDBusMessage &message,
+Request *Request::newRequest(int id,
+                             const QString &clientProfile,
                              const QVariantMap &parameters,
                              QObject *parent)
 {
     if (parameters.contains(SSOUI_KEY_OPENURL)) {
-        return new SignOnUi::BrowserRequest(connection, message,
+        return new SignOnUi::BrowserRequest(id, clientProfile,
                                             parameters, parent);
     } else {
         return 0; // TODO new DialogRequest(connection, message, parameters, parent);
@@ -206,11 +206,12 @@ Request *Request::newRequest(const QDBusConnection &connection,
 }
 #endif
 
-Request::Request(const QDBusConnection &connection,
-                 const QDBusMessage &message,
+Request::Request(int id,
+                 const QString &clientProfile,
                  const QVariantMap &parameters,
                  QObject *parent):
-    OnlineAccountsUi::Request(connection, message, parameters, parent),
+    OnlineAccountsUi::Request(SIGNONUI_INTERFACE, id, clientProfile,
+                              parameters, parent),
     d_ptr(new RequestPrivate(this))
 {
 }

@@ -110,11 +110,12 @@ void PanelRequestPrivate::onWindowVisibleChanged(bool visible)
     }
 }
 
-PanelRequest::PanelRequest(const QDBusConnection &connection,
-                           const QDBusMessage &message,
+PanelRequest::PanelRequest(const QString &interface,
+                           int id,
+                           const QString &clientProfile,
                            const QVariantMap &parameters,
                            QObject *parent):
-    Request(connection, message, parameters, parent),
+    Request(interface, id, clientProfile, parameters, parent),
     d_ptr(new PanelRequestPrivate(this))
 {
 }

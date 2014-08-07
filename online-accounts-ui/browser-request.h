@@ -34,13 +34,11 @@ class BrowserRequest: public Request
     Q_OBJECT
 
 public:
-    explicit BrowserRequest(const QDBusConnection &connection,
-                            const QDBusMessage &message,
+    explicit BrowserRequest(int id,
+                            const QString &clientProfile,
                             const QVariantMap &parameters,
                             QObject *parent = 0);
     ~BrowserRequest();
-
-    static void removeIdentityData(quint32 id);
 
     // reimplemented virtual methods
     void start();

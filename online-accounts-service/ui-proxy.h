@@ -18,8 +18,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OAU_PLUGIN_PROXY_H
-#define OAU_PLUGIN_PROXY_H
+#ifndef OAU_UI_PROXY_H
+#define OAU_UI_PROXY_H
 
 #include <QObject>
 #include <QVariantMap>
@@ -51,4 +51,4 @@ private:
 
 } // namespace
 
-#endif // OAU_PLUGIN_PROXY_H
+#endif // OAU_UI_PROXY_H

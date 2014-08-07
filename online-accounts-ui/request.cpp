@@ -51,8 +51,9 @@ class RequestPrivate: public QObject
     Q_DECLARE_PUBLIC(Request)
 
 public:
-    RequestPrivate(const QDBusConnection &connection,
-                   const QDBusMessage &message,
+    RequestPrivate(const QString &interface,
+                   int id,
+                   const QString &clientProfile,
                    const QVariantMap &parameters,
                    Request *request);
     ~RequestPrivate();
@@ -63,33 +64,36 @@ public:
 
 private:
     void setWindow(QWindow *window);
-    QString findClientApparmorProfile();
 
 private:
     mutable Request *q_ptr;
-    QDBusConnection m_connection;
-    QDBusMessage m_message;
+    QString m_interface;
+    int m_id;
     QVariantMap m_parameters;
     QString m_clientApparmorProfile;
     bool m_inProgress;
     QPointer<QWindow> m_window;
+    QString m_errorName;
+    QString m_errorMessage;
+    QVariantMap m_result;
 };
 
 } // namespace
 
-RequestPrivate::RequestPrivate(const QDBusConnection &connection,
-                               const QDBusMessage &message,
+RequestPrivate::RequestPrivate(const QString &interface,
+                               int id,
+                               const QString &clientProfile,
                                const QVariantMap &parameters,
                                Request *request):
     QObject(request),
     q_ptr(request),
-    m_connection(connection),
-    m_message(message),
+    m_interface(interface),
+    m_id(id),
     m_parameters(parameters),
+    m_clientApparmorProfile(clientProfile),
     m_inProgress(false),
     m_window(0)
 {
-    m_clientApparmorProfile = findClientApparmorProfile();
 }
 
 RequestPrivate::~RequestPrivate()
@@ -113,41 +117,14 @@ void RequestPrivate::setWindow(QWindow *window)
     window->show();
 }
 
-QString RequestPrivate::findClientApparmorProfile()
-{
-    QString uniqueConnectionId = m_message.service();
-    /* This is mainly for unit tests: real messages on the session bus always
-     * have a service name. */
-    if (uniqueConnectionId.isEmpty()) return QString();
-
-    QString appId;
-
-    QDBusMessage msg =
-        QDBusMessage::createMethodCall("org.freedesktop.DBus",
-                                       "/org/freedesktop/DBus",
-                                       "org.freedesktop.DBus",
-                                       "GetConnectionAppArmorSecurityContext");
-    QVariantList args;
-    args << uniqueConnectionId;
-    msg.setArguments(args);
-    QDBusMessage reply = QDBusConnection::sessionBus().call(msg, QDBus::Block);
-    if (reply.type() == QDBusMessage::ReplyMessage) {
-        appId = reply.arguments().value(0, QString()).toString();
-        DEBUG() << "App ID:" << appId;
-    } else {
-        qWarning() << "Error getting app ID:" << reply.errorName() <<
-            reply.errorMessage();
-    }
-    return appId;
-}
-
 /* Some unit tests might need to provide a different implementation for the
  * Request::newRequest() factory method; for this reason, we allow the method
  * to be excluded from compilation.
  */
 #ifndef NO_REQUEST_FACTORY
-Request *Request::newRequest(const QDBusConnection &connection,
-                             const QDBusMessage &message,
+Request *Request::newRequest(const QString &interface,
+                             int id,
+                             const QString &clientProfile,
                              const QVariantMap &parameters,
                              QObject *parent)
 {
@@ -155,26 +132,29 @@ Request *Request::newRequest(const QDBusConnection &connection,
      * different subclasses for handling them, and in this method we examine
      * the @parameters argument to figure out which subclass is the most apt to
      * handle the request. */
-    if (message.interface() == OAU_INTERFACE) {
+    if (interface == OAU_INTERFACE) {
         if (parameters.contains(OAU_KEY_PROVIDER)) {
-            return new ProviderRequest(connection, message, parameters, parent);
+            return new ProviderRequest(interface, id, clientProfile,
+                                       parameters, parent);
         } else {
-            return new PanelRequest(connection, message, parameters, parent);
+            return new PanelRequest(interface, id, clientProfile,
+                                    parameters, parent);
         }
     } else {
-        Q_ASSERT(message.interface() == SIGNONUI_INTERFACE);
-        return SignOnUi::Request::newRequest(connection, message,
+        Q_ASSERT(interface == SIGNONUI_INTERFACE);
+        return SignOnUi::Request::newRequest(id, clientProfile,
                                              parameters, parent);
     }
 }
 #endif
 
-Request::Request(const QDBusConnection &connection,
-                 const QDBusMessage &message,
+Request::Request(const QString &interface,
+                 int id,
+                 const QString &clientProfile,
                  const QVariantMap &parameters,
                  QObject *parent):
     QObject(parent),
-    d_ptr(new RequestPrivate(connection, message, parameters, this))
+    d_ptr(new RequestPrivate(interface, id, clientProfile, parameters, this))
 {
     allRequests.append(this);
 }
@@ -193,6 +173,18 @@ Request *Request::find(const QVariantMap &match)
     }
 
     return 0;
+}
+
+QString Request::interface() const
+{
+    Q_D(const Request);
+    return d->m_interface;
+}
+
+int Request::id() const
+{
+    Q_D(const Request);
+    return d->m_id;
 }
 
 void Request::setWindow(QWindow *window)
@@ -231,6 +223,24 @@ QWindow *Request::window() const
     return d->m_window;
 }
 
+QVariantMap Request::result() const
+{
+    Q_D(const Request);
+    return d->m_result;
+}
+
+QString Request::errorName() const
+{
+    Q_D(const Request);
+    return d->m_errorName;
+}
+
+QString Request::errorMessage() const
+{
+    Q_D(const Request);
+    return d->m_errorMessage;
+}
+
 void Request::start()
 {
     Q_D(Request);
@@ -249,8 +259,11 @@ void Request::cancel()
 void Request::fail(const QString &name, const QString &message)
 {
     Q_D(Request);
-    QDBusMessage reply = d->m_message.createErrorReply(name, message);
-    d->m_connection.send(reply);
+
+    DEBUG() << name << message;
+
+    d->m_errorName = name;
+    d->m_errorMessage = message;
 
     Q_EMIT completed();
 }
@@ -268,8 +281,8 @@ void Request::setResult(const QVariantMap &result)
 {
     Q_D(Request);
     if (d->m_inProgress) {
-        QDBusMessage reply = d->m_message.createReply(result);
-        d->m_connection.send(reply);
+        DEBUG() << result;
+        d->m_result = result;
 
         Q_EMIT completed();
         d->m_inProgress = false;

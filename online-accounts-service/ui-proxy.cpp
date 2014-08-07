@@ -78,6 +78,7 @@ UiProxyPrivate::UiProxyPrivate(UiProxy *pluginProxy):
                      this, SLOT(onNewConnection()));
     QObject::connect(&m_ipc, SIGNAL(dataReady(QByteArray &)),
                      this, SLOT(onDataReady(QByteArray &)));
+    m_process.setProcessChannelMode(QProcess::ForwardedChannels);
 }
 
 UiProxyPrivate::~UiProxyPrivate()
@@ -119,6 +120,7 @@ void UiProxyPrivate::onNewConnection()
     /* Execute any pending requests */
     QMapIterator<int, Request*> it(m_requests);
     while (it.hasNext()) {
+        it.next();
         sendRequest(it.key(), it.value());
     }
 }
@@ -175,6 +177,7 @@ bool UiProxyPrivate::init()
     QStringList arguments;
     /* the first argument is required to be the desktop file */
     arguments.append("--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop");
+    arguments.append("--socket");
     arguments.append(m_server.fullServerName());
 
     m_process.start("/usr/bin/online-accounts-ui", arguments);
@@ -217,7 +220,7 @@ void UiProxy::handleRequest(Request *request)
     d->m_requests.insert(requestId, request);
     request->setInProgress(true);
 
-    if (d->m_socket->isValid()) {
+    if (d->m_socket && d->m_socket->isValid()) {
         d->sendRequest(requestId, request);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2013-2014 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -31,8 +31,9 @@ class PanelRequest: public Request
     Q_OBJECT
 
 public:
-    explicit PanelRequest(const QDBusConnection &connection,
-                          const QDBusMessage &message,
+    explicit PanelRequest(const QString &interface,
+                          int id,
+                          const QString &clientProfile,
                           const QVariantMap &parameters,
                           QObject *parent = 0);
     ~PanelRequest();

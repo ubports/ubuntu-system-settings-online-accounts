@@ -8,22 +8,22 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2014-08-05 14:47+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2014-08-07 04:11+0000\n"
+"Last-Translator: Mitsuya Shibata <mty.shibata@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-06 06:55+0000\n"
+"X-Launchpad-Export-Date: 2014-08-07 06:27+0000\n"
 "X-Generator: Launchpad (build 17147)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
-msgstr ""
+msgstr "ユーザー名"
 
 #: ../plugins/example/Main.qml:39
 msgid "Password"
-msgstr ""
+msgstr "パスワード"
 
 #: ../src/AccountsPage.qml:53
 msgid "Add account…"
@@ -33,27 +33,27 @@ msgstr ""
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
-msgstr ""
+msgstr "ここにアカウント情報を追加すると、個別に認証する必要なくアプリがアカウントを利用できます。"
 
 #: ../src/NewAccountPage.qml:23
 msgid "Add account"
-msgstr ""
+msgstr "アカウントの追加"
 
 #: ../src/NoAccountsPage.qml:36
 msgid "No accounts"
-msgstr ""
+msgstr "アカウントはありません"
 
 #: ../src/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr ""
+msgstr "アカウントの追加："
 
 #: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: ../src/module/Options.qml:36
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: ../src/module/Options.qml:54
 msgid "Remove account…"
@@ -68,16 +68,16 @@ msgstr ""
 msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
-msgstr ""
+msgstr "アカウント %1 はスマートフォン上からのみ削除されます。これはあとから再度追加できます。"
 
 #: ../src/module/RemovalConfirmation.qml:36
 msgid "Remove"
-msgstr ""
+msgstr "削除"
 
 #: ../src/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr ""
+msgstr "このアカウントにアクセスするサービス："
 
 #: ../.build/settings.js:1
 msgid "Accounts"
-msgstr ""
+msgstr "アカウント"

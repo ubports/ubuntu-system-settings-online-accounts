@@ -39,8 +39,8 @@ public:
                                QObject *parent = 0);
     ~Request();
 
-    static QString id(const QVariantMap &parameters);
-    QString id() const;
+    static QString ssoId(const QVariantMap &parameters);
+    QString ssoId() const;
 
     uint identity() const;
     QString method() const;

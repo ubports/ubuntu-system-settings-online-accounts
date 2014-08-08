@@ -25,30 +25,33 @@
 
 using namespace OnlineAccountsUi;
 
-RequestPrivate::RequestPrivate(const QDBusConnection &connection,
-                               const QDBusMessage &message,
+RequestPrivate::RequestPrivate(const QString &interface,
+                               int id,
+                               const QString &clientProfile,
                                const QVariantMap &parameters,
                                Request *request):
     QObject(request),
     q_ptr(request),
     m_parameters(parameters),
+    m_clientApparmorProfile(clientProfile),
     m_window(0),
     m_inProgress(false)
 {
-    Q_UNUSED(connection);
-    Q_UNUSED(message);
+    Q_UNUSED(interface);
+    Q_UNUSED(id);
 }
 
 RequestPrivate::~RequestPrivate()
 {
 }
 
-Request::Request(const QDBusConnection &connection,
-                 const QDBusMessage &message,
+Request::Request(const QString &interface,
+                 int id,
+                 const QString &clientProfile,
                  const QVariantMap &parameters,
                  QObject *parent):
     QObject(parent),
-    d_ptr(new RequestPrivate(connection, message, parameters, this))
+    d_ptr(new RequestPrivate(interface, id, clientProfile, parameters, this))
 {
 }
 

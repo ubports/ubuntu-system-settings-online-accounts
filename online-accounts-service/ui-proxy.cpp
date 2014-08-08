@@ -68,11 +68,11 @@ private:
 
 } // namespace
 
-UiProxyPrivate::UiProxyPrivate(UiProxy *pluginProxy):
-    QObject(pluginProxy),
+UiProxyPrivate::UiProxyPrivate(UiProxy *uiProxy):
+    QObject(uiProxy),
     m_socket(0),
     m_nextRequestId(0),
-    q_ptr(pluginProxy)
+    q_ptr(uiProxy)
 {
     QObject::connect(&m_server, SIGNAL(newConnection()),
                      this, SLOT(onNewConnection()));

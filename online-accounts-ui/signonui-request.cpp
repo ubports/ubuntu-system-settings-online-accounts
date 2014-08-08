@@ -220,14 +220,14 @@ Request::~Request()
 {
 }
 
-QString Request::id(const QVariantMap &parameters)
+QString Request::ssoId(const QVariantMap &parameters)
 {
     return parameters[SSOUI_KEY_REQUESTID].toString();
 }
 
-QString Request::id() const
+QString Request::ssoId() const
 {
-    return Request::id(parameters());
+    return Request::ssoId(parameters());
 }
 
 void Request::setWindow(QWindow *window)

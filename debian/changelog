@@ -1,3 +1,24 @@
+ubuntu-system-settings-online-accounts (0.4+14.10.20140708-0ubuntu2) utopic; urgency=medium
+
+  * Add forgotten test-dep on ubuntu-ui-toolkit-autopilot.
+
+ -- Iain Lane <iain@orangesquash.org.uk>  Tue, 08 Jul 2014 15:13:08 +0100
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20140708-0ubuntu1) utopic; urgency=low
+
+  [ Leo Arias ]
+  * Refactored the autopilot tests to use the page object pattern. Added
+    the method go to add account to be used in UX tests.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 08 Jul 2014 11:05:35 +0000
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20140701-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * New icon from suru theme.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 01 Jul 2014 07:30:54 +0000
+
 ubuntu-system-settings-online-accounts (0.4+14.10.20140612-0ubuntu1) utopic; urgency=medium
 
   [ Alberto Mardegan ]

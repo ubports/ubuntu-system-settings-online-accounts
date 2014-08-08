@@ -74,6 +74,7 @@ UiServerPrivate::UiServerPrivate(const QString &address,
 
 UiServerPrivate::~UiServerPrivate()
 {
+    DEBUG();
 }
 
 void UiServerPrivate::sendOperation(const QVariantMap &data)
@@ -91,6 +92,8 @@ void UiServerPrivate::onDataReady(QByteArray &data)
     QVariantMap map;
     QDataStream stream(&data, QIODevice::ReadOnly);
     stream >> map;
+
+    DEBUG() << map;
 
     QString code = map.value(OAU_OPERATION_CODE).toString();
     if (code == OAU_OPERATION_CODE_PROCESS) {

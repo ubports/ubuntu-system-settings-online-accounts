@@ -133,6 +133,8 @@ void UiProxyPrivate::onDataReady(QByteArray &data)
     QDataStream stream(&data, QIODevice::ReadOnly);
     stream >> map;
 
+    DEBUG() << map;
+
     int requestId = map.value(OAU_OPERATION_ID, -1).toInt();
     Request *request = m_requests.value(requestId, 0);
 

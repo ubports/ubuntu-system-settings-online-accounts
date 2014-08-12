@@ -19,20 +19,17 @@
 #ifndef ONLINE_ACCOUNTS_SYSTEM_SETTINGS_PLUGIN_H
 #define ONLINE_ACCOUNTS_SYSTEM_SETTINGS_PLUGIN_H
 
-#include <QObject>
-#include <SystemSettings/PluginInterface>
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlExtensionPlugin>
 
-class Plugin: public QObject, public SystemSettings::PluginInterface
+class BackendPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "com.ubuntu.SystemSettings.PluginInterface")
-    Q_INTERFACES(SystemSettings::PluginInterface)
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
 public:
-    Plugin();
-
-    SystemSettings::ItemBase *createItem(const QVariantMap &staticData,
-                                         QObject *parent = 0);
+    void registerTypes(const char *uri);
+    void initializeEngine(QQmlEngine *engine, const char *uri);
 };
 
 #endif // ONLINE_ACCOUNTS_SYSTEM_SETTINGS_PLUGIN_H

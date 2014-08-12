@@ -16,74 +16,21 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QtQml>
+#include <QtQml/QQmlContext>
 #include "plugin.h"
+// #include "accounts.h"
 
-#include <OnlineAccountsClient/Setup>
-#include <QDebug>
-#include <QStringList>
-#include <SystemSettings/ItemBase>
 
-using namespace SystemSettings;
-
-class Item: public ItemBase
+void BackendPlugin::registerTypes(const char *uri)
 {
-    Q_OBJECT
+    Q_ASSERT(uri == QLatin1String("Ubuntu.SystemSettings.OnlineAccounts"));
 
-public:
-    Item(const QVariantMap &staticData, QObject *parent = 0);
-    ~Item();
-
-    QQmlComponent *pageComponent(QQmlEngine *engine,
-                                 QObject *parent = 0) Q_DECL_OVERRIDE;
-
-private Q_SLOTS:
-    void onFinished();
-
-private:
-    OnlineAccountsClient::Setup m_setup;
-    bool m_isOpen;
-};
-
-Item::Item(const QVariantMap &staticData, QObject *parent):
-    ItemBase(staticData, parent),
-    m_isOpen(false)
-{
-    QObject::connect(&m_setup, SIGNAL(finished()),
-                     this, SLOT(onFinished()));
+    qDebug() << uri;
+    // qmlRegisterType<OnlineAccounts>(uri, 1, 0, "OnlineAccountsPanel");
 }
 
-Item::~Item()
+void BackendPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
+    QQmlExtensionPlugin::initializeEngine(engine, uri);
 }
-
-QQmlComponent *Item::pageComponent(QQmlEngine *engine,
-                                   QObject *parent)
-{
-    Q_UNUSED(engine);
-    Q_UNUSED(parent);
-
-    if (!m_isOpen) {
-        qDebug() << "Opening Online Accounts";
-        m_isOpen = true;
-        m_setup.exec();
-    }
-    return 0;
-}
-
-void Item::onFinished()
-{
-    m_isOpen = false;
-}
-
-Plugin::Plugin():
-    QObject()
-{
-}
-
-ItemBase *Plugin::createItem(const QVariantMap &staticData,
-                             QObject *parent)
-{
-    return new Item(staticData, parent);
-}
-
-#include "plugin.moc"

@@ -13,6 +13,18 @@ QT += \
     core \
     qml
 
+QML_SOURCES = \
+  AccountEditPage.qml \
+  AccountItem.qml \
+  AccountsPage.qml \
+  AddAccountLabel.qml \
+  MainPage.qml \
+  NewAccountPage.qml \
+  NoAccountsPage.qml \
+  NormalStartupPage.qml \
+  ProviderPluginList.qml \
+  ProvidersList.qml \
+
 PKGCONFIG += \
     SystemSettings
 
@@ -39,3 +51,6 @@ image.files = settings-accounts.svg
 image.path = $${PLUGIN_MANIFEST_DIR}/icons
 INSTALLS += image
 
+qml.files = $${QML_SOURCES}
+qml.path = $${PLUGIN_QML_DIR}/online-accounts
+INSTALLS += qml

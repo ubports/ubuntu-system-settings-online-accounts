@@ -19,8 +19,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.OnlineAccounts 0.1
-
-// HACK
 import Ubuntu.OnlineAccounts.Plugin 1.0
 
 Page {
@@ -37,30 +35,9 @@ Page {
         objectHandle: accountHandle
     }
 
-/*    Loader {
-        id: loader
-        property var account: account
-
-        anchors.fill: parent
-        source: localQmlPluginPath + account.provider.id + "/Main.qml"
-
-        onStatusChanged: {
-            if (loader.status == Loader.Error) {
-                loader.source = systemQmlPluginPath + account.provider.id + "/Main.qml"
-            }
-        }
-
-
-        Connections {
-            target: loader.item
-            onFinished: {
-                console.log("====== PLUGIN FINISHED ======")
-                root.finished()
-            }
-        }
-    }
-*/
-    // HACK: this only suppots OAuth-based providers...
+    // Most provider plugins declare a creationComponent at constuction time
+    // which breaks because of the absence of RequestHandler support.
+    // So we limit support to plain OAuth providers for now
     OAuthMain {}
 
 }

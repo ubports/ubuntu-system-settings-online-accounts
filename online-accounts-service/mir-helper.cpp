@@ -25,6 +25,7 @@
 #include <mir_toolkit/mir_prompt_session.h>
 
 #include <QList>
+#include <QStandardPaths>
 
 using namespace OnlineAccountsUi;
 
@@ -115,7 +116,11 @@ MirHelperPrivate::MirHelperPrivate(MirHelper *helper):
     QObject(helper),
     q_ptr(helper)
 {
-    m_connection = mir_connect_sync(NULL, "online-accounts-service");
+    QString mirSocket =
+        QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) +
+        "/mir_socket_trusted";
+    m_connection = mir_connect_sync(mirSocket.toUtf8().constData(),
+                                    "online-accounts-service");
     if (Q_UNLIKELY(!mir_connection_is_valid(m_connection))) {
         qWarning() << "Invalid Mir connection:" <<
             mir_connection_get_error_message(m_connection);

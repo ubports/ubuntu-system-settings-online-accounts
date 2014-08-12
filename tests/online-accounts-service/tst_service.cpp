@@ -154,7 +154,7 @@ public:
 
 } // namespace
 
-UiProxy::UiProxy(QObject *parent):
+UiProxy::UiProxy(pid_t, QObject *parent):
     QObject(parent),
     d_ptr(new UiProxyPrivate(this))
 {

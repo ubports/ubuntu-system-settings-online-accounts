@@ -19,6 +19,7 @@
  */
 
 #include "debug.h"
+#include "globals.h"
 #include "request.h"
 #include "request-manager.h"
 #include "ui-proxy.h"
@@ -116,7 +117,9 @@ void RequestManagerPrivate::runQueue(RequestQueue &queue)
         return; // Nothing to do
     }
 
-    UiProxy *proxy = new UiProxy(this);
+    pid_t clientPid = (request->interface() == OAU_INTERFACE) ?
+        request->parameters().value(OAU_KEY_PID, 0).toUInt() : 0;
+    UiProxy *proxy = new UiProxy(clientPid, this);
     if (Q_UNLIKELY(!proxy->init())) {
         qWarning() << "UiProxy initialization failed!";
         runQueue(queue);

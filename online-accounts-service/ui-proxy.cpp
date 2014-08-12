@@ -20,6 +20,7 @@
 
 #include "debug.h"
 #include "ipc.h"
+#include "mir-helper.h"
 #include "request.h"
 #include "ui-proxy.h"
 
@@ -28,6 +29,7 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QProcess>
+#include <QProcessEnvironment>
 #include <QStandardPaths>
 #include <SignOn/uisessiondata_priv.h>
 
@@ -43,13 +45,14 @@ class UiProxyPrivate: public QObject
     Q_DECLARE_PUBLIC(UiProxy)
 
 public:
-    inline UiProxyPrivate(UiProxy *pluginProxy);
+    inline UiProxyPrivate(pid_t clientPid, UiProxy *pluginProxy);
     inline ~UiProxyPrivate();
 
     bool setupSocket();
     bool init();
     void sendOperation(const QVariantMap &data);
     void sendRequest(int requestId, Request *request);
+    void setupPromptSession();
 
 private Q_SLOTS:
     void onNewConnection();
@@ -63,15 +66,19 @@ private:
     int m_nextRequestId;
     QMap<int,Request*> m_requests;
     QStringList m_handlers;
+    pid_t m_clientPid;
+    PromptSession *m_promptSession;
     mutable UiProxy *q_ptr;
 };
 
 } // namespace
 
-UiProxyPrivate::UiProxyPrivate(UiProxy *uiProxy):
+UiProxyPrivate::UiProxyPrivate(pid_t clientPid, UiProxy *uiProxy):
     QObject(uiProxy),
     m_socket(0),
     m_nextRequestId(0),
+    m_clientPid(clientPid),
+    m_promptSession(0),
     q_ptr(uiProxy)
 {
     QObject::connect(&m_server, SIGNAL(newConnection()),
@@ -83,6 +90,8 @@ UiProxyPrivate::UiProxyPrivate(UiProxy *uiProxy):
 
 UiProxyPrivate::~UiProxyPrivate()
 {
+    delete m_promptSession;
+
     if (m_socket) {
         m_socket->abort();
         delete m_socket;
@@ -172,6 +181,27 @@ bool UiProxyPrivate::setupSocket()
     return m_server.listen(socketDir.filePath(uniqueName));
 }
 
+void UiProxyPrivate::setupPromptSession()
+{
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    if (!env.value("QT_QPA_PLATFORM").startsWith("ubuntu")) return;
+
+    PromptSession *session =
+        MirHelper::instance()->createPromptSession(m_clientPid);
+    if (!session) return;
+
+    QString mirSocket = session->requestSocket();
+    if (mirSocket.isEmpty()) {
+        delete session;
+        return;
+    }
+
+    m_promptSession = session;
+
+    env.insert("MIR_SOCKET", mirSocket);
+    m_process.setProcessEnvironment(env);
+}
+
 bool UiProxyPrivate::init()
 {
     if (Q_UNLIKELY(!setupSocket())) return false;
@@ -181,6 +211,10 @@ bool UiProxyPrivate::init()
     arguments.append("--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop");
     arguments.append("--socket");
     arguments.append(m_server.fullServerName());
+
+    if (m_clientPid) {
+        setupPromptSession();
+    }
 
     m_process.start("/usr/bin/online-accounts-ui", arguments);
     return m_process.waitForStarted();
@@ -198,9 +232,9 @@ void UiProxyPrivate::sendRequest(int requestId, Request *request)
     sendOperation(operation);
 }
 
-UiProxy::UiProxy(QObject *parent):
+UiProxy::UiProxy(pid_t clientPid, QObject *parent):
     QObject(parent),
-    d_ptr(new UiProxyPrivate(this))
+    d_ptr(new UiProxyPrivate(clientPid, this))
 {
 }
 

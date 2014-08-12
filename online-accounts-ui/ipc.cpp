@@ -178,6 +178,7 @@ void Ipc::write(const QByteArray &data)
     int length = data.count();
     d->m_writeChannel->write((char *)&length, sizeof(length));
     d->m_writeChannel->write(data);
+    d->m_writeChannel->waitForBytesWritten(-1);
 }
 
 #include "ipc.moc"

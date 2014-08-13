@@ -18,32 +18,33 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OAU_PANEL_REQUEST_H
-#define OAU_PANEL_REQUEST_H
+#ifndef OAU_PROVIDER_REQUEST_H
+#define OAU_PROVIDER_REQUEST_H
 
 #include "request.h"
 
 namespace OnlineAccountsUi {
 
-class PanelRequestPrivate;
-class PanelRequest: public Request
+class ProviderRequestPrivate;
+class ProviderRequest: public Request
 {
     Q_OBJECT
 
 public:
-    explicit PanelRequest(const QDBusConnection &connection,
-                          const QDBusMessage &message,
-                          const QVariantMap &parameters,
-                          QObject *parent = 0);
-    ~PanelRequest();
+    explicit ProviderRequest(const QString &interface,
+                             int id,
+                             const QString &clientProfile,
+                             const QVariantMap &parameters,
+                             QObject *parent = 0);
+    ~ProviderRequest();
 
     void start() Q_DECL_OVERRIDE;
 
 private:
-    PanelRequestPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(PanelRequest)
+    ProviderRequestPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(ProviderRequest)
 };
 
 } // namespace
 
-#endif // OAU_PANEL_REQUEST_H
+#endif // OAU_PROVIDER_REQUEST_H

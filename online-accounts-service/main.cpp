@@ -20,45 +20,21 @@
 
 #include "debug.h"
 #include "globals.h"
-#include "i18n.h"
 #include "inactivity-timer.h"
 #include "indicator-service.h"
 #include "request-manager.h"
 #include "service.h"
 #include "signonui-service.h"
 
-#include <QGuiApplication>
+#include <QCoreApplication>
 #include <QDBusConnection>
-#include <QLibrary>
 #include <QProcessEnvironment>
 
 using namespace OnlineAccountsUi;
 
 int main(int argc, char **argv)
 {
-    QGuiApplication app(argc, argv);
-    app.setQuitOnLastWindowClosed(false);
-
-    /* The testability driver is only loaded by QApplication but not by
-     * QGuiApplication.  However, QApplication depends on QWidget which would
-     * add some unneeded overhead => Let's load the testability driver on our
-     * own.
-     */
-    if (app.arguments().contains(QStringLiteral("-testability"))) {
-        QLibrary testLib(QStringLiteral("qttestability"));
-        if (testLib.load()) {
-            typedef void (*TasInitialize)(void);
-            TasInitialize initFunction =
-                (TasInitialize)testLib.resolve("qt_testability_init");
-            if (initFunction) {
-                initFunction();
-            } else {
-                qCritical("Library qttestability resolve failed!");
-            }
-        } else {
-            qCritical("Library qttestability load failed!");
-        }
-    }
+    QCoreApplication app(argc, argv);
 
     /* read environment variables */
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
@@ -81,8 +57,6 @@ int main(int argc, char **argv)
         if (isOk)
             daemonTimeout = value;
     }
-
-    initTr(I18N_DOMAIN, NULL);
 
     RequestManager *requestManager = new RequestManager();
 

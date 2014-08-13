@@ -164,11 +164,12 @@ void ProviderRequestPrivate::onAllowed(int accountId)
     m_view->close();
 }
 
-ProviderRequest::ProviderRequest(const QDBusConnection &connection,
-                                 const QDBusMessage &message,
+ProviderRequest::ProviderRequest(const QString &interface,
+                                 int id,
+                                 const QString &clientProfile,
                                  const QVariantMap &parameters,
                                  QObject *parent):
-    Request(connection, message, parameters, parent),
+    Request(interface, id, clientProfile, parameters, parent),
     d_ptr(new ProviderRequestPrivate(this))
 {
 }

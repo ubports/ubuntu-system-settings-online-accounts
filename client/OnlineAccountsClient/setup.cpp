@@ -20,9 +20,9 @@
  * <http://www.gnu.org/licenses/>.
  */
 
+#include "online-accounts-ui/globals.h"
 #include "onlineaccountsui_interface.h"
 #include "setup.h"
-#include "src/globals.h"
 
 #include <QDBusConnection>
 #include <QDBusPendingCallWatcher>

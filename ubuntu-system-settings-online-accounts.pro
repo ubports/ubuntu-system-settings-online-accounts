@@ -4,7 +4,8 @@ include(common-project-config.pri)
 TEMPLATE = subdirs
 SUBDIRS = \
     po \
-    src \
+    online-accounts-service \
+    online-accounts-ui \
     click-hooks \
     client \
     system-settings-plugin \
@@ -12,8 +13,8 @@ SUBDIRS = \
     tests
 
 system-settings-plugin.depends = client
-plugins.depends = src
-tests.depends = src client
+plugins.depends = online-accounts-ui
+tests.depends = online-accounts-service online-accounts-ui client
 
 include(common-installs-config.pri)
 

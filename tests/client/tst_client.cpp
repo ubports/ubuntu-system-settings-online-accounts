@@ -20,7 +20,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#include "src/globals.h"
+#include "online-accounts-ui/globals.h"
 
 #include <OnlineAccountsClient/Setup>
 #include <QDBusConnection>

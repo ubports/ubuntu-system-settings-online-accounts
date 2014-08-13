@@ -19,14 +19,8 @@
  */
 
 #include "debug.h"
-// TODO #include "dialog-request.h"
 #include "globals.h"
-#include "panel-request.h"
-#include "provider-request.h"
 #include "request.h"
-#include "signonui-request.h"
-
-#include <QPointer>
 
 using namespace OnlineAccountsUi;
 
@@ -57,12 +51,11 @@ public:
                    Request *request);
     ~RequestPrivate();
 
-    WId windowId() const {
+    quint64 windowId() const {
         return m_parameters[OAU_KEY_WINDOW_ID].toUInt();
     }
 
 private:
-    void setWindow(QWindow *window);
     QString findClientApparmorProfile();
 
 private:
@@ -72,7 +65,6 @@ private:
     QVariantMap m_parameters;
     QString m_clientApparmorProfile;
     bool m_inProgress;
-    QPointer<QWindow> m_window;
 };
 
 } // namespace
@@ -86,31 +78,13 @@ RequestPrivate::RequestPrivate(const QDBusConnection &connection,
     m_connection(connection),
     m_message(message),
     m_parameters(parameters),
-    m_inProgress(false),
-    m_window(0)
+    m_inProgress(false)
 {
     m_clientApparmorProfile = findClientApparmorProfile();
 }
 
 RequestPrivate::~RequestPrivate()
 {
-}
-
-void RequestPrivate::setWindow(QWindow *window)
-{
-    if (m_window != 0) {
-        qWarning() << "Widget already set";
-        return;
-    }
-
-    m_window = window;
-
-    if (windowId() != 0) {
-        DEBUG() << "Requesting window reparenting";
-        QWindow *parent = QWindow::fromWinId(windowId());
-        window->setTransientParent(parent);
-    }
-    window->show();
 }
 
 QString RequestPrivate::findClientApparmorProfile()
@@ -141,34 +115,6 @@ QString RequestPrivate::findClientApparmorProfile()
     return appId;
 }
 
-/* Some unit tests might need to provide a different implementation for the
- * Request::newRequest() factory method; for this reason, we allow the method
- * to be excluded from compilation.
- */
-#ifndef NO_REQUEST_FACTORY
-Request *Request::newRequest(const QDBusConnection &connection,
-                             const QDBusMessage &message,
-                             const QVariantMap &parameters,
-                             QObject *parent)
-{
-    /* If the supported requests types vary considerably, we can create
-     * different subclasses for handling them, and in this method we examine
-     * the @parameters argument to figure out which subclass is the most apt to
-     * handle the request. */
-    if (message.interface() == OAU_INTERFACE) {
-        if (parameters.contains(OAU_KEY_PROVIDER)) {
-            return new ProviderRequest(connection, message, parameters, parent);
-        } else {
-            return new PanelRequest(connection, message, parameters, parent);
-        }
-    } else {
-        Q_ASSERT(message.interface() == SIGNONUI_INTERFACE);
-        return SignOnUi::Request::newRequest(connection, message,
-                                             parameters, parent);
-    }
-}
-#endif
-
 Request::Request(const QDBusConnection &connection,
                  const QDBusMessage &message,
                  const QVariantMap &parameters,
@@ -195,16 +141,16 @@ Request *Request::find(const QVariantMap &match)
     return 0;
 }
 
-void Request::setWindow(QWindow *window)
-{
-    Q_D(Request);
-    d->setWindow(window);
-}
-
-WId Request::windowId() const
+quint64 Request::windowId() const
 {
     Q_D(const Request);
     return d->windowId();
+}
+
+void Request::setInProgress(bool inProgress)
+{
+    Q_D(Request);
+    d->m_inProgress = inProgress;
 }
 
 bool Request::isInProgress() const
@@ -225,20 +171,9 @@ QString Request::clientApparmorProfile() const
     return d->m_clientApparmorProfile;
 }
 
-QWindow *Request::window() const
-{
+QString Request::interface() const {
     Q_D(const Request);
-    return d->m_window;
-}
-
-void Request::start()
-{
-    Q_D(Request);
-    if (d->m_inProgress) {
-        qWarning() << "Request already started!";
-        return;
-    }
-    d->m_inProgress = true;
+    return d->m_message.interface();
 }
 
 void Request::cancel()

@@ -33,14 +33,14 @@ class Request: public OnlineAccountsUi::Request
     Q_OBJECT
 
 public:
-    static Request *newRequest(const QDBusConnection &connection,
-                               const QDBusMessage &message,
+    static Request *newRequest(int id,
+                               const QString &clientProfile,
                                const QVariantMap &parameters,
                                QObject *parent = 0);
     ~Request();
 
-    static QString id(const QVariantMap &parameters);
-    QString id() const;
+    static QString ssoId(const QVariantMap &parameters);
+    QString ssoId() const;
 
     uint identity() const;
     QString method() const;
@@ -53,8 +53,8 @@ public:
     bool hasHandler() const { return handler() != 0; }
 
 protected:
-    explicit Request(const QDBusConnection &connection,
-                     const QDBusMessage &message,
+    explicit Request(int id,
+                     const QString &clientProfile,
                      const QVariantMap &parameters,
                      QObject *parent = 0);
     virtual void setWindow(QWindow *window) Q_DECL_OVERRIDE;

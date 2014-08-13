@@ -102,6 +102,7 @@ BrowserRequestPrivate::BrowserRequestPrivate(BrowserRequest *request):
 
 BrowserRequestPrivate::~BrowserRequestPrivate()
 {
+    DEBUG();
     closeView();
     delete m_dialog;
 }
@@ -179,6 +180,7 @@ void BrowserRequestPrivate::setCurrentUrl(const QUrl &url)
                 m_dialog->accept();
             }
         } else {
+            DEBUG();
             onFinished();
         }
     }
@@ -267,6 +269,7 @@ void BrowserRequestPrivate::closeView()
 {
     Q_Q(BrowserRequest);
 
+    DEBUG();
     if (q->hasHandler()) {
         q->handler()->setRequest(0);
     } else if (m_dialog) {
@@ -274,23 +277,17 @@ void BrowserRequestPrivate::closeView()
     }
 }
 
-BrowserRequest::BrowserRequest(const QDBusConnection &connection,
-                               const QDBusMessage &message,
+BrowserRequest::BrowserRequest(int id,
+                               const QString &clientProfile,
                                const QVariantMap &parameters,
                                QObject *parent):
-    Request(connection, message, parameters, parent),
+    Request(id, clientProfile, parameters, parent),
     d_ptr(new BrowserRequestPrivate(this))
 {
 }
 
 BrowserRequest::~BrowserRequest()
 {
-}
-
-void BrowserRequest::removeIdentityData(quint32 id)
-{
-    QDir rootDir(BrowserRequestPrivate::rootDirForIdentity(id));
-    rootDir.removeRecursively();
 }
 
 void BrowserRequest::start()

@@ -1,28 +1,20 @@
-include(../../common-project-config.pri)
+include(online-accounts-ui.pri)
 
 TARGET = tst_notification
 
 CONFIG += \
-    debug \
     link_pkgconfig \
     no_keywords
-
-QT += \
-    core \
-    testlib
 
 PKGCONFIG += \
     libnotify
 
 SOURCES += \
-    $${TOP_SRC_DIR}/src/notification.cpp \
+    $${COMMON_SRC_DIR}/notification.cpp \
     tst_notification.cpp
 
 HEADERS += \
-    $${TOP_SRC_DIR}/src/notification.h
-
-INCLUDEPATH += \
-    $${TOP_SRC_DIR}/src
+    $${COMMON_SRC_DIR}/notification.h
 
 check.commands = "xvfb-run -s '-screen 0 640x480x24' -a ./$${TARGET}"
 check.depends = $${TARGET}

@@ -21,8 +21,6 @@
 #ifndef OAU_REQUEST_H
 #define OAU_REQUEST_H
 
-#include <QDBusConnection>
-#include <QDBusMessage>
 #include <QObject>
 #include <QVariantMap>
 #include <QWindow>
@@ -35,19 +33,26 @@ class Request: public QObject
     Q_OBJECT
 
 public:
-    static Request *newRequest(const QDBusConnection &connection,
-                               const QDBusMessage &message,
+    static Request *newRequest(const QString &interface,
+                               int id,
+                               const QString &clientProfile,
                                const QVariantMap &parameters,
                                QObject *parent = 0);
     ~Request();
 
     static Request *find(const QVariantMap &match);
 
+    QString interface() const;
+    int id() const;
     WId windowId() const;
     bool isInProgress() const;
     const QVariantMap &parameters() const;
     QString clientApparmorProfile() const;
     QWindow *window() const;
+
+    QVariantMap result() const;
+    QString errorName() const;
+    QString errorMessage() const;
 
 public Q_SLOTS:
     virtual void start();
@@ -57,8 +62,9 @@ Q_SIGNALS:
     void completed();
 
 protected:
-    explicit Request(const QDBusConnection &connection,
-                     const QDBusMessage &message,
+    explicit Request(const QString &interface,
+                     int id,
+                     const QString &clientProfile,
                      const QVariantMap &parameters,
                      QObject *parent = 0);
     virtual void setWindow(QWindow *window);

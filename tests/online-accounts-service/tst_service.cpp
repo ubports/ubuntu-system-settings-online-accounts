@@ -22,7 +22,7 @@
 #include "request.h"
 #include "request-manager.h"
 #include "service.h"
-#include "window-watcher.h"
+#include "ui-proxy.h"
 
 #include <QDBusArgument>
 #include <QDBusConnection>
@@ -38,58 +38,12 @@
 
 using namespace OnlineAccountsUi;
 
-static const QString keyTimeout(QStringLiteral("timeout"));
-static const QString keyFail(QStringLiteral("fail"));
-
 #define P2P_SOCKET "unix:path=/tmp/tst_service_%1"
 #define TEST_SERVICE_NAME \
     QStringLiteral("com.ubuntu.OnlineAccountsUi.Test")
 #define TEST_OBJECT_PATH QStringLiteral("/")
 
-class TestRequest: public Request
-{
-    Q_OBJECT
-
-public:
-    TestRequest(const QDBusConnection &connection,
-                const QDBusMessage &message,
-                const QVariantMap &parameters,
-                QObject *parent = 0):
-        Request(connection, message, parameters, parent)
-    {
-        m_timer.setSingleShot(true);
-        m_timer.setInterval(parameters.value(keyTimeout).toInt());
-        QObject::connect(&m_timer, SIGNAL(timeout()),
-                         this, SLOT(onTimeout()));
-    }
-
-    void start() Q_DECL_OVERRIDE {
-        Request::start();
-        QWindow *window = new QWindow;
-        setWindow(window);
-        m_timer.start();
-    }
-
-private Q_SLOTS:
-    void onTimeout() {
-        if (parameters().contains(keyFail)) {
-            fail(parameters().value(keyFail).toString(), "Request failed");
-        } else {
-            setResult(parameters());
-        }
-    }
-
-private:
-    QTimer m_timer;
-};
-
-Request *Request::newRequest(const QDBusConnection &connection,
-                             const QDBusMessage &message,
-                             const QVariantMap &parameters,
-                             QObject *parent)
-{
-    return new TestRequest(connection, message, parameters, parent);
-}
+QList<UiProxyPrivate *> m_uiProxies;
 
 class RequestReply: public QDBusPendingCallWatcher
 {
@@ -107,6 +61,7 @@ public:
     bool isError() const { return m_isError; }
     QVariantMap reply() const { return m_reply; }
     QString errorName() const { return m_errorName; }
+    QString errorMessage() const { return m_errorMessage; }
 
 private Q_SLOTS:
     void onFinished() {
@@ -114,6 +69,7 @@ private Q_SLOTS:
         if (reply.isError()) {
             m_isError = true;
             m_errorName = reply.error().name();
+            m_errorMessage = reply.error().message();
         } else {
             m_reply = qdbus_cast<QVariantMap>(reply.argumentAt(0).
                                               value<QDBusArgument>());
@@ -128,6 +84,7 @@ private:
     bool m_isError;
     QVariantMap m_reply;
     QString m_errorName;
+    QString m_errorMessage;
 };
 
 class ServiceTest: public QObject
@@ -154,8 +111,6 @@ private Q_SLOTS:
     void testResults();
     void testFailure();
     void testIdle();
-    void testWindow();
-    void testWindowTransiency();
 
 protected Q_SLOTS:
     void onNewConnection(const QDBusConnection &connection);
@@ -165,6 +120,73 @@ private:
     Service m_service;
     QDBusConnection m_connection;
 };
+
+/* Mocking UiProxy { */
+namespace OnlineAccountsUi {
+
+class UiProxyPrivate: public QObject
+{
+    Q_OBJECT
+    Q_DECLARE_PUBLIC(UiProxy)
+
+public:
+    UiProxyPrivate(UiProxy *uiProxy):
+        QObject(uiProxy),
+        m_initCount(0),
+        m_initReply(true),
+        q_ptr(uiProxy)
+    {
+    }
+    ~UiProxyPrivate() {};
+
+    void emitFinished() { Q_EMIT q_ptr->finished(); }
+
+Q_SIGNALS:
+    void handleRequestCalled();
+
+public:
+    int m_initCount;
+    bool m_initReply;
+    QList<Request*> m_requests;
+    QVariantMap m_expectedHasHandlerFor;
+    mutable UiProxy *q_ptr;
+};
+
+} // namespace
+
+UiProxy::UiProxy(QObject *parent):
+    QObject(parent),
+    d_ptr(new UiProxyPrivate(this))
+{
+    m_uiProxies.append(d_ptr);
+}
+
+UiProxy::~UiProxy()
+{
+    m_uiProxies.removeOne(d_ptr);
+}
+
+bool UiProxy::init()
+{
+    Q_D(UiProxy);
+    d->m_initCount++;
+    return d->m_initReply;
+}
+
+void UiProxy::handleRequest(Request *request)
+{
+    Q_D(UiProxy);
+    d->m_requests.append(request);
+    Q_EMIT d->handleRequestCalled();
+}
+
+bool UiProxy::hasHandlerFor(const QVariantMap &parameters)
+{
+    Q_D(UiProxy);
+    return parameters == d->m_expectedHasHandlerFor;
+}
+
+/* } mocking UiProxy */
 
 ServiceTest::ServiceTest():
     QObject(0),
@@ -205,30 +227,60 @@ void ServiceTest::initTestCase()
 void ServiceTest::testResults()
 {
     QVariantMap parameters;
-    parameters.insert(keyTimeout, 10);
     parameters.insert("hello", QString("world"));
     RequestReply *call = sendRequest(parameters);
     QSignalSpy callFinished(call, SIGNAL(finished()));
+
+    QTRY_COMPARE(m_uiProxies.count(), 1);
+
+    UiProxyPrivate *proxy = m_uiProxies[0];
+    QCOMPARE(proxy->m_initCount, 1);
+    QCOMPARE(proxy->m_requests.count(), 1);
+
+    Request *request = proxy->m_requests.last();
+    QCOMPARE(request->parameters(), parameters);
+
+    request->setInProgress(true);
+    request->setResult(parameters);
 
     QVERIFY(callFinished.wait());
     QCOMPARE(call->isError(), false);
     QCOMPARE(call->reply(), parameters);
     delete call;
+
+    proxy->emitFinished();
+    QTRY_COMPARE(m_uiProxies.count(), 0);
 }
 
 void ServiceTest::testFailure()
 {
-    QString errorName("com.ubuntu.OnlineAccountsUi.BadLuck");
     QVariantMap parameters;
-    parameters.insert(keyTimeout, 10);
-    parameters.insert("fail", errorName);
+    parameters.insert("hi", "there");
     RequestReply *call = sendRequest(parameters);
     QSignalSpy callFinished(call, SIGNAL(finished()));
+
+    QTRY_COMPARE(m_uiProxies.count(), 1);
+
+    UiProxyPrivate *proxy = m_uiProxies[0];
+    QCOMPARE(proxy->m_initCount, 1);
+    QCOMPARE(proxy->m_requests.count(), 1);
+
+    Request *request = proxy->m_requests.last();
+    QCOMPARE(request->parameters(), parameters);
+
+    request->setInProgress(true);
+    QString errorName("com.ubuntu.OnlineAccountsUi.BadLuck");
+    QString errorMessage("really unlucky");
+    request->fail(errorName, errorMessage);
 
     QVERIFY(callFinished.wait());
     QCOMPARE(call->isError(), true);
     QCOMPARE(call->errorName(), errorName);
+    QCOMPARE(call->errorMessage(), errorMessage);
     delete call;
+
+    proxy->emitFinished();
+    QTRY_COMPARE(m_uiProxies.count(), 0);
 }
 
 void ServiceTest::testIdle()
@@ -238,65 +290,37 @@ void ServiceTest::testIdle()
     QSignalSpy isIdleChanged(&m_requestManager, SIGNAL(isIdleChanged()));
 
     QVariantMap parameters;
-    parameters.insert(keyTimeout, 10);
+    parameters.insert("time", "out");
     RequestReply *call = sendRequest(parameters);
     QSignalSpy callFinished(call, SIGNAL(finished()));
 
     QVERIFY(isIdleChanged.wait());
     QCOMPARE(m_requestManager.isIdle(), false);
+    isIdleChanged.clear();
 
-    /* the request will terminate after 10 milliseconds, so expect the service
+    QTRY_COMPARE(m_uiProxies.count(), 1);
+
+    UiProxyPrivate *proxy = m_uiProxies[0];
+    QCOMPARE(proxy->m_initCount, 1);
+    QCOMPARE(proxy->m_requests.count(), 1);
+
+    Request *request = proxy->m_requests.last();
+    QCOMPARE(request->parameters(), parameters);
+
+    request->setInProgress(true);
+    request->setResult(parameters);
+
+    /* the request will terminate, so expect the service
      * to be idle again */
-    QVERIFY(isIdleChanged.wait());
+    QTRY_COMPARE(isIdleChanged.count(), 1);
     QCOMPARE(m_requestManager.isIdle(), true);
 
     QVERIFY(callFinished.wait());
     QCOMPARE(call->isError(), false);
     delete call;
-}
 
-void ServiceTest::testWindow()
-{
-    QVariantMap parameters;
-    parameters.insert(keyTimeout, 10);
-    RequestReply *call = sendRequest(parameters);
-    QSignalSpy callFinished(call, SIGNAL(finished()));
-    QSignalSpy windowShown(WindowWatcher::instance(),
-                           SIGNAL(windowShown(QObject*)));
-
-    QVERIFY(windowShown.wait());
-    QWindow *window =
-        qobject_cast<QWindow*>(windowShown.at(0).at(0).value<QObject*>());
-    QVERIFY(window->property("transientParent").isNull());
-    QVERIFY(callFinished.wait());
-    QCOMPARE(call->isError(), false);
-    delete call;
-
-    QCOMPARE(windowShown.count(), 1);
-}
-
-void ServiceTest::testWindowTransiency()
-{
-    QVariantMap parameters;
-    parameters.insert(keyTimeout, 10);
-    parameters.insert(OAU_KEY_WINDOW_ID, 371);
-    RequestReply *call = sendRequest(parameters);
-    QSignalSpy callFinished(call, SIGNAL(finished()));
-    QSignalSpy windowShown(WindowWatcher::instance(),
-                           SIGNAL(windowShown(QObject*)));
-
-    QVERIFY(windowShown.wait());
-    QWindow *window =
-        qobject_cast<QWindow*>(windowShown.at(0).at(0).value<QObject*>());
-    QObject *transientParentObject =
-        window->property("transientParent").value<QObject*>();
-    QWindow *transientParent = qobject_cast<QWindow*>(transientParentObject);
-    QCOMPARE(transientParent->property("winId").toUInt(), uint(371));
-    QVERIFY(callFinished.wait());
-    QCOMPARE(call->isError(), false);
-    delete call;
-
-    QCOMPARE(windowShown.count(), 1);
+    proxy->emitFinished();
+    QTRY_COMPARE(m_uiProxies.count(), 0);
 }
 
 QTEST_MAIN(ServiceTest);

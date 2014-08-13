@@ -21,15 +21,9 @@ PKGCONFIG += \
     libsignon-qt5 \
     signon-plugins-common
 
-I18N_DOMAIN="ubuntu-system-settings-online-accounts"
-SIGNONUI_I18N_DOMAIN="signon-ui"
-
 DEFINES += \
     I18N_DOMAIN=\\\"$${I18N_DOMAIN}\\\" \
     SIGNONUI_I18N_DOMAIN=\\\"$${SIGNONUI_I18N_DOMAIN}\\\"
-
-DBUS_ADAPTORS += \
-    com.ubuntu.OnlineAccountsUi.xml
 
 DEFINES += \
     DEBUG_ENABLED \
@@ -44,19 +38,15 @@ SOURCES += \
     debug.cpp \
     dialog.cpp \
     i18n.cpp \
-    inactivity-timer.cpp \
-    indicator-service.cpp \
+    ipc.cpp \
     main.cpp \
     notification.cpp \
     panel-request.cpp \
     provider-request.cpp \
-    reauthenticator.cpp \
     request.cpp \
     request-handler.cpp \
-    request-manager.cpp \
-    service.cpp \
     signonui-request.cpp \
-    signonui-service.cpp
+    ui-server.cpp
 
 HEADERS += \
     access-model.h \
@@ -66,18 +56,14 @@ HEADERS += \
     debug.h \
     dialog.h \
     i18n.h \
-    inactivity-timer.h \
-    indicator-service.h \
+    ipc.h \
     notification.h \
     panel-request.h \
     provider-request.h \
-    reauthenticator.h \
     request.h \
     request-handler.h \
-    request-manager.h \
-    service.h \
     signonui-request.h \
-    signonui-service.h
+    ui-server.h
 
 QML_SOURCES = \
     qml/AccountCreationPage.qml \
@@ -103,16 +89,7 @@ OTHER_FILES += \
     $${RESOURCES}
 
 QMAKE_SUBSTITUTES += \
-    com.ubuntu.OnlineAccountsUi.service.in \
     online-accounts-ui.desktop.in
-
-DBUS_ADAPTORS += \
-    com.canonical.indicators.webcredentials.xml
-
-service.path = $${INSTALL_PREFIX}/share/dbus-1/services
-service.files = \
-    com.ubuntu.OnlineAccountsUi.service
-INSTALLS += service
 
 desktop.path = $${INSTALL_PREFIX}/share/applications
 desktop.files += online-accounts-ui.desktop

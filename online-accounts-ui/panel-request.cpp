@@ -65,7 +65,9 @@ PanelRequestPrivate::PanelRequestPrivate(PanelRequest *request):
 PanelRequestPrivate::~PanelRequestPrivate()
 {
     DEBUG() << "view:" << m_view;
+    /* TODO Uncomment this once QTBUG-40766 is resolved:
     delete m_view;
+    */
 }
 
 void PanelRequestPrivate::start()
@@ -103,18 +105,15 @@ void PanelRequestPrivate::onWindowVisibleChanged(bool visible)
 
     if (!visible) {
         q->setResult(QVariantMap());
-        /* FIXME HACK: remove when window reparenting is implemented */
-        if (QGuiApplication::platformName().startsWith("ubuntu")) {
-            QDesktopServices::openUrl(QUrl("application:///ubuntu-system-settings.desktop"));
-        }
     }
 }
 
-PanelRequest::PanelRequest(const QDBusConnection &connection,
-                           const QDBusMessage &message,
+PanelRequest::PanelRequest(const QString &interface,
+                           int id,
+                           const QString &clientProfile,
                            const QVariantMap &parameters,
                            QObject *parent):
-    Request(connection, message, parameters, parent),
+    Request(interface, id, clientProfile, parameters, parent),
     d_ptr(new PanelRequestPrivate(this))
 {
 }

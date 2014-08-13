@@ -35,9 +35,6 @@ Page {
         objectHandle: accountHandle
     }
 
-    // Most provider plugins declare a creationComponent at constuction time
-    // which breaks because of the absence of RequestHandler support.
-    // So we limit support to plain OAuth providers for now
     Options {
         onFinished: {
             root.finished()

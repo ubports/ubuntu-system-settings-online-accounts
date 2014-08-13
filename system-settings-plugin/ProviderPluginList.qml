@@ -23,8 +23,6 @@ import Ubuntu.OnlineAccounts.Client 0.1
 ProvidersList {
     id: root
 
-    property variant __setup: null
-
     signal creationFinished
 
     Setup {
@@ -36,5 +34,4 @@ ProvidersList {
         setup.providerId = providerId
         setup.exec()
     }
-
 }

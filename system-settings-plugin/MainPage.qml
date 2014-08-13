@@ -28,10 +28,6 @@ ItemPage {
 
     title: i18n.tr("Accounts")
 
-    // OnlineAccountsPanel {
-    //    id: onlineAccountsPanel
-    // }
-
     property Item flickable: accountsPage.visible ? accountsPage : noAccountsPage
 
     AccountServiceModel {
@@ -53,6 +49,4 @@ ItemPage {
         accountsModel: accountsModel
         visible:!accountsPage.visible
     }
-
 }
-

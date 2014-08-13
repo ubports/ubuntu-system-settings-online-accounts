@@ -27,24 +27,14 @@ ProvidersList {
 
     signal creationFinished
 
-    Component {
+    Setup {
         id: setup
-        Setup {}
+        onFinished: creationFinished()
     }
 
     onProviderClicked: {
-        __setup = setup.createObject(null, {
-            "providerId": providerId
-        })
-        __setup.finished.connect(__onCreationFinished)
-        console.log("calling setup.exec() with providerId: " + providerId)
-        __setup.exec()
+        setup.providerId = providerId
+        setup.exec()
     }
 
-    function __onCreationFinished() {
-        __setup.destroy(1000)
-        __setup.finished.disconnect(__onCreationFinished)
-        __setup = null
-        creationFinished()
-    }
 }

@@ -38,7 +38,7 @@ Page {
     // Most provider plugins declare a creationComponent at constuction time
     // which breaks because of the absence of RequestHandler support.
     // So we limit support to plain OAuth providers for now
-    OAuthMain {
+    Options {
         onFinished: {
             root.finished()
         }

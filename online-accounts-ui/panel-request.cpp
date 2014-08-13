@@ -65,7 +65,9 @@ PanelRequestPrivate::PanelRequestPrivate(PanelRequest *request):
 PanelRequestPrivate::~PanelRequestPrivate()
 {
     DEBUG() << "view:" << m_view;
+    /* TODO Uncomment this once QTBUG-40766 is resolved:
     delete m_view;
+    */
 }
 
 void PanelRequestPrivate::start()

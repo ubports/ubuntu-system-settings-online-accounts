@@ -1,16 +1,7 @@
 include(../common-project-config.pri)
 include($${TOP_SRC_DIR}/common-vars.pri)
 
-TEMPLATE = lib
-TARGET = online-accounts
-
-CONFIG += \
-    link_pkgconfig \
-    qt
-
-QT += \
-    core \
-    qml
+TEMPLATE=aux
 
 QML_SOURCES = \
     AccountEditPage.qml \
@@ -24,21 +15,9 @@ QML_SOURCES = \
     ProviderPluginList.qml \
     ProvidersList.qml
 
-PKGCONFIG += \
-    SystemSettings
-
-LIBS += -lonline-accounts-client
-QMAKE_LIBDIR += $${TOP_BUILD_DIR}/client/OnlineAccountsClient
-INCLUDEPATH += \
-    $${TOP_SRC_DIR}/client \
-    /usr/include
-
 settings.files = online-accounts.settings
 settings.path = $${PLUGIN_MANIFEST_DIR}
 INSTALLS += settings
-
-target.path = $${PLUGIN_MODULE_DIR}
-INSTALLS += target
 
 image.files = settings-accounts.svg
 image.path = $${PLUGIN_MANIFEST_DIR}/icons

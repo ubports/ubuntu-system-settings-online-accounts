@@ -16,6 +16,7 @@ QT += \
 PKGCONFIG += \
     libnotify \
     libsignon-qt5 \
+    mirclient \
     signon-plugins-common
 
 DBUS_ADAPTORS += \
@@ -38,6 +39,7 @@ SOURCES += \
     inactivity-timer.cpp \
     indicator-service.cpp \
     main.cpp \
+    mir-helper.cpp \
     reauthenticator.cpp \
     request.cpp \
     request-manager.cpp \
@@ -52,6 +54,7 @@ HEADERS += \
     $${COMMON_SRC}/notification.h \
     inactivity-timer.h \
     indicator-service.h \
+    mir-helper.h \
     reauthenticator.h \
     request.h \
     request-manager.h \

@@ -18,37 +18,51 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OAU_UI_PROXY_H
-#define OAU_UI_PROXY_H
+#ifndef OAU_MIR_HELPER_H
+#define OAU_MIR_HELPER_H
 
 #include <QObject>
-#include <QVariantMap>
 
 namespace OnlineAccountsUi {
 
-class Request;
+class PromptSessionPrivate;
+class MirHelperPrivate;
 
-class UiProxyPrivate;
-class UiProxy: public QObject
+class PromptSession
+{
+public:
+    ~PromptSession();
+
+    QString requestSocket();
+
+private:
+    explicit PromptSession(PromptSessionPrivate *priv);
+
+private:
+    friend class MirHelperPrivate;
+    PromptSessionPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(PromptSession)
+};
+
+class MirHelper: public QObject
 {
     Q_OBJECT
 
 public:
-    explicit UiProxy(pid_t clientPid, QObject *parent = 0);
-    ~UiProxy();
+    static MirHelper *instance();
 
-    bool init();
-    void handleRequest(Request *request);
-    bool hasHandlerFor(const QVariantMap &parameters);
-
-Q_SIGNALS:
-    void finished();
+    PromptSession *createPromptSession(pid_t initiatorPid);
 
 private:
-    UiProxyPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(UiProxy)
+    explicit MirHelper(QObject *parent = 0);
+    ~MirHelper();
+
+private:
+    friend class PromptSession;
+    MirHelperPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(MirHelper)
 };
 
 } // namespace
 
-#endif // OAU_UI_PROXY_H
+#endif // OAU_MIR_HELPER_H

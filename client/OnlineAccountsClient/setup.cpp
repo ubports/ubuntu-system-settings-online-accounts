@@ -76,6 +76,8 @@ void SetupPrivate::exec()
 {
     QVariantMap options;
 
+    options.insert(OAU_KEY_PID, uint(getpid()));
+
     QWindow *window = clientWindow();
     if (window) {
         options.insert(OAU_KEY_WINDOW_ID, window->winId());

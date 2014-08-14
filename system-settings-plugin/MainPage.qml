@@ -17,43 +17,36 @@
  */
 
 import QtQuick 2.0
+import SystemSettings 1.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.OnlineAccounts 0.1
 
-Page {
+ItemPage {
     id: root
+    objectName: "accountsPage"
 
-    property variant accountHandle
+    title: i18n.tr("Accounts")
 
-    signal finished
+    property Item flickable: accountsPage.visible ? accountsPage : noAccountsPage
 
-    title: account.provider.displayName
-
-    Account {
-        id: account
-        objectHandle: accountHandle
+    AccountServiceModel {
+        id: accountsModel
+        service: "global"
+        includeDisabled: true
     }
-
-    Loader {
-        id: loader
-        property var account: account
-
+    
+    AccountsPage {
+        id: accountsPage
         anchors.fill: parent
-        source: localQmlPluginPath + account.provider.id + "/Main.qml"
-
-        onStatusChanged: {
-            if (loader.status == Loader.Error) {
-                loader.source = systemQmlPluginPath + account.provider.id + "/Main.qml"
-            }
-        }
-
-
-        Connections {
-            target: loader.item
-            onFinished: {
-                console.log("====== PLUGIN FINISHED ======")
-                root.finished()
-            }
-        }
+        accountsModel: accountsModel
+        visible: accountsModel.count > 0
+    }
+    
+    NoAccountsPage {
+        id: noAccountsPage
+        anchors.fill: parent
+        accountsModel: accountsModel
+        visible:!accountsPage.visible
     }
 }

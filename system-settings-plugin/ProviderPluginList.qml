@@ -18,21 +18,21 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.OnlineAccounts.Client 0.1
 
-Page {
-    title: i18n.tr("Add account")
+ProvidersList {
+    id: root
 
-    Flickable {
-        anchors.fill: parent
-        contentHeight: contentItem.childrenRect.height
-        boundsBehavior: Flickable.StopAtBounds
+    signal creationFinished
 
-        ProviderPluginList {
-            onCreationFinished: {
-                // pop the creation page and this page (go back to parent page)
-                pageStack.pop()
-                pageStack.pop()
-            }
-        }
+    Setup {
+        id: setup
+        applicationId: "system-settings"
+        onFinished: creationFinished()
+    }
+
+    onProviderClicked: {
+        setup.providerId = providerId
+        setup.exec()
     }
 }

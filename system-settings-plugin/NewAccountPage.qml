@@ -19,24 +19,18 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-ProvidersList {
-    id: root
+Page {
+    title: i18n.tr("Add account")
 
-    property variant __creationPage: null
+    Flickable {
+        anchors.fill: parent
+        contentHeight: contentItem.childrenRect.height
+        boundsBehavior: Flickable.StopAtBounds
 
-    signal creationFinished
-
-    onProviderClicked: {
-        __creationPage = accountCreationPage.createObject(null, {
-            "providerId": providerId })
-        __creationPage.finished.connect(__onCreationFinished)
-        pageStack.push(__creationPage)
-    }
-
-    function __onCreationFinished() {
-        __creationPage.destroy(1000)
-        __creationPage.finished.disconnect(__onCreationFinished)
-        __creationPage = null
-        creationFinished()
+        ProviderPluginList {
+            onCreationFinished: {
+                pageStack.pop()
+            }
+        }
     }
 }

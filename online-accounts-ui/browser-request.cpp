@@ -288,6 +288,7 @@ BrowserRequest::BrowserRequest(int id,
 
 BrowserRequest::~BrowserRequest()
 {
+    delete d_ptr;
 }
 
 void BrowserRequest::start()

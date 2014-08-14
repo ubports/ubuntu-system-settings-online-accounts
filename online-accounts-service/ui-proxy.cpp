@@ -54,6 +54,7 @@ public:
 private Q_SLOTS:
     void onNewConnection();
     void onDataReady(QByteArray &data);
+    void onRequestCompleted();
 
 private:
     QProcess m_process;
@@ -83,6 +84,11 @@ UiProxyPrivate::UiProxyPrivate(UiProxy *uiProxy):
 
 UiProxyPrivate::~UiProxyPrivate()
 {
+    /* Cancel all requests */
+    Q_FOREACH(Request *request, m_requests) {
+        request->cancel();
+    }
+
     if (m_socket) {
         m_socket->abort();
         delete m_socket;
@@ -198,6 +204,15 @@ void UiProxyPrivate::sendRequest(int requestId, Request *request)
     sendOperation(operation);
 }
 
+void UiProxyPrivate::onRequestCompleted()
+{
+    Request *request = qobject_cast<Request*>(sender());
+    int id = m_requests.key(request, -1);
+    if (id != -1) {
+        m_requests.remove(id);
+    }
+}
+
 UiProxy::UiProxy(QObject *parent):
     QObject(parent),
     d_ptr(new UiProxyPrivate(this))
@@ -220,6 +235,8 @@ void UiProxy::handleRequest(Request *request)
 
     int requestId = d->m_nextRequestId++;
     d->m_requests.insert(requestId, request);
+    QObject::connect(request, SIGNAL(completed()),
+                     d, SLOT(onRequestCompleted()));
     request->setInProgress(true);
 
     if (d->m_socket && d->m_socket->isValid()) {

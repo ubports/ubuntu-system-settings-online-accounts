@@ -27,6 +27,7 @@ ProvidersList {
 
     Setup {
         id: setup
+        applicationId: "system-settings"
         onFinished: creationFinished()
     }
 

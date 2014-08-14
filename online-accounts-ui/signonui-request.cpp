@@ -26,11 +26,13 @@
 #include "debug.h"
 #include "globals.h"
 #include "notification.h"
+#include "request-handler.h"
 
 #include <Accounts/Account>
 #include <Accounts/Application>
 #include <Accounts/Provider>
 #include <QDBusArgument>
+#include <QPointer>
 #include <SignOn/uisessiondata.h>
 #include <SignOn/uisessiondata_priv.h>
 
@@ -58,7 +60,7 @@ private Q_SLOTS:
 private:
     mutable Request *q_ptr;
     QVariantMap m_clientData;
-    RequestHandler *m_handler;
+    QPointer<RequestHandler> m_handler;
     OnlineAccountsUi::Notification *m_notification;
     QWindow *m_window;
 };

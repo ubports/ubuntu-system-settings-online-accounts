@@ -29,8 +29,6 @@ Page {
 
         ProviderPluginList {
             onCreationFinished: {
-                // pop the creation page and this page (go back to parent page)
-                pageStack.pop()
                 pageStack.pop()
             }
         }

@@ -130,6 +130,16 @@ QVariantMap ApplicationManager::applicationInfo(const QString &claimedAppId,
 
     if (Q_UNLIKELY(profile.isEmpty())) return QVariantMap();
 
+    /* Special case: when the applicationId is "system-settings", we don't
+     * require the existance of the .application file, because this request
+     * will always be about creating a new account. */
+    if (claimedAppId == "system-settings") {
+        QVariantMap app;
+        app.insert(QStringLiteral("id"), claimedAppId);
+        app.insert(QStringLiteral("profile"), profile);
+        return app;
+    }
+
     QString applicationId = claimedAppId;
     Accounts::Application application =
         AccountManager::instance()->application(applicationId);

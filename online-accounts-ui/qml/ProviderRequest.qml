@@ -54,7 +54,7 @@ MainView {
                 id: loader
                 anchors.fill: parent
                 active: false
-                sourceComponent: accessModel.count <= 1 ? accountCreationPage : authorizationPage
+                sourceComponent: (accessModel.count <= 1 || applicationInfo.id === "system-settings") ? accountCreationPage : authorizationPage
                 onLoaded: {
                     // use this trick to break the sourceComponent binding
                     var tmp = sourceComponent
@@ -165,10 +165,17 @@ MainView {
     }
 
     function grantAccessIfReady() {
-        if (root.__createdAccountId != 0 &&
-            accountsModel.indexOfAccount(root.__createdAccountId) >= 0) {
-            root.grantAccess(root.__createdAccountId)
-            root.__createdAccountId = 0
+        if (root.__createdAccountId != 0) {
+            // If the request comes from system settings, stop here
+            if (applicationInfo.id === "system-settings") {
+                root.allowed(root.__createdAccountId)
+                return
+            }
+
+            if (accountsModel.indexOfAccount(root.__createdAccountId) >= 0) {
+                root.grantAccess(root.__createdAccountId)
+                root.__createdAccountId = 0
+            }
         }
     }
 

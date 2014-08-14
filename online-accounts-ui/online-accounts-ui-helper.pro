@@ -67,18 +67,8 @@ HEADERS += \
 
 QML_SOURCES = \
     qml/AccountCreationPage.qml \
-    qml/AccountEditPage.qml \
-    qml/AccountItem.qml \
-    qml/AccountsPage.qml \
-    qml/AddAccountLabel.qml \
     qml/AuthorizationPage.qml \
-    qml/MainPage.qml \
-    qml/NewAccountPage.qml \
-    qml/NoAccountsPage.qml \
-    qml/NormalStartupPage.qml \
-    qml/ProviderPluginList.qml \
     qml/ProviderRequest.qml \
-    qml/ProvidersList.qml \
     qml/SignOnUiPage.qml
 
 RESOURCES += \

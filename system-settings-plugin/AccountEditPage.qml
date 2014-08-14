@@ -16,23 +16,28 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef ONLINE_ACCOUNTS_SYSTEM_SETTINGS_PLUGIN_H
-#define ONLINE_ACCOUNTS_SYSTEM_SETTINGS_PLUGIN_H
+import QtQuick 2.0
+import Ubuntu.Components 0.1
+import Ubuntu.OnlineAccounts 0.1
+import Ubuntu.OnlineAccounts.Plugin 1.0
 
-#include <QObject>
-#include <SystemSettings/PluginInterface>
+Page {
+    id: root
 
-class Plugin: public QObject, public SystemSettings::PluginInterface
-{
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "com.ubuntu.SystemSettings.PluginInterface")
-    Q_INTERFACES(SystemSettings::PluginInterface)
+    property variant accountHandle
 
-public:
-    Plugin();
+    signal finished
 
-    SystemSettings::ItemBase *createItem(const QVariantMap &staticData,
-                                         QObject *parent = 0);
-};
+    title: account.provider.displayName
 
-#endif // ONLINE_ACCOUNTS_SYSTEM_SETTINGS_PLUGIN_H
+    Account {
+        id: account
+        objectHandle: accountHandle
+    }
+
+    Options {
+        onFinished: {
+            root.finished()
+        }
+    }
+}

@@ -18,25 +18,20 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.OnlineAccounts.Client 0.1
 
 ProvidersList {
     id: root
 
-    property variant __creationPage: null
-
     signal creationFinished
 
-    onProviderClicked: {
-        __creationPage = accountCreationPage.createObject(null, {
-            "providerId": providerId })
-        __creationPage.finished.connect(__onCreationFinished)
-        pageStack.push(__creationPage)
+    Setup {
+        id: setup
+        onFinished: creationFinished()
     }
 
-    function __onCreationFinished() {
-        __creationPage.destroy(1000)
-        __creationPage.finished.disconnect(__onCreationFinished)
-        __creationPage = null
-        creationFinished()
+    onProviderClicked: {
+        setup.providerId = providerId
+        setup.exec()
     }
 }

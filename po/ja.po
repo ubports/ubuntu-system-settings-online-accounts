@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2014-08-07 04:11+0000\n"
+"PO-Revision-Date: 2014-08-15 01:08+0000\n"
 "Last-Translator: Mitsuya Shibata <mty.shibata@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-08 07:06+0000\n"
+"X-Launchpad-Export-Date: 2014-08-15 06:27+0000\n"
 "X-Generator: Launchpad (build 17156)\n"
 
 #: ../plugins/example/Main.qml:33
@@ -27,7 +27,7 @@ msgstr "パスワード"
 
 #: ../src/AccountsPage.qml:53
 msgid "Add account…"
-msgstr ""
+msgstr "アカウントの追加…"
 
 #: ../src/AddAccountLabel.qml:27
 msgid ""
@@ -61,7 +61,7 @@ msgstr ""
 
 #: ../src/module/RemovalConfirmation.qml:32
 msgid "Remove account"
-msgstr ""
+msgstr "アカウントの削除"
 
 #: ../src/module/RemovalConfirmation.qml:33
 #, qt-format

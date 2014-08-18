@@ -43,6 +43,8 @@ private Q_SLOTS:
     void testValidHooks();
     void testRemoval();
     void testUpdate();
+    void testDesktopEntry_data();
+    void testDesktopEntry();
 
 private:
     void clearHooksDir();
@@ -346,6 +348,68 @@ void OnlineAccountsHooksTest::testUpdate()
     root = doc.documentElement();
     QCOMPARE(root.firstChildElement("profile").text(),
              QString("com-ubuntu.test_MyApp_1.1"));
+}
+
+void OnlineAccountsHooksTest::testDesktopEntry_data()
+{
+    QTest::addColumn<QString>("hookName");
+    QTest::addColumn<QString>("contents");
+    QTest::addColumn<QString>("installedName");
+    QTest::addColumn<QString>("expectedDesktopEntry");
+
+    QTest::newRow("no-entry") <<
+        "com.ubuntu.test_MyApp_0.2.application" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application>\n"
+        "  <description>My application</description>\n"
+        "  <service-types>\n"
+        "    <service-type>some type</service-type>\n"
+        "  </service-types>\n"
+        "</application>" <<
+        "applications/com.ubuntu.test_MyApp.application" <<
+        "com.ubuntu.test_MyApp_0.2";
+
+    QTest::newRow("with-desktop-entry") <<
+        "com.ubuntu.test_Desktop_0.1.application" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application>\n"
+        "  <description>My application</description>\n"
+        "  <desktop-entry>something here</desktop-entry>\n"
+        "  <service-types>\n"
+        "    <service-type>some type</service-type>\n"
+        "  </service-types>\n"
+        "</application>" <<
+        "applications/com.ubuntu.test_Desktop.application" <<
+        "something here";
+}
+
+void OnlineAccountsHooksTest::testDesktopEntry()
+{
+    QFETCH(QString, hookName);
+    QFETCH(QString, contents);
+    QFETCH(QString, installedName);
+    QFETCH(QString, expectedDesktopEntry);
+
+    writeHookFile(hookName, contents);
+    QVERIFY(runHookProcess());
+
+    // check that the file has been created, if the file was valid
+    QFileInfo fileInfo(m_installDir.absoluteFilePath(installedName));
+    QVERIFY(fileInfo.exists());
+
+    QFile file(fileInfo.absoluteFilePath());
+    QVERIFY(file.open(QIODevice::ReadOnly));
+
+    // check that's a valid XML file
+    QDomDocument doc;
+    QVERIFY(doc.setContent(&file));
+
+    QDomElement root = doc.documentElement();
+
+    /* Check that a "desktop-entry" element has been added and that matches the
+     * expected value. */
+    QDomElement desktopEntryElement = root.firstChildElement("desktop-entry");
+    QCOMPARE(desktopEntryElement.text(), expectedDesktopEntry);
 }
 
 QTEST_MAIN(OnlineAccountsHooksTest);

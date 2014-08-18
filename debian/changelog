@@ -1,3 +1,12 @@
+ubuntu-system-settings-online-accounts (0.4+14.10.20140818.1-0ubuntu1) utopic; urgency=low
+
+  [ Alberto Mardegan ]
+  * New version - Use signon-ui-service, to fix co-installation with of
+    signon-ui.- Implement reauthentication (via snap-decisions) (LP:
+    #1346950)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 18 Aug 2014 13:46:44 +0000
+
 ubuntu-system-settings-online-accounts (0.4+14.10.20140708-0ubuntu2) utopic; urgency=medium
 
   * Add forgotten test-dep on ubuntu-ui-toolkit-autopilot.

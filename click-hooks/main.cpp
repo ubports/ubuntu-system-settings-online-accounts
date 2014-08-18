@@ -212,8 +212,8 @@ int main(int argc, char **argv)
     /* To ensure that all the installed services are parsed into
      * libaccounts' DB, we enumerate them now.
      */
-    Accounts::Manager *manager = new Accounts::Manager;
-    manager->serviceList();
+    Accounts::Manager *manager =
+        new Accounts::Manager(Accounts::Manager::DisableNotifications);
     delete manager;
 
     return EXIT_SUCCESS;

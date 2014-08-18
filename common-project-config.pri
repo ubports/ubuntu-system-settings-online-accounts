@@ -47,3 +47,6 @@ PLUGIN_MANIFEST_DIR = $$system("pkg-config --define-variable=prefix=$${INSTALL_P
 PLUGIN_MODULE_DIR = $$system("pkg-config --define-variable=prefix=$${INSTALL_PREFIX} --variable plugin_module_dir SystemSettings")
 PLUGIN_QML_DIR = $$system("pkg-config --define-variable=prefix=$${INSTALL_PREFIX} --variable plugin_qml_dir SystemSettings")
 PLUGIN_PRIVATE_MODULE_DIR = $$system("pkg-config --define-variable=prefix=$${INSTALL_PREFIX} --variable plugin_private_module_dir SystemSettings")
+
+I18N_DOMAIN="ubuntu-system-settings-online-accounts"
+SIGNONUI_I18N_DOMAIN="signon-ui"

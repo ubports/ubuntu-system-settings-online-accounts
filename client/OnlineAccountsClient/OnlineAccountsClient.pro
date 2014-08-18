@@ -25,10 +25,10 @@ public_headers += \
 INCLUDEPATH += \
     $${TOP_SRC_DIR}
 
-ONLINE_ACCOUNTS_UI_SRC = $${TOP_SRC_DIR}/src
+ONLINE_ACCOUNTS_SERVICE_SRC = $${TOP_SRC_DIR}/online-accounts-service
 
 DBUS_INTERFACES += \
-    $${ONLINE_ACCOUNTS_UI_SRC}/com.ubuntu.OnlineAccountsUi.xml
+    $${ONLINE_ACCOUNTS_SERVICE_SRC}/com.ubuntu.OnlineAccountsUi.xml
 
 SOURCES += \
     setup.cpp

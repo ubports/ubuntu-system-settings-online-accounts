@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<application id="com.ubuntu.tests_application">
+  <description>Mailer</description>
+  <translations>mailer-catalog</translations>
+  <desktop-entry>mailer.desktop</desktop-entry>
+
+  <service-types>
+    <service-type id="e-mail">
+      <description>Mailer can retrieve your e-mails</description>
+    </service-type>
+  </service-types>
+
+  <services>
+    <service id="coolshare">
+      <description>Mailer can even share stuff on CoolShare</description>
+    </service>
+  </services>
+	<profile>com.ubuntu.tests_application_0.3</profile>
+</application>

@@ -23,16 +23,24 @@ import Ubuntu.OnlineAccounts.Client 0.1
 ProvidersList {
     id: root
 
+    property bool __processing: false
+
     signal creationFinished
 
     Setup {
         id: setup
         applicationId: "system-settings"
-        onFinished: creationFinished()
+        onFinished: {
+            __processing = false
+            creationFinished()
+        }
     }
 
     onProviderClicked: {
-        setup.providerId = providerId
-        setup.exec()
+        if (!__processing) {
+            __processing = true
+            setup.providerId = providerId
+            setup.exec()
+        }
     }
 }

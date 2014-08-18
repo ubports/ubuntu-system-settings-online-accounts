@@ -16,8 +16,15 @@ QT += \
 PKGCONFIG += \
     libnotify \
     libsignon-qt5 \
-    mirclient \
     signon-plugins-common
+
+
+CONFIG(enable-mir) : system(pkg-config --exists mirclient) {
+    PKGCONFIG += mirclient
+    SOURCES += mir-helper.cpp
+} else {
+    SOURCES += mir-helper-stub.cpp
+}
 
 DBUS_ADAPTORS += \
     com.ubuntu.OnlineAccountsUi.xml
@@ -39,7 +46,6 @@ SOURCES += \
     inactivity-timer.cpp \
     indicator-service.cpp \
     main.cpp \
-    mir-helper.cpp \
     reauthenticator.cpp \
     request.cpp \
     request-manager.cpp \

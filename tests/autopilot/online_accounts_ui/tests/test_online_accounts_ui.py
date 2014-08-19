@@ -51,15 +51,3 @@ class AvailableProvidersTestCase(tests.BaseOnlineAccountsUITestCase):
         no_accounts_page = self.application.main_view.no_accounts_page
         available_providers = no_accounts_page.get_providers()
         self.assertIn(self.provider, available_providers)
-
-
-class CreateAccountTestCase(tests.BaseOnlineAccountsUITestCase):
-
-    def test_create_account_with_form(self):
-        """Test the creation of an account using a username/password form."""
-        accounts_page = self.application.main_view.add_test_login_account(
-            user_name='pinkuser', password='lolcat')
-
-        self.assertIn(('TestLogin', 'pinkuser'), accounts_page.get_accounts())
-
-        accounts_page.delete_account('TestLogin', 'pinkuser')

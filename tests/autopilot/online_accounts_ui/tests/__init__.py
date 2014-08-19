@@ -34,9 +34,6 @@ class BaseOnlineAccountsUITestCase(
     def setUp(self):
         super(BaseOnlineAccountsUITestCase, self).setUp()
 
-        if platform.model() != 'Desktop':
-            self.skipTest('Skip because of bug http://pad.lv/1252294')
-
         application_proxy = self.launch_application()
         self.application = online_accounts_ui.OnlineAccountsUI(
             application_proxy)
@@ -44,21 +41,12 @@ class BaseOnlineAccountsUITestCase(
             self.application.main_view.visible, Eventually(Equals(True)))
 
     def launch_application(self):
-        # Increase the timeout of online-accounts-ui, to make sure it won't
-        # quit before the system settings panel asks it to open.
-        self.useFixture(
-            fixtures.EnvironmentVariable('OAU_DAEMON_TIMEOUT', '120'))
         application = self.launch_test_application(
-            'online-accounts-ui',
+            'system-settings', 'online-accounts',
             '--desktop_file_hint='
-            '/usr/share/applications/online-accounts-ui.desktop',
+            '/usr/share/applications/ubuntu-system-settings.desktop',
             app_type='qt',
             emulator_base=ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase,
             capture_output=True)
-        system_settings = subprocess.Popen(
-            ['system-settings', 'online-accounts',
-             '--desktop_file_hint='
-             '/usr/share/applications/ubuntu-system-settings.desktop'])
-        self.addCleanup(system_settings.terminate)
         time.sleep(1)
         return application

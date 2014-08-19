@@ -1,3 +1,19 @@
+ubuntu-system-settings-online-accounts (0.4+14.10.20140819.1-0ubuntu1) utopic; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Alberto Mardegan ]
+  * Add desktop file information to .application files. Make the click
+    hook work even without D-Bus. better feedback while waiting for the
+    Trusted Session Prompt to appear .
+  * Fix autopilot tests Change the name of the main page, which is now
+    the one from System Settings. Remove the test case for account
+    creation, because the implementation has moved into a separate
+    process and is not easily testable.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 19 Aug 2014 14:43:48 +0000
+
 ubuntu-system-settings-online-accounts (0.4+14.10.20140818.1-0ubuntu1) utopic; urgency=low
 
   [ Alberto Mardegan ]

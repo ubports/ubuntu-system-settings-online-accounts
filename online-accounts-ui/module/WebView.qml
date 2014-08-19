@@ -6,7 +6,10 @@ import com.canonical.Oxide 1.0
 UbuntuWebView {
     property QtObject signonRequest
 
-    Component.onCompleted: url = signonRequest.startUrl
+    Component.onCompleted: {
+        signonRequest.authenticated.connect(onAuthenticated)
+        url = signonRequest.startUrl
+    }
 
     onLoadingChanged: {
         console.log("Loading changed")
@@ -22,5 +25,17 @@ UbuntuWebView {
 
     context: UbuntuWebContext {
         dataPath: signonRequest.rootDir
+    }
+
+    function onAuthenticated() {
+        /* Get the cookies and set them on the request */
+        console.log("Authenticated; getting cookies")
+        context.cookieManager.gotCookies.connect(onGotCookies)
+        context.cookieManager.getAllCookies()
+    }
+
+    function onGotCookies(count, cookies, requestStatus) {
+        console.log("Got cookies")
+        signonRequest.setCookies(cookies)
     }
 }

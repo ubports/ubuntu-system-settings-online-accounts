@@ -126,7 +126,7 @@ void ServiceTest::testCookies()
     quint32 id = 47;
 
     QString subDir =
-        QString("%1/id-%2").arg(QCoreApplication::applicationName()).arg(id);
+        QString("online-accounts-ui/id-%2").arg(id);
     QDir identityDir(tempDir.path());
     identityDir.mkpath(subDir);
     identityDir.cd(subDir);

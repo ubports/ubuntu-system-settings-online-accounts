@@ -137,6 +137,7 @@ ServicePrivate::ServicePrivate(Service *service):
     QObject(service),
     q_ptr(service)
 {
+    qRegisterMetaType<RawCookies>("RawCookies");
 }
 
 ServicePrivate::~ServicePrivate()
@@ -159,8 +160,8 @@ void ServicePrivate::cancelUiRequest(const QString &requestId)
 QString ServicePrivate::rootDirForIdentity(quint32 id)
 {
     QString cachePath =
-        QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-    return cachePath + QString("/id-%1").arg(id);
+        QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
+    return cachePath + QString("/online-accounts-ui/id-%1").arg(id);
 }
 
 void ServicePrivate::removeIdentityData(quint32 id)
@@ -176,7 +177,10 @@ RawCookies ServicePrivate::cookiesForIdentity(quint32 id,
     RawCookies cookies;
 
     QFileInfo fileInfo(rootDirForIdentity(id) + "/cookies.json");
-    if (!fileInfo.exists()) return cookies;
+    if (!fileInfo.exists()) {
+        DEBUG() << "File does not exist:" << fileInfo.filePath();
+        return cookies;
+    }
     timestamp = fileInfo.lastModified().toMSecsSinceEpoch() / 1000;
 
     QFile file(fileInfo.filePath());

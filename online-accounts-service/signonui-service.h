@@ -64,5 +64,7 @@ private:
 
 } // namespace
 
+Q_DECLARE_METATYPE(SignOnUi::RawCookies)
+
 #endif // SIGNON_UI_SERVICE_H
 

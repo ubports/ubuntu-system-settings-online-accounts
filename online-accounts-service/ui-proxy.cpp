@@ -142,8 +142,6 @@ void UiProxyPrivate::onNewConnection()
 
 void UiProxyPrivate::onDataReady(QByteArray &data)
 {
-    Q_Q(UiProxy);
-
     QVariantMap map;
     QDataStream stream(&data, QIODevice::ReadOnly);
     stream >> map;

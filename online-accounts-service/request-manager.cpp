@@ -163,8 +163,6 @@ void RequestManagerPrivate::onRequestCompleted()
 
 void RequestManagerPrivate::onProxyFinished()
 {
-    Q_Q(RequestManager);
-
     UiProxy *proxy = qobject_cast<UiProxy*>(sender());
     m_proxies.removeOne(proxy);
 

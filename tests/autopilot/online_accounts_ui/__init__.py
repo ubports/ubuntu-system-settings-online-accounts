@@ -44,10 +44,10 @@ class OnlineAccountsUI():
     def __init__(self, application_proxy):
         super().__init__()
         self.application_proxy = application_proxy
-        self.main_view = self.application_proxy.wait_select_single(MainView)
+        self.main_view = self.application_proxy.wait_select_single(MainWindow)
 
 
-class MainView(ubuntuuitoolkit.MainView):
+class MainWindow(ubuntuuitoolkit.MainView):
 
     """Autopilot helper for the Main View."""
 
@@ -101,19 +101,6 @@ class NoAccountsPage(ubuntuuitoolkit.QQuickFlickable):
     def _get_provider_plugin_list(self):
         return self.select_single(ProviderPluginList)
 
-    @autopilot.logging.log_action(logger.info)
-    def go_to_add_account(self, provider_name):
-        """Go to the Add Acount page for a provider.
-
-        :param provider_name: The name of the provider.
-
-        """
-        self._get_provider_plugin_list().click_provider(provider_name)
-        account_creation_page = self.get_root_instance().select_single(
-            AccountCreationPage)
-        account_creation_page.visible.wait_for(True)
-        return account_creation_page
-
 
 class ProviderPluginList(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
 
@@ -130,18 +117,6 @@ class ProviderPluginList(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
             ubuntuuitoolkit.listitems.Standard, text=name)
         provider_item.swipe_into_view()
         self.pointing_device.click_object(provider_item)
-
-
-class AccountCreationPage(
-        ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
-
-    """Autopilot helper for the Account Creation page."""
-
-    @autopilot.logging.log_action(logger.info)
-    def create_new_account(self, *args, **kwargs):
-        main = self.select_single('Main')
-        new_account_form = main.select_single(NewAccount)
-        new_account_form.fill(*args, **kwargs)
 
 
 class NewAccount(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):

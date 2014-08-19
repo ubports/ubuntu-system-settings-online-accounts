@@ -24,13 +24,62 @@
 #include "signonui-service.h"
 
 #include <QDBusArgument>
+#include <QDateTime>
 #include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QList>
+#include <QNetworkCookie>
 #include <QStandardPaths>
+#include <QVariant>
 #include <SignOn/uisessiondata_priv.h>
 
 using namespace SignOnUi;
 
 namespace SignOnUi {
+
+static QList<QByteArray> cookiesFromVariant(const QVariantList &cl)
+{
+    QList<QByteArray> cookies;
+    Q_FOREACH(QVariant cookie, cl) {
+        if (!cookie.canConvert(QVariant::Map)) {
+            continue;
+        }
+
+        QNetworkCookie nc;
+        QVariantMap vm = cookie.toMap();
+        if (!vm.contains("name") || !vm.contains("value")) {
+            continue;
+        }
+
+        nc.setName(vm.value("name").toByteArray());
+        nc.setValue(vm.value("value").toByteArray());
+        nc.setDomain(vm.value("domain").toString());
+        nc.setPath(vm.value("path").toString());
+        if (vm.contains("httponly") &&
+            vm.value("httponly").canConvert(QVariant::Bool)) {
+            nc.setHttpOnly(vm.value("httponly").toBool());
+        }
+
+        if (vm.contains("issecure") &&
+            vm.value("issecure").canConvert(QVariant::Bool)) {
+            nc.setSecure(vm.value("issecure").toBool());
+        }
+
+        if (vm.contains("expirationdate") &&
+            vm.value("expirationdate").canConvert(QVariant::LongLong)) {
+            bool ok = false;
+            qlonglong date = vm.value("expirationdate").toLongLong(&ok);
+            if (ok)
+                nc.setExpirationDate(QDateTime::fromMSecsSinceEpoch(date));
+        }
+
+        cookies.append(nc.toRawForm());
+    }
+    return cookies;
+}
 
 static QVariant dbusValueToVariant(const QDBusArgument &argument)
 {
@@ -74,6 +123,7 @@ public:
 
     void cancelUiRequest(const QString &requestId);
     void removeIdentityData(quint32 id);
+    RawCookies cookiesForIdentity(quint32 id, qint64 &timestamp) const;
 
     static QString rootDirForIdentity(quint32 id);
 
@@ -118,6 +168,29 @@ void ServicePrivate::removeIdentityData(quint32 id)
     /* Remove any data associated with the given identity. */
     QDir rootDir(ServicePrivate::rootDirForIdentity(id));
     rootDir.removeRecursively();
+}
+
+RawCookies ServicePrivate::cookiesForIdentity(quint32 id,
+                                              qint64 &timestamp) const
+{
+    RawCookies cookies;
+
+    QFileInfo fileInfo(rootDirForIdentity(id) + "/cookies.json");
+    if (!fileInfo.exists()) return cookies;
+    timestamp = fileInfo.lastModified().toMSecsSinceEpoch() / 1000;
+
+    QFile file(fileInfo.filePath());
+    if (Q_UNLIKELY(!file.open(QIODevice::ReadOnly | QIODevice::Text))) {
+        qWarning() << "Cannot open file" << fileInfo.filePath();
+        return cookies;
+    }
+
+    QByteArray contents = file.readAll();
+    QJsonDocument doc = QJsonDocument::fromJson(contents);
+    if (doc.isEmpty() || !doc.isArray()) return cookies;
+
+    QVariantList cookieVariants = doc.array().toVariantList();
+    return cookiesFromVariant(cookieVariants);
 }
 
 Service::Service(QObject *parent):
@@ -169,6 +242,13 @@ void Service::removeIdentityData(quint32 id)
 {
     Q_D(Service);
     d->removeIdentityData(id);
+}
+
+void Service::cookiesForIdentity(quint32 id,
+                                 RawCookies &cookies, qint64 &timestamp)
+{
+    Q_D(Service);
+    cookies = d->cookiesForIdentity(id, timestamp);
 }
 
 #include "signonui-service.moc"

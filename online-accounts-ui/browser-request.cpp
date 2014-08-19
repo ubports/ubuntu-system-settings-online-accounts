@@ -27,10 +27,15 @@
 #include "request-handler.h"
 
 #include <QDir>
+#include <QFile>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QList>
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QStandardPaths>
 #include <QTimer>
+#include <QVariant>
 #include <SignOn/uisessiondata_priv.h>
 
 using namespace SignOnUi;
@@ -64,6 +69,7 @@ public:
     static QString rootDirForIdentity(quint32 id);
 
 public Q_SLOTS:
+    void setCookies(const QVariant &cookies);
     void cancel();
     void onLoadStarted();
     void onLoadFinished(bool ok);
@@ -71,6 +77,9 @@ public Q_SLOTS:
 private Q_SLOTS:
     void onFailTimer();
     void onFinished();
+
+Q_SIGNALS:
+    void authenticated();
 
 private:
     void buildDialog(const QVariantMap &params);
@@ -177,13 +186,30 @@ void BrowserRequestPrivate::setCurrentUrl(const QUrl &url)
             } else {
                 /* Replace the web page with an information screen */
                 /* TODO */
-                m_dialog->accept();
+                Q_EMIT authenticated();
             }
         } else {
             DEBUG();
-            onFinished();
+            Q_EMIT authenticated();
         }
     }
+}
+
+void BrowserRequestPrivate::setCookies(const QVariant &cookies)
+{
+    DEBUG() << cookies;
+
+    QJsonArray jsonCookies =
+        QJsonArray::fromVariantList(cookies.toList());
+
+    /* Save the cookies into a text file */
+    QFile file(m_rootDir + "/cookies.json");
+    if (Q_LIKELY(file.open(QIODevice::WriteOnly | QIODevice::Text))) {
+        QJsonDocument doc(jsonCookies);
+        file.write(doc.toJson());
+    }
+
+    onFinished();
 }
 
 void BrowserRequestPrivate::cancel()
@@ -215,7 +241,7 @@ void BrowserRequestPrivate::onLoadFinished(bool ok)
         if (m_responseUrl.isEmpty()) {
             q->setWindow(m_dialog);
         } else {
-            onFinished();
+            Q_EMIT authenticated();
         }
     }
 }

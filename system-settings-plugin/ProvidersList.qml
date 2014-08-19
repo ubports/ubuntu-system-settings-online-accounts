@@ -40,8 +40,8 @@ Column {
             text: displayName
             enabled: !isSingleAccount || hasNoAccounts(providerId)
             iconName: model.iconName
-            progression: true
-            onClicked: root.providerClicked(providerId)
+            progression: false
+            onClicked: { root.enabled = false; pressed = true; root.providerClicked(providerId) }
         }
     }
 

@@ -5,7 +5,7 @@ Maintainer: Ubuntu Desktop Team <ubuntu-desktop@lists.ubuntu.com>
 Build-Depends: debhelper (>= 9),
                pkg-config,
                python3:any,
-               libaccounts-qt5-dev,
+               libaccounts-qt5-dev (>= 1.13),
                libmirclient-dev [!powerpc !ppc64 !ppc64el],
                libnotify-dev,
                libsignon-qt5-dev,

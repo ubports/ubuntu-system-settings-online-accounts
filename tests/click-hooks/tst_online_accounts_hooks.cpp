@@ -79,7 +79,12 @@ void OnlineAccountsHooksTest::clearInstallDir()
 
 bool OnlineAccountsHooksTest::runHookProcess()
 {
-    return QProcess::execute(HOOK_PROCESS) == EXIT_SUCCESS;
+    QProcess process;
+    process.setProcessChannelMode(QProcess::ForwardedChannels);
+    process.start(HOOK_PROCESS);
+    if (!process.waitForFinished()) return false;
+
+    return process.exitCode() == EXIT_SUCCESS;
 }
 
 void OnlineAccountsHooksTest::writeHookFile(const QString &name,
@@ -111,6 +116,8 @@ void OnlineAccountsHooksTest::writeInstalledFile(const QString &name,
 void OnlineAccountsHooksTest::initTestCase()
 {
     qputenv("XDG_DATA_HOME", TEST_DIR);
+    // The hook must be able to run without a D-Bus session
+    qunsetenv("DBUS_SESSION_BUS_ADDRESS");
 
     clearHooksDir();
     clearInstallDir();

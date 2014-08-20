@@ -87,8 +87,6 @@ void UiServerPrivate::sendOperation(const QVariantMap &data)
 
 void UiServerPrivate::onDataReady(QByteArray &data)
 {
-    Q_Q(UiServer);
-
     QVariantMap map;
     QDataStream stream(&data, QIODevice::ReadOnly);
     stream >> map;

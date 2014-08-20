@@ -52,6 +52,7 @@ public:
     void checkId(const QString &shortAppId);
     void addProfile(const QString &appId);
     QString profile() const;
+    void addDesktopFile(const QString &appId);
     bool writeTo(const QString &fileName) const;
     bool isValid() const { return m_isValid; }
 
@@ -94,6 +95,19 @@ QString LibAccountsFile::profile() const
 {
     QDomElement root = documentElement();
     return root.firstChildElement("profile").text();
+}
+
+void LibAccountsFile::addDesktopFile(const QString &appId)
+{
+    QString desktopEntryTag = QStringLiteral("desktop-entry");
+    QDomElement root = documentElement();
+    /* if a <desktop-entry> element already exists, don't touch it */
+    QDomElement elem = root.firstChildElement(desktopEntryTag);
+    if (!elem.isNull()) return;
+
+    elem = createElement(desktopEntryTag);
+    elem.appendChild(createTextNode(appId));
+    root.appendChild(elem);
 }
 
 bool LibAccountsFile::writeTo(const QString &fileName) const
@@ -206,14 +220,17 @@ int main(int argc, char **argv)
 
         xml.checkId(shortAppId);
         xml.addProfile(appId);
+        if (fileType == "application") {
+            xml.addDesktopFile(appId);
+        }
         xml.writeTo(destination);
     }
 
     /* To ensure that all the installed services are parsed into
      * libaccounts' DB, we enumerate them now.
      */
-    Accounts::Manager *manager = new Accounts::Manager;
-    manager->serviceList();
+    Accounts::Manager *manager =
+        new Accounts::Manager(Accounts::Manager::DisableNotifications);
     delete manager;
 
     return EXIT_SUCCESS;

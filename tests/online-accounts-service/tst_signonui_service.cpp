@@ -103,12 +103,14 @@ void ServiceTest::testCookies_data()
     cookies.append("C2=else; domain=foo.com");
     cookies.append("C3=yes; HttpOnly");
     cookies.append("C4=OK; path=/");
+    cookies.append("C5=no; expires=Sat, 20-Aug-2016 13:33:43 GMT");
     QTest::newRow("few-cookies") <<
         "[\n"
         "  {\"name\": \"C1\", \"value\": \"something\"},\n"
         "  {\"name\": \"C2\", \"value\": \"else\", \"domain\": \"foo.com\"},\n"
         "  {\"name\": \"C3\", \"value\": \"yes\", \"httponly\": \"true\"},\n"
-        "  {\"name\": \"C4\", \"value\": \"OK\", \"path\": \"/\"}\n"
+        "  {\"name\": \"C4\", \"value\": \"OK\", \"path\": \"/\"},\n"
+        "  {\"name\": \"C5\", \"value\": \"no\", \"expirationdate\": \"2016-08-20T16:33:43\"}\n"
         "]" <<
         qint64(1406104196) <<
         cookies;

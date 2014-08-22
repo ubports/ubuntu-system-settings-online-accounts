@@ -69,11 +69,8 @@ static QList<QByteArray> cookiesFromVariant(const QVariantList &cl)
         }
 
         if (vm.contains("expirationdate") &&
-            vm.value("expirationdate").canConvert(QVariant::LongLong)) {
-            bool ok = false;
-            qlonglong date = vm.value("expirationdate").toLongLong(&ok);
-            if (ok)
-                nc.setExpirationDate(QDateTime::fromMSecsSinceEpoch(date));
+            vm.value("expirationdate").canConvert(QMetaType::QDateTime)) {
+            nc.setExpirationDate(vm.value("expirationdate").toDateTime());
         }
 
         cookies.append(nc.toRawForm());

@@ -210,7 +210,16 @@ bool UiProxyPrivate::init()
 {
     if (Q_UNLIKELY(!setupSocket())) return false;
 
+    QString processName;
     QStringList arguments;
+    QString wrapper = QString::fromUtf8(qgetenv("OAU_WRAPPER"));
+    QString accountsUi = QStringLiteral("/usr/bin/online-accounts-ui");
+    if (wrapper.isEmpty()) {
+        processName = accountsUi;
+    } else {
+        processName = wrapper;
+        arguments.append(accountsUi);
+    }
     /* the first argument is required to be the desktop file */
     arguments.append("--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop");
     arguments.append("--socket");
@@ -220,7 +229,7 @@ bool UiProxyPrivate::init()
         setupPromptSession();
     }
 
-    m_process.start("/usr/bin/online-accounts-ui", arguments);
+    m_process.start(processName, arguments);
     return m_process.waitForStarted();
 }
 
@@ -238,10 +247,15 @@ void UiProxyPrivate::sendRequest(int requestId, Request *request)
 
 void UiProxyPrivate::onRequestCompleted()
 {
+    Q_Q(UiProxy);
+
     Request *request = qobject_cast<Request*>(sender());
     int id = m_requests.key(request, -1);
     if (id != -1) {
         m_requests.remove(id);
+        if (m_requests.isEmpty()) {
+            Q_EMIT q->finished();
+        }
     }
 }
 

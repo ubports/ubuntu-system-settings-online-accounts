@@ -110,7 +110,7 @@ void ServiceTest::testCookies_data()
         "  {\"name\": \"C2\", \"value\": \"else\", \"domain\": \"foo.com\"},\n"
         "  {\"name\": \"C3\", \"value\": \"yes\", \"httponly\": \"true\"},\n"
         "  {\"name\": \"C4\", \"value\": \"OK\", \"path\": \"/\"},\n"
-        "  {\"name\": \"C5\", \"value\": \"no\", \"expirationdate\": \"2016-08-20T16:33:43\"}\n"
+        "  {\"name\": \"C5\", \"value\": \"no\", \"expirationdate\": \"2016-08-20Z16:33:43\"}\n"
         "]" <<
         qint64(1406104196) <<
         cookies;

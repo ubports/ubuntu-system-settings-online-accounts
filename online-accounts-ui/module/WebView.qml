@@ -35,7 +35,6 @@ UbuntuWebView {
     }
 
     function onGotCookies(count, cookies, requestStatus) {
-        console.log("Got cookies")
         signonRequest.setCookies(cookies)
     }
 }

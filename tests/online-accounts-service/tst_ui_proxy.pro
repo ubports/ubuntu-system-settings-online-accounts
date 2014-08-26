@@ -12,6 +12,9 @@ QT += \
     network \
     testlib
 
+DEFINES += \
+    INSTALL_BIN_DIR=\\\"$${INSTALL_PREFIX}/bin\\\"
+
 PKGCONFIG += \
     signon-plugins-common
 

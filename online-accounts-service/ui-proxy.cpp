@@ -213,7 +213,7 @@ bool UiProxyPrivate::init()
     QString processName;
     QStringList arguments;
     QString wrapper = QString::fromUtf8(qgetenv("OAU_WRAPPER"));
-    QString accountsUi = QStringLiteral("/usr/bin/online-accounts-ui");
+    QString accountsUi = QStringLiteral(INSTALL_BIN_DIR "/online-accounts-ui");
     if (wrapper.isEmpty()) {
         processName = accountsUi;
     } else {

@@ -31,6 +31,7 @@ DBUS_ADAPTORS += \
 
 DEFINES += \
     DEBUG_ENABLED \
+    INSTALL_BIN_DIR=\\\"$${INSTALL_PREFIX}/bin\\\" \
     SIGNONUI_I18N_DOMAIN=\\\"$${SIGNONUI_I18N_DOMAIN}\\\"
 
 COMMON_SRC = ../online-accounts-ui

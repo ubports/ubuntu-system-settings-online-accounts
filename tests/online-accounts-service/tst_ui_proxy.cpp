@@ -298,7 +298,8 @@ void UiProxyTest::testRequest()
     RemoteProcess *process = remoteProcesses.values().first();
     QVERIFY(process);
     QSignalSpy dataReceived(process, SIGNAL(dataReceived(QVariantMap)));
-    QCOMPARE(process->programName(), QString("/usr/bin/online-accounts-ui"));
+    QCOMPARE(process->programName(),
+             QString(INSTALL_BIN_DIR "/online-accounts-ui"));
 
     /* Check the received data */
     if (process->lastReceived().isEmpty()) {
@@ -400,7 +401,8 @@ void UiProxyTest::testWrapper()
     RemoteProcess *process = remoteProcesses.values().first();
     QVERIFY(process);
     QCOMPARE(process->programName(), wrapper);
-    QCOMPARE(process->arguments().at(0), QString("/usr/bin/online-accounts-ui"));
+    QCOMPARE(process->arguments().at(0),
+             QString(INSTALL_BIN_DIR "/online-accounts-ui"));
 
     delete proxy;
 }

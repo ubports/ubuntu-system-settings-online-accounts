@@ -1,3 +1,14 @@
+ubuntu-system-settings-online-accounts (0.4+14.10.20140827-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Alberto Mardegan ]
+  * Implement the D-Bus method to export cookies. Updated the list of
+    files to translate and the template. Fix autopilot tests .
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 27 Aug 2014 14:22:07 +0000
+
 ubuntu-system-settings-online-accounts (0.4+14.10.20140819.1-0ubuntu1) utopic; urgency=low
 
   [ Ubuntu daily release ]

@@ -33,7 +33,7 @@ Flickable {
 
         ListItem.Base {
             Label {
-                text: i18n.tr("No accounts")
+                text: i18n.dtr(domain, "No accounts")
                 anchors.centerIn: parent
             }
         }
@@ -41,7 +41,7 @@ Flickable {
         AddAccountLabel {}
 
         ListItem.Standard {
-            text: i18n.tr("Add account:")
+            text: i18n.dtr(domain, "Add account:")
         }
 
         ProviderPluginList {

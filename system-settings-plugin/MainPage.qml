@@ -24,9 +24,12 @@ import Ubuntu.OnlineAccounts 0.1
 
 ItemPage {
     id: root
+
+    property string domain: "ubuntu-system-settings-online-accounts"
+
     objectName: "accountsPage"
 
-    title: i18n.tr("Accounts")
+    title: i18n.dtr(domain, "Accounts")
 
     property Item flickable: accountsPage.visible ? accountsPage : noAccountsPage
 

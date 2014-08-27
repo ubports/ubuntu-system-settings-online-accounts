@@ -28,6 +28,7 @@
 
 #include <QCoreApplication>
 #include <QDBusConnection>
+#include <QDBusMetaType>
 #include <QProcessEnvironment>
 
 using namespace OnlineAccountsUi;
@@ -59,6 +60,8 @@ int main(int argc, char **argv)
     }
 
     RequestManager *requestManager = new RequestManager();
+
+    qDBusRegisterMetaType<SignOnUi::RawCookies>();
 
     Service *service = new Service();
     QDBusConnection connection = QDBusConnection::sessionBus();

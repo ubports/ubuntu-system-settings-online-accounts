@@ -35,9 +35,15 @@ Page {
         objectHandle: accountHandle
     }
 
-    Options {
-        onFinished: {
-            root.finished()
+    Flickable {
+        anchors.fill: parent
+        contentHeight: options.height
+
+        Options {
+            id: options
+            onFinished: {
+                root.finished()
+            }
         }
     }
 }

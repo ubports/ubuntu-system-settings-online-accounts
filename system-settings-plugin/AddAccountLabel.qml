@@ -24,5 +24,5 @@ ListItem.Caption {
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.margins: units.gu(2)
-    text: i18n.tr("Storing account details here lets apps use the accounts without you having to sign in for each app.")
+    text: i18n.dtr(domain, "Storing account details here lets apps use the accounts without you having to sign in for each app.")
 }

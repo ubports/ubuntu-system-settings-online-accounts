@@ -43,6 +43,8 @@ qrc_*.cpp
 /tests/client/tst_qml_client
 /tests/online-accounts-service/tst_inactivity_timer
 /tests/online-accounts-service/tst_service
+/tests/online-accounts-service/tst_signonui_service
+/tests/online-accounts-service/tst_ui_proxy
 /tests/online-accounts-ui/qml/tst_online_accounts_qml
 /tests/online-accounts-ui/tst_access_model
 /tests/online-accounts-ui/tst_application_manager

@@ -1,7 +1,9 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2014 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
+ *
+ * This file is part of online-accounts-ui
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -16,34 +18,32 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.OnlineAccounts 0.1
-import Ubuntu.OnlineAccounts.Plugin 1.0
+#ifndef MOCK_REQUEST_MANAGER_H
+#define MOCK_REQUEST_MANAGER_H
 
-Page {
-    id: root
+#include "request-manager.h"
 
-    property variant accountHandle
+#include <QObject>
 
-    signal finished
+namespace OnlineAccountsUi {
 
-    title: account.provider.displayName
+class RequestManagerPrivate: public QObject
+{
+    Q_OBJECT
+    Q_DECLARE_PUBLIC(RequestManager)
 
-    Account {
-        id: account
-        objectHandle: accountHandle
-    }
+public:
+    RequestManagerPrivate(RequestManager *q);
+    ~RequestManagerPrivate();
+    static RequestManagerPrivate *mocked(RequestManager *q) { return q->d_ptr; }
 
-    Flickable {
-        anchors.fill: parent
-        contentHeight: options.height
+Q_SIGNALS:
+    void enqueueCalled(Request *request);
 
-        Options {
-            id: options
-            onFinished: {
-                root.finished()
-            }
-        }
-    }
-}
+public:
+    mutable RequestManager *q_ptr;
+};
+
+} // namespace
+
+#endif // MOCK_REQUEST_MANAGER_H

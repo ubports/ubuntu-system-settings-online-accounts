@@ -55,6 +55,7 @@ static QString findPackageDir(const QString &appId)
         qWarning() << "Unable to get the Click package directory for" <<
             package << ":" << error->message;
         g_error_free(error);
+        g_object_unref(user);
         return QString();
     }
 

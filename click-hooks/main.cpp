@@ -29,6 +29,40 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 #include <QStringList>
+#include <click.h>
+
+static QString findPackageDir(const QString &appId)
+{
+    /* For testing */
+    QByteArray packageDirEnv = qgetenv("OAH_CLICK_DIR");
+    if (!packageDirEnv.isEmpty()) {
+        return QString::fromUtf8(packageDirEnv);
+    }
+
+    QStringList components = appId.split('_');
+    QByteArray package = components.first().toUtf8();
+
+    GError *error = NULL;
+    ClickUser *user = click_user_new_for_user(NULL, NULL, &error);
+    if (Q_UNLIKELY(!user)) {
+        qWarning() << "Unable to read Click database:" << error->message;
+        g_error_free(error);
+        return QString();
+    }
+
+    gchar *pkgDir = click_user_get_path(user, package.constData(), &error);
+    if (Q_UNLIKELY(!pkgDir)) {
+        qWarning() << "Unable to get the Click package directory for" <<
+            package << ":" << error->message;
+        g_error_free(error);
+        return QString();
+    }
+
+    QString ret = QString::fromUtf8(pkgDir);
+    g_object_unref(user);
+    g_free(pkgDir);
+    return ret;
+}
 
 static QString stripVersion(const QString &appId)
 {
@@ -53,6 +87,7 @@ public:
     void addProfile(const QString &appId);
     QString profile() const;
     void addDesktopFile(const QString &appId);
+    void checkIconPath(const QString &appId);
     bool writeTo(const QString &fileName) const;
     bool isValid() const { return m_isValid; }
 
@@ -108,6 +143,31 @@ void LibAccountsFile::addDesktopFile(const QString &appId)
     elem = createElement(desktopEntryTag);
     elem.appendChild(createTextNode(appId));
     root.appendChild(elem);
+}
+
+void LibAccountsFile::checkIconPath(const QString &appId)
+{
+    QString iconTag = QStringLiteral("icon");
+    QDomElement root = documentElement();
+    /* if the <icon> element does not exist, do nothing*/
+    QDomElement elem = root.firstChildElement(iconTag);
+    if (elem.isNull()) return;
+
+    /* If the icon path is absolute, do nothing */
+    QString icon = elem.text();
+    if (QDir::isAbsolutePath(icon)) return;
+
+    /* Otherwise, try appending it to the click package install dir */
+    QString packageDir = findPackageDir(appId);
+    if (Q_UNLIKELY(packageDir.isEmpty())) return;
+
+    QFileInfo iconFile(packageDir + "/" + icon);
+    if (iconFile.exists()) {
+        while (elem.hasChildNodes()) {
+            elem.removeChild(elem.firstChild());
+        }
+        elem.appendChild(createTextNode(iconFile.canonicalFilePath()));
+    }
 }
 
 bool LibAccountsFile::writeTo(const QString &fileName) const
@@ -220,6 +280,7 @@ int main(int argc, char **argv)
 
         xml.checkId(shortAppId);
         xml.addProfile(appId);
+        xml.checkIconPath(appId);
         if (fileType == "application") {
             xml.addDesktopFile(appId);
         }

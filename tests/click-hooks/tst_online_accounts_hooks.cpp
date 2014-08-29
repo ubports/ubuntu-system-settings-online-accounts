@@ -52,18 +52,22 @@ private:
     bool runHookProcess();
     void writeHookFile(const QString &name, const QString &contents);
     void writeInstalledFile(const QString &name, const QString &contents);
+    void writePackageFile(const QString &name,
+                          const QString &contents = QString());
 
 private:
     QDir m_testDir;
     QDir m_hooksDir;
     QDir m_installDir;
+    QDir m_packageDir;
 };
 
 OnlineAccountsHooksTest::OnlineAccountsHooksTest():
     QObject(0),
     m_testDir(TEST_DIR),
     m_hooksDir(TEST_DIR "/online-accounts-hooks"),
-    m_installDir(TEST_DIR "/accounts")
+    m_installDir(TEST_DIR "/accounts"),
+    m_packageDir(TEST_DIR "/package")
 {
 }
 
@@ -115,9 +119,24 @@ void OnlineAccountsHooksTest::writeInstalledFile(const QString &name,
     file.write(contents.toUtf8());
 }
 
+void OnlineAccountsHooksTest::writePackageFile(const QString &name,
+                                               const QString &contents)
+{
+    QFileInfo fileInfo(name);
+    m_packageDir.mkpath(fileInfo.path());
+    QFile file(m_packageDir.filePath(name));
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Could not write file" << name;
+        return;
+    }
+
+    file.write(contents.toUtf8());
+}
+
 void OnlineAccountsHooksTest::initTestCase()
 {
     qputenv("XDG_DATA_HOME", TEST_DIR);
+    qputenv("OAH_CLICK_DIR", m_packageDir.path().toUtf8());
     // The hook must be able to run without a D-Bus session
     qunsetenv("DBUS_SESSION_BUS_ADDRESS");
 
@@ -150,6 +169,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
     QTest::addColumn<QString>("contents");
     QTest::addColumn<QString>("installedName");
     QTest::addColumn<QString>("profile");
+    QTest::addColumn<QString>("icon");
     QTest::addColumn<bool>("isValid");
 
     QTest::newRow("service") <<
@@ -162,6 +182,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "</service>" <<
         "services/com.ubuntu.test_MyApp.service" <<
         "com.ubuntu.test_MyApp_0.1" <<
+        QString() <<
         true;
 
     QTest::newRow("application") <<
@@ -175,6 +196,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "</application>" <<
         "applications/com.ubuntu.test_MyApp.application" <<
         "com.ubuntu.test_MyApp_0.2" <<
+        QString() <<
         true;
 
     QTest::newRow("provider") <<
@@ -185,6 +207,43 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "</provider>" <<
         "providers/com.ubuntu.test_Plugin.provider" <<
         "com.ubuntu.test_Plugin_0.1" <<
+        QString() <<
+        true;
+
+    QTest::newRow("provider-with-icon") <<
+        "com.ubuntu.test_Plugin2_0.1.provider" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<provider>\n"
+        "  <name>My provider</name>\n"
+        "  <icon>MyApp.svg</icon>\n"
+        "</provider>" <<
+        "providers/com.ubuntu.test_Plugin2.provider" <<
+        "com.ubuntu.test_Plugin2_0.1" <<
+        m_packageDir.filePath("MyApp.svg") <<
+        true;
+
+    QTest::newRow("provider-with-wrong-icon") <<
+        "com.ubuntu.test_Plugin3_0.1.provider" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<provider>\n"
+        "  <name>My provider</name>\n"
+        "  <icon>NonExisting.svg</icon>\n"
+        "</provider>" <<
+        "providers/com.ubuntu.test_Plugin3.provider" <<
+        "com.ubuntu.test_Plugin3_0.1" <<
+        "NonExisting.svg" <<
+        true;
+
+    QTest::newRow("provider-with-icon-subdir") <<
+        "com.ubuntu.test_Plugin4_0.1.provider" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<provider>\n"
+        "  <name>My provider</name>\n"
+        "  <icon>subdir/pict.png</icon>\n"
+        "</provider>" <<
+        "providers/com.ubuntu.test_Plugin4.provider" <<
+        "com.ubuntu.test_Plugin4_0.1" <<
+        m_packageDir.filePath("subdir/pict.png") <<
         true;
 
     QTest::newRow("invalid application") <<
@@ -198,6 +257,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "</application /* invalid XML!" <<
         "applications/com.ubuntu.test_Invalid.application" <<
         "com.ubuntu.test_Invalid_0.1" <<
+        QString() <<
         false;
 
     QTest::newRow("application with wrong id") <<
@@ -211,6 +271,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "</application>" <<
         "applications/com.ubuntu.test_MyAppId.application" <<
         "com.ubuntu.test_MyAppId_0.1" <<
+        QString() <<
         true;
 }
 
@@ -220,7 +281,12 @@ void OnlineAccountsHooksTest::testValidHooks()
     QFETCH(QString, contents);
     QFETCH(QString, installedName);
     QFETCH(QString, profile);
+    QFETCH(QString, icon);
     QFETCH(bool, isValid);
+
+    /* Create the needed files in the package directory */
+    writePackageFile("MyApp.svg");
+    writePackageFile("subdir/pict.png");
 
     writeHookFile(hookName, contents);
     QVERIFY(runHookProcess());
@@ -247,6 +313,10 @@ void OnlineAccountsHooksTest::testValidHooks()
     QDomElement profileElement = root.firstChildElement("profile");
     QVERIFY(!profileElement.isNull());
     QCOMPARE(profileElement.text(), profile);
+
+    /* Check that the icon is correct */
+    QDomElement iconElement = root.firstChildElement("icon");
+    QCOMPARE(iconElement.text(), icon);
 }
 
 void OnlineAccountsHooksTest::testRemoval()

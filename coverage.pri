@@ -26,7 +26,7 @@ CONFIG(coverage) {
     generate-coverage-html.commands = \
         "@echo Collecting coverage data"; \
         "lcov --directory $${TOP_SRC_DIR} --capture --output-file coverage.info --no-checksum --compat-libtool"; \
-        "lcov --extract coverage.info \"*/online-accounts-service/*.cpp\" --extract coverage.info \"*/online-accounts-ui/*.cpp\" --extract coverage.info \"*/client/OnlineAccountsClient/*.cpp\" -o coverage.info"; \
+        "lcov --extract coverage.info \"*/online-accounts-service/*.cpp\" --extract coverage.info \"*/online-accounts-ui/*.cpp\" --extract coverage.info \"*/client/OnlineAccountsClient/*.cpp\" --extract coverage.info \"*/click-hooks/*.cpp\" -o coverage.info"; \
         "lcov --remove coverage.info \"moc_*.cpp\" --remove coverage.info \"tests/*.cpp\" -o coverage.info"; \
         "LANG=C genhtml --prefix $${TOP_SRC_DIR} --output-directory coverage-html --title \"Code Coverage\" --legend --show-details coverage.info"
   

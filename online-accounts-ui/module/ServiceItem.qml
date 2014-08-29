@@ -43,7 +43,8 @@ Item {
 
         delegate: ListItem.Standard {
             text: model.displayName
-            iconName: model.iconName
+            iconSource: model.iconName.indexOf("/") === 0 ?
+                model.iconName : "image://theme/" + model.iconName
             control: Switch {
                 checked: accountService.serviceEnabled
                 onCheckedChanged: {

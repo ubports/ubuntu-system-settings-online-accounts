@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2014-08-27 16:43+0000\n"
+"POT-Creation-Date: 2014-08-26 10:31+0200\n"
+"PO-Revision-Date: 2014-08-29 10:18+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-28 06:28+0000\n"
-"X-Generator: Launchpad (build 17174)\n"
+"X-Launchpad-Export-Date: 2014-08-30 07:43+0000\n"
+"X-Generator: Launchpad (build 17176)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -25,11 +25,11 @@ msgstr "Nome do usuario"
 msgid "Password"
 msgstr "Contrasinal"
 
-#: ../src/AccountsPage.qml:53
+#: ../system-settings-plugin/AccountsPage.qml:51
 msgid "Add account…"
 msgstr "Engadir unha conta..."
 
-#: ../src/AddAccountLabel.qml:27
+#: ../system-settings-plugin/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
@@ -37,35 +37,47 @@ msgstr ""
 "Gardando aquí a información das contas permitirá os aplicativos utilizala "
 "sen ter que iniciar unha sesión cada vez."
 
-#: ../src/NewAccountPage.qml:23
+#: ../system-settings-plugin/MainPage.qml:29
+#: ../online-accounts-ui/qml/ProviderRequest.qml:51
+#: ../online-accounts-ui/qml/ProviderRequest.qml:119 ../.build/settings.js:1
+msgid "Accounts"
+msgstr "Contas"
+
+#: ../system-settings-plugin/NewAccountPage.qml:23
 msgid "Add account"
 msgstr "Engadir unha conta"
 
-#: ../src/NoAccountsPage.qml:36
+#: ../system-settings-plugin/NoAccountsPage.qml:36
 msgid "No accounts"
 msgstr "Non hai contas"
 
-#: ../src/NoAccountsPage.qml:44
+#: ../system-settings-plugin/NoAccountsPage.qml:44
 msgid "Add account:"
 msgstr "Engadir conta:"
 
-#: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
+#: ../online-accounts-ui/module/OAuth.qml:119
+msgid "Loading…"
+msgstr "Cargando..."
+
+#: ../online-accounts-ui/module/OAuth.qml:149
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:43
+#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../src/module/Options.qml:36
+#: ../online-accounts-ui/module/Options.qml:36
 msgid "ID"
 msgstr "ID"
 
-#: ../src/module/Options.qml:54
+#: ../online-accounts-ui/module/Options.qml:48
 msgid "Remove account…"
 msgstr "Eliminar conta..."
 
-#: ../src/module/RemovalConfirmation.qml:32
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:32
 msgid "Remove account"
 msgstr "Eliminar esta conta"
 
-#: ../src/module/RemovalConfirmation.qml:33
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:33
 #, qt-format
 msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
@@ -73,14 +85,27 @@ msgid ""
 msgstr ""
 "A conta %1 eliminarase só do teléfono. Pode engadila de novo noutro momento."
 
-#: ../src/module/RemovalConfirmation.qml:36
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:38
 msgid "Remove"
 msgstr "Eliminar"
 
-#: ../src/module/ServiceSwitches.qml:33
+#: ../online-accounts-ui/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
 msgstr "Acceder a esta conta:"
 
-#: ../.build/settings.js:1
-msgid "Accounts"
-msgstr "Contas"
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:41
+#, qt-format
+msgid "%1 wants to access your %2 account"
+msgstr "%1 quere acceder á túa conta de %2"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:64
+msgid "Allow"
+msgstr "Permitir"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:71
+msgid "Don't allow"
+msgstr "Rexeitar"
+
+#: ../online-accounts-ui/qml/ProviderRequest.qml:87
+msgid "Add another"
+msgstr "Engadir outra"

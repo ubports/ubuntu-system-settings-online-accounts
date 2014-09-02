@@ -30,11 +30,11 @@ UbuntuWebView {
     function onAuthenticated() {
         /* Get the cookies and set them on the request */
         console.log("Authenticated; getting cookies")
-        context.cookieManager.gotCookies.connect(onGotCookies)
+        context.cookieManager.getCookiesResponse.connect(onGotCookies)
         context.cookieManager.getAllCookies()
     }
 
-    function onGotCookies(count, cookies, requestStatus) {
+    function onGotCookies(requestId, cookies) {
         signonRequest.setCookies(cookies)
     }
 }

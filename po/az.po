@@ -1,82 +1,79 @@
-# Uyghur translation for ubuntu-system-settings-online-accounts
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# Azerbaijani translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-26 10:31+0200\n"
-"PO-Revision-Date: 2013-07-15 04:26+0000\n"
-"Last-Translator: Gheyret T.Kenji <Unknown>\n"
-"Language-Team: Uyghur <ug@li.org>\n"
+"PO-Revision-Date: 2014-08-30 17:05+0000\n"
+"Last-Translator: Nicat Məmmədov <n1c4t97@gmail.com>\n"
+"Language-Team: Azerbaijani <az@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-30 07:43+0000\n"
+"X-Launchpad-Export-Date: 2014-08-31 07:30+0000\n"
 "X-Generator: Launchpad (build 17176)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
-msgstr "ئىشلەتكۈچى ئاتى"
+msgstr "İstifadəçi adı"
 
 #: ../plugins/example/Main.qml:39
 msgid "Password"
-msgstr "ئىم"
+msgstr "Şifrə"
 
 #: ../system-settings-plugin/AccountsPage.qml:51
 msgid "Add account…"
-msgstr "ھېسابات قوشۇش…"
+msgstr "Hesab әlavә et"
 
 #: ../system-settings-plugin/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
-"ھېساباتنىڭ تەپسىلاتلىرىنى بۇ يەردە ساقلاپ قويسىڭىز، ئەپلەر بۇ ئۇچۇرلارنى "
-"ئىشلىتىپ ھېساباتلىرىڭىزنى زىيارەت قىلىدۇ. سىزنىڭ ھەر بىر ئەپتە ھېساباتقا "
-"كىرىشىڭىزنىڭ زۆرۈرىيىتى قالمايدۇ."
 
 #: ../system-settings-plugin/MainPage.qml:29
 #: ../online-accounts-ui/qml/ProviderRequest.qml:51
 #: ../online-accounts-ui/qml/ProviderRequest.qml:119 ../.build/settings.js:1
 msgid "Accounts"
-msgstr "ھېساباتلار"
+msgstr "Hesablar"
 
 #: ../system-settings-plugin/NewAccountPage.qml:23
 msgid "Add account"
-msgstr "ھېسابات قوش"
+msgstr "Hesab әlavә et"
 
 #: ../system-settings-plugin/NoAccountsPage.qml:36
 msgid "No accounts"
-msgstr "ھېساباتلار يوق"
+msgstr ""
 
 #: ../system-settings-plugin/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr "ھېسابات قوشۇش:"
+msgstr ""
 
 #: ../online-accounts-ui/module/OAuth.qml:119
 msgid "Loading…"
-msgstr ""
+msgstr "Yüklənir..."
 
 #: ../online-accounts-ui/module/OAuth.qml:149
 #: ../online-accounts-ui/module/RemovalConfirmation.qml:43
 #: ../online-accounts-ui/qml/SignOnUiPage.qml:30
 msgid "Cancel"
-msgstr "ئەمەلدىن قالدۇر"
+msgstr "İmtina"
 
 #: ../online-accounts-ui/module/Options.qml:36
 msgid "ID"
-msgstr "كىملىكى(ID)"
+msgstr ""
 
 #: ../online-accounts-ui/module/Options.qml:48
 msgid "Remove account…"
-msgstr "ھېسابات چىقىرىۋېتىش…"
+msgstr "Hesabı sil..."
 
 #: ../online-accounts-ui/module/RemovalConfirmation.qml:32
 msgid "Remove account"
-msgstr "ھېساباتنى چىقىرىۋەت"
+msgstr "Hesabı sil"
 
 #: ../online-accounts-ui/module/RemovalConfirmation.qml:33
 #, qt-format
@@ -84,15 +81,14 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
-"ھېساباتنىڭ %1 تېلېفونىڭىزدىن چىقىرىۋېتىلىدۇ. ئۇنى كېيىن يەنە قوشالايسىز."
 
 #: ../online-accounts-ui/module/RemovalConfirmation.qml:38
 msgid "Remove"
-msgstr "چىقىرىۋەت"
+msgstr "Sil"
 
 #: ../online-accounts-ui/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr "مەزكۇر ھېساباتنى زىيارەت قىلىش:"
+msgstr ""
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:41
 #, qt-format
@@ -101,11 +97,11 @@ msgstr ""
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:64
 msgid "Allow"
-msgstr ""
+msgstr "İcazə ver"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:71
 msgid "Don't allow"
-msgstr ""
+msgstr "İcazә vermә"
 
 #: ../online-accounts-ui/qml/ProviderRequest.qml:87
 msgid "Add another"

@@ -39,7 +39,8 @@ Column {
         delegate: ListItem.Standard {
             text: displayName
             enabled: !isSingleAccount || hasNoAccounts(providerId)
-            iconName: model.iconName
+            iconSource: model.iconName.indexOf("/") === 0 ?
+                model.iconName : "image://theme/" + model.iconName
             progression: false
             onClicked: { root.enabled = false; pressed = true; root.providerClicked(providerId) }
         }

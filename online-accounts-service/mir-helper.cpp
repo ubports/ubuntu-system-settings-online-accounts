@@ -39,6 +39,8 @@ public:
     inline PromptSessionPrivate(MirPromptSession *session);
     inline ~PromptSessionPrivate();
 
+    void emitFinished() { Q_EMIT q_ptr->finished(); }
+
     MirPromptSession *m_mirSession;
     QList<int> m_fds;
     mutable PromptSession *q_ptr;
@@ -54,6 +56,7 @@ public:
     inline ~MirHelperPrivate();
 
     PromptSession *createPromptSession(pid_t initiatorPid);
+    void onSessionStopped(MirPromptSession *mirSession);
 
 private:
     friend class PromptSession;
@@ -71,6 +74,7 @@ PromptSessionPrivate::PromptSessionPrivate(MirPromptSession *session):
 
 PromptSessionPrivate::~PromptSessionPrivate()
 {
+    DEBUG();
     mir_prompt_session_release_sync(m_mirSession);
     m_mirSession = 0;
 }
@@ -78,6 +82,7 @@ PromptSessionPrivate::~PromptSessionPrivate()
 PromptSession::PromptSession(PromptSessionPrivate *priv):
     d_ptr(priv)
 {
+    priv->q_ptr = this;
     MirHelperPrivate *helperPrivate = MirHelper::instance()->d_ptr;
     helperPrivate->m_sessions.append(this);
 }
@@ -136,13 +141,25 @@ MirHelperPrivate::~MirHelperPrivate()
     }
 }
 
-static void session_event_callback(MirPromptSession *,
+static void session_event_callback(MirPromptSession *mirSession,
                                    MirPromptSessionState state,
-                                   void *)
+                                   void *self)
 {
+    MirHelperPrivate *helper = reinterpret_cast<MirHelperPrivate*>(self);
     DEBUG() << "Prompt Session state updated to" << state;
+    if (state == mir_prompt_session_state_stopped) {
+        helper->onSessionStopped(mirSession);
+    }
 }
 
+void MirHelperPrivate::onSessionStopped(MirPromptSession *mirSession)
+{
+    Q_FOREACH(PromptSession *session, m_sessions) {
+        if (mirSession == session->d_ptr->m_mirSession) {
+            session->d_ptr->emitFinished();
+        }
+    }
+}
 
 PromptSession *MirHelperPrivate::createPromptSession(pid_t initiatorPid)
 {

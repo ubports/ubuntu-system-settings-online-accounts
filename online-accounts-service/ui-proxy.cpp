@@ -187,6 +187,8 @@ bool UiProxyPrivate::setupSocket()
 
 void UiProxyPrivate::setupPromptSession()
 {
+    Q_Q(UiProxy);
+
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     if (!env.value("QT_QPA_PLATFORM").startsWith("ubuntu")) return;
 
@@ -201,6 +203,8 @@ void UiProxyPrivate::setupPromptSession()
     }
 
     m_promptSession = session;
+    QObject::connect(m_promptSession, SIGNAL(finished()),
+                     q, SIGNAL(finished()));
 
     env.insert("MIR_SOCKET", mirSocket);
     m_process.setProcessEnvironment(env);

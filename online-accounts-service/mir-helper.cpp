@@ -74,7 +74,6 @@ PromptSessionPrivate::PromptSessionPrivate(MirPromptSession *session):
 
 PromptSessionPrivate::~PromptSessionPrivate()
 {
-    DEBUG();
     mir_prompt_session_release_sync(m_mirSession);
     m_mirSession = 0;
 }

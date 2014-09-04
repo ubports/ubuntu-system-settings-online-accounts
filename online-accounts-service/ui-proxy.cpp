@@ -187,6 +187,8 @@ bool UiProxyPrivate::setupSocket()
 
 void UiProxyPrivate::setupPromptSession()
 {
+    Q_Q(UiProxy);
+
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     if (!env.value("QT_QPA_PLATFORM").startsWith("ubuntu")) return;
 
@@ -201,6 +203,8 @@ void UiProxyPrivate::setupPromptSession()
     }
 
     m_promptSession = session;
+    QObject::connect(m_promptSession, SIGNAL(finished()),
+                     q, SIGNAL(finished()));
 
     env.insert("MIR_SOCKET", mirSocket);
     m_process.setProcessEnvironment(env);
@@ -220,8 +224,10 @@ bool UiProxyPrivate::init()
         processName = wrapper;
         arguments.append(accountsUi);
     }
-    /* the first argument is required to be the desktop file */
-    arguments.append("--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop");
+    if (!m_promptSession) {
+        /* the first argument is required to be the desktop file */
+        arguments.append("--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop");
+    }
     arguments.append("--socket");
     arguments.append(m_server.fullServerName());
 

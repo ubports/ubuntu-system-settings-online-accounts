@@ -24,7 +24,7 @@ UbuntuWebView {
     onUrlChanged: signonRequest.currentUrl = url
 
     context: UbuntuWebContext {
-        dataPath: signonRequest.rootDir
+        dataPath: signonRequest ? signonRequest.rootDir : ""
     }
 
     function onAuthenticated() {
@@ -32,6 +32,7 @@ UbuntuWebView {
         console.log("Authenticated; getting cookies")
         context.cookieManager.getCookiesResponse.connect(onGotCookies)
         context.cookieManager.getAllCookies()
+        visible = false
     }
 
     function onGotCookies(requestId, cookies) {

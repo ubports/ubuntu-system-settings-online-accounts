@@ -28,12 +28,17 @@ namespace OnlineAccountsUi {
 class PromptSessionPrivate;
 class MirHelperPrivate;
 
-class PromptSession
+class PromptSession: public QObject
 {
+    Q_OBJECT
+
 public:
     ~PromptSession();
 
     QString requestSocket();
+
+Q_SIGNALS:
+    void finished();
 
 private:
     explicit PromptSession(PromptSessionPrivate *priv);

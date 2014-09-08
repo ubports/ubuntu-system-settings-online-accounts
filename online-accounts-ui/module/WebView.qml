@@ -24,17 +24,18 @@ UbuntuWebView {
     onUrlChanged: signonRequest.currentUrl = url
 
     context: UbuntuWebContext {
-        dataPath: signonRequest.rootDir
+        dataPath: signonRequest ? signonRequest.rootDir : ""
     }
 
     function onAuthenticated() {
         /* Get the cookies and set them on the request */
         console.log("Authenticated; getting cookies")
-        context.cookieManager.gotCookies.connect(onGotCookies)
+        context.cookieManager.getCookiesResponse.connect(onGotCookies)
         context.cookieManager.getAllCookies()
+        visible = false
     }
 
-    function onGotCookies(count, cookies, requestStatus) {
+    function onGotCookies(requestId, cookies) {
         signonRequest.setCookies(cookies)
     }
 }

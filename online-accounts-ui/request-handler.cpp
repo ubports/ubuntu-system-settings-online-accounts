@@ -84,6 +84,8 @@ void RequestHandler::setRequest(QObject *request)
 {
     Q_D(RequestHandler);
 
+    if (request == d->m_request) return;
+
     if (d->m_request != 0 && request != 0) {
         qCritical() << "RequestHandler is already assigned a request";
         return;

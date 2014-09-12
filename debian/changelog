@@ -1,3 +1,16 @@
+ubuntu-system-settings-online-accounts (0.4+14.10.20140908-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Alberto Mardegan ]
+  * Handle stopping of trusted sessions. Use new Oxide cookie API .
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 08 Sep 2014 08:55:20 +0000
+
 ubuntu-system-settings-online-accounts (0.4+14.10.20140903-0ubuntu1) utopic; urgency=low
 
   [ CI bot ]

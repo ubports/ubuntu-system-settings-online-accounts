@@ -47,7 +47,8 @@ Column {
 
             function createAccountModel(providerId) {
                 return accountModelComponent.createObject(this, {
-                    "provider": providerId })
+                    "provider": providerId
+                })
             }
         }
     }

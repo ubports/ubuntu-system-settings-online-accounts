@@ -38,26 +38,24 @@ Column {
 
         delegate: ListItem.Standard {
             text: displayName
-            enabled: !isSingleAccount || hasNoAccounts(providerId)
+            enabled: accountModel === null || accountModel.count === 0
             iconSource: model.iconName.indexOf("/") === 0 ?
                 model.iconName : "image://theme/" + model.iconName
             progression: false
             onClicked: { root.enabled = false; pressed = true; root.providerClicked(providerId) }
+            property var accountModel: isSingleAccount ? createAccountModel(providerId) : null
+
+            function createAccountModel(providerId) {
+                return accountModelComponent.createObject(this, {
+                    "provider": providerId })
+            }
         }
     }
 
     Component {
-        id: accountModel
+        id: accountModelComponent
         AccountServiceModel {
             includeDisabled: true
         }
-    }
-
-    function hasNoAccounts(providerId) {
-        var model = accountModel.createObject(null, {
-            "provider": providerId })
-        var hasAccounts = (model.count > 0)
-        model.destroy()
-        return !hasAccounts
     }
 }

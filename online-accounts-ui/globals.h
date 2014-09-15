@@ -30,6 +30,7 @@
 #define OAU_KEY_SERVICE_TYPE        QStringLiteral("serviceType")
 #define OAU_KEY_WINDOW_ID           QStringLiteral("windowId")
 #define OAU_KEY_PID                 QStringLiteral("pid")
+#define OAU_KEY_ACCOUNT_ID          QStringLiteral("accountId")
 
 // D-Bus error names
 #define OAU_ERROR_PREFIX "com.ubuntu.OnlineAccountsUi."

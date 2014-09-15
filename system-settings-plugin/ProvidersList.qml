@@ -34,6 +34,7 @@ Column {
     }
 
     Repeater {
+        id: repeater
         model: providerModel
 
         delegate: ListItem.Standard {
@@ -42,7 +43,7 @@ Column {
             iconSource: model.iconName.indexOf("/") === 0 ?
                 model.iconName : "image://theme/" + model.iconName
             progression: false
-            onClicked: { root.enabled = false; pressed = true; root.providerClicked(providerId) }
+            onClicked: { pressed = true; root.providerClicked(providerId) }
             property var accountModel: isSingleAccount ? createAccountModel(providerId) : null
 
             function createAccountModel(providerId) {
@@ -57,6 +58,12 @@ Column {
         id: accountModelComponent
         AccountServiceModel {
             includeDisabled: true
+        }
+    }
+
+    function clearPressedButtons() {
+        for (var i = 0; i < repeater.count; i++) {
+            repeater.itemAt(i).pressed = false
         }
     }
 }

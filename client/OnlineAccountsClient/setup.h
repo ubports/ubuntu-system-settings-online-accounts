@@ -25,6 +25,7 @@
 
 #include "global.h"
 #include <QObject>
+#include <QVariantMap>
 
 namespace OnlineAccountsClient {
 
@@ -58,7 +59,7 @@ Q_SIGNALS:
     void applicationIdChanged();
     void serviceTypeIdChanged();
     void providerIdChanged();
-    void finished();
+    void finished(QVariantMap reply);
 
 private:
     SetupPrivate *d_ptr;

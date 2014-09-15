@@ -29,7 +29,9 @@ Page {
 
         ProviderPluginList {
             onCreationFinished: {
-                pageStack.pop()
+                if (created) {
+                    pageStack.pop()
+                }
             }
         }
     }

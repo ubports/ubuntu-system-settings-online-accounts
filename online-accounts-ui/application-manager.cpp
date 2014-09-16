@@ -183,6 +183,14 @@ QVariantMap ApplicationManager::providerInfo(const QString &providerId) const
     info.insert(QStringLiteral("id"), providerId);
     info.insert(QStringLiteral("displayName"), provider.displayName());
     info.insert(QStringLiteral("icon"), provider.iconName());
+
+    /* Get Ubuntu-specific information directly from the XML file */
+    const QDomDocument doc = provider.domDocument();
+    QDomElement root = doc.documentElement();
+    info.insert(QStringLiteral("profile"),
+                root.firstChildElement("profile").text());
+    info.insert(QStringLiteral("package-dir"),
+                root.firstChildElement("package-dir").text());
     return info;
 }
 

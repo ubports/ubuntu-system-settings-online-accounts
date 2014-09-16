@@ -53,9 +53,12 @@ private Q_SLOTS:
     void testAclRemove();
     void testApplicationFromProfile_data();
     void testApplicationFromProfile();
+    void testProviderInfo_data();
+    void testProviderInfo();
 
 private:
     void clearApplicationsDir();
+    void clearProvidersDir();
     void clearTestDir();
     void writeAccountsFile(const QString &name, const QString &contents);
 
@@ -78,6 +81,15 @@ void ApplicationManagerTest::clearApplicationsDir()
     if (applicationsDir.cd("applications")) {
         applicationsDir.removeRecursively();
         applicationsDir.mkpath(".");
+    }
+}
+
+void ApplicationManagerTest::clearProvidersDir()
+{
+    QDir providersDir = m_accountsDir;
+    if (providersDir.cd("providers")) {
+        providersDir.removeRecursively();
+        providersDir.mkpath(".");
     }
 }
 
@@ -430,6 +442,63 @@ void ApplicationManagerTest::testApplicationFromProfile()
         QVERIFY(app.isValid());
         QCOMPARE(app.name(), applicationId);
     }
+}
+
+void ApplicationManagerTest::testProviderInfo_data()
+{
+    QTest::addColumn<QString>("providerId");
+    QTest::addColumn<QString>("contents");
+    QTest::addColumn<QString>("profile");
+    QTest::addColumn<QString>("packageDir");
+
+    QTest::newRow("no profile") <<
+        "com.ubuntu.test_MyPlugin" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<provider id=\"com.ubuntu.test_MyPlugin\">\n"
+        "  <name>My Plugin</name>\n"
+        "</provider>" <<
+        QString() <<
+        QString();
+
+    QTest::newRow("no package-dir") <<
+        "com.ubuntu.test_MyPlugin2" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<provider id=\"com.ubuntu.test_MyPlugin2\">\n"
+        "  <name>My Plugin</name>\n"
+        "  <profile>com.ubuntu.test_MyPlugin2_0.2</profile>\n"
+        "</provider>" <<
+        "com.ubuntu.test_MyPlugin2_0.2" <<
+        QString();
+
+    QTest::newRow("with package-dir") <<
+        "com.ubuntu.test_MyPlugin3" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<provider id=\"com.ubuntu.test_MyPlugin3\">\n"
+        "  <name>My Plugin</name>\n"
+        "  <profile>com.ubuntu.test_MyPlugin3_0.2</profile>\n"
+        "  <package-dir>/opt/click.ubuntu.com/something</package-dir>\n"
+        "</provider>" <<
+        "com.ubuntu.test_MyPlugin3_0.2" <<
+        "/opt/click.ubuntu.com/something";
+}
+
+void ApplicationManagerTest::testProviderInfo()
+{
+    clearProvidersDir();
+
+    QFETCH(QString, providerId);
+    QFETCH(QString, contents);
+    QFETCH(QString, profile);
+    QFETCH(QString, packageDir);
+
+    writeAccountsFile(providerId + ".provider", contents);
+
+    ApplicationManager manager;
+
+    QVariantMap info = manager.providerInfo(providerId);
+    QCOMPARE(info.value("id").toString(), providerId);
+    QCOMPARE(info.value("profile").toString(), profile);
+    QCOMPARE(info.value("package-dir").toString(), packageDir);
 }
 
 QTEST_MAIN(ApplicationManagerTest);

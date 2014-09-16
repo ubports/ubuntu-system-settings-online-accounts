@@ -30,6 +30,10 @@ DEFINES += \
     OAU_PLUGIN_DIR=\\\"$${ONLINE_ACCOUNTS_PLUGIN_DIR}/\\\" \
     PLUGIN_PRIVATE_MODULE_DIR=\\\"$${PLUGIN_PRIVATE_MODULE_DIR}\\\"
 
+!isEmpty(DEB_HOST_MULTIARCH) {
+    DEFINES += DEB_HOST_MULTIARCH=\\\"$${DEB_HOST_MULTIARCH}\\\"
+}
+
 SOURCES += \
     access-model.cpp \
     account-manager.cpp \

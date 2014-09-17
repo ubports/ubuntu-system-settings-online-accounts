@@ -86,6 +86,7 @@ public:
 
     void checkId(const QString &shortAppId);
     void addProfile(const QString &appId);
+    void addPackageDir(const QString &appId);
     QString profile() const;
     void addDesktopFile(const QString &appId);
     void checkIconPath(const QString &appId);
@@ -124,6 +125,17 @@ void LibAccountsFile::addProfile(const QString &appId)
     QDomElement root = documentElement();
     QDomElement elem = createElement(QStringLiteral("profile"));
     elem.appendChild(createTextNode(appId));
+    root.appendChild(elem);
+}
+
+void LibAccountsFile::addPackageDir(const QString &appId)
+{
+    QString packageDir = findPackageDir(appId);
+    if (Q_UNLIKELY(packageDir.isEmpty())) return;
+
+    QDomElement root = documentElement();
+    QDomElement elem = createElement(QStringLiteral("package-dir"));
+    elem.appendChild(createTextNode(packageDir));
     root.appendChild(elem);
 }
 
@@ -281,6 +293,7 @@ int main(int argc, char **argv)
 
         xml.checkId(shortAppId);
         xml.addProfile(appId);
+        xml.addPackageDir(appId);
         xml.checkIconPath(appId);
         if (fileType == "application") {
             xml.addDesktopFile(appId);

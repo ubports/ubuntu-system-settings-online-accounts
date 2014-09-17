@@ -44,11 +44,6 @@ Flickable {
             text: i18n.dtr(domain, "Add account:")
         }
 
-        ProviderPluginList {
-            onCreationFinished: {
-                // pop the creation page; remain in this page
-                pageStack.pop()
-            }
-        }
+        ProviderPluginList {}
     }
 }

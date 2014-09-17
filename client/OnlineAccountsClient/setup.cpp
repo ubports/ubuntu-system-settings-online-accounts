@@ -129,14 +129,17 @@ void SetupPrivate::onRequestAccessReply(QDBusPendingCallWatcher *watcher)
 
     watcher->deleteLater();
 
+    QVariantMap response;
+
     QDBusPendingReply<QVariantMap> reply = *watcher;
     if (reply.isError()) {
         qWarning() << "RequestAccess failed:" << reply.error();
     } else {
         // At the moment, we don't have any use for the reply.
+        response = reply.value();
     }
 
-    Q_EMIT q->finished();
+    Q_EMIT q->finished(response);
 }
 
 /*!

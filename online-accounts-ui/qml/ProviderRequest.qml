@@ -34,6 +34,7 @@ MainView {
     width: units.gu(48)
     height: units.gu(60)
     useDeprecatedToolbar: false
+    automaticOrientation: true
 
     Component.onCompleted: {
         i18n.domain = "ubuntu-system-settings-online-accounts"

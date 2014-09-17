@@ -25,14 +25,17 @@ ProvidersList {
 
     property bool __processing: false
 
-    signal creationFinished
+    signal creationFinished(bool created)
+
+    enabled: !__processing
 
     Setup {
         id: setup
         applicationId: "system-settings"
         onFinished: {
             __processing = false
-            creationFinished()
+            clearPressedButtons()
+            creationFinished("accountId" in reply && reply.accountId !== 0)
         }
     }
 

@@ -106,7 +106,21 @@ void ProviderRequestPrivate::start()
     QObject::connect(m_view, SIGNAL(visibleChanged(bool)),
                      this, SLOT(onWindowVisibleChanged(bool)));
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);
-    m_view->engine()->addImportPath(PLUGIN_PRIVATE_MODULE_DIR);
+    QQmlEngine *engine = m_view->engine();
+    engine->addImportPath(PLUGIN_PRIVATE_MODULE_DIR);
+
+    /* If the plugin comes from a click package, also add
+     *   <package-dir>/lib
+     *   <package-dir>/lib/<DEB_HOST_MULTIARCH>
+     * to the QML import path.
+     */
+    QString packageDir = providerInfo.value("package-dir").toString();
+    if (!packageDir.isEmpty()) {
+        engine->addImportPath(packageDir + "/lib");
+#ifdef DEB_HOST_MULTIARCH
+        engine->addImportPath(packageDir + "/lib/" DEB_HOST_MULTIARCH);
+#endif
+    }
 
     QQmlContext *context = m_view->rootContext();
 
@@ -159,7 +173,7 @@ void ProviderRequestPrivate::onAllowed(int accountId)
     Q_Q(ProviderRequest);
     DEBUG() << "Access allowed for account:" << accountId;
     QVariantMap result;
-    result.insert("accountId", quint32(accountId));
+    result.insert(OAU_KEY_ACCOUNT_ID, quint32(accountId));
     q->setResult(result);
     m_view->close();
 }

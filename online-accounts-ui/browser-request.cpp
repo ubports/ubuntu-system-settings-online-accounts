@@ -40,6 +40,10 @@
 
 using namespace SignOnUi;
 
+#ifndef SIGNONUI_FAIL_TIMEOUT
+#define SIGNONUI_FAIL_TIMEOUT 3000
+#endif
+
 namespace SignOnUi {
 
 class BrowserRequestPrivate: public QObject
@@ -104,7 +108,7 @@ BrowserRequestPrivate::BrowserRequestPrivate(BrowserRequest *request):
     q_ptr(request)
 {
     m_failTimer.setSingleShot(true);
-    m_failTimer.setInterval(3000);
+    m_failTimer.setInterval(SIGNONUI_FAIL_TIMEOUT);
     QObject::connect(&m_failTimer, SIGNAL(timeout()),
                      this, SLOT(onFailTimer()));
 }

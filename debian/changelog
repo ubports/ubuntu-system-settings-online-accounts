@@ -1,3 +1,15 @@
+ubuntu-system-settings-online-accounts (0.4+14.10.20140917-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Alberto Mardegan ]
+  * Don't go back to SystemSettings when creating the first account.
+    Keep listening to account model changes. Set QML import path for
+    click plugins. Enable automatic orientation .
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 17 Sep 2014 09:05:56 +0000
+
 ubuntu-system-settings-online-accounts (0.4+14.10.20140908-0ubuntu1) utopic; urgency=low
 
   [ CI bot ]

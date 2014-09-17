@@ -48,21 +48,3 @@ AccountManager::AccountManager(QObject *parent):
 AccountManager::~AccountManager()
 {
 }
-
-AccountIdList
-AccountManager::accountListByProvider(const QString &providerId) const
-{
-    AccountIdList allAccounts = accountList();
-    AccountIdList providerAccounts;
-
-    Q_FOREACH(AccountId accountId, allAccounts) {
-        Account *account = this->account(accountId);
-        if (!account) continue;
-
-        if (account->providerName() != providerId) continue;
-
-        providerAccounts.append(accountId);
-    }
-
-    return providerAccounts;
-}

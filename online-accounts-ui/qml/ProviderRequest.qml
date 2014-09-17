@@ -33,6 +33,7 @@ MainView {
 
     width: units.gu(48)
     height: units.gu(60)
+    automaticOrientation: true
     useDeprecatedToolbar: false
 
     Component.onCompleted: {

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-26 10:31+0200\n"
-"PO-Revision-Date: 2014-09-01 05:57+0000\n"
+"PO-Revision-Date: 2014-09-18 09:13+0000\n"
 "Last-Translator: Kentaro Kazuhama <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-02 07:20+0000\n"
-"X-Generator: Launchpad (build 17192)\n"
+"X-Launchpad-Export-Date: 2014-09-19 08:10+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -93,7 +93,7 @@ msgstr "このアカウントにアクセスするサービス："
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:41
 #, qt-format
 msgid "%1 wants to access your %2 account"
-msgstr ""
+msgstr "%1 は %2 のアカウントへのアクセスを要求します"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:64
 msgid "Allow"
@@ -101,8 +101,8 @@ msgstr "許可"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:71
 msgid "Don't allow"
-msgstr ""
+msgstr "キャンセル"
 
 #: ../online-accounts-ui/qml/ProviderRequest.qml:87
 msgid "Add another"
-msgstr ""
+msgstr "その他を追加"

@@ -5,9 +5,22 @@
     "category": "personal",
     "priority": 3,
     "keywords": [
+        "settings",
         "accounts",
         "online",
-        "login"
+        "login",
+        "services",
+        "social",
+        "feeds",
+        "access",
+        "authorize",
+        "revoke",
+        "web",
+        "facebook",
+        "twitter",
+        "flickr",
+        "google",
+        "gmail"
     ],
     "has-dynamic-keywords": true,
     "has-dynamic-visibility": false,

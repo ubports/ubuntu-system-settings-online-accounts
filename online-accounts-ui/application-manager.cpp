@@ -183,6 +183,7 @@ QVariantMap ApplicationManager::providerInfo(const QString &providerId) const
     info.insert(QStringLiteral("id"), providerId);
     info.insert(QStringLiteral("displayName"), provider.displayName());
     info.insert(QStringLiteral("icon"), provider.iconName());
+    info.insert(QStringLiteral("isSingleAccount"), provider.isSingleAccount());
 
     /* Get Ubuntu-specific information directly from the XML file */
     const QDomDocument doc = provider.domDocument();

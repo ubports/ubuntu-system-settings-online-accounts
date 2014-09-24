@@ -38,6 +38,10 @@ MainView {
 
     Component.onCompleted: {
         i18n.domain = "ubuntu-system-settings-online-accounts"
+        if (accessModel.count === 0) {
+            /* No accounts to authorize */
+            denied();
+        }
         loader.active = true
         pageStack.push(mainPage)
     }
@@ -85,7 +89,12 @@ MainView {
         id: accessModel
         accountModel: accountsModel
         applicationId: applicationInfo.id
-        lastItemText: i18n.tr("Add another")
+        lastItemText: canCreateAccounts() ? i18n.tr("Add another") : ""
+
+        function canCreateAccounts() {
+            if (!providerInfo.isSingleAccount) return true
+            return accountsModel.count === 0
+        }
     }
 
     Component {

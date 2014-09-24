@@ -159,7 +159,8 @@ QAbstractItemModel *AccessModel::accountModel() const
 
 int AccessModel::rowCount(const QModelIndex &parent) const
 {
-    return QIdentityProxyModel::rowCount(parent) + 1;
+    return QIdentityProxyModel::rowCount(parent) +
+        lastItemText().isEmpty() ? 0 : 1;
 }
 
 void AccessModel::setLastItemText(const QString &text)

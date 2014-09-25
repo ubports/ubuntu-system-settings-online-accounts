@@ -56,7 +56,7 @@ MainView {
 
         Page {
             id: mainPage
-            title: i18n.tr("Accounts")
+            title: providerInfo.displayName
 
             Loader {
                 id: loader

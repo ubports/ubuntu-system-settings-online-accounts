@@ -26,6 +26,7 @@ MainView {
 
     property variant applicationInfo: application
     property variant providerInfo: provider
+    property bool wasDenied: false
     property int __createdAccountId: 0
 
     signal denied
@@ -38,24 +39,32 @@ MainView {
 
     Component.onCompleted: {
         i18n.domain = "ubuntu-system-settings-online-accounts"
+        if (accessModel.count === 0) {
+            /* No accounts to authorize */
+            denied()
+            return
+        }
         loader.active = true
         pageStack.push(mainPage)
     }
 
     on__CreatedAccountIdChanged: grantAccessIfReady()
+    onDenied: wasDenied = true
 
     PageStack {
         id: pageStack
 
         Page {
             id: mainPage
-            title: i18n.tr("Accounts")
+            title: providerInfo.displayName
 
             Loader {
                 id: loader
                 anchors.fill: parent
                 active: false
-                sourceComponent: (accessModel.count <= 1 || applicationInfo.id === "system-settings") ? accountCreationPage : authorizationPage
+                sourceComponent: ((accessModel.count <= 1 && accessModel.canCreateAccounts()) ||
+                                  applicationInfo.id === "system-settings") ?
+                    accountCreationPage : authorizationPage
                 onLoaded: {
                     // use this trick to break the sourceComponent binding
                     var tmp = sourceComponent
@@ -85,7 +94,12 @@ MainView {
         id: accessModel
         accountModel: accountsModel
         applicationId: applicationInfo.id
-        lastItemText: i18n.tr("Add another")
+        lastItemText: canCreateAccounts() ? i18n.tr("Add another") : ""
+
+        function canCreateAccounts() {
+            if (!providerInfo.isSingleAccount) return true
+            return accountsModel.count === 0
+        }
     }
 
     Component {

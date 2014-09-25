@@ -20,14 +20,13 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.OnlineAccounts 0.1
 
-Page {
+Item {
     id: root
 
     property string providerId
+    property var flickable: null
 
     signal finished(int accountId)
-
-    title: account.provider.displayName
 
     Account {
         id: account

@@ -1,9 +1,8 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import Ubuntu.Components.Extras.Browser 0.2
-import com.canonical.Oxide 1.0
+import Ubuntu.Web 0.2
 
-UbuntuWebView {
+WebView {
     property QtObject signonRequest
 
     Component.onCompleted: {
@@ -23,7 +22,7 @@ UbuntuWebView {
     }
     onUrlChanged: signonRequest.currentUrl = url
 
-    context: UbuntuWebContext {
+    context: WebContext {
         dataPath: signonRequest ? signonRequest.rootDir : ""
     }
 

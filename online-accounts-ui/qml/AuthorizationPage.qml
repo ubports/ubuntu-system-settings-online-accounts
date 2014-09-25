@@ -54,7 +54,7 @@ Flickable {
             }
             onDelegateClicked: {
                 /* The last item in the model is the "Add another..." label */
-                if (index == model.count - 1) root.createAccount();
+                if (model.lastItemText && index == model.count - 1) root.createAccount();
             }
         }
 

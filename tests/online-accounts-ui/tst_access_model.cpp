@@ -95,18 +95,40 @@ void AccessModelTest::testEmpty()
     AccessModel *model = new AccessModel(this);
     QVERIFY(model != 0);
 
+    QSignalSpy countChanged(model, SIGNAL(countChanged()));
+    QSignalSpy rowsInserted(model, SIGNAL(rowsInserted(const QModelIndex&,int,int)));
+    QSignalSpy rowsRemoved(model, SIGNAL(rowsRemoved(const QModelIndex&,int,int)));
+
     QCOMPARE(model->lastItemText(), QString());
     QCOMPARE(model->applicationId(), QString());
     QVERIFY(model->accountModel() == 0);
+    QCOMPARE(model->rowCount(), 0);
 
     model->setLastItemText("hello");
     QCOMPARE(model->lastItemText(), QString("hello"));
+    QCOMPARE(countChanged.count(), 1);
+    countChanged.clear();
+    QCOMPARE(rowsInserted.count(), 1);
+    /* Compare the line numbers */
+    QCOMPARE(rowsInserted.at(0).at(1).toInt(), 0);
+    QCOMPARE(rowsInserted.at(0).at(2).toInt(), 0);
+    rowsInserted.clear();
+    QCOMPARE(rowsRemoved.count(), 0);
 
     QCOMPARE(model->rowCount(), 1);
     QCOMPARE(model->get(0, "displayName").toString(), QString("hello"));
 
     model->setAccountModel(accountModel);
     QCOMPARE(model->rowCount(), 1);
+
+    model->setLastItemText("");
+    QCOMPARE(model->lastItemText(), QString(""));
+    QCOMPARE(countChanged.count(), 1);
+    QCOMPARE(rowsInserted.count(), 0);
+    QCOMPARE(rowsRemoved.count(), 1);
+    /* Compare the line numbers */
+    QCOMPARE(rowsRemoved.at(0).at(1).toInt(), 0);
+    QCOMPARE(rowsRemoved.at(0).at(2).toInt(), 0);
 
     delete model;
     delete accountModel;

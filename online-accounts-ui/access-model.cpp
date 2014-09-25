@@ -160,7 +160,7 @@ QAbstractItemModel *AccessModel::accountModel() const
 int AccessModel::rowCount(const QModelIndex &parent) const
 {
     return QIdentityProxyModel::rowCount(parent) +
-        lastItemText().isEmpty() ? 0 : 1;
+        (lastItemText().isEmpty() ? 0 : 1);
 }
 
 void AccessModel::setLastItemText(const QString &text)
@@ -168,11 +168,32 @@ void AccessModel::setLastItemText(const QString &text)
     Q_D(AccessModel);
 
     if (text == d->m_lastItemText) return;
+
+    bool wasEmpty = d->m_lastItemText.isEmpty();
+    bool insertingRow = false;
+    bool removingRow = false;
+    int oldRowCount = rowCount();
+    if (text.isEmpty() != wasEmpty) {
+        if (wasEmpty) {
+            beginInsertRows(QModelIndex(), oldRowCount, oldRowCount);
+            insertingRow = true;
+        } else {
+            beginRemoveRows(QModelIndex(), oldRowCount - 1, oldRowCount - 1);
+            removingRow = true;
+        }
+    }
+
     d->m_lastItemText = text;
     Q_EMIT lastItemTextChanged();
 
-    QModelIndex lastItemIndex = index(d->rowCount(), 0);
-    Q_EMIT dataChanged(lastItemIndex, lastItemIndex);
+    if (insertingRow) {
+        endInsertRows();
+    } else if (removingRow) {
+        endRemoveRows();
+    } else {
+        QModelIndex lastItemIndex = index(oldRowCount - 1, 0);
+        Q_EMIT dataChanged(lastItemIndex, lastItemIndex);
+    }
 }
 
 QString AccessModel::lastItemText() const

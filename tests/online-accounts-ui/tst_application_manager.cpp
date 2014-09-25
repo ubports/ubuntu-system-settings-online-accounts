@@ -450,6 +450,7 @@ void ApplicationManagerTest::testProviderInfo_data()
     QTest::addColumn<QString>("contents");
     QTest::addColumn<QString>("profile");
     QTest::addColumn<QString>("packageDir");
+    QTest::addColumn<bool>("isSingleAccount");
 
     QTest::newRow("no profile") <<
         "com.ubuntu.test_MyPlugin" <<
@@ -458,7 +459,19 @@ void ApplicationManagerTest::testProviderInfo_data()
         "  <name>My Plugin</name>\n"
         "</provider>" <<
         QString() <<
-        QString();
+        QString() <<
+        false;
+
+    QTest::newRow("single account") <<
+        "com.ubuntu.test_MyPlugin" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<provider id=\"com.ubuntu.test_MyPlugin\">\n"
+        "  <name>My Plugin</name>\n"
+        "  <single-account>true</single-account>\n"
+        "</provider>" <<
+        QString() <<
+        QString() <<
+        true;
 
     QTest::newRow("no package-dir") <<
         "com.ubuntu.test_MyPlugin2" <<
@@ -466,9 +479,11 @@ void ApplicationManagerTest::testProviderInfo_data()
         "<provider id=\"com.ubuntu.test_MyPlugin2\">\n"
         "  <name>My Plugin</name>\n"
         "  <profile>com.ubuntu.test_MyPlugin2_0.2</profile>\n"
+        "  <single-account>false</single-account>\n"
         "</provider>" <<
         "com.ubuntu.test_MyPlugin2_0.2" <<
-        QString();
+        QString() <<
+        false;
 
     QTest::newRow("with package-dir") <<
         "com.ubuntu.test_MyPlugin3" <<
@@ -479,7 +494,8 @@ void ApplicationManagerTest::testProviderInfo_data()
         "  <package-dir>/opt/click.ubuntu.com/something</package-dir>\n"
         "</provider>" <<
         "com.ubuntu.test_MyPlugin3_0.2" <<
-        "/opt/click.ubuntu.com/something";
+        "/opt/click.ubuntu.com/something" <<
+        false;
 }
 
 void ApplicationManagerTest::testProviderInfo()
@@ -490,6 +506,7 @@ void ApplicationManagerTest::testProviderInfo()
     QFETCH(QString, contents);
     QFETCH(QString, profile);
     QFETCH(QString, packageDir);
+    QFETCH(bool, isSingleAccount);
 
     writeAccountsFile(providerId + ".provider", contents);
 
@@ -499,6 +516,7 @@ void ApplicationManagerTest::testProviderInfo()
     QCOMPARE(info.value("id").toString(), providerId);
     QCOMPARE(info.value("profile").toString(), profile);
     QCOMPARE(info.value("package-dir").toString(), packageDir);
+    QCOMPARE(info.value("isSingleAccount").toBool(), isSingleAccount);
 }
 
 QTEST_MAIN(ApplicationManagerTest);

@@ -26,6 +26,7 @@ MainView {
 
     property variant applicationInfo: application
     property variant providerInfo: provider
+    property bool wasDenied: false
     property int __createdAccountId: 0
 
     signal denied
@@ -40,13 +41,15 @@ MainView {
         i18n.domain = "ubuntu-system-settings-online-accounts"
         if (accessModel.count === 0) {
             /* No accounts to authorize */
-            denied();
+            denied()
+            return
         }
         loader.active = true
         pageStack.push(mainPage)
     }
 
     on__CreatedAccountIdChanged: grantAccessIfReady()
+    onDenied: wasDenied = true
 
     PageStack {
         id: pageStack
@@ -59,7 +62,9 @@ MainView {
                 id: loader
                 anchors.fill: parent
                 active: false
-                sourceComponent: (accessModel.count <= 1 || applicationInfo.id === "system-settings") ? accountCreationPage : authorizationPage
+                sourceComponent: ((accessModel.count <= 1 && accessModel.canCreateAccounts()) ||
+                                  applicationInfo.id === "system-settings") ?
+                    accountCreationPage : authorizationPage
                 onLoaded: {
                     // use this trick to break the sourceComponent binding
                     var tmp = sourceComponent

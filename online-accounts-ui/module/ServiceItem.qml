@@ -42,7 +42,7 @@ Item {
         }
 
         delegate: ListItem.Standard {
-            text: model.displayName
+            text: model.displayName ? model.displayName : model.applicationId
             iconSource: model.iconName.indexOf("/") === 0 ?
                 model.iconName : "image://theme/" + model.iconName
             control: Switch {

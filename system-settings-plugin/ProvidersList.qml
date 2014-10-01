@@ -17,8 +17,8 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
+import Ubuntu.Components 1.1
+import Ubuntu.Components.ListItems 1.0 as ListItem
 import Ubuntu.OnlineAccounts 0.1
 
 Column {
@@ -45,6 +45,13 @@ Column {
             progression: false
             onClicked: { pressed = true; root.providerClicked(providerId) }
             property var accountModel: isSingleAccount ? createAccountModel(providerId) : null
+
+            ActivityIndicator {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: units.gu(2)
+                running: pressed
+            }
 
             function createAccountModel(providerId) {
                 return accountModelComponent.createObject(this, {

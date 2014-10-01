@@ -48,5 +48,6 @@ qrc_*.cpp
 /tests/online-accounts-ui/qml/tst_online_accounts_qml
 /tests/online-accounts-ui/tst_access_model
 /tests/online-accounts-ui/tst_application_manager
+/tests/online-accounts-ui/tst_browser_request
 /tests/online-accounts-ui/tst_notification
 /tests/online-accounts-ui/tst_signonui_request

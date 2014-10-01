@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2014 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -18,33 +18,33 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "account-manager.h"
-#include "debug.h"
+#ifndef MOCK_SIGNON_UI_REQUEST_H
+#define MOCK_SIGNON_UI_REQUEST_H
 
-using namespace OnlineAccountsUi;
-using namespace Accounts;
+#include "request-handler.h"
+#include "signonui-request.h"
 
-AccountManager *AccountManager::m_instance = 0;
+#include <QPointer>
+#include <QVariantMap>
 
-AccountManager *AccountManager::instance()
+namespace SignOnUi {
+
+class RequestPrivate: public QObject
 {
-    if (!m_instance) {
-        m_instance = new AccountManager;
-        /* to ensure that all the installed services are parsed into
-         * libaccounts' DB, we enumerate them here.
-         * TODO: a click package hook would be a more proper fix.
-         */
-        m_instance->serviceList();
-    }
+    Q_OBJECT
+    Q_DECLARE_PUBLIC(Request)
 
-    return m_instance;
-}
+public:
+    RequestPrivate(Request *request);
+    ~RequestPrivate();
+    static RequestPrivate *mocked(Request *r) { return r->d_ptr; }
 
-AccountManager::AccountManager(QObject *parent):
-    Accounts::Manager(parent)
-{
-}
+private:
+    mutable Request *q_ptr;
+    QVariantMap m_clientData;
+    QPointer<RequestHandler> m_handler;
+};
 
-AccountManager::~AccountManager()
-{
-}
+} // namespace
+
+#endif // MOCK_SIGNON_UI_REQUEST_H

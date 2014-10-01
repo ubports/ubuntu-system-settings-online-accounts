@@ -32,9 +32,6 @@ class AccountManager: public Accounts::Manager
 public:
     static AccountManager *instance();
 
-    Accounts::AccountIdList accountListByProvider(
-                                       const QString &providerId) const;
-
 protected:
     explicit AccountManager(QObject *parent = 0);
     ~AccountManager();

@@ -14,6 +14,7 @@ override_dh_auto_configure:
 		ubuntu-system-settings-online-accounts.pro
 
 override_dh_install:
+	rm -rf debian/*/usr/lib/*/libonline-accounts-plugin.so
 	rm -rf debian/*/usr/share/accounts/qml-plugins/example
 	rm -rf debian/*/usr/share/accounts/providers
 	rm -rf debian/*/usr/tests

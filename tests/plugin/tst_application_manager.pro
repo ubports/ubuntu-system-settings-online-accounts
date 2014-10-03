@@ -1,4 +1,4 @@
-include(online-accounts-ui.pri)
+include(plugin.pri)
 
 TARGET = tst_application_manager
 
@@ -16,15 +16,13 @@ DEFINES += \
     TEST_DATA_DIR=\\\"$${PWD}/data\\\"
 
 SOURCES += \
-    $${ONLINE_ACCOUNTS_UI_DIR}/application-manager.cpp \
-    $${ONLINE_ACCOUNTS_UI_DIR}/account-manager.cpp \
-    $${ONLINE_ACCOUNTS_UI_DIR}/debug.cpp \
+    $${ONLINE_ACCOUNTS_PLUGIN_DIR}/application-manager.cpp \
+    $${ONLINE_ACCOUNTS_PLUGIN_DIR}/account-manager.cpp \
     tst_application_manager.cpp
 
 HEADERS += \
-    $${ONLINE_ACCOUNTS_UI_DIR}/application-manager.h \
-    $${ONLINE_ACCOUNTS_UI_DIR}/account-manager.h \
-    $${ONLINE_ACCOUNTS_UI_DIR}/debug.h
+    $${ONLINE_ACCOUNTS_PLUGIN_DIR}/application-manager.h \
+    $${ONLINE_ACCOUNTS_PLUGIN_DIR}/account-manager.h
 
 check.commands = "xvfb-run -a dbus-test-runner -t ./$${TARGET}"
 check.depends = $${TARGET}

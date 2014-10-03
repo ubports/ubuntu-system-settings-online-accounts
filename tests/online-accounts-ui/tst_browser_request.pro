@@ -46,6 +46,6 @@ HEADERS += \
     mock/signonui-request-mock.h \
     mock/ui-server-mock.h
 
-check.commands = "xvfb-run -s '-screen 0 640x480x24' ./$${TARGET}"
+check.commands = "xvfb-run -s '-screen 0 640x480x24' -a ./$${TARGET}"
 check.depends = $${TARGET}
 QMAKE_EXTRA_TARGETS += check

@@ -19,7 +19,6 @@
  */
 
 #include "application-manager.h"
-#include "debug.h"
 
 #include <Accounts/Account>
 #include <Accounts/Manager>
@@ -72,7 +71,6 @@ ApplicationManagerTest::ApplicationManagerTest():
     m_testDir(TEST_DIR),
     m_accountsDir(TEST_DIR "/accounts")
 {
-    setLoggingLevel(2);
 }
 
 void ApplicationManagerTest::clearApplicationsDir()

@@ -20,8 +20,8 @@
 
 #include "account-manager.h"
 #include "application-manager.h"
-#include "debug.h"
 
+#include <QDebug>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QFile>
@@ -59,7 +59,7 @@ QString ApplicationManagerPrivate::applicationProfile(const QString &application
     QFile file(QString("%1/accounts/applications/%2.application").
                arg(localShare).arg(applicationId));
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        DEBUG() << "file not found:" << file.fileName();
+        qDebug() << "file not found:" << file.fileName();
         /* libaccounts would fall back to looking into /usr/share/accounts/,
          * but we know that .click packages don't install files in there, and
          * currently the profile information is only attached to click
@@ -150,7 +150,7 @@ QVariantMap ApplicationManager::applicationInfo(const QString &claimedAppId,
 
     /* Make sure that the app is who it claims to be */
     if (!d->applicationMatchesProfile(application, profile)) {
-        DEBUG() << "Given applicationId doesn't match profile";
+        qDebug() << "Given applicationId doesn't match profile";
         return QVariantMap();
     }
 
@@ -203,7 +203,7 @@ ApplicationManager::addApplicationToAcl(const QStringList &acl,
 
     QStringList newAcl = acl;
     QString profile = d->applicationProfile(applicationId);
-    DEBUG() << "profile of" << applicationId << ":" << profile;
+    qDebug() << "profile of" << applicationId << ":" << profile;
     if (!profile.isEmpty()) {
         newAcl.append(profile);
     }

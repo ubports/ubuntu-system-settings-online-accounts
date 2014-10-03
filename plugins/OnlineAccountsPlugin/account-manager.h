@@ -21,11 +21,12 @@
 #ifndef OAU_ACCOUNT_MANAGER_H
 #define OAU_ACCOUNT_MANAGER_H
 
+#include "global.h"
 #include <Accounts/Manager>
 
 namespace OnlineAccountsUi {
 
-class AccountManager: public Accounts::Manager
+class OAP_EXPORT AccountManager: public Accounts::Manager
 {
     Q_OBJECT
 

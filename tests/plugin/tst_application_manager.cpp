@@ -343,6 +343,13 @@ void ApplicationManagerTest::testAclRemove_data()
         "com.ubuntu.test_One" <<
         (QStringList() << "some other app" << "some app") <<
         (QStringList() << "some other app" << "some app");
+
+    QTest::newRow("remove multiple versions") <<
+        "com.ubuntu.test_One" <<
+        (QStringList() << "some other app" << "com.ubuntu.test_One_0.1" <<
+         "com.ubuntu.test_One_0.3" << "some app" <<
+         "com.ubuntu.test_One_0.2") <<
+        (QStringList() << "some other app" << "some app");
 }
 
 void ApplicationManagerTest::testAclRemove()

@@ -227,7 +227,7 @@ ApplicationManager::removeApplicationFromAcl(const QStringList &acl,
     Q_FOREACH(const QString &app, acl) {
         if (app != profile &&
             (unversionedProfile.isEmpty() ||
-             !acl.startsWith(unversionedProfile))) {
+             !app.startsWith(unversionedProfile))) {
             newAcl.append(app);
         }
     }

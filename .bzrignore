@@ -21,6 +21,7 @@ qrc_*.cpp
 /debian/files
 /debian/libonline-accounts-client-dev/
 /debian/libonline-accounts-client1/
+/debian/libonline-accounts-plugin-dev/
 /debian/qtdeclarative5-online-accounts-client0.1/
 /debian/qtdeclarative5-online-accounts-client-doc/
 /debian/tmp

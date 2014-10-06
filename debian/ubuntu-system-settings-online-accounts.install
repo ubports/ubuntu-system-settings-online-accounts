@@ -2,7 +2,6 @@ usr/bin/online-accounts-hooks
 usr/bin/online-accounts-service
 usr/bin/online-accounts-ui
 usr/lib/*/libonline-accounts-plugin.so.*
-usr/lib/*/pkgconfig/OnlineAccountsPlugin.pc
 usr/lib/*/ubuntu-system-settings
 usr/share/applications/online-accounts-ui.desktop
 usr/share/click/hooks

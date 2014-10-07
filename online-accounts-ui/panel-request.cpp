@@ -18,7 +18,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "application-manager.h"
 #include "debug.h"
 #include "globals.h"
 #include "panel-request.h"
@@ -90,8 +89,6 @@ void PanelRequestPrivate::start()
                                 "/accounts/qml-plugins/"));
     context->setContextProperty("pluginOptions", QVariantMap());
     context->setContextProperty("mainWindow", m_view);
-    context->setContextProperty("ApplicationManager",
-                                ApplicationManager::instance());
 
     m_view->setSource(QUrl(QStringLiteral("qrc:/qml/MainPage.qml")));
     q->setWindow(m_view);

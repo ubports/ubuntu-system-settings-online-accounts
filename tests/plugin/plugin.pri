@@ -10,11 +10,9 @@ QT += \
 DEFINES += \
     DEBUG_ENABLED
 
-ONLINE_ACCOUNTS_UI_DIR = $${TOP_SRC_DIR}/online-accounts-ui
+ONLINE_ACCOUNTS_PLUGIN_DIR = $${TOP_SRC_DIR}/plugins/OnlineAccountsPlugin
 COMMON_SRC_DIR = $${TOP_SRC_DIR}/online-accounts-ui
 
 INCLUDEPATH += \
-    $${ONLINE_ACCOUNTS_SERVICE_DIR} \
+    $${ONLINE_ACCOUNTS_PLUGIN_DIR} \
     $${COMMON_SRC_DIR}
-
-check.commands = "LD_LIBRARY_PATH=$${TOP_BUILD_DIR}/plugins/OnlineAccountsPlugin:${LD_LIBRARY_PATH} "

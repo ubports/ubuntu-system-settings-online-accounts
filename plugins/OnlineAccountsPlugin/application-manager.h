@@ -21,6 +21,8 @@
 #ifndef OAU_APPLICATION_MANAGER_H
 #define OAU_APPLICATION_MANAGER_H
 
+#include "global.h"
+
 #include <Accounts/Application>
 #include <QObject>
 #include <QStringList>
@@ -31,7 +33,7 @@ class ApplicationManagerTest;
 namespace OnlineAccountsUi {
 
 class ApplicationManagerPrivate;
-class ApplicationManager: public QObject
+class OAP_EXPORT ApplicationManager: public QObject
 {
     Q_OBJECT
 

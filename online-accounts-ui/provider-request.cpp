@@ -19,11 +19,11 @@
  */
 
 #include "access-model.h"
-#include "application-manager.h"
 #include "debug.h"
 #include "globals.h"
 #include "provider-request.h"
 
+#include <OnlineAccountsPlugin/application-manager.h>
 #include <QDesktopServices>
 #include <QGuiApplication>
 #include <QQmlContext>

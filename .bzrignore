@@ -21,6 +21,7 @@ qrc_*.cpp
 /debian/files
 /debian/libonline-accounts-client-dev/
 /debian/libonline-accounts-client1/
+/debian/libonline-accounts-plugin-dev/
 /debian/qtdeclarative5-online-accounts-client0.1/
 /debian/qtdeclarative5-online-accounts-client-doc/
 /debian/tmp
@@ -33,11 +34,14 @@ qrc_*.cpp
 /po/*.mo
 /online-accounts-service/com.ubuntu.OnlineAccountsUi.service
 /online-accounts-service/online-accounts-service
-/online-accounts-ui/module/OnlineAccountsPlugin.pc
 /online-accounts-ui/module/libOnlineAccountsPlugin.so*
 /online-accounts-ui/module/qmldir
 /online-accounts-ui/online-accounts-ui.desktop
 /online-accounts-ui/online-accounts-ui
+/plugins/OnlineAccountsPlugin/OnlineAccountsPlugin.pc
+/plugins/OnlineAccountsPlugin/libonline-accounts-plugin.so*
+/plugins/module/libOnlineAccountsPlugin.so*
+/plugins/module/qmldir
 /tests/click-hooks/tst_online_accounts_hooks
 /tests/client/tst_client
 /tests/client/tst_qml_client
@@ -47,7 +51,7 @@ qrc_*.cpp
 /tests/online-accounts-service/tst_ui_proxy
 /tests/online-accounts-ui/qml/tst_online_accounts_qml
 /tests/online-accounts-ui/tst_access_model
-/tests/online-accounts-ui/tst_application_manager
 /tests/online-accounts-ui/tst_browser_request
 /tests/online-accounts-ui/tst_notification
 /tests/online-accounts-ui/tst_signonui_request
+/tests/plugin/tst_application_manager

@@ -35,41 +35,42 @@ Flickable {
         anchors.left: parent.left
         anchors.right: parent.right
 
-        Label {
+        ListItem.Standard {
             anchors.left: parent.left
-            anchors.right: parent.right
             text: i18n.tr("%1 wants to access your %2 account").
-                arg(application.displayName).arg(provider.displayName);
-            wrapMode: Text.WordWrap
+                 arg(application.displayName).arg(provider.displayName);
         }
 
         ListItem.ItemSelector {
             id: accountSelector
             anchors.left: parent.left
             anchors.right: parent.right
+            width: parent.width - units.gu(4)
             text: "Account"
             model: root.model
             delegate: OptionSelectorDelegate {
                 property string modelData: model.displayName
             }
-            onDelegateClicked: {
-                /* The last item in the model is the "Add another..." label */
-                if (model.lastItemText && index == model.count - 1) root.createAccount();
+
+            showDivider: false
+        }
+
+        ListItem.SingleControl {
+            control: Button {
+                width: parent.width - units.gu(4)
+                text: i18n.tr("Allow")
+                onClicked: root.allowed(root.model.get(accountSelector.selectedIndex, "accountId"))
             }
+            showDivider: false
         }
 
-        Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width - units.gu(4)
-            text: i18n.tr("Allow")
-            onClicked: root.allowed(root.model.get(accountSelector.selectedIndex, "accountId"))
-        }
-
-        Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width - units.gu(4)
-            text: i18n.tr("Don't allow")
-            onClicked: root.denied()
+        ListItem.SingleControl {
+            control: Button {
+                width: parent.width - units.gu(4)
+                text: i18n.tr("Don't allow")
+                onClicked: root.denied()
+            }
+            showDivider: false
         }
     }
 }

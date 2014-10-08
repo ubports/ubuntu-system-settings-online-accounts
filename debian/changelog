@@ -2,6 +2,7 @@ ubuntu-system-settings-online-accounts (0.5-0ubuntu0) UNRELEASED; urgency=medium
 
   * Rename QML package (LP: #1342031)
   * Create the Ubuntu.OnlineAccounts.Plugin module (LP: #1377062)
+  * Fix typo on component name (LP: #1378726)
 
  -- Alberto Mardegan <alberto.mardegan@canonical.com>  Wed, 08 Oct 2014 10:12:22 +0300
 

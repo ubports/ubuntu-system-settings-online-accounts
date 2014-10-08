@@ -124,14 +124,14 @@ MainView {
             provider: providerInfo
             onDenied: root.denied()
             onAllowed: root.grantAccess(accountId)
-            onCreateAccount: pageStack.push(accountCreationPage)
+            onCreateAccount: pageStack.push(createAccountPageComponent)
         }
     }
 
     Component {
         id: createAccountPageComponent
         Page {
-            title: i18n.tr("Accounts")
+            title: providerInfo.displayName
             Loader {
                 anchors.fill: parent
                 sourceComponent: accountCreationPage

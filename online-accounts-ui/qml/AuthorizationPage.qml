@@ -36,9 +36,8 @@ Flickable {
         anchors.right: parent.right
 
         ListItem.Standard {
-            anchors.left: parent.left
             text: i18n.tr("%1 wants to access your %2 account").
-                 arg(application.displayName).arg(provider.displayName);
+                arg(application.displayName).arg(provider.displayName);
         }
 
         ListItem.ItemSelector {
@@ -51,7 +50,10 @@ Flickable {
             delegate: OptionSelectorDelegate {
                 property string modelData: model.displayName
             }
-
+            onDelegateClicked: {
+                /* The last item in the model is the "Add another..." label */
+                if (model.lastItemText && index == model.count - 1) root.createAccount();
+            }
             showDivider: false
         }
 

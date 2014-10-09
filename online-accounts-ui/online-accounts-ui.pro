@@ -51,7 +51,6 @@ SOURCES += \
     panel-request.cpp \
     provider-request.cpp \
     request.cpp \
-    request-handler.cpp \
     signonui-request.cpp \
     ui-server.cpp
 
@@ -66,7 +65,6 @@ HEADERS += \
     panel-request.h \
     provider-request.h \
     request.h \
-    request-handler.h \
     signonui-request.h \
     ui-server.h
 

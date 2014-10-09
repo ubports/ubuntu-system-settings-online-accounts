@@ -21,9 +21,9 @@
 #ifndef MOCK_SIGNON_UI_REQUEST_H
 #define MOCK_SIGNON_UI_REQUEST_H
 
-#include "request-handler.h"
 #include "signonui-request.h"
 
+#include <OnlineAccountsPlugin/request-handler.h>
 #include <QPointer>
 #include <QVariantMap>
 

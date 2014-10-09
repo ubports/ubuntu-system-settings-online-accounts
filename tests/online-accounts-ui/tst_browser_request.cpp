@@ -21,10 +21,11 @@
 #include "browser-request.h"
 #include "debug.h"
 #include "globals.h"
-#include "request-handler.h"
 #include "mock/request-mock.h"
 #include "mock/signonui-request-mock.h"
 #include "mock/ui-server-mock.h"
+
+#include <OnlineAccountsPlugin/request-handler.h>
 
 #include <QDebug>
 #include <QNetworkCookie>

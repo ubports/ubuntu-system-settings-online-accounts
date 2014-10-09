@@ -1,9 +1,9 @@
 /*
- * This file is part of signon-ui
- *
  * Copyright (C) 2014 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
+ *
+ * This file is part of online-accounts-ui
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3, as published
@@ -21,15 +21,16 @@
 #ifndef SIGNON_UI_REQUEST_HANDLER_H
 #define SIGNON_UI_REQUEST_HANDLER_H
 
+#include "global.h"
+
 #include <QObject>
 #include <QVariantMap>
 
 namespace SignOnUi {
 
 class RequestHandlerPrivate;
-class Request;
 
-class RequestHandler: public QObject
+class OAP_EXPORT RequestHandler: public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QObject *request READ request NOTIFY requestChanged)
@@ -46,14 +47,32 @@ public:
     static QString matchKey() { return QStringLiteral("X-RequestHandler"); }
     QString matchId() const;
 
-    static RequestHandler *findMatching(const QVariantMap &parameters);
-
 Q_SIGNALS:
     void requestChanged();
 
 private:
     RequestHandlerPrivate *d_ptr;
     Q_DECLARE_PRIVATE(RequestHandler)
+};
+
+class RequestHandlerWatcherPrivate;
+
+class OAP_EXPORT RequestHandlerWatcher: public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit RequestHandlerWatcher(QObject *parent = 0);
+    ~RequestHandlerWatcher();
+
+    RequestHandler *findMatching(const QVariantMap &parameters);
+
+Q_SIGNALS:
+    void newHandler(SignOnUi::RequestHandler *handler);
+
+private:
+    RequestHandlerWatcherPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(RequestHandlerWatcher)
 };
 
 } // namespace

@@ -42,7 +42,6 @@ public:
     static UiServer *instance();
 
     bool init();
-    void registerHandler(SignOnUi::RequestHandler *handler);
 
 Q_SIGNALS:
     void finished();

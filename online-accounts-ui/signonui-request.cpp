@@ -20,17 +20,17 @@
 
 #include "signonui-request.h"
 
-#include "account-manager.h"
-#include "application-manager.h"
 #include "browser-request.h"
 #include "debug.h"
 #include "globals.h"
 #include "notification.h"
-#include "request-handler.h"
 
 #include <Accounts/Account>
 #include <Accounts/Application>
 #include <Accounts/Provider>
+#include <OnlineAccountsPlugin/account-manager.h>
+#include <OnlineAccountsPlugin/application-manager.h>
+#include <OnlineAccountsPlugin/request-handler.h>
 #include <QDBusArgument>
 #include <QPointer>
 #include <SignOn/uisessiondata.h>

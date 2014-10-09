@@ -20,11 +20,8 @@
 
 #include "request-handler.h"
 
-#include "debug.h"
-#include "ui-server.h"
-
 #include <SignOn/uisessiondata_priv.h>
-#include <QDBusArgument>
+#include <QDebug>
 #include <QList>
 #include <QPointer>
 #include <unistd.h>
@@ -50,6 +47,24 @@ private:
     mutable RequestHandler *q_ptr;
 };
 
+class RequestHandlerWatcherPrivate
+{
+    Q_DECLARE_PUBLIC(RequestHandlerWatcher)
+
+public:
+    RequestHandlerWatcherPrivate(RequestHandlerWatcher *watcher);
+    ~RequestHandlerWatcherPrivate();
+
+    static RequestHandlerWatcherPrivate *instance();
+    void registerHandler(RequestHandler *handler);
+
+private:
+    mutable RequestHandlerWatcher *q_ptr;
+    static RequestHandlerWatcherPrivate *m_instance;
+};
+
+RequestHandlerWatcherPrivate *RequestHandlerWatcherPrivate::m_instance = 0;
+
 } // namespace
 
 RequestHandlerPrivate::RequestHandlerPrivate(RequestHandler *request):
@@ -68,10 +83,11 @@ RequestHandler::RequestHandler(QObject *parent):
 {
     allRequestHandlers.append(this);
 
-    OnlineAccountsUi::UiServer *server =
-        OnlineAccountsUi::UiServer::instance();
-    Q_ASSERT(server);
-    server->registerHandler(this);
+    RequestHandlerWatcherPrivate *watcher =
+        RequestHandlerWatcherPrivate::instance();
+    if (Q_LIKELY(watcher)) {
+        watcher->registerHandler(this);
+    }
 }
 
 RequestHandler::~RequestHandler()
@@ -106,7 +122,45 @@ QString RequestHandler::matchId() const
     return d->m_matchId;
 }
 
-RequestHandler *RequestHandler::findMatching(const QVariantMap &parameters)
+RequestHandlerWatcherPrivate::RequestHandlerWatcherPrivate(RequestHandlerWatcher *watcher):
+    q_ptr(watcher)
+{
+    if (Q_UNLIKELY(m_instance)) {
+        qWarning() << "RequestHandlerWatcher should be instantiated once!";
+    }
+
+    m_instance = this;
+}
+
+RequestHandlerWatcherPrivate::~RequestHandlerWatcherPrivate()
+{
+    m_instance = 0;
+}
+
+RequestHandlerWatcherPrivate *RequestHandlerWatcherPrivate::instance()
+{
+    return m_instance;
+}
+
+void RequestHandlerWatcherPrivate::registerHandler(RequestHandler *handler)
+{
+    Q_Q(RequestHandlerWatcher);
+
+    Q_EMIT q->newHandler(handler);
+}
+
+RequestHandlerWatcher::RequestHandlerWatcher(QObject *parent):
+    QObject(parent),
+    d_ptr(new RequestHandlerWatcherPrivate(this))
+{
+}
+
+RequestHandlerWatcher::~RequestHandlerWatcher()
+{
+    delete d_ptr;
+}
+
+RequestHandler *RequestHandlerWatcher::findMatching(const QVariantMap &parameters)
 {
     /* Find if there's any RequestHandler expecting to handle the SignOnUi
      * request having "parameters" as parameters.
@@ -114,13 +168,10 @@ RequestHandler *RequestHandler::findMatching(const QVariantMap &parameters)
      * matchKey()), if present. We expect that account plugins add that field
      * to their AuthSession requests which they want to handle themselves.
      */
-    DEBUG() << parameters;
+    qDebug() << parameters;
     if (!parameters.contains(SSOUI_KEY_CLIENT_DATA)) return 0;
-    QVariant variant = parameters[SSOUI_KEY_CLIENT_DATA];
-    QVariantMap clientData = (variant.type() == QVariant::Map) ?
-        variant.toMap() :
-        qdbus_cast<QVariantMap>(variant.value<QDBusArgument>());
-    DEBUG() << "client data:" << clientData;
+    QVariantMap clientData = parameters[SSOUI_KEY_CLIENT_DATA].toMap();
+    qDebug() << "client data:" << clientData;
     QString matchId = clientData.value(RequestHandler::matchKey()).toString();
     if (matchId.isEmpty()) return 0;
 

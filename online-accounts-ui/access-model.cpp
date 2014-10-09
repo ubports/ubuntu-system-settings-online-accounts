@@ -19,12 +19,12 @@
  */
 
 #include "access-model.h"
-#include "account-manager.h"
 #include "debug.h"
 
 #include <Accounts/Account>
 #include <Accounts/Application>
 #include <Accounts/Service>
+#include <OnlineAccountsPlugin/account-manager.h>
 #include <QSortFilterProxyModel>
 
 using namespace OnlineAccountsUi;

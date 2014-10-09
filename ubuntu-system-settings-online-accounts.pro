@@ -13,8 +13,8 @@ SUBDIRS = \
     tests
 
 system-settings-plugin.depends = client
-plugins.depends = online-accounts-ui
-tests.depends = online-accounts-service online-accounts-ui client
+online-accounts-ui.depends = plugins
+tests.depends = online-accounts-service online-accounts-ui client plugins
 
 include(common-installs-config.pri)
 

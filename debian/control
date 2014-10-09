@@ -40,6 +40,7 @@ Depends: ${misc:Depends},
          qtdeclarative5-ubuntu-ui-toolkit-plugin | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles,
          signon-ui-service,
          ubuntu-system-settings
+Provides: qml-module-ubuntu-onlineaccounts-plugin
 Description: Online Accounts setup for Ubuntu Touch
  Online Accounts setup utility for the Ubuntu Touch System Settings.
 
@@ -70,14 +71,24 @@ Description: Library to interact with the Online Accounts panel - development fi
 
 Package: qtdeclarative5-online-accounts-client0.1
 Architecture: any
+Section: oldlibs
+Depends: qml-module-ubuntu-onlineaccounts-client, ${misc:Depends}
+Description: transitional dummy package for Online Accounts QML clients
+ This module offers an API for applications to invoke the Online Accounts panel
+ in order to request the creation/configuration of accounts.
+
+Package: qml-module-ubuntu-onlineaccounts-client
+Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          qtdeclarative5-qtquick2-plugin,
+Breaks: qtdeclarative5-online-accounts-client0.1 (<< 0.5)
+Replaces: qtdeclarative5-online-accounts-client0.1 (<< 0.5)
 Description: Online Accounts panel library for QML applications
  This module offers an API for applications to invoke the Online Accounts panel
  in order to request the creation/configuration of accounts.
 
-Package: qtdeclarative5-online-accounts-client-doc
+Package: qml-module-ubuntu-onlineaccounts-client-doc
 Section: doc
 Architecture: all
 Multi-Arch: foreign
@@ -87,6 +98,18 @@ Description: Online Accounts panel library for QML applications - documentation
  in order to request the creation/configuration of accounts.
  .
  This package contains developer documentation.
+
+Package: libonline-accounts-plugin-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         ubuntu-system-settings-online-accounts (= ${binary:Version}),
+Pre-Depends: dpkg (>= 1.15.6~), ${misc:Pre-Depends},
+Description: Online Accounts plugin module for Ubuntu Touch - development files
+ This module contains the necessary files for developing Online Accounts
+ plugins.
 
 Package: ubuntu-system-settings-online-accounts-autopilot
 Architecture: all

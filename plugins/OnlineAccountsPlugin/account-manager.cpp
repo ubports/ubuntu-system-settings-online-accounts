@@ -19,7 +19,6 @@
  */
 
 #include "account-manager.h"
-#include "debug.h"
 
 using namespace OnlineAccountsUi;
 using namespace Accounts;

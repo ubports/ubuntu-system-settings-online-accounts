@@ -24,8 +24,8 @@
 #include "dialog.h"
 #include "globals.h"
 #include "i18n.h"
-#include "request-handler.h"
 
+#include <OnlineAccountsPlugin/request-handler.h>
 #include <QDir>
 #include <QFile>
 #include <QJsonArray>

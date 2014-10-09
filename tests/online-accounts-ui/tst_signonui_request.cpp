@@ -19,7 +19,6 @@
  */
 
 #include "globals.h"
-#include "request-handler.h"
 #include "signonui-request.h"
 #include "mock/notification-mock.h"
 #include "mock/request-mock.h"
@@ -27,6 +26,8 @@
 
 #include <Accounts/Account>
 #include <Accounts/Manager>
+
+#include <OnlineAccountsPlugin/request-handler.h>
 
 #include <QDebug>
 #include <QSignalSpy>

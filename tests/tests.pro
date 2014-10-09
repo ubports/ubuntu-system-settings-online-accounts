@@ -4,4 +4,5 @@ SUBDIRS = \
     click-hooks \
     client \
     online-accounts-service \
-    online-accounts-ui
+    online-accounts-ui \
+    plugin

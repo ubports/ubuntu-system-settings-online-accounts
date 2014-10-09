@@ -19,7 +19,6 @@
  */
 
 #include "application-manager.h"
-#include "debug.h"
 
 #include <Accounts/Account>
 #include <Accounts/Manager>
@@ -72,7 +71,6 @@ ApplicationManagerTest::ApplicationManagerTest():
     m_testDir(TEST_DIR),
     m_accountsDir(TEST_DIR "/accounts")
 {
-    setLoggingLevel(2);
 }
 
 void ApplicationManagerTest::clearApplicationsDir()
@@ -344,6 +342,13 @@ void ApplicationManagerTest::testAclRemove_data()
     QTest::newRow("remove from missing") <<
         "com.ubuntu.test_One" <<
         (QStringList() << "some other app" << "some app") <<
+        (QStringList() << "some other app" << "some app");
+
+    QTest::newRow("remove multiple versions") <<
+        "com.ubuntu.test_One" <<
+        (QStringList() << "some other app" << "com.ubuntu.test_One_0.1" <<
+         "com.ubuntu.test_One_0.3" << "some app" <<
+         "com.ubuntu.test_One_0.2") <<
         (QStringList() << "some other app" << "some app");
 }
 

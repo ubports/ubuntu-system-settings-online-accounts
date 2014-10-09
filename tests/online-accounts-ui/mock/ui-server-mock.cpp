@@ -60,9 +60,3 @@ bool UiServer::init()
 {
     return true;
 }
-
-void UiServer::registerHandler(SignOnUi::RequestHandler *handler)
-{
-    Q_D(UiServer);
-    Q_EMIT d->registerHandlerCalled(handler);
-}

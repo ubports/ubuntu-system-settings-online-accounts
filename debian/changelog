@@ -1,10 +1,17 @@
-ubuntu-system-settings-online-accounts (0.5-0ubuntu0) UNRELEASED; urgency=medium
+ubuntu-system-settings-online-accounts (0.5+14.10.20141009.3-0ubuntu1) 14.09; urgency=medium
 
+  [ Alberto Mardegan ]
   * Rename QML package (LP: #1342031)
   * Create the Ubuntu.OnlineAccounts.Plugin module (LP: #1377062)
   * Fix typo on component name (LP: #1378726)
 
- -- Alberto Mardegan <alberto.mardegan@canonical.com>  Wed, 08 Oct 2014 10:12:22 +0300
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ David Barth ]
+  * Improve the layout of the authorization page (LP: #1378332)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 09 Oct 2014 20:20:54 +0000
 
 ubuntu-system-settings-online-accounts (0.4+14.10.20141006-0ubuntu1) utopic; urgency=low
 

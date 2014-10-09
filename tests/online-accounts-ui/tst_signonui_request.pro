@@ -25,7 +25,6 @@ DEFINES += \
 
 SOURCES += \
     $${ONLINE_ACCOUNTS_UI_DIR}/debug.cpp \
-    $${ONLINE_ACCOUNTS_UI_DIR}/request-handler.cpp \
     $${ONLINE_ACCOUNTS_UI_DIR}/signonui-request.cpp \
     mock/notification-mock.cpp \
     mock/request-mock.cpp \
@@ -36,7 +35,6 @@ SOURCES += \
 HEADERS += \
     $${ONLINE_ACCOUNTS_UI_DIR}/notification.h \
     $${ONLINE_ACCOUNTS_UI_DIR}/request.h \
-    $${ONLINE_ACCOUNTS_UI_DIR}/request-handler.h \
     $${ONLINE_ACCOUNTS_UI_DIR}/signonui-request.h \
     $${ONLINE_ACCOUNTS_UI_DIR}/ui-server.h \
     mock/notification-mock.h \

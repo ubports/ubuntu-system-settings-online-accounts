@@ -21,10 +21,10 @@
 #include "debug.h"
 #include "ipc.h"
 #include "request.h"
-#include "request-handler.h"
 #include "signonui-request.h"
 #include "ui-server.h"
 
+#include <OnlineAccountsPlugin/request-handler.h>
 #include <QLocalSocket>
 #include <QtQml>
 #include <SignOn/uisessiondata_priv.h>
@@ -51,10 +51,12 @@ public:
 private Q_SLOTS:
     void onDataReady(QByteArray &data);
     void onRequestCompleted();
+    void registerHandler(SignOnUi::RequestHandler *handler);
 
 private:
     QLocalSocket m_socket;
     OnlineAccountsUi::Ipc m_ipc;
+    SignOnUi::RequestHandlerWatcher m_handlerWatcher;
     mutable UiServer *q_ptr;
 };
 
@@ -70,6 +72,11 @@ UiServerPrivate::UiServerPrivate(const QString &address,
     QObject::connect(&m_socket, SIGNAL(disconnected()),
                      q_ptr, SIGNAL(finished()));
     m_socket.connectToServer(address);
+
+    QObject::connect(&m_handlerWatcher,
+                     SIGNAL(newHandler(SignOnUi::RequestHandler *)),
+                     this,
+                     SLOT(registerHandler(SignOnUi::RequestHandler *)));
 }
 
 UiServerPrivate::~UiServerPrivate()
@@ -112,7 +119,7 @@ void UiServerPrivate::onDataReady(QByteArray &data)
             qobject_cast<SignOnUi::Request*>(request);
         if (signonRequest) {
             SignOnUi::RequestHandler *handler =
-                SignOnUi::RequestHandler::findMatching(parameters);
+                m_handlerWatcher.findMatching(parameters);
             if (handler) {
                 signonRequest->setHandler(handler);
             }
@@ -157,14 +164,20 @@ bool UiServerPrivate::init()
     return true;
 }
 
+void UiServerPrivate::registerHandler(SignOnUi::RequestHandler *handler)
+{
+    QVariantMap operation;
+    operation.insert(OAU_OPERATION_CODE,
+                     OAU_OPERATION_CODE_REGISTER_HANDLER);
+    operation.insert(OAU_OPERATION_HANDLER_ID, handler->matchId());
+    sendOperation(operation);
+}
+
 UiServer::UiServer(const QString &address, QObject *parent):
     QObject(parent),
     d_ptr(new UiServerPrivate(address, this))
 {
     m_instance = this;
-
-    qmlRegisterType<SignOnUi::RequestHandler>("Ubuntu.OnlineAccounts.Plugin",
-                                              1, 0, "RequestHandler");
 }
 
 UiServer::~UiServer()
@@ -181,17 +194,6 @@ bool UiServer::init()
 {
     Q_D(UiServer);
     return d->init();
-}
-
-void UiServer::registerHandler(SignOnUi::RequestHandler *handler)
-{
-    Q_D(UiServer);
-
-    QVariantMap operation;
-    operation.insert(OAU_OPERATION_CODE,
-                     OAU_OPERATION_CODE_REGISTER_HANDLER);
-    operation.insert(OAU_OPERATION_HANDLER_ID, handler->matchId());
-    d->sendOperation(operation);
 }
 
 #include "ui-server.moc"

@@ -22,6 +22,7 @@
 
 #include "plugin.h"
 #include <OnlineAccountsPlugin/application-manager.h>
+#include <OnlineAccountsPlugin/request-handler.h>
 #include <QDebug>
 #include <QQmlComponent>
 #include <QQmlContext>
@@ -41,4 +42,6 @@ void Plugin::initializeEngine(QQmlEngine *engine, const char *uri)
 void Plugin::registerTypes(const char *uri)
 {
     qDebug() << Q_FUNC_INFO << uri;
+
+    qmlRegisterType<SignOnUi::RequestHandler>(uri, 1, 0, "RequestHandler");
 }

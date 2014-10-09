@@ -13,7 +13,8 @@ QT += \
     network
 
 PKGCONFIG += \
-    accounts-qt5
+    accounts-qt5 \
+    signon-plugins-common
 
 QMAKE_CXXFLAGS += \
     -fvisibility=hidden
@@ -24,7 +25,8 @@ QMAKE_LFLAGS += $$QMAKE_LFLAGS_NOUNDEF
 
 private_headers += \
     account-manager.h \
-    application-manager.h
+    application-manager.h \
+    request-handler.h
 
 public_headers +=
 
@@ -33,7 +35,8 @@ INCLUDEPATH += \
 
 SOURCES += \
     account-manager.cpp \
-    application-manager.cpp
+    application-manager.cpp \
+    request-handler.cpp
 
 HEADERS += \
     $${private_headers} \

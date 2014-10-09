@@ -40,9 +40,6 @@ public:
 
     void emitFinished() { Q_EMIT q_ptr->finished(); }
 
-Q_SIGNALS:
-    void registerHandlerCalled(SignOnUi::RequestHandler *handler);
-
 public:
     mutable UiServer *q_ptr;
     QString m_address;

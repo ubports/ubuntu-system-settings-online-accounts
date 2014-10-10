@@ -71,7 +71,7 @@ MainView {
                 height: childrenRect.height
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
+                anchors.bottom: parent.bottom
                 spacing: units.gu(1)
 
                 Button {
@@ -92,7 +92,7 @@ MainView {
             id: pageFooter
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.bottom: parent.bottom
+            anchors.bottom: osk.top
             visible: signonRequest.registerUrl.toString() !== ""
 
             ListItem.ThinDivider {
@@ -105,6 +105,10 @@ MainView {
                 text: "<a href=\"" + signonRequest.registerUrl + "\">" +
                     signonRequest.registerText + "</a>"
             }
+        }
+
+        KeyboardRectangle {
+            id: osk
         }
     }
 }

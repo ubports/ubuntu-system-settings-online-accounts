@@ -34,8 +34,8 @@ class DialogRequest: public Request
     Q_OBJECT
 
 public:
-    explicit DialogRequest(const QDBusConnection &connection,
-                           const QDBusMessage &message,
+    explicit DialogRequest(int id,
+                           const QString &clientProfile,
                            const QVariantMap &parameters,
                            QObject *parent = 0);
     ~DialogRequest();

@@ -204,7 +204,7 @@ Request *Request::newRequest(int id,
         return new SignOnUi::BrowserRequest(id, clientProfile,
                                             parameters, parent);
     } else {
-        return new SignOnUi::DialogRequest(connection, message,
+        return new SignOnUi::DialogRequest(id, clientProfile,
                                            parameters, parent);
     }
 }

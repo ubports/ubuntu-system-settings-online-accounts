@@ -24,8 +24,8 @@
 #include "dialog.h"
 #include "globals.h"
 #include "i18n.h"
-#include "request-handler.h"
 
+#include <OnlineAccountsPlugin/request-handler.h>
 #include <QDir>
 #include <QQmlContext>
 #include <QQmlEngine>
@@ -262,11 +262,11 @@ void DialogRequestPrivate::closeView()
     }
 }
 
-DialogRequest::DialogRequest(const QDBusConnection &connection,
-                               const QDBusMessage &message,
-                               const QVariantMap &parameters,
-                               QObject *parent):
-    Request(connection, message, parameters, parent),
+DialogRequest::DialogRequest(int id,
+                             const QString &clientProfile,
+                             const QVariantMap &parameters,
+                             QObject *parent):
+    Request(id, clientProfile, parameters, parent),
     d_ptr(new DialogRequestPrivate(this))
 {
 }

@@ -52,6 +52,7 @@ MainView {
                     text: signonRequest.password
                     echoMode: TextInput.Password
                     onTextChanged: signonRequest.password = text
+                    Keys.onReturnPressed: signonRequest.accept()
                 } 
                 Label {
                     visible: signonRequest.forgotPasswordUrl.toString() !== ""

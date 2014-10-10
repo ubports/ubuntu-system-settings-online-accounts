@@ -20,7 +20,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#include "src/globals.h"
+#include "online-accounts-ui/globals.h"
 
 #include <QDBusConnection>
 #include <QDebug>
@@ -133,7 +133,7 @@ void SetupTest::testExec()
     QObject *object = component.create();
     QVERIFY(object != 0);
 
-    QSignalSpy finished(object, SIGNAL(finished()));
+    QSignalSpy finished(object, SIGNAL(finished(QVariantMap)));
     QVERIFY(QMetaObject::invokeMethod(object, "exec"));
 
     QVERIFY(finished.wait());
@@ -151,7 +151,7 @@ void SetupTest::testExecWithServiceType()
     QObject *object = component.create();
     QVERIFY(object != 0);
 
-    QSignalSpy finished(object, SIGNAL(finished()));
+    QSignalSpy finished(object, SIGNAL(finished(QVariantMap)));
     QVERIFY(QMetaObject::invokeMethod(object, "exec"));
 
     QVERIFY(finished.wait());

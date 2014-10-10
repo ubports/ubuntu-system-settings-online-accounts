@@ -2,20 +2,21 @@
 # Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
-#
+# GunChleoc <fios@foramnagaidhlig.net>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-07-10 19:34+0200\n"
-"PO-Revision-Date: 2014-05-19 10:05+0000\n"
-"Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
-"Language-Team: Gaelic; Scottish <gd@li.org>\n"
+"POT-Creation-Date: 2014-08-26 10:31+0200\n"
+"PO-Revision-Date: 2014-09-12 16:34+0000\n"
+"Last-Translator: GunChleoc <Unknown>\n"
+"Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-20 06:09+0000\n"
-"X-Generator: Launchpad (build 17058)\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:35+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
+"Language: gd\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -25,11 +26,11 @@ msgstr "Ainm-cleachdaiche"
 msgid "Password"
 msgstr "Facal-faire"
 
-#: ../src/AccountsPage.qml:53
+#: ../system-settings-plugin/AccountsPage.qml:51
 msgid "Add account…"
 msgstr "Cuir cunntas ris..."
 
-#: ../src/AddAccountLabel.qml:27
+#: ../system-settings-plugin/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
@@ -37,35 +38,47 @@ msgstr ""
 "Ma chumas tu fiosrachadh a' chunntais agad an-seo, gheibh aplacaidean greim "
 "air agus cha bhi agad ri clàradh a-steach aig gach aon dhiubh."
 
-#: ../src/NewAccountPage.qml:23
+#: ../system-settings-plugin/MainPage.qml:29
+#: ../online-accounts-ui/qml/ProviderRequest.qml:51
+#: ../online-accounts-ui/qml/ProviderRequest.qml:119 ../.build/settings.js:1
+msgid "Accounts"
+msgstr "Cunntasan"
+
+#: ../system-settings-plugin/NewAccountPage.qml:23
 msgid "Add account"
 msgstr "Cuir cunntas ris"
 
-#: ../src/NoAccountsPage.qml:36
+#: ../system-settings-plugin/NoAccountsPage.qml:36
 msgid "No accounts"
 msgstr "Chan eil cunntas ann fhathast"
 
-#: ../src/NoAccountsPage.qml:44
+#: ../system-settings-plugin/NoAccountsPage.qml:44
 msgid "Add account:"
 msgstr "Cuir cunntas ris:"
 
-#: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
+#: ../online-accounts-ui/module/OAuth.qml:119
+msgid "Loading…"
+msgstr "'Ga luchdadh…"
+
+#: ../online-accounts-ui/module/OAuth.qml:149
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:43
+#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
 msgid "Cancel"
 msgstr "Sguir dheth"
 
-#: ../src/module/Options.qml:36
+#: ../online-accounts-ui/module/Options.qml:36
 msgid "ID"
 msgstr "ID"
 
-#: ../src/module/Options.qml:54
+#: ../online-accounts-ui/module/Options.qml:48
 msgid "Remove account…"
 msgstr "Thoir cunntas air falbh..."
 
-#: ../src/module/RemovalConfirmation.qml:32
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:32
 msgid "Remove account"
 msgstr "Thoir an cunntas air falbh"
 
-#: ../src/module/RemovalConfirmation.qml:33
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:33
 #, qt-format
 msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
@@ -74,14 +87,27 @@ msgstr ""
 "Thèid an cunntas %1 a thoirt air falbh on fhòn agad. 'S urrainn dhut a chur "
 "ris a-rithist às a dhèidh seo."
 
-#: ../src/module/RemovalConfirmation.qml:36
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:38
 msgid "Remove"
 msgstr "Thoir air falbh"
 
-#: ../src/module/ServiceSwitches.qml:33
+#: ../online-accounts-ui/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
 msgstr "Cothrom air a' chunntas seo:"
 
-#: ../.build/settings.js:1
-msgid "Accounts"
-msgstr "Cunntasan"
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:41
+#, qt-format
+msgid "%1 wants to access your %2 account"
+msgstr "Tha %1 airson an cunntas %2 agad inntrigeadh"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:64
+msgid "Allow"
+msgstr "Ceadaich"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:71
+msgid "Don't allow"
+msgstr "Na ceadaich"
+
+#: ../online-accounts-ui/qml/ProviderRequest.qml:87
+msgid "Add another"
+msgstr "Cuir fear eile ris"

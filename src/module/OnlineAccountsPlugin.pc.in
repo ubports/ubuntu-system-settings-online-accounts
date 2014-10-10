@@ -1,9 +1,0 @@
-prefix=$$INSTALL_PREFIX
-exec_prefix=${prefix}
-libdir=${prefix}/lib
-includedir=${prefix}/include
-plugin_qml_dir=${prefix}/$${ONLINE_ACCOUNTS_PLUGIN_DIR_BASE}
-
-Name: $$TARGET
-Description: Online Accounts plugin module for Ubuntu Touch 
-Version: $$PROJECT_VERSION

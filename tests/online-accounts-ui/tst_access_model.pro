@@ -1,38 +1,34 @@
-include(../../common-project-config.pri)
+include(online-accounts-ui.pri)
 
 TARGET = tst_access_model
 
 CONFIG += \
-    debug \
     link_pkgconfig
 
 QT += \
-    core \
     dbus \
-    qml \
-    testlib
+    qml
 
 PKGCONFIG += \
     accounts-qt5
 
+INCLUDEPATH += \
+    $${TOP_SRC_DIR}/plugins
+QMAKE_LIBDIR = $${TOP_BUILD_DIR}/plugins/OnlineAccountsPlugin
+LIBS += -lonline-accounts-plugin
+
 DEFINES += \
-    DEBUG_ENABLED \
     TEST_DATA_DIR=\\\"$${PWD}/data\\\"
 
 SOURCES += \
-    $${TOP_SRC_DIR}/src/access-model.cpp \
-    $${TOP_SRC_DIR}/src/account-manager.cpp \
-    $${TOP_SRC_DIR}/src/debug.cpp \
+    $${ONLINE_ACCOUNTS_UI_DIR}/access-model.cpp \
+    $${ONLINE_ACCOUNTS_UI_DIR}/debug.cpp \
     tst_access_model.cpp
 
 HEADERS += \
-    $${TOP_SRC_DIR}/src/access-model.h \
-    $${TOP_SRC_DIR}/src/account-manager.h \
-    $${TOP_SRC_DIR}/src/debug.h
+    $${ONLINE_ACCOUNTS_UI_DIR}/access-model.h \
+    $${ONLINE_ACCOUNTS_UI_DIR}/debug.h
 
-INCLUDEPATH += \
-    $${TOP_SRC_DIR}/src
-
-check.commands = "xvfb-run -a dbus-test-runner -t ./$${TARGET}"
+check.commands += "xvfb-run -a dbus-test-runner -t ./$${TARGET}"
 check.depends = $${TARGET}
 QMAKE_EXTRA_TARGETS += check

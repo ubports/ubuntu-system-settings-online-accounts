@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-07-10 19:34+0200\n"
+"POT-Creation-Date: 2014-08-26 10:31+0200\n"
 "PO-Revision-Date: 2013-07-12 09:06+0000\n"
 "Last-Translator: Anousak <anousak@gmail.com>\n"
 "Language-Team: Lao <lo@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-20 06:09+0000\n"
-"X-Generator: Launchpad (build 17058)\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:35+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -25,11 +25,11 @@ msgstr "ຊື່ຜູ້ໃຊ້"
 msgid "Password"
 msgstr "ລະຫັດຜ່ານ"
 
-#: ../src/AccountsPage.qml:53
+#: ../system-settings-plugin/AccountsPage.qml:51
 msgid "Add account…"
 msgstr "ເພີ່ມບັນຊີ"
 
-#: ../src/AddAccountLabel.qml:27
+#: ../system-settings-plugin/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
@@ -37,49 +37,74 @@ msgstr ""
 "ເກັບຂໍ້ມູນລາຍລະອຽດບັນຊີໃສບ່ອນນີ້ເພື່ອໃຫ້ເເອບອື່ນນໍາໃຊ້ທີ່ວ່າເຈົ້າບໍ່ຈໍາເປັນຕ້"
 "ອງເຊັນເຂົ້າໃນເເຕ່ລະເເອບ."
 
-#: ../src/NewAccountPage.qml:23
+#: ../system-settings-plugin/MainPage.qml:29
+#: ../online-accounts-ui/qml/ProviderRequest.qml:51
+#: ../online-accounts-ui/qml/ProviderRequest.qml:119 ../.build/settings.js:1
+msgid "Accounts"
+msgstr "ບັນຊີທົວໄປ"
+
+#: ../system-settings-plugin/NewAccountPage.qml:23
 msgid "Add account"
 msgstr "ເພີ່ມບັນຊີ"
 
-#: ../src/NoAccountsPage.qml:36
+#: ../system-settings-plugin/NoAccountsPage.qml:36
 msgid "No accounts"
 msgstr "ບໍ່ມີບັນຊີ"
 
-#: ../src/NoAccountsPage.qml:44
+#: ../system-settings-plugin/NoAccountsPage.qml:44
 msgid "Add account:"
 msgstr "ເພີ່ມບັນຊີ"
 
-#: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
+#: ../online-accounts-ui/module/OAuth.qml:119
+msgid "Loading…"
+msgstr ""
+
+#: ../online-accounts-ui/module/OAuth.qml:149
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:43
+#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
 msgid "Cancel"
 msgstr "ຍົກເລີກ"
 
-#: ../src/module/Options.qml:36
+#: ../online-accounts-ui/module/Options.qml:36
 msgid "ID"
 msgstr "ລະຫັດ"
 
-#: ../src/module/Options.qml:54
+#: ../online-accounts-ui/module/Options.qml:48
 msgid "Remove account…"
 msgstr "ລົບບັນຊີ"
 
-#: ../src/module/RemovalConfirmation.qml:32
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:32
 msgid "Remove account"
 msgstr "ລຶບບັນຊີ"
 
-#: ../src/module/RemovalConfirmation.qml:33
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:33
 #, qt-format
 msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr "%1 ບັນຊີຈະຖຶກຍ້າຍອອກອອກຈາກພຽງແຕ່ໂທລະສັບຂອງທ່ານ"
 
-#: ../src/module/RemovalConfirmation.qml:36
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:38
 msgid "Remove"
 msgstr "ຍ້າຍອອກ"
 
-#: ../src/module/ServiceSwitches.qml:33
+#: ../online-accounts-ui/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
 msgstr "ເຂົ້າຫາບັນຊີນີ້:"
 
-#: ../.build/settings.js:1
-msgid "Accounts"
-msgstr "ບັນຊີທົວໄປ"
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:41
+#, qt-format
+msgid "%1 wants to access your %2 account"
+msgstr ""
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:64
+msgid "Allow"
+msgstr ""
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:71
+msgid "Don't allow"
+msgstr ""
+
+#: ../online-accounts-ui/qml/ProviderRequest.qml:87
+msgid "Add another"
+msgstr ""

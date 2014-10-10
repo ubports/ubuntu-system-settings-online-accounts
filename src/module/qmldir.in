@@ -1,9 +1,0 @@
-module $${API_URI}
-KeyboardRectangle 1.0 KeyboardRectangle.qml
-OAuthMain 1.0 OAuthMain.qml
-OAuth 1.0 OAuth.qml
-Options 1.0 Options.qml
-RemovalConfirmation 1.0 RemovalConfirmation.qml
-ServiceItem 1.0 ServiceItem.qml
-ServiceSwitches 1.0 ServiceSwitches.qml
-WebView 1.0 WebView.qml

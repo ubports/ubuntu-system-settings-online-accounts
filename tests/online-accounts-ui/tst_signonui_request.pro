@@ -1,53 +1,47 @@
-include(../../common-project-config.pri)
+include(online-accounts-ui.pri)
 
 TARGET = tst_signonui_request
 
 CONFIG += \
-    debug \
     link_pkgconfig
 
 QT += \
-    core \
-    dbus \
-    testlib
+    dbus
 
 PKGCONFIG += \
     accounts-qt5 \
     libsignon-qt5 \
     signon-plugins-common
 
+INCLUDEPATH += \
+    $${TOP_SRC_DIR}/plugins
+QMAKE_LIBDIR = $${TOP_BUILD_DIR}/plugins/OnlineAccountsPlugin
+LIBS += -lonline-accounts-plugin
+
 DEFINES += \
-    DEBUG_ENABLED \
     NO_REQUEST_FACTORY \
     TEST_DATA_DIR=\\\"$${PWD}/data\\\"
 
-SRCDIR = $${TOP_SRC_DIR}/src
 
 SOURCES += \
-    $${SRCDIR}/account-manager.cpp \
-    $${SRCDIR}/application-manager.cpp \
-    $${SRCDIR}/debug.cpp \
-    $${SRCDIR}/request-handler.cpp \
-    $${SRCDIR}/signonui-request.cpp \
+    $${ONLINE_ACCOUNTS_UI_DIR}/debug.cpp \
+    $${ONLINE_ACCOUNTS_UI_DIR}/signonui-request.cpp \
     mock/notification-mock.cpp \
     mock/request-mock.cpp \
     mock/qwindow.cpp \
+    mock/ui-server-mock.cpp \
     tst_signonui_request.cpp
 
 HEADERS += \
-    $${SRCDIR}/account-manager.h \
-    $${SRCDIR}/application-manager.h \
-    $${SRCDIR}/notification.h \
-    $${SRCDIR}/request.h \
-    $${SRCDIR}/request-handler.h \
-    $${SRCDIR}/signonui-request.h \
+    $${ONLINE_ACCOUNTS_UI_DIR}/notification.h \
+    $${ONLINE_ACCOUNTS_UI_DIR}/request.h \
+    $${ONLINE_ACCOUNTS_UI_DIR}/signonui-request.h \
+    $${ONLINE_ACCOUNTS_UI_DIR}/ui-server.h \
     mock/notification-mock.h \
     mock/request-mock.h \
+    mock/ui-server-mock.h \
     window-watcher.h
 
-INCLUDEPATH += \
-    $${SRCDIR}
-
-check.commands = "xvfb-run -s '-screen 0 640x480x24' -a dbus-test-runner -t ./$${TARGET}"
+check.commands += "xvfb-run -s '-screen 0 640x480x24' -a dbus-test-runner -t ./$${TARGET}"
 check.depends = $${TARGET}
 QMAKE_EXTRA_TARGETS += check

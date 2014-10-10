@@ -20,7 +20,7 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#include "src/globals.h"
+#include "online-accounts-ui/globals.h"
 
 #include <OnlineAccountsClient/Setup>
 #include <QDBusConnection>
@@ -108,7 +108,7 @@ void SetupTest::testExec()
 {
     Setup setup;
 
-    QSignalSpy finished(&setup, SIGNAL(finished()));
+    QSignalSpy finished(&setup, SIGNAL(finished(QVariantMap)));
     setup.exec();
 
     QVERIFY(finished.wait(10000));
@@ -123,7 +123,7 @@ void SetupTest::testExecWithProvider()
     Setup setup;
     setup.setProviderId("lethal-provider");
 
-    QSignalSpy finished(&setup, SIGNAL(finished()));
+    QSignalSpy finished(&setup, SIGNAL(finished(QVariantMap)));
     setup.exec();
 
     QVERIFY(finished.wait(10000));
@@ -136,7 +136,7 @@ void SetupTest::testExecWithServiceType()
     Setup setup;
     setup.setServiceTypeId("e-mail");
 
-    QSignalSpy finished(&setup, SIGNAL(finished()));
+    QSignalSpy finished(&setup, SIGNAL(finished(QVariantMap)));
     setup.exec();
 
     QVERIFY(finished.wait(10000));
@@ -149,7 +149,7 @@ void SetupTest::testExecWithApplication()
     Setup setup;
     setup.setApplicationId("MyApp");
 
-    QSignalSpy finished(&setup, SIGNAL(finished()));
+    QSignalSpy finished(&setup, SIGNAL(finished(QVariantMap)));
     setup.exec();
 
     QVERIFY(finished.wait(10000));
@@ -162,7 +162,7 @@ void SetupTest::testWindowId()
     Setup setup;
 
     QWindow window;
-    QSignalSpy finished(&setup, SIGNAL(finished()));
+    QSignalSpy finished(&setup, SIGNAL(finished(QVariantMap)));
     setup.exec();
 
     QVERIFY(finished.wait());

@@ -3,11 +3,11 @@ TEMPLATE = subdirs
 
 PROJECTNAME = "ubuntu-system-settings-online-accounts"
 
-SETTINGSFILES = ../src/*.settings
+SETTINGSFILES = ../system-settings-plugin/*.settings
 
 SOURCECODE = ../plugins/*/*.qml \
-             ../src/*.qml \
-             ../src/*/*.qml
+             ../system-settings-plugin/*.qml \
+             ../online-accounts-ui/*/*.qml
 
 BUILDDIR = ../.build
 SETTINGSFILETEMP = $${BUILDDIR}/settings.js

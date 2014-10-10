@@ -1,2 +1,2 @@
 module Source
-AccountCreationPage 1.0 ../../../../src/qml/AccountCreationPage.qml
+AccountCreationPage 1.0 ../../../../online-accounts-ui/qml/AccountCreationPage.qml

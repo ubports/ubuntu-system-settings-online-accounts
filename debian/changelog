@@ -1,3 +1,132 @@
+ubuntu-system-settings-online-accounts (0.5-0ubuntu0) UNRELEASED; urgency=medium
+
+  * Rename QML package (LP: #1342031)
+  * Create the Ubuntu.OnlineAccounts.Plugin module (LP: #1377062)
+  * Fix typo on component name (LP: #1378726)
+
+ -- Alberto Mardegan <alberto.mardegan@canonical.com>  Wed, 08 Oct 2014 10:12:22 +0300
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20141006-0ubuntu1) utopic; urgency=low
+
+  [ Ken VanDine ]
+  * Provide more keywords to make search useful (LP: #1370219) (LP:
+    #1370219)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 06 Oct 2014 08:06:12 +0000
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20141001-0ubuntu1) utopic; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Alberto Mardegan ]
+  * Minor improvements
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 01 Oct 2014 13:31:34 +0000
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20140925-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Alberto Mardegan ]
+  * Enforce the limit on single accounts even when the request comes
+    from an app .
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 25 Sep 2014 13:25:30 +0000
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20140917-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Alberto Mardegan ]
+  * Don't go back to SystemSettings when creating the first account.
+    Keep listening to account model changes. Set QML import path for
+    click plugins. Enable automatic orientation .
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 17 Sep 2014 09:05:56 +0000
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20140908-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Alberto Mardegan ]
+  * Handle stopping of trusted sessions. Use new Oxide cookie API .
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 08 Sep 2014 08:55:20 +0000
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20140903-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Alberto Mardegan ]
+  * Make locating of icons more robust
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 03 Sep 2014 06:37:09 +0000
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20140827-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Alberto Mardegan ]
+  * Implement the D-Bus method to export cookies. Updated the list of
+    files to translate and the template. Fix autopilot tests .
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 27 Aug 2014 14:22:07 +0000
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20140819.1-0ubuntu1) utopic; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Alberto Mardegan ]
+  * Add desktop file information to .application files. Make the click
+    hook work even without D-Bus. better feedback while waiting for the
+    Trusted Session Prompt to appear .
+  * Fix autopilot tests Change the name of the main page, which is now
+    the one from System Settings. Remove the test case for account
+    creation, because the implementation has moved into a separate
+    process and is not easily testable.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 19 Aug 2014 14:43:48 +0000
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20140818.1-0ubuntu1) utopic; urgency=low
+
+  [ Alberto Mardegan ]
+  * New version - Use signon-ui-service, to fix co-installation with of
+    signon-ui.- Implement reauthentication (via snap-decisions) (LP:
+    #1346950)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 18 Aug 2014 13:46:44 +0000
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20140708-0ubuntu2) utopic; urgency=medium
+
+  * Add forgotten test-dep on ubuntu-ui-toolkit-autopilot.
+
+ -- Iain Lane <iain@orangesquash.org.uk>  Tue, 08 Jul 2014 15:13:08 +0100
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20140708-0ubuntu1) utopic; urgency=low
+
+  [ Leo Arias ]
+  * Refactored the autopilot tests to use the page object pattern. Added
+    the method go to add account to be used in UX tests.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 08 Jul 2014 11:05:35 +0000
+
+ubuntu-system-settings-online-accounts (0.4+14.10.20140701-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * New icon from suru theme.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 01 Jul 2014 07:30:54 +0000
+
 ubuntu-system-settings-online-accounts (0.4+14.10.20140612-0ubuntu1) utopic; urgency=medium
 
   [ Alberto Mardegan ]

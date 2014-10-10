@@ -3,4 +3,6 @@ SUBDIRS = \
     autopilot \
     click-hooks \
     client \
-    online-accounts-ui
+    online-accounts-service \
+    online-accounts-ui \
+    plugin

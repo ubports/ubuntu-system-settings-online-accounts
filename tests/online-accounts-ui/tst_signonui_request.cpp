@@ -19,13 +19,15 @@
  */
 
 #include "globals.h"
-#include "request-handler.h"
 #include "signonui-request.h"
 #include "mock/notification-mock.h"
 #include "mock/request-mock.h"
+#include "mock/ui-server-mock.h"
 
 #include <Accounts/Account>
 #include <Accounts/Manager>
+
+#include <OnlineAccountsPlugin/request-handler.h>
 
 #include <QDebug>
 #include <QSignalSpy>
@@ -42,11 +44,10 @@ class TestRequest: public SignOnUi::Request
     Q_OBJECT
 
 public:
-    TestRequest(const QDBusConnection &connection,
-                const QDBusMessage &message,
+    TestRequest(const QString &clientProfile,
                 const QVariantMap &parameters,
                 QObject *parent = 0):
-        Request(connection, message, parameters, parent)
+        Request(0, clientProfile, parameters, parent)
     {
     }
 
@@ -74,14 +75,13 @@ private:
     bool mustCreateAccount(uint credentialsId) { return credentialsId > 10; }
 
 private:
-    QDBusConnection m_connection;
-    QDBusMessage m_message;
     QTemporaryDir m_accountsDir;
+    UiServer m_uiServer;
 };
 
 SignonuiRequestTest::SignonuiRequestTest():
     QObject(),
-    m_connection(QStringLiteral("uninitialized"))
+    m_uiServer("fake")
 {
 }
 
@@ -102,7 +102,7 @@ void SignonuiRequestTest::testParameters_data()
     QTest::addColumn<uint>("identity");
     QTest::addColumn<QString>("method");
     QTest::addColumn<QString>("mechanism");
-    QTest::addColumn<QString>("id");
+    QTest::addColumn<QString>("ssoId");
     QTest::addColumn<QVariantMap>("clientData");
 
     QTest::newRow("empty") <<
@@ -138,20 +138,20 @@ void SignonuiRequestTest::testParameters()
     QFETCH(QVariantMap, parameters);
     QFETCH(QString, method);
     QFETCH(QString, mechanism);
-    QFETCH(QString, id);
+    QFETCH(QString, ssoId);
     QFETCH(QVariantMap, clientData);
 
-    TestRequest request(m_connection, m_message, parameters);
+    TestRequest request("unconfined", parameters);
     QCOMPARE(request.method(), method);
     QCOMPARE(request.mechanism(), mechanism);
-    QCOMPARE(request.id(), id);
+    QCOMPARE(request.ssoId(), ssoId);
     QCOMPARE(request.clientData(), clientData);
 }
 
 void SignonuiRequestTest::testHandler()
 {
     QVariantMap parameters;
-    TestRequest request(m_connection, m_message, parameters);
+    TestRequest request("unconfined", parameters);
     QVERIFY(request.handler() == 0);
 
     SignOnUi::RequestHandler *handler = new SignOnUi::RequestHandler;
@@ -263,14 +263,13 @@ void SignonuiRequestTest::testSnapDecision()
     parameters.insert(SSOUI_KEY_IDENTITY, credentialsId);
     parameters.insert(SSOUI_KEY_METHOD, "funnyMethod");
     parameters.insert(SSOUI_KEY_MECHANISM, "funnyMechanism");
-    TestRequest request(m_connection, m_message, parameters);
+    TestRequest request(clientProfile, parameters);
     OnlineAccountsUi::RequestPrivate *mockRequest =
         OnlineAccountsUi::RequestPrivate::mocked(&request);
     QSignalSpy failCalled(mockRequest,
                           SIGNAL(failCalled(const QString&, const QString&)));
     QSignalSpy setResultCalled(mockRequest,
                                SIGNAL(setResultCalled(const QVariantMap &)));
-    mockRequest->setClientApparmorProfile(clientProfile);
     request.start();
 
     /* Request to show a window; a snap decision should appear instead */

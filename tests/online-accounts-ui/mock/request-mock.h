@@ -35,16 +35,13 @@ class RequestPrivate: public QObject
     Q_DECLARE_PUBLIC(Request)
 
 public:
-    RequestPrivate(const QDBusConnection &connection,
-                   const QDBusMessage &message,
+    RequestPrivate(const QString &interface,
+                   int id,
+                   const QString &clientProfile,
                    const QVariantMap &parameters,
                    Request *request);
     ~RequestPrivate();
     static RequestPrivate *mocked(Request *r) { return r->d_ptr; }
-
-    void setClientApparmorProfile(const QString &profile) {
-        m_clientApparmorProfile = profile;
-    }
 
 Q_SIGNALS:
     void setWindowCalled(QWindow *);

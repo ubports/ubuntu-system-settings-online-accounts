@@ -20,9 +20,9 @@
  * <http://www.gnu.org/licenses/>.
  */
 
+#include "online-accounts-ui/globals.h"
 #include "onlineaccountsui_interface.h"
 #include "setup.h"
-#include "src/globals.h"
 
 #include <QDBusConnection>
 #include <QDBusPendingCallWatcher>
@@ -76,6 +76,8 @@ void SetupPrivate::exec()
 {
     QVariantMap options;
 
+    options.insert(OAU_KEY_PID, uint(getpid()));
+
     QWindow *window = clientWindow();
     if (window) {
         options.insert(OAU_KEY_WINDOW_ID, window->winId());
@@ -127,14 +129,17 @@ void SetupPrivate::onRequestAccessReply(QDBusPendingCallWatcher *watcher)
 
     watcher->deleteLater();
 
+    QVariantMap response;
+
     QDBusPendingReply<QVariantMap> reply = *watcher;
     if (reply.isError()) {
         qWarning() << "RequestAccess failed:" << reply.error();
     } else {
         // At the moment, we don't have any use for the reply.
+        response = reply.value();
     }
 
-    Q_EMIT q->finished();
+    Q_EMIT q->finished(response);
 }
 
 /*!

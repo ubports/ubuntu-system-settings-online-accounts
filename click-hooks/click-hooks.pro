@@ -11,13 +11,16 @@ QT += \
     xml
 
 PKGCONFIG += \
-    accounts-qt5
+    accounts-qt5 \
+    click-0.4 \
+    gobject-2.0
 
 SOURCES += \
     main.cpp
 
 DEFINES += \
-    HOOK_FILES_SUBDIR=\\\"$${TARGET}\\\"
+    HOOK_FILES_SUBDIR=\\\"$${TARGET}\\\" \
+    QT_NO_KEYWORDS
 
 QMAKE_SUBSTITUTES += \
     account-application.hook.in \

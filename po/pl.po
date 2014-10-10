@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-07-10 19:34+0200\n"
+"POT-Creation-Date: 2014-08-26 10:31+0200\n"
 "PO-Revision-Date: 2013-10-13 13:23+0000\n"
 "Last-Translator: GTriderXC <gtriderxc@yahoo.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-20 06:09+0000\n"
-"X-Generator: Launchpad (build 17058)\n"
+"X-Launchpad-Export-Date: 2014-10-09 06:35+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -25,11 +25,11 @@ msgstr "Nazwa użytkownika"
 msgid "Password"
 msgstr "Hasło"
 
-#: ../src/AccountsPage.qml:53
+#: ../system-settings-plugin/AccountsPage.qml:51
 msgid "Add account…"
 msgstr "Dodaj konto..."
 
-#: ../src/AddAccountLabel.qml:27
+#: ../system-settings-plugin/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
@@ -37,35 +37,47 @@ msgstr ""
 "Zapamiętane tutaj dane logowania pozwolą aplikacjom logować się "
 "automatycznie na konta użytkownika"
 
-#: ../src/NewAccountPage.qml:23
+#: ../system-settings-plugin/MainPage.qml:29
+#: ../online-accounts-ui/qml/ProviderRequest.qml:51
+#: ../online-accounts-ui/qml/ProviderRequest.qml:119 ../.build/settings.js:1
+msgid "Accounts"
+msgstr "Konta"
+
+#: ../system-settings-plugin/NewAccountPage.qml:23
 msgid "Add account"
 msgstr "Dodanie konta"
 
-#: ../src/NoAccountsPage.qml:36
+#: ../system-settings-plugin/NoAccountsPage.qml:36
 msgid "No accounts"
 msgstr "Brak kont"
 
-#: ../src/NoAccountsPage.qml:44
+#: ../system-settings-plugin/NoAccountsPage.qml:44
 msgid "Add account:"
 msgstr "Dodaj konto:"
 
-#: ../src/module/OAuth.qml:82 ../src/module/RemovalConfirmation.qml:41
+#: ../online-accounts-ui/module/OAuth.qml:119
+msgid "Loading…"
+msgstr ""
+
+#: ../online-accounts-ui/module/OAuth.qml:149
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:43
+#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: ../src/module/Options.qml:36
+#: ../online-accounts-ui/module/Options.qml:36
 msgid "ID"
 msgstr "ID"
 
-#: ../src/module/Options.qml:54
+#: ../online-accounts-ui/module/Options.qml:48
 msgid "Remove account…"
 msgstr "Usunięcie konta..."
 
-#: ../src/module/RemovalConfirmation.qml:32
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:32
 msgid "Remove account"
 msgstr "Usuń konto"
 
-#: ../src/module/RemovalConfirmation.qml:33
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:33
 #, qt-format
 msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
@@ -74,14 +86,27 @@ msgstr ""
 "Konto %1 zostanie usunięte tylko z telefonu. W przyszłości można je dodać "
 "ponownie."
 
-#: ../src/module/RemovalConfirmation.qml:36
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:38
 msgid "Remove"
 msgstr "Usuń"
 
-#: ../src/module/ServiceSwitches.qml:33
+#: ../online-accounts-ui/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
 msgstr "Dostęp do tego konta:"
 
-#: ../.build/settings.js:1
-msgid "Accounts"
-msgstr "Konta"
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:41
+#, qt-format
+msgid "%1 wants to access your %2 account"
+msgstr ""
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:64
+msgid "Allow"
+msgstr ""
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:71
+msgid "Don't allow"
+msgstr ""
+
+#: ../online-accounts-ui/qml/ProviderRequest.qml:87
+msgid "Add another"
+msgstr ""

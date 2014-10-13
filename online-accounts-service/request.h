@@ -43,6 +43,7 @@ public:
     static Request *find(const QVariantMap &match);
 
     quint64 windowId() const;
+    pid_t clientPid() const;
     void setInProgress(bool inProgress);
     bool isInProgress() const;
     const QVariantMap &parameters() const;

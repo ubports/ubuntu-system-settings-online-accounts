@@ -3,12 +3,16 @@ include(../../common-project-config.pri)
 TARGET = tst_service
 
 CONFIG += \
-    debug
+    debug \
+    link_pkgconfig
 
 QT += \
     core \
     dbus \
     testlib
+
+PKGCONFIG += \
+    signon-plugins-common
 
 DEFINES += \
     NO_REQUEST_FACTORY

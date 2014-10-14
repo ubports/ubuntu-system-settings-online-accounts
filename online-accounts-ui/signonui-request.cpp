@@ -245,7 +245,9 @@ void Request::setWindow(QWindow *window)
      * Then, if this is called again with the same QWindow, it means that the
      * snap decision was accepted, and we show the window.
      */
-    if (window == d->m_window) {
+    if (window == d->m_window ||
+        /* If we are part of a prompt session, just show the window */
+        !qgetenv("MIR_SOCKET").isEmpty()) {
         OnlineAccountsUi::Request::setWindow(window);
         d->m_window = 0;
     } else {

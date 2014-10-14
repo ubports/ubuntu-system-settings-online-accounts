@@ -3,6 +3,7 @@
     <file>qml/AccountCreationPage.qml</file>
     <file>qml/AuthorizationPage.qml</file>
     <file>qml/ProviderRequest.qml</file>
+    <file>qml/SignOnUiDialog.qml</file>
     <file>qml/SignOnUiPage.qml</file>
 </qresource>
 </RCC>

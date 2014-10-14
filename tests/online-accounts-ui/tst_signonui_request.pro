@@ -10,6 +10,7 @@ QT += \
 
 PKGCONFIG += \
     accounts-qt5 \
+    libapparmor \
     libsignon-qt5 \
     signon-plugins-common
 

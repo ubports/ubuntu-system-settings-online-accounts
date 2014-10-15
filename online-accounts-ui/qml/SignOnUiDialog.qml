@@ -3,26 +3,26 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.OnlineAccounts.Plugin 1.0
 
-MainView {
+Rectangle {
     id: root
 
     property var signonRequest: request
 
     width: units.gu(60)
     height: units.gu(90)
+    color: "transparent"
 
-    Page {
+    Component.onCompleted: dialog.show()
+
+    Dialog {
+        id: dialog
         title: signonRequest.title
+        text: signonRequest.message
 
         Column {
             id: loginForm
             anchors.left: parent.left
             anchors.right: parent.right
-
-            ListItem.Caption {
-                visible: signonRequest.message !== ""
-                text: signonRequest.message
-            }
 
             Label {
                 id: userNameLabel

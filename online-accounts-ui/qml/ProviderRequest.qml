@@ -62,7 +62,7 @@ MainView {
                 id: loader
                 anchors.fill: parent
                 active: false
-                sourceComponent: ((accessModel.count <= 1 && accessModel.canCreateAccounts()) ||
+                sourceComponent: ((accessModel.count == 0 && accessModel.canCreateAccounts()) ||
                                   applicationInfo.id === "system-settings") ?
                     accountCreationPage : authorizationPage
                 onLoaded: {
@@ -94,7 +94,6 @@ MainView {
         id: accessModel
         accountModel: accountsModel
         applicationId: applicationInfo.id
-        lastItemText: canCreateAccounts() ? i18n.tr("Add another") : ""
 
         function canCreateAccounts() {
             if (!providerInfo.isSingleAccount) return true
@@ -122,6 +121,7 @@ MainView {
             model: accessModel
             application: applicationInfo
             provider: providerInfo
+            canAddAnotherAccount: accessModel.canCreateAccounts
             onDenied: root.denied()
             onAllowed: root.grantAccess(accountId)
             onCreateAccount: pageStack.push(createAccountPageComponent)

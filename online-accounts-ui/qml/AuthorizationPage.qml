@@ -40,6 +40,7 @@ Flickable {
         spacing: units.gu(1)
 
         Label {
+            objectName: "msgLabel"
             anchors.left: parent.left
             anchors.right: parent.right
             text: i18n.tr("%1 wants to access your %2 account").
@@ -49,6 +50,7 @@ Flickable {
 
         Label {
             id: accountLabel
+            objectName: "accountLabel"
             anchors.left: parent.left
             anchors.right: parent.right
             visible: model.count == 1
@@ -58,6 +60,7 @@ Flickable {
 
         OptionSelector {
             id: accountSelector
+            objectName: "accountSelector"
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.leftMargin: units.gu(1)
@@ -78,6 +81,7 @@ Flickable {
         spacing: units.gu(1)
 
         Button {
+            objectName: "allowButton"
             anchors.left: parent.left
             anchors.right: parent.right
             text: i18n.tr("Allow")
@@ -85,6 +89,7 @@ Flickable {
         }
 
         Button {
+            objectName: "addAnotherButton"
             anchors.left: parent.left
             anchors.right: parent.right
             visible: canAddAnotherAccount
@@ -93,6 +98,7 @@ Flickable {
         }
 
         Button {
+            objectName: "denyButton"
             anchors.left: parent.left
             anchors.right: parent.right
             text: i18n.tr("Don't allow")

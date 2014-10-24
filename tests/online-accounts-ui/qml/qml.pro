@@ -6,6 +6,9 @@ CONFIG += \
     qmltestcase \
     warn_on
 
+DEFINES += \
+    TEST_DATA_DIR=\\\"$${PWD}/../data\\\"
+
 SOURCES += \
     tst_online_accounts_qml.cpp
 

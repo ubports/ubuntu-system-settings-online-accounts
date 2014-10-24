@@ -1,2 +1,3 @@
 module Source
 AccountCreationPage 1.0 ../../../../online-accounts-ui/qml/AccountCreationPage.qml
+AuthorizationPage 1.0 ../../../../online-accounts-ui/qml/AuthorizationPage.qml

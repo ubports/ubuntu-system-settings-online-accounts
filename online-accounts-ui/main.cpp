@@ -73,7 +73,7 @@ int main(int argc, char **argv)
     initTr(I18N_DOMAIN, NULL);
 
     // Enable compositing in oxide
-    QOpenGLContext* glcontext = new QOpenGLContext(this);
+    QOpenGLContext* glcontext = new QOpenGLContext();
     glcontext->create();
 #if QT_VERSION < QT_VERSION_CHECK(5, 3, 0)
     QSGContext::setSharedOpenGLContext(glcontext);

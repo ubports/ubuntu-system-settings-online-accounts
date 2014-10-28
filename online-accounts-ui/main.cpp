@@ -23,9 +23,15 @@
 #include "i18n.h"
 #include "ui-server.h"
 
+#include <QtGui/QOpenGLContext>
 #include <QGuiApplication>
 #include <QLibrary>
 #include <QProcessEnvironment>
+#if QT_VERSION < QT_VERSION_CHECK(5, 3, 0)
+#include <QtQuick/private/qsgcontext_p.h>
+#else
+#include <QtGui/private/qopenglcontext_p.h>
+#endif
 
 using namespace OnlineAccountsUi;
 
@@ -65,6 +71,15 @@ int main(int argc, char **argv)
     }
 
     initTr(I18N_DOMAIN, NULL);
+
+    // Enable compositing in oxide
+    QOpenGLContext* glcontext = new QOpenGLContext(this);
+    glcontext->create();
+#if QT_VERSION < QT_VERSION_CHECK(5, 3, 0)
+    QSGContext::setSharedOpenGLContext(glcontext);
+#else
+    QOpenGLContextPrivate::setGlobalShareContext(glcontext);
+#endif
 
     QStringList arguments = app.arguments();
     int i = arguments.indexOf("--socket");

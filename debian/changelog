@@ -6,7 +6,8 @@ ubuntu-system-settings-online-accounts (0.5+14.10.20141023~rtm-0ubuntu1) vivid; 
 
   [ Ubuntu daily release ]
   * New rebuild forced
- -- Ubuntu daily release <ps-jenkins@lists.canonical.com>   Thu, 23 Oct 2014 15:08:55 +0000
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 23 Oct 2014 15:08:55 +0000
 
 ubuntu-system-settings-online-accounts (0.5+14.10.20141009.3-0ubuntu1) 14.09; urgency=medium
 

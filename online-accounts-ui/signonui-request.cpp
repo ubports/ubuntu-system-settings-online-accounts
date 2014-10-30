@@ -22,6 +22,7 @@
 
 #include "browser-request.h"
 #include "debug.h"
+#include "dialog-request.h"
 #include "globals.h"
 #include "notification.h"
 
@@ -35,6 +36,7 @@
 #include <QPointer>
 #include <SignOn/uisessiondata.h>
 #include <SignOn/uisessiondata_priv.h>
+#include <sys/apparmor.h>
 
 using namespace SignOnUi;
 
@@ -203,16 +205,44 @@ Request *Request::newRequest(int id,
         return new SignOnUi::BrowserRequest(id, clientProfile,
                                             parameters, parent);
     } else {
-        return 0; // TODO new DialogRequest(connection, message, parameters, parent);
+        return new SignOnUi::DialogRequest(id, clientProfile,
+                                           parameters, parent);
     }
 }
 #endif
+
+static QString findClientProfile(const QString &clientProfile,
+                                 const QVariantMap &parameters)
+{
+    QString profile = clientProfile;
+    /* If the request is coming on the SignOnUi interface from an
+     * unconfined process and it carries the SSOUI_KEY_PID key, it means that
+     * it's coming from signond. In that case, we want to know what was the
+     * client which originated the call.
+     */
+    if (profile == "unconfined" &&
+        parameters.contains(SSOUI_KEY_PID)) {
+        pid_t pid = parameters.value(SSOUI_KEY_PID).toUInt();
+        char *con = NULL, *mode = NULL;
+        int ret = aa_gettaskcon(pid, &con, &mode);
+        if (Q_LIKELY(ret >= 0)) {
+            profile = QString::fromUtf8(con);
+            /* libapparmor allocates "con" and "mode" in a single allocation,
+             * so freeing "con" is actually freeing both. */
+            free(con);
+        } else {
+            qWarning() << "Couldn't get apparmor profile of PID" << pid;
+        }
+    }
+    return profile;
+}
 
 Request::Request(int id,
                  const QString &clientProfile,
                  const QVariantMap &parameters,
                  QObject *parent):
-    OnlineAccountsUi::Request(SIGNONUI_INTERFACE, id, clientProfile,
+    OnlineAccountsUi::Request(SIGNONUI_INTERFACE, id,
+                              findClientProfile(clientProfile, parameters),
                               parameters, parent),
     d_ptr(new RequestPrivate(this))
 {
@@ -245,7 +275,9 @@ void Request::setWindow(QWindow *window)
      * Then, if this is called again with the same QWindow, it means that the
      * snap decision was accepted, and we show the window.
      */
-    if (window == d->m_window) {
+    if (window == d->m_window ||
+        /* If we are part of a prompt session, just show the window */
+        !qgetenv("MIR_SOCKET").isEmpty()) {
         OnlineAccountsUi::Request::setWindow(window);
         d->m_window = 0;
     } else {

@@ -22,6 +22,8 @@
 #include "globals.h"
 #include "request.h"
 
+#include <SignOn/uisessiondata_priv.h>
+
 using namespace OnlineAccountsUi;
 
 static bool mapIsSuperset(const QVariantMap &test, const QVariantMap &set)
@@ -145,6 +147,18 @@ quint64 Request::windowId() const
 {
     Q_D(const Request);
     return d->windowId();
+}
+
+pid_t Request::clientPid() const
+{
+    Q_D(const Request);
+    if (interface() == OAU_INTERFACE) {
+        return d->m_parameters.value(OAU_KEY_PID, 0).toUInt();
+    } else if (interface() == SIGNONUI_INTERFACE) {
+        return d->m_parameters.value(SSOUI_KEY_PID, 0).toUInt();
+    }
+
+    return 0;
 }
 
 void Request::setInProgress(bool inProgress)

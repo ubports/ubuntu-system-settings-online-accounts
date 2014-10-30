@@ -17,6 +17,7 @@ QT += \
 
 PKGCONFIG += \
     accounts-qt5 \
+    libapparmor \
     libnotify \
     libsignon-qt5 \
     signon-plugins-common
@@ -44,6 +45,7 @@ SOURCES += \
     browser-request.cpp \
     debug.cpp \
     dialog.cpp \
+    dialog-request.cpp \
     i18n.cpp \
     ipc.cpp \
     main.cpp \
@@ -59,6 +61,7 @@ HEADERS += \
     browser-request.h \
     debug.h \
     dialog.h \
+    dialog-request.h \
     i18n.h \
     ipc.h \
     notification.h \

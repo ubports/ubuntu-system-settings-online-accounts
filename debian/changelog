@@ -1,3 +1,14 @@
+ubuntu-system-settings-online-accounts (0.5+15.04.20141031-0ubuntu1) vivid; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Alexandre Abreu ]
+  * Setup the shared GL context needed to trigger the HW compositor path
+    in Oxide (LP: #1377181)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 31 Oct 2014 12:05:55 +0000
+
 ubuntu-system-settings-online-accounts (0.5+14.10.20141023~rtm-0ubuntu1) vivid; urgency=medium
 
   [ Alberto Mardegan ]

@@ -541,7 +541,7 @@ void OnlineAccountsHooksTest::testServiceType()
 
     QDomElement root = doc.documentElement();
 
-    /* Check that a "service-type" element has been added and that matches the
+    /* Check that a "type" element has been added and that matches the
      * expected value. */
     QDomElement serviceTypeElement = root.firstChildElement("type");
     QCOMPARE(serviceTypeElement.text(), expectedServiceType);

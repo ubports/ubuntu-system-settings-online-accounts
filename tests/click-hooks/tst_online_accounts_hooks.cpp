@@ -45,6 +45,8 @@ private Q_SLOTS:
     void testUpdate();
     void testDesktopEntry_data();
     void testDesktopEntry();
+    void testServiceType_data();
+    void testServiceType();
 
 private:
     void clearHooksDir();
@@ -487,6 +489,62 @@ void OnlineAccountsHooksTest::testDesktopEntry()
      * expected value. */
     QDomElement desktopEntryElement = root.firstChildElement("desktop-entry");
     QCOMPARE(desktopEntryElement.text(), expectedDesktopEntry);
+}
+
+void OnlineAccountsHooksTest::testServiceType_data()
+{
+    QTest::addColumn<QString>("hookName");
+    QTest::addColumn<QString>("contents");
+    QTest::addColumn<QString>("installedName");
+    QTest::addColumn<QString>("expectedServiceType");
+
+    QTest::newRow("no type") <<
+        "com.ubuntu.test_MyApp_0.2.service" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<service>\n"
+        "  <provider>google</provider>\n"
+        "</service>" <<
+        "services/com.ubuntu.test_MyApp.service" <<
+        "com.ubuntu.test_MyApp";
+
+    QTest::newRow("with service type") <<
+        "com.ubuntu.test_Desktop_0.1.service" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<service>\n"
+        "  <provider>facebook</provider>\n"
+        "  <type>a random type</type>\n"
+        "</service>" <<
+        "services/com.ubuntu.test_Desktop.service" <<
+        "a random type";
+}
+
+void OnlineAccountsHooksTest::testServiceType()
+{
+    QFETCH(QString, hookName);
+    QFETCH(QString, contents);
+    QFETCH(QString, installedName);
+    QFETCH(QString, expectedServiceType);
+
+    writeHookFile(hookName, contents);
+    QVERIFY(runHookProcess());
+
+    // check that the file has been created, if the file was valid
+    QFileInfo fileInfo(m_installDir.absoluteFilePath(installedName));
+    QVERIFY(fileInfo.exists());
+
+    QFile file(fileInfo.absoluteFilePath());
+    QVERIFY(file.open(QIODevice::ReadOnly));
+
+    // check that's a valid XML file
+    QDomDocument doc;
+    QVERIFY(doc.setContent(&file));
+
+    QDomElement root = doc.documentElement();
+
+    /* Check that a "service-type" element has been added and that matches the
+     * expected value. */
+    QDomElement serviceTypeElement = root.firstChildElement("type");
+    QCOMPARE(serviceTypeElement.text(), expectedServiceType);
 }
 
 QTEST_MAIN(OnlineAccountsHooksTest);

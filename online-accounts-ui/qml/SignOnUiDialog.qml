@@ -89,7 +89,7 @@ Item {
                 anchors.left: parent.left
                 text: i18n.dtr("ubuntu-system-settings-online-accounts", "Cancel")
                 width: (parent.width / 2) - 0.5 * units.gu(1)
-                onClicked: { console.log("cancel clicked"); signonRequest.cancel() }
+                onClicked: signonRequest.cancel()
             }
 
             Button {
@@ -97,7 +97,7 @@ Item {
                 anchors.right: parent.right
                 text: signonRequest.loginText
                 width: (parent.width / 2) - 0.5 * units.gu(1)
-                onClicked: { console.log("accept clicked"); signonRequest.accept() }
+                onClicked: signonRequest.accept()
             }
         }
     }

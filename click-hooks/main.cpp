@@ -89,6 +89,7 @@ public:
     void addPackageDir(const QString &appId);
     QString profile() const;
     void addDesktopFile(const QString &appId);
+    void addServiceType(const QString &shortAppId);
     void checkIconPath(const QString &appId);
     bool writeTo(const QString &fileName) const;
     bool isValid() const { return m_isValid; }
@@ -155,6 +156,19 @@ void LibAccountsFile::addDesktopFile(const QString &appId)
 
     elem = createElement(desktopEntryTag);
     elem.appendChild(createTextNode(appId));
+    root.appendChild(elem);
+}
+
+void LibAccountsFile::addServiceType(const QString &shortAppId)
+{
+    QString serviceTypeTag = QStringLiteral("type");
+    QDomElement root = documentElement();
+    /* if a <service-type> element already exists, don't touch it */
+    QDomElement elem = root.firstChildElement(serviceTypeTag);
+    if (!elem.isNull()) return;
+
+    elem = createElement(serviceTypeTag);
+    elem.appendChild(createTextNode(shortAppId));
     root.appendChild(elem);
 }
 
@@ -297,6 +311,8 @@ int main(int argc, char **argv)
         xml.checkIconPath(appId);
         if (fileType == "application") {
             xml.addDesktopFile(appId);
+        } else if (fileType == "service") {
+            xml.addServiceType(shortAppId);
         }
         xml.writeTo(destination);
     }

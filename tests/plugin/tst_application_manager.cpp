@@ -190,7 +190,8 @@ void ApplicationManagerTest::testApplicationInfo_data()
 {
     QTest::addColumn<QString>("applicationId");
     QTest::addColumn<QString>("contents");
-    QTest::addColumn<QString>("profile");
+    QTest::addColumn<QString>("inputProfile");
+    QTest::addColumn<QString>("expectedProfile");
     QTest::addColumn<QStringList>("services");
 
     QTest::newRow("no-services") <<
@@ -200,6 +201,7 @@ void ApplicationManagerTest::testApplicationInfo_data()
         "  <description>My application</description>\n"
         "  <profile>com.ubuntu.test_MyApp_0.2</profile>\n"
         "</application>" <<
+        "com.ubuntu.test_MyApp_0.2" <<
         "com.ubuntu.test_MyApp_0.2" <<
         QStringList();
 
@@ -213,6 +215,7 @@ void ApplicationManagerTest::testApplicationInfo_data()
         "  </service-types>\n"
         "  <profile>com.ubuntu.test_MyApp2_0.2</profile>\n"
         "</application>" <<
+        "com.ubuntu.test_MyApp2_0.2" <<
         "com.ubuntu.test_MyApp2_0.2" <<
         QStringList();
 
@@ -228,6 +231,7 @@ void ApplicationManagerTest::testApplicationInfo_data()
         "  </service-types>\n"
         "  <profile>com.ubuntu.test_MyApp3_0.2</profile>\n"
         "</application>" <<
+        "com.ubuntu.test_MyApp3_0.2" <<
         "com.ubuntu.test_MyApp3_0.2" <<
         (QStringList() << "cool-mail" << "bad-mail");
 
@@ -247,7 +251,24 @@ void ApplicationManagerTest::testApplicationInfo_data()
         "  <profile>com.ubuntu.test_MyApp4_0.2</profile>\n"
         "</application>" <<
         "com.ubuntu.test_MyApp4_0.2" <<
+        "com.ubuntu.test_MyApp4_0.2" <<
         (QStringList() << "cool-mail" << "cool-sharing");
+
+    QTest::newRow("unconfined app") <<
+        "com.ubuntu.test_UnconfinedApp" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"com.ubuntu.test_UnconfinedApp\">\n"
+        "  <description>My application 5</description>\n"
+        "  <services>\n"
+        "    <service id=\"cool-mail\">\n"
+        "      <description>Send email</description>\n"
+        "    </service>\n"
+        "  </services>\n"
+        "  <profile>com.ubuntu.test_UnconfinedApp_0.2</profile>\n"
+        "</application>" <<
+        "unconfined" <<
+        "com.ubuntu.test_UnconfinedApp_0.2" <<
+        (QStringList() << "cool-mail");
 }
 
 void ApplicationManagerTest::testApplicationInfo()
@@ -256,16 +277,17 @@ void ApplicationManagerTest::testApplicationInfo()
 
     QFETCH(QString, applicationId);
     QFETCH(QString, contents);
-    QFETCH(QString, profile);
+    QFETCH(QString, inputProfile);
+    QFETCH(QString, expectedProfile);
     QFETCH(QStringList, services);
 
     writeAccountsFile(applicationId + ".application", contents);
 
     ApplicationManager manager;
 
-    QVariantMap info = manager.applicationInfo(applicationId, profile);
+    QVariantMap info = manager.applicationInfo(applicationId, inputProfile);
     QCOMPARE(info.value("id").toString(), applicationId);
-    QCOMPARE(info.value("profile").toString(), profile);
+    QCOMPARE(info.value("profile").toString(), expectedProfile);
     QCOMPARE(info.value("services").toStringList().toSet(), services.toSet());
 }
 

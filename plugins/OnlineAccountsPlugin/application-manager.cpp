@@ -158,7 +158,8 @@ QVariantMap ApplicationManager::applicationInfo(const QString &claimedAppId,
     app.insert(QStringLiteral("id"), applicationId);
     app.insert(QStringLiteral("displayName"), application.displayName());
     app.insert(QStringLiteral("icon"), application.iconName());
-    app.insert(QStringLiteral("profile"), profile);
+    app.insert(QStringLiteral("profile"),
+               d->applicationProfile(application.name()));
 
     /* List all the services supported by this application */
     QVariantList serviceIds;

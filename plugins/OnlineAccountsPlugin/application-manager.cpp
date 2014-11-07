@@ -158,8 +158,17 @@ QVariantMap ApplicationManager::applicationInfo(const QString &claimedAppId,
     app.insert(QStringLiteral("id"), applicationId);
     app.insert(QStringLiteral("displayName"), application.displayName());
     app.insert(QStringLiteral("icon"), application.iconName());
-    app.insert(QStringLiteral("profile"),
-               d->applicationProfile(application.name()));
+    /* The applicationMatchesProfile() test above ensures that either the peer
+     * is unconfined, or the profile in the .application file matches the one
+     * we see from our peer.
+     * In the first case, what we really want is the profile from the
+     * .application file (if that's set), to cover the case where an unconfined
+     * process is asking authorization on behalf of a confined app. */
+    QString targetProfile = d->applicationProfile(application.name());
+    if (targetProfile.isEmpty()) {
+        targetProfile = profile;
+    }
+    app.insert(QStringLiteral("profile"), targetProfile);
 
     /* List all the services supported by this application */
     QVariantList serviceIds;

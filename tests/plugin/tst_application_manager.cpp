@@ -269,6 +269,21 @@ void ApplicationManagerTest::testApplicationInfo_data()
         "unconfined" <<
         "com.ubuntu.test_UnconfinedApp_0.2" <<
         (QStringList() << "cool-mail");
+
+    QTest::newRow("unconfined app, no profile") <<
+        "com.ubuntu.test_UnconfinedApp2" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"com.ubuntu.test_UnconfinedApp2\">\n"
+        "  <description>My application 6</description>\n"
+        "  <services>\n"
+        "    <service id=\"cool-mail\">\n"
+        "      <description>Send email</description>\n"
+        "    </service>\n"
+        "  </services>\n"
+        "</application>" <<
+        "unconfined" <<
+        "unconfined" <<
+        (QStringList() << "cool-mail");
 }
 
 void ApplicationManagerTest::testApplicationInfo()

@@ -37,11 +37,15 @@ public:
     explicit UiProxy(pid_t clientPid, QObject *parent = 0);
     ~UiProxy();
 
+    enum Status { Null, Ready, Loading, Error };
+    Status status() const;
+
     bool init();
     void handleRequest(Request *request);
     bool hasHandlerFor(const QVariantMap &parameters);
 
 Q_SIGNALS:
+    void statusChanged();
     void finished();
 
 private:

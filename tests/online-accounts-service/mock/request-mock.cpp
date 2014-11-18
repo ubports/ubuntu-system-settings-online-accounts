@@ -47,6 +47,11 @@ void RequestPrivate::setClientApparmorProfile(const QString &profile)
     m_clientApparmorProfile = profile;
 }
 
+void RequestPrivate::setProviderId(const QString &provider)
+{
+    m_providerId = provider;
+}
+
 Request::Request(const QDBusConnection &connection,
                  const QDBusMessage &message,
                  const QVariantMap &parameters,
@@ -93,6 +98,11 @@ QString Request::clientApparmorProfile() const
 QString Request::interface() const {
     Q_D(const Request);
     return d->m_message.interface();
+}
+
+QString Request::providerId() const {
+    Q_D(const Request);
+    return d->m_providerId;
 }
 
 void Request::cancel()

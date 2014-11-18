@@ -49,6 +49,7 @@ public:
     const QVariantMap &parameters() const;
     QString clientApparmorProfile() const;
     QString interface() const;
+    QString providerId() const;
 
 public Q_SLOTS:
     void cancel();

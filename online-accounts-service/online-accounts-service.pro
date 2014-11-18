@@ -14,10 +14,11 @@ QT += \
     network
 
 PKGCONFIG += \
+    accounts-qt5 \
     libnotify \
     libsignon-qt5 \
-    signon-plugins-common
-
+    signon-plugins-common \
+    ubuntu-app-launch-2
 
 CONFIG(enable-mir) : system(pkg-config --exists mirclient) {
     PKGCONFIG += mirclient

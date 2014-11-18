@@ -16,7 +16,9 @@ DEFINES += \
     INSTALL_BIN_DIR=\\\"$${INSTALL_PREFIX}/bin\\\"
 
 PKGCONFIG += \
-    signon-plugins-common
+    accounts-qt5 \
+    signon-plugins-common \
+    ubuntu-app-launch-2
 
 ONLINE_ACCOUNTS_SERVICE_DIR = $${TOP_SRC_DIR}/online-accounts-service
 COMMON_SRC_DIR = $${TOP_SRC_DIR}/online-accounts-ui

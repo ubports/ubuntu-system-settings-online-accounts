@@ -41,6 +41,7 @@ qrc_*.cpp
 /online-accounts-ui/online-accounts-ui
 /plugins/OnlineAccountsPlugin/OnlineAccountsPlugin.pc
 /plugins/OnlineAccountsPlugin/libonline-accounts-plugin.so*
+/plugins/exec-tool/exec-tool
 /plugins/module/libOnlineAccountsPlugin.so*
 /plugins/module/qmldir
 /tests/click-hooks/tst_online_accounts_hooks

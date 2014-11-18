@@ -81,14 +81,18 @@ int main(int argc, char **argv)
     QOpenGLContextPrivate::setGlobalShareContext(glcontext);
 #endif
 
-    QStringList arguments = app.arguments();
-    int i = arguments.indexOf("--socket");
-    if (i < 0 || i + 1 >= arguments.count()) {
-        qWarning() << "Missing --socket argument";
-        return EXIT_FAILURE;
+    QString socket = QString::fromUtf8(qgetenv("IPC_SOCKET"));
+    if (socket.isEmpty()) {
+        QStringList arguments = app.arguments();
+        int i = arguments.indexOf("--socket");
+        if (i < 0 || i + 1 >= arguments.count()) {
+            qWarning() << "Missing --socket argument";
+            return EXIT_FAILURE;
+        }
+        socket = arguments[i + 1];
     }
 
-    UiServer server(arguments[i + 1]);
+    UiServer server(socket);
     QObject::connect(&server, SIGNAL(finished()),
                      &app, SLOT(quit()));
     if (Q_UNLIKELY(!server.init())) {

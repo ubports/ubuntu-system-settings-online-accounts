@@ -99,36 +99,16 @@ void AccessModelTest::testEmpty()
     QSignalSpy rowsInserted(model, SIGNAL(rowsInserted(const QModelIndex&,int,int)));
     QSignalSpy rowsRemoved(model, SIGNAL(rowsRemoved(const QModelIndex&,int,int)));
 
-    QCOMPARE(model->lastItemText(), QString());
     QCOMPARE(model->applicationId(), QString());
     QVERIFY(model->accountModel() == 0);
     QCOMPARE(model->rowCount(), 0);
 
-    model->setLastItemText("hello");
-    QCOMPARE(model->lastItemText(), QString("hello"));
-    QCOMPARE(countChanged.count(), 1);
-    countChanged.clear();
-    QCOMPARE(rowsInserted.count(), 1);
-    /* Compare the line numbers */
-    QCOMPARE(rowsInserted.at(0).at(1).toInt(), 0);
-    QCOMPARE(rowsInserted.at(0).at(2).toInt(), 0);
-    rowsInserted.clear();
-    QCOMPARE(rowsRemoved.count(), 0);
-
-    QCOMPARE(model->rowCount(), 1);
-    QCOMPARE(model->get(0, "displayName").toString(), QString("hello"));
-
     model->setAccountModel(accountModel);
-    QCOMPARE(model->rowCount(), 1);
+    QCOMPARE(model->rowCount(), 0);
 
-    model->setLastItemText("");
-    QCOMPARE(model->lastItemText(), QString(""));
-    QCOMPARE(countChanged.count(), 1);
+    QCOMPARE(countChanged.count(), 0);
     QCOMPARE(rowsInserted.count(), 0);
-    QCOMPARE(rowsRemoved.count(), 1);
-    /* Compare the line numbers */
-    QCOMPARE(rowsRemoved.at(0).at(1).toInt(), 0);
-    QCOMPARE(rowsRemoved.at(0).at(2).toInt(), 0);
+    QCOMPARE(rowsRemoved.count(), 0);
 
     delete model;
     delete accountModel;
@@ -154,10 +134,9 @@ void AccessModelTest::testProxy()
     AccessModel *model = new AccessModel(this);
     QVERIFY(model != 0);
 
-    model->setLastItemText("hello");
     model->setAccountModel(accountModel);
     model->setApplicationId("mailer");
-    QCOMPARE(model->rowCount(), 1);
+    QCOMPARE(model->rowCount(), 0);
 
     /* Now add and remove accounts, and see that the accessModel picks them up */
     QSignalSpy rowsInserted(model,
@@ -173,7 +152,7 @@ void AccessModelTest::testProxy()
     account1->syncAndBlock();
 
     rowsInserted.wait();
-    QCOMPARE(model->rowCount(), 2);
+    QCOMPARE(model->rowCount(), 1);
     QCOMPARE(rowsInserted.count(), 1);
     QCOMPARE(rowsRemoved.count(), 0);
     rowsInserted.clear();
@@ -187,7 +166,7 @@ void AccessModelTest::testProxy()
     account2->syncAndBlock();
 
     rowsInserted.wait();
-    QCOMPARE(model->rowCount(), 3);
+    QCOMPARE(model->rowCount(), 2);
     QCOMPARE(rowsInserted.count(), 1);
     int row = rowsInserted.at(0).at(1).toInt();
     QCOMPARE(rowsRemoved.count(), 0);
@@ -198,7 +177,7 @@ void AccessModelTest::testProxy()
     account1->remove();
     account1->syncAndBlock();
     rowsRemoved.wait();
-    QCOMPARE(model->rowCount(), 2);
+    QCOMPARE(model->rowCount(), 1);
     QCOMPARE(rowsInserted.count(), 0);
     QCOMPARE(rowsRemoved.count(), 1);
     rowsRemoved.clear();
@@ -208,11 +187,10 @@ void AccessModelTest::testProxy()
     account2->remove();
     account2->syncAndBlock();
     rowsRemoved.wait();
-    QCOMPARE(model->rowCount(), 1);
+    QCOMPARE(model->rowCount(), 0);
     QCOMPARE(rowsInserted.count(), 0);
     QCOMPARE(rowsRemoved.count(), 1);
     rowsRemoved.clear();
-    QCOMPARE(model->get(0, "displayName").toString(), QString("hello"));
 
     delete model;
     delete accountModel;
@@ -238,10 +216,9 @@ void AccessModelTest::testEnabling()
     AccessModel *model = new AccessModel(this);
     QVERIFY(model != 0);
 
-    model->setLastItemText("hello");
     model->setAccountModel(accountModel);
     model->setApplicationId("mailer");
-    QCOMPARE(model->rowCount(), 1);
+    QCOMPARE(model->rowCount(), 0);
 
     /* Now add two accounts, but verify that the model should expose only the
      * one which has at least one service disabled */
@@ -262,7 +239,7 @@ void AccessModelTest::testEnabling()
     account1->syncAndBlock();
 
     rowsInserted.wait();
-    QCOMPARE(model->rowCount(), 2);
+    QCOMPARE(model->rowCount(), 1);
     QCOMPARE(rowsInserted.count(), 1);
     QCOMPARE(rowsRemoved.count(), 0);
     rowsInserted.clear();
@@ -281,7 +258,7 @@ void AccessModelTest::testEnabling()
 
     /* Verify that a row is *not* added */
     QTest::qWait(50);
-    QCOMPARE(model->rowCount(), 2);
+    QCOMPARE(model->rowCount(), 1);
     QCOMPARE(rowsInserted.count(), 0);
     QCOMPARE(rowsRemoved.count(), 0);
     rowsInserted.clear();

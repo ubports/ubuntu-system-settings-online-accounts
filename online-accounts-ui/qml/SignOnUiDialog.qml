@@ -2,7 +2,6 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
-import Ubuntu.OnlineAccounts.Plugin 1.0
 
 Item {
     id: root
@@ -16,17 +15,20 @@ Item {
 
     Dialog {
         id: dialog
+        objectName: "signOnUiDialog"
         title: signonRequest.title
         text: signonRequest.message
 
         Label {
             id: userNameLabel
+            objectName: "userNameLabel"
             visible: signonRequest.queryUserName
             text: signonRequest.userNameText
         }
 
         TextField {
             id: userNameField
+            objectName: "userNameField"
             visible: signonRequest.queryUserName
             text: signonRequest.userName
             onTextChanged: signonRequest.userName = text
@@ -39,17 +41,20 @@ Item {
 
             Label {
                 id: passwordLabel
+                objectName: "passwordLabel"
                 text: signonRequest.passwordText
             }
 
             TextField {
                 id: passwordField
+                objectName: "passwordField"
                 text: signonRequest.password
                 echoMode: TextInput.Password
                 onTextChanged: signonRequest.password = text
                 Keys.onReturnPressed: signonRequest.accept()
             } 
             Label {
+                objectName: "forgotPasswordLabel"
                 visible: signonRequest.forgotPasswordUrl.toString() !== ""
                 text: "<a href=\"" + signonRequest.forgotPasswordUrl + "\">" +
                     signonRequest.forgotPasswordText + "</a>"
@@ -67,27 +72,31 @@ Item {
             }
 
             Label {
-                anchors.bottom: parent.bottom
                 id: registerUrlLabel
+                objectName: "registerUrlLabel"
+                anchors.bottom: parent.bottom
                 text: "<a href=\"" + signonRequest.registerUrl + "\">" +
                     signonRequest.registerText + "</a>"
             }
         }
 
-        Row {
+        Item {
             anchors.left: parent.left
             anchors.right: parent.right
-            spacing: units.gu(1)
 
             Button {
+                objectName: "cancelButton"
+                anchors.left: parent.left
                 text: i18n.dtr("ubuntu-system-settings-online-accounts", "Cancel")
-                width: (parent.width / 2) - 0.5 * parent.spacing
+                width: (parent.width / 2) - 0.5 * units.gu(1)
                 onClicked: signonRequest.cancel()
             }
 
             Button {
+                objectName: "acceptButton"
+                anchors.right: parent.right
                 text: signonRequest.loginText
-                width: (parent.width / 2) - 0.5 * parent.spacing
+                width: (parent.width / 2) - 0.5 * units.gu(1)
                 onClicked: signonRequest.accept()
             }
         }

@@ -33,6 +33,7 @@ class QIODevice;
 #define OAU_OPERATION_CODE_REQUEST_FAILED "failed"
 #define OAU_OPERATION_ID "id"
 #define OAU_OPERATION_DATA "data"
+#define OAU_OPERATION_DELAY "delay"
 #define OAU_OPERATION_INTERFACE "interface"
 #define OAU_OPERATION_CLIENT_PROFILE "profile"
 #define OAU_OPERATION_ERROR_NAME "errname"

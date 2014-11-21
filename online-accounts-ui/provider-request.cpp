@@ -172,6 +172,7 @@ void ProviderRequestPrivate::onAllowed(int accountId)
 {
     Q_Q(ProviderRequest);
     DEBUG() << "Access allowed for account:" << accountId;
+    q->setDelay(3000);
     QVariantMap result;
     result.insert(OAU_KEY_ACCOUNT_ID, quint32(accountId));
     q->setResult(result);

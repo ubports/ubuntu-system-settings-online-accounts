@@ -53,6 +53,7 @@ public:
     QVariantMap result() const;
     QString errorName() const;
     QString errorMessage() const;
+    int delay() const;
 
 public Q_SLOTS:
     virtual void start();
@@ -68,6 +69,7 @@ protected:
                      const QVariantMap &parameters,
                      QObject *parent = 0);
     virtual void setWindow(QWindow *window);
+    void setDelay(int delay);
 
 protected Q_SLOTS:
     void fail(const QString &name, const QString &message);

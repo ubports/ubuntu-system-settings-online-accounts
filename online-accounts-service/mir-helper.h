@@ -22,6 +22,7 @@
 #define OAU_MIR_HELPER_H
 
 #include <QObject>
+#include <QSharedPointer>
 
 namespace OnlineAccountsUi {
 
@@ -49,6 +50,8 @@ private:
     Q_DECLARE_PRIVATE(PromptSession)
 };
 
+typedef QSharedPointer<PromptSession> PromptSessionP;
+
 class MirHelper: public QObject
 {
     Q_OBJECT
@@ -56,7 +59,7 @@ class MirHelper: public QObject
 public:
     static MirHelper *instance();
 
-    PromptSession *createPromptSession(pid_t initiatorPid);
+    PromptSessionP createPromptSession(pid_t initiatorPid);
 
 private:
     explicit MirHelper(QObject *parent = 0);

@@ -24,7 +24,7 @@
 #include <mir_toolkit/mir_client_library.h>
 #include <mir_toolkit/mir_prompt_session.h>
 
-#include <QList>
+#include <QHash>
 #include <QStandardPaths>
 
 using namespace OnlineAccountsUi;
@@ -36,12 +36,13 @@ static MirHelper *m_instance = 0;
 class PromptSessionPrivate
 {
 public:
-    inline PromptSessionPrivate(MirPromptSession *session);
+    inline PromptSessionPrivate(MirPromptSession *session, pid_t initiatorPid);
     inline ~PromptSessionPrivate();
 
     void emitFinished() { Q_EMIT q_ptr->finished(); }
 
     MirPromptSession *m_mirSession;
+    pid_t m_initiatorPid;
     QList<int> m_fds;
     mutable PromptSession *q_ptr;
 };
@@ -61,14 +62,16 @@ public:
 private:
     friend class PromptSession;
     MirConnection *m_connection;
-    QList<PromptSession*> m_sessions;
+    QHash<pid_t,PromptSessionP> m_sessions;
     mutable MirHelper *q_ptr;
 };
 
 } // namespace
 
-PromptSessionPrivate::PromptSessionPrivate(MirPromptSession *session):
-    m_mirSession(session)
+PromptSessionPrivate::PromptSessionPrivate(MirPromptSession *session,
+                                           pid_t initiatorPid):
+    m_mirSession(session),
+    m_initiatorPid(initiatorPid)
 {
 }
 
@@ -82,14 +85,13 @@ PromptSession::PromptSession(PromptSessionPrivate *priv):
     d_ptr(priv)
 {
     priv->q_ptr = this;
-    MirHelperPrivate *helperPrivate = MirHelper::instance()->d_ptr;
-    helperPrivate->m_sessions.append(this);
 }
 
 PromptSession::~PromptSession()
 {
+    Q_D(PromptSession);
     MirHelperPrivate *helperPrivate = MirHelper::instance()->d_ptr;
-    helperPrivate->m_sessions.removeOne(this);
+    helperPrivate->m_sessions.remove(d->m_initiatorPid);
     delete d_ptr;
 }
 
@@ -153,7 +155,7 @@ static void session_event_callback(MirPromptSession *mirSession,
 
 void MirHelperPrivate::onSessionStopped(MirPromptSession *mirSession)
 {
-    Q_FOREACH(PromptSession *session, m_sessions) {
+    Q_FOREACH(PromptSessionP session, m_sessions) {
         if (mirSession == session->d_ptr->m_mirSession) {
             session->d_ptr->emitFinished();
         }
@@ -177,7 +179,7 @@ PromptSession *MirHelperPrivate::createPromptSession(pid_t initiatorPid)
         return 0;
     }
 
-    return new PromptSession(new PromptSessionPrivate(mirSession));
+    return new PromptSession(new PromptSessionPrivate(mirSession, initiatorPid));
 }
 
 MirHelper::MirHelper(QObject *parent):
@@ -199,10 +201,18 @@ MirHelper *MirHelper::instance()
     return m_instance;
 }
 
-PromptSession *MirHelper::createPromptSession(pid_t initiatorPid)
+PromptSessionP MirHelper::createPromptSession(pid_t initiatorPid)
 {
     Q_D(MirHelper);
-    return d->createPromptSession(initiatorPid);
+    PromptSessionP session = d->m_sessions.value(initiatorPid);
+    if (session.isNull()) {
+        PromptSession *s = d->createPromptSession(initiatorPid);
+        if (s) {
+            session = PromptSessionP(s);
+            d->m_sessions.insert(initiatorPid, session);
+        }
+    }
+    return session;
 }
 
 #include "mir-helper.moc"

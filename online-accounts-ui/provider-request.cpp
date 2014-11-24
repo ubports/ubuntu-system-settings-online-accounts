@@ -176,7 +176,7 @@ void ProviderRequestPrivate::onAllowed(int accountId)
     QVariantMap result;
     result.insert(OAU_KEY_ACCOUNT_ID, quint32(accountId));
     q->setResult(result);
-    m_view->close();
+    /* We keep the view opened */
 }
 
 ProviderRequest::ProviderRequest(const QString &interface,

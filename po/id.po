@@ -1,0 +1,112 @@
+# Indonesian translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntu-system-settings-online-accounts\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-08-26 10:31+0200\n"
+"PO-Revision-Date: 2014-11-24 04:23+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Indonesian <id@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-11-24 06:20+0000\n"
+"X-Generator: Launchpad (build 17252)\n"
+
+#: ../plugins/example/Main.qml:33
+msgid "User name"
+msgstr "Nama pengguna"
+
+#: ../plugins/example/Main.qml:39
+msgid "Password"
+msgstr "Sandi"
+
+#: ../system-settings-plugin/AccountsPage.qml:51
+msgid "Add account…"
+msgstr "Tambah akun..."
+
+#: ../system-settings-plugin/AddAccountLabel.qml:27
+msgid ""
+"Storing account details here lets apps use the accounts without you having "
+"to sign in for each app."
+msgstr ""
+"Menyimpan rincian akun di sini memungkinkan app memakai akun tanpa Anda "
+"perlu masuk bagi setiap app."
+
+#: ../system-settings-plugin/MainPage.qml:29
+#: ../online-accounts-ui/qml/ProviderRequest.qml:51
+#: ../online-accounts-ui/qml/ProviderRequest.qml:119 ../.build/settings.js:1
+msgid "Accounts"
+msgstr "Akun"
+
+#: ../system-settings-plugin/NewAccountPage.qml:23
+msgid "Add account"
+msgstr "Tambah akun"
+
+#: ../system-settings-plugin/NoAccountsPage.qml:36
+msgid "No accounts"
+msgstr "Tak ada akun"
+
+#: ../system-settings-plugin/NoAccountsPage.qml:44
+msgid "Add account:"
+msgstr "Tambah akun:"
+
+#: ../online-accounts-ui/module/OAuth.qml:119
+msgid "Loading…"
+msgstr "Memuat…"
+
+#: ../online-accounts-ui/module/OAuth.qml:149
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:43
+#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
+msgid "Cancel"
+msgstr "Batal"
+
+#: ../online-accounts-ui/module/Options.qml:36
+msgid "ID"
+msgstr "ID"
+
+#: ../online-accounts-ui/module/Options.qml:48
+msgid "Remove account…"
+msgstr "Hapus akun..."
+
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr "Hapus akun"
+
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr ""
+"Akun %1 hanya akan dihapus dari telepon Anda. Anda dapat menambahkannya lagi "
+"nanti."
+
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:38
+msgid "Remove"
+msgstr "Hapus"
+
+#: ../online-accounts-ui/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr "Akses ke akun  ini:"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:41
+#, qt-format
+msgid "%1 wants to access your %2 account"
+msgstr "%1 ingin mengakses akun %2 Anda"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:64
+msgid "Allow"
+msgstr "Izinkan"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:71
+msgid "Don't allow"
+msgstr "Jangan izinkan"
+
+#: ../online-accounts-ui/qml/ProviderRequest.qml:87
+msgid "Add another"
+msgstr "Tambah lainnya"

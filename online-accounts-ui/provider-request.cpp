@@ -140,6 +140,11 @@ void ProviderRequestPrivate::start()
                      this, SLOT(onDenied()));
     QObject::connect(root, SIGNAL(allowed(int)),
                      this, SLOT(onAllowed(int)));
+    if (root->property("wasDenied").toBool()) {
+        DEBUG() << "Was denied";
+        q->setResult(QVariantMap());
+        return;
+    }
     q->setWindow(m_view);
 }
 

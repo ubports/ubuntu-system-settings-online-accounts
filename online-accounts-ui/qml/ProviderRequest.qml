@@ -39,7 +39,7 @@ MainView {
 
     Component.onCompleted: {
         i18n.domain = "ubuntu-system-settings-online-accounts"
-        if (accessModel.count === 0) {
+        if (accessModel.count === 0 && !accessModel.canCreateAccounts()) {
             /* No accounts to authorize */
             denied()
             return

@@ -26,6 +26,7 @@
 
 #include <QHash>
 #include <QStandardPaths>
+#include <QWeakPointer>
 
 using namespace OnlineAccountsUi;
 
@@ -62,7 +63,7 @@ public:
 private:
     friend class PromptSession;
     MirConnection *m_connection;
-    QHash<pid_t,PromptSessionP> m_sessions;
+    QHash<pid_t,QWeakPointer<PromptSession> > m_sessions;
     mutable MirHelper *q_ptr;
 };
 

@@ -26,6 +26,7 @@
 
 #include <Accounts/Manager>
 #include <Accounts/Provider>
+#include <QByteArray>
 #include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
@@ -68,6 +69,7 @@ private Q_SLOTS:
 
 private:
     UiProxy::Status m_status;
+    QByteArray m_instanceId;
     QLocalServer m_server;
     QLocalSocket *m_socket;
     OnlineAccountsUi::Ipc m_ipc;
@@ -294,6 +296,8 @@ void UiProxyPrivate::startProcess()
         return;
     }
 
+    m_instanceId = instanceId;
+    g_free(instanceId);
     setStatus(UiProxy::Loading);
 }
 
@@ -331,6 +335,7 @@ UiProxy::UiProxy(pid_t clientPid, QObject *parent):
 
 UiProxy::~UiProxy()
 {
+    DEBUG();
 }
 
 UiProxy::Status UiProxy::status() const

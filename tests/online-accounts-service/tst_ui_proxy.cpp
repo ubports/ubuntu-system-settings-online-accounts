@@ -23,16 +23,18 @@
 #include "mock/request-mock.h"
 #include "ui-proxy.h"
 
+#include <QByteArray>
 #include <QDebug>
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QLocalSocket>
-#include <QProcess>
+#include <QMetaObject>
 #include <QSignalSpy>
 #include <QString>
 #include <QTemporaryDir>
 #include <QTest>
 #include <SignOn/uisessiondata_priv.h>
+#include <ubuntu-app-launch.h>
 
 using namespace OnlineAccountsUi;
 
@@ -40,18 +42,20 @@ using namespace OnlineAccountsUi;
 class RemoteProcess: public QObject {
     Q_OBJECT
 public:
-    RemoteProcess(const QString &program, const QStringList &arguments,
-                  QProcess *process);
+    RemoteProcess(const QString &program, const QString &appId,
+                  const QStringList &arguments);
     ~RemoteProcess();
 
-    bool run();
+    Q_INVOKABLE bool run();
     void setResult(const QVariantMap &result);
     void fail(const QString &errorName, const QString &errorMessage);
     void registerHandler(const QString &matchId);
 
     const QVariantMap &lastReceived() const { return m_lastData; }
     QString programName() const { return m_program; }
+    QString appId() const { return m_appId; }
     QStringList arguments() const { return m_arguments; }
+    QByteArray instanceId() const { return m_instanceId; }
     void sendOperation(const QVariantMap &data);
 
 private Q_SLOTS:
@@ -62,8 +66,9 @@ Q_SIGNALS:
 
 private:
     QString m_program;
+    QString m_appId;
     QStringList m_arguments;
-    QProcess *m_process;
+    QByteArray m_instanceId;
     QVariantMap m_lastData;
     int m_requestId;
     QString m_requestInterface;
@@ -71,14 +76,16 @@ private:
     Ipc m_ipc;
 };
 
-static QMap<QProcess *, RemoteProcess *> remoteProcesses;
+static QMap<QByteArray, RemoteProcess *> remoteProcesses;
+static int processInstance = 1;
 
-RemoteProcess::RemoteProcess(const QString &program, const QStringList &arguments,
-                             QProcess *process):
-    QObject(process),
+RemoteProcess::RemoteProcess(const QString &program, const QString &appId,
+                             const QStringList &arguments):
+    QObject(),
     m_program(program),
+    m_appId(appId),
     m_arguments(arguments),
-    m_process(process)
+    m_instanceId(QByteArray::number(processInstance++))
 {
     QObject::connect(&m_ipc, SIGNAL(dataReady(QByteArray &)),
                      this, SLOT(onDataReady(QByteArray &)));
@@ -88,15 +95,12 @@ RemoteProcess::RemoteProcess(const QString &program, const QStringList &argument
 
 RemoteProcess::~RemoteProcess()
 {
-    remoteProcesses.remove(m_process);
+    remoteProcesses.remove(m_instanceId);
 }
 
 bool RemoteProcess::run()
 {
-    int i = m_arguments.indexOf("--socket");
-    if (i < 0) return false;
-
-    m_socket.connectToServer(m_arguments[i + 1]);
+    m_socket.connectToServer(m_arguments[0]);
     if (Q_UNLIKELY(!m_socket.waitForConnected())) return false;
 
     m_ipc.setChannels(&m_socket, &m_socket);
@@ -160,24 +164,24 @@ void RemoteProcess::onDataReady(QByteArray &data)
 }
 /* } mocking the remote process */
 
-/* mocking QProcess { */
-void QProcess::start(const QString &program, const QStringList &arguments,
-                     OpenMode mode)
+/* mocking ubuntu-app-launch-2 { */
+gchar *
+ubuntu_app_launch_start_multiple_helper(const gchar *type,
+                                        const gchar *appid,
+                                        const gchar * const *uris)
 {
-    Q_UNUSED(mode);
-    RemoteProcess *process = new RemoteProcess(program, arguments, this);
-    remoteProcesses.insert(this, process);
+    QStringList arguments;
+    for (int i = 0; uris[i] != NULL; i++) {
+        arguments.append(QString::fromUtf8(uris[i]));
+    }
+    RemoteProcess *process = new RemoteProcess(QString::fromUtf8(type),
+                                               QString::fromUtf8(appid),
+                                               arguments);
+    remoteProcesses.insert(process->instanceId(), process);
+    QMetaObject::invokeMethod(process, "run", Qt::QueuedConnection);
+    return g_strdup(process->instanceId().constData());
 }
-
-bool QProcess::waitForStarted(int msecs)
-{
-    Q_UNUSED(msecs);
-    RemoteProcess *process = remoteProcesses.value(this);
-    if (!process) return false;
-
-    return process->run();
-}
-/* } mocking QProcess */
+/* } mocking ubuntu-app-launch-2 */
 
 class UiProxyTest: public QObject
 {
@@ -197,7 +201,6 @@ private Q_SLOTS:
     void testRequest_data();
     void testRequest();
     void testHandler();
-    void testWrapper();
 
 private:
     QDBusConnection m_connection;
@@ -298,8 +301,8 @@ void UiProxyTest::testRequest()
     RemoteProcess *process = remoteProcesses.values().first();
     QVERIFY(process);
     QSignalSpy dataReceived(process, SIGNAL(dataReceived(QVariantMap)));
-    QCOMPARE(process->programName(),
-             QString(INSTALL_BIN_DIR "/online-accounts-ui"));
+    QCOMPARE(process->programName(), QString("online-accounts-ui"));
+    QCOMPARE(process->appId(), QString("unconfined"));
 
     /* Check the received data */
     if (process->lastReceived().isEmpty()) {
@@ -378,31 +381,6 @@ void UiProxyTest::testHandler()
     clientData.insert(OAU_REQUEST_MATCH_KEY, QString("Won't match"));
     matchParams.insert(SSOUI_KEY_CLIENT_DATA, clientData);
     QVERIFY(!proxy->hasHandlerFor(matchParams));
-
-    delete proxy;
-}
-
-void UiProxyTest::testWrapper()
-{
-    QString wrapper("valgrind-deluxe");
-    qputenv("OAU_WRAPPER", wrapper.toUtf8());
-
-    UiProxy *proxy = new UiProxy(0, this);
-    QVERIFY(proxy->init());
-
-    QVariantMap parameters;
-    Request *request = createRequest("iface", "doSomething",
-                                     "com.ubuntu.package_app_0.1", parameters);
-    proxy->handleRequest(request);
-
-    QTRY_VERIFY(!remoteProcesses.isEmpty());
-    QCOMPARE(remoteProcesses.count(), 1);
-
-    RemoteProcess *process = remoteProcesses.values().first();
-    QVERIFY(process);
-    QCOMPARE(process->programName(), wrapper);
-    QCOMPARE(process->arguments().at(0),
-             QString(INSTALL_BIN_DIR "/online-accounts-ui"));
 
     delete proxy;
 }

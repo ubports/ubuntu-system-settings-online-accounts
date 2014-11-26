@@ -167,7 +167,12 @@ void ProviderRequestPrivate::onAllowed(int accountId)
 {
     Q_Q(ProviderRequest);
     DEBUG() << "Access allowed for account:" << accountId;
-    q->setDelay(3000);
+    /* If the request came from an app, add a small delay so that we could
+     * serve an authentication request coming right after this one. */
+    if (m_applicationInfo.value("id").toString() !=
+        QStringLiteral("system-settings")) {
+        q->setDelay(3000);
+    }
     QVariantMap result;
     result.insert(OAU_KEY_ACCOUNT_ID, quint32(accountId));
     q->setResult(result);

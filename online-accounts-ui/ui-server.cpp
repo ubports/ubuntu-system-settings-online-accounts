@@ -142,6 +142,7 @@ void UiServerPrivate::onRequestCompleted()
                          OAU_OPERATION_CODE_REQUEST_FINISHED);
         operation.insert(OAU_OPERATION_ID, request->id());
         operation.insert(OAU_OPERATION_DATA, request->result());
+        operation.insert(OAU_OPERATION_DELAY, request->delay());
         operation.insert(OAU_OPERATION_INTERFACE, request->interface());
         sendOperation(operation);
     } else {

@@ -26,53 +26,83 @@ Flickable {
     property variant model
     property variant application
     property variant provider
+    property bool canAddAnotherAccount: true
 
     signal allowed(int accountId)
     signal denied
     signal createAccount
 
     Column {
+        id: topColumn
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.margins: units.gu(1)
+        spacing: units.gu(1)
 
-        ListItem.Standard {
-            text: i18n.tr("%1 wants to access your %2 account").
-                arg(application.displayName).arg(provider.displayName);
-        }
-
-        ListItem.ItemSelector {
-            id: accountSelector
+        Label {
+            objectName: "msgLabel"
             anchors.left: parent.left
             anchors.right: parent.right
-            width: parent.width - units.gu(4)
-            text: "Account"
+            text: i18n.tr("%1 wants to access your %2 account").
+                arg(application.displayName).arg(provider.displayName);
+            wrapMode: Text.WordWrap
+        }
+
+        Label {
+            id: accountLabel
+            objectName: "accountLabel"
+            anchors.left: parent.left
+            anchors.right: parent.right
+            visible: model.count == 1
+            horizontalAlignment: Text.AlignHCenter
+            text: model.get(0, "displayName")
+        }
+
+        OptionSelector {
+            id: accountSelector
+            objectName: "accountSelector"
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: units.gu(1)
+            anchors.rightMargin: units.gu(1)
+            visible: !accountLabel.visible
             model: root.model
             delegate: OptionSelectorDelegate {
                 property string modelData: model.displayName
             }
-            onDelegateClicked: {
-                /* The last item in the model is the "Add another..." label */
-                if (model.lastItemText && index == model.count - 1) root.createAccount();
-            }
-            showDivider: false
+        }
+    }
+
+    Column {
+        anchors.top: topColumn.bottom
+        anchors.margins: units.gu(2)
+        anchors.left: parent.left
+        anchors.right: parent.right
+        spacing: units.gu(1)
+
+        Button {
+            objectName: "allowButton"
+            anchors.left: parent.left
+            anchors.right: parent.right
+            text: i18n.tr("Allow")
+            onClicked: root.allowed(root.model.get(accountSelector.selectedIndex, "accountId"))
         }
 
-        ListItem.SingleControl {
-            control: Button {
-                width: parent.width - units.gu(4)
-                text: i18n.tr("Allow")
-                onClicked: root.allowed(root.model.get(accountSelector.selectedIndex, "accountId"))
-            }
-            showDivider: false
+        Button {
+            objectName: "addAnotherButton"
+            anchors.left: parent.left
+            anchors.right: parent.right
+            visible: canAddAnotherAccount
+            text: i18n.tr("Add another account…")
+            onClicked: root.createAccount()
         }
 
-        ListItem.SingleControl {
-            control: Button {
-                width: parent.width - units.gu(4)
-                text: i18n.tr("Don't allow")
-                onClicked: root.denied()
-            }
-            showDivider: false
+        Button {
+            objectName: "denyButton"
+            anchors.left: parent.left
+            anchors.right: parent.right
+            text: i18n.tr("Don't allow")
+            onClicked: root.denied()
         }
     }
 }

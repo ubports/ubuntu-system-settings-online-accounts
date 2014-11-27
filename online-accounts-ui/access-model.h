@@ -21,19 +21,17 @@
 #ifndef OAU_ACCESS_MODEL_H
 #define OAU_ACCESS_MODEL_H
 
-#include <QIdentityProxyModel>
+#include <QSortFilterProxyModel>
 
 namespace OnlineAccountsUi {
 
 class AccessModelPrivate;
-class AccessModel: public QIdentityProxyModel
+class AccessModel: public QSortFilterProxyModel
 {
     Q_OBJECT
     Q_PROPERTY(QAbstractItemModel *accountModel READ accountModel \
                WRITE setAccountModel NOTIFY accountModelChanged)
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
-    Q_PROPERTY(QString lastItemText READ lastItemText WRITE setLastItemText \
-               NOTIFY lastItemTextChanged)
     Q_PROPERTY(QString applicationId READ applicationId \
                WRITE setApplicationId NOTIFY applicationIdChanged)
 
@@ -44,26 +42,18 @@ public:
     void setAccountModel(QAbstractItemModel *accountModel);
     QAbstractItemModel *accountModel() const;
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-
-    void setLastItemText(const QString &text);
-    QString lastItemText() const;
-
     void setApplicationId(const QString &applicationId);
     QString applicationId() const;
 
     Q_INVOKABLE QVariant get(int row, const QString &roleName) const;
 
-    QVariant data(const QModelIndex &index,
-                  int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-    QHash<int, QByteArray> roleNames() const Q_DECL_OVERRIDE;
-    QModelIndex index(int row, int column,
-                      const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+protected:
+    bool filterAcceptsRow(int source_row,
+                          const QModelIndex &source_parent) const Q_DECL_OVERRIDE;
 
 Q_SIGNALS:
     void accountModelChanged();
     void countChanged();
-    void lastItemTextChanged();
     void applicationIdChanged();
 
 private:

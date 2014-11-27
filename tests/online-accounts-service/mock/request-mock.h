@@ -55,6 +55,7 @@ private:
     QVariantMap m_parameters;
     QString m_clientApparmorProfile;
     bool m_inProgress;
+    int m_delay;
     mutable Request *q_ptr;
 };
 

@@ -51,6 +51,8 @@ MainView {
     on__CreatedAccountIdChanged: grantAccessIfReady()
     onDenied: wasDenied = true
 
+    onAllowed: loader.sourceComponent = spinnerComponent
+
     PageStack {
         id: pageStack
 
@@ -135,6 +137,18 @@ MainView {
             Loader {
                 anchors.fill: parent
                 sourceComponent: accountCreationPage
+            }
+        }
+    }
+
+    Component {
+        id: spinnerComponent
+        Item {
+            ActivityIndicator {
+                anchors.centerIn: parent
+                width: units.gu(5)
+                height: width
+                running: true
             }
         }
     }

@@ -76,6 +76,7 @@ private:
     QString m_errorName;
     QString m_errorMessage;
     QVariantMap m_result;
+    int m_delay;
 };
 
 } // namespace
@@ -92,7 +93,8 @@ RequestPrivate::RequestPrivate(const QString &interface,
     m_parameters(parameters),
     m_clientApparmorProfile(clientProfile),
     m_inProgress(false),
-    m_window(0)
+    m_window(0),
+    m_delay(0)
 {
 }
 
@@ -239,6 +241,18 @@ QString Request::errorMessage() const
 {
     Q_D(const Request);
     return d->m_errorMessage;
+}
+
+void Request::setDelay(int delay)
+{
+    Q_D(Request);
+    d->m_delay = delay;
+}
+
+int Request::delay() const
+{
+    Q_D(const Request);
+    return d->m_delay;
 }
 
 void Request::start()

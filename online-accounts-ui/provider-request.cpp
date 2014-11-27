@@ -24,8 +24,6 @@
 #include "provider-request.h"
 
 #include <OnlineAccountsPlugin/application-manager.h>
-#include <QDesktopServices>
-#include <QGuiApplication>
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickItem>
@@ -154,14 +152,6 @@ void ProviderRequestPrivate::onWindowVisibleChanged(bool visible)
 
     if (!visible) {
         q->setResult(QVariantMap());
-        /* FIXME HACK: remove when window reparenting is implemented */
-        QString profile =
-            m_applicationInfo.value(QStringLiteral("profile")).toString();
-        if (QGuiApplication::platformName().startsWith("ubuntu") &&
-            !profile.isEmpty()) {
-            QDesktopServices::openUrl(
-                QUrl(QString("application:///%1.desktop").arg(profile)));
-        }
     }
 }
 
@@ -177,10 +167,16 @@ void ProviderRequestPrivate::onAllowed(int accountId)
 {
     Q_Q(ProviderRequest);
     DEBUG() << "Access allowed for account:" << accountId;
+    /* If the request came from an app, add a small delay so that we could
+     * serve an authentication request coming right after this one. */
+    if (m_applicationInfo.value("id").toString() !=
+        QStringLiteral("system-settings")) {
+        q->setDelay(3000);
+    }
     QVariantMap result;
     result.insert(OAU_KEY_ACCOUNT_ID, quint32(accountId));
     q->setResult(result);
-    m_view->close();
+    /* We keep the view opened */
 }
 
 ProviderRequest::ProviderRequest(const QString &interface,

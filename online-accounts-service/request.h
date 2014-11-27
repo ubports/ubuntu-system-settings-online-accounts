@@ -50,6 +50,9 @@ public:
     QString clientApparmorProfile() const;
     QString interface() const;
 
+    void setDelay(int delay);
+    int delay() const;
+
 public Q_SLOTS:
     void cancel();
 

@@ -144,10 +144,10 @@ MainView {
     Component {
         id: spinnerComponent
         Item {
-            anchors.centerIn: parent
-            width: units.gu(5)
-            height: width
             ActivityIndicator {
+                anchors.centerIn: parent
+                width: units.gu(5)
+                height: width
                 running: true
             }
         }

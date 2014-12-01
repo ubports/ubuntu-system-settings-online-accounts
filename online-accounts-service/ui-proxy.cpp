@@ -35,6 +35,7 @@
 #include <QLocalSocket>
 #include <QProcessEnvironment>
 #include <QStandardPaths>
+#include <QTimer>
 #include <SignOn/uisessiondata_priv.h>
 #include <ubuntu-app-launch.h>
 
@@ -66,6 +67,7 @@ private Q_SLOTS:
     void onNewConnection();
     void onDataReady(QByteArray &data);
     void onRequestCompleted();
+    void onFinishedTimer();
 
 private:
     UiProxy::Status m_status;
@@ -73,11 +75,12 @@ private:
     QLocalServer m_server;
     QLocalSocket *m_socket;
     OnlineAccountsUi::Ipc m_ipc;
+    QTimer m_finishedTimer;
     int m_nextRequestId;
     QMap<int,Request*> m_requests;
     QStringList m_handlers;
     pid_t m_clientPid;
-    PromptSession *m_promptSession;
+    PromptSessionP m_promptSession;
     QList<QByteArray> m_arguments;
     mutable UiProxy *q_ptr;
 };
@@ -90,13 +93,16 @@ UiProxyPrivate::UiProxyPrivate(pid_t clientPid, UiProxy *uiProxy):
     m_socket(0),
     m_nextRequestId(0),
     m_clientPid(clientPid),
-    m_promptSession(0),
     q_ptr(uiProxy)
 {
     QObject::connect(&m_server, SIGNAL(newConnection()),
                      this, SLOT(onNewConnection()));
     QObject::connect(&m_ipc, SIGNAL(dataReady(QByteArray &)),
                      this, SLOT(onDataReady(QByteArray &)));
+
+    m_finishedTimer.setSingleShot(true);
+    QObject::connect(&m_finishedTimer, SIGNAL(timeout()),
+                     this, SLOT(onFinishedTimer()));
 }
 
 UiProxyPrivate::~UiProxyPrivate()
@@ -105,8 +111,6 @@ UiProxyPrivate::~UiProxyPrivate()
     Q_FOREACH(Request *request, m_requests) {
         request->cancel();
     }
-
-    delete m_promptSession;
 
     if (m_socket) {
         m_socket->abort();
@@ -174,6 +178,7 @@ void UiProxyPrivate::onDataReady(QByteArray &data)
     QString code = map.value(OAU_OPERATION_CODE).toString();
     if (code == OAU_OPERATION_CODE_REQUEST_FINISHED) {
         Q_ASSERT(request);
+        request->setDelay(map.value(OAU_OPERATION_DELAY).toInt());
         request->setResult(map.value(OAU_OPERATION_DATA).toMap());
     } else if (code == OAU_OPERATION_CODE_REQUEST_FAILED) {
         Q_ASSERT(request);
@@ -212,18 +217,17 @@ QString UiProxyPrivate::setupPromptSession()
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     if (!env.value("QT_QPA_PLATFORM").startsWith("ubuntu")) return QString();
 
-    PromptSession *session =
+    PromptSessionP session =
         MirHelper::instance()->createPromptSession(m_clientPid);
     if (!session) return QString();
 
     QString mirSocket = session->requestSocket();
     if (mirSocket.isEmpty()) {
-        delete session;
         return mirSocket;
     }
 
     m_promptSession = session;
-    QObject::connect(m_promptSession, SIGNAL(finished()),
+    QObject::connect(m_promptSession.data(), SIGNAL(finished()),
                      q, SIGNAL(finished()));
 
     return mirSocket;
@@ -313,17 +317,25 @@ void UiProxyPrivate::sendRequest(int requestId, Request *request)
     sendOperation(operation);
 }
 
-void UiProxyPrivate::onRequestCompleted()
+void UiProxyPrivate::onFinishedTimer()
 {
     Q_Q(UiProxy);
 
+    if (m_requests.isEmpty()) {
+        Q_EMIT q->finished();
+    }
+}
+
+void UiProxyPrivate::onRequestCompleted()
+{
     Request *request = qobject_cast<Request*>(sender());
+    Q_ASSERT(request);
+    m_finishedTimer.setInterval(request->delay());
+    m_finishedTimer.start();
+
     int id = m_requests.key(request, -1);
     if (id != -1) {
         m_requests.remove(id);
-        if (m_requests.isEmpty()) {
-            Q_EMIT q->finished();
-        }
     }
 }
 

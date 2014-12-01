@@ -57,6 +57,7 @@ private:
     QString m_clientApparmorProfile;
     QString m_providerId;
     bool m_inProgress;
+    int m_delay;
     mutable Request *q_ptr;
 };
 

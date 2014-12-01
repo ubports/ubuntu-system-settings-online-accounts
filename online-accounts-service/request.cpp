@@ -67,6 +67,7 @@ private:
     QVariantMap m_parameters;
     QString m_clientApparmorProfile;
     bool m_inProgress;
+    int m_delay;
 };
 
 } // namespace
@@ -80,7 +81,8 @@ RequestPrivate::RequestPrivate(const QDBusConnection &connection,
     m_connection(connection),
     m_message(message),
     m_parameters(parameters),
-    m_inProgress(false)
+    m_inProgress(false),
+    m_delay(0)
 {
     m_clientApparmorProfile = findClientApparmorProfile();
 }
@@ -198,6 +200,18 @@ QString Request::providerId() const
     } else {
         return QString();
     }
+}
+
+void Request::setDelay(int delay)
+{
+    Q_D(Request);
+    d->m_delay = delay;
+}
+
+int Request::delay() const
+{
+    Q_D(const Request);
+    return d->m_delay;
 }
 
 void Request::cancel()

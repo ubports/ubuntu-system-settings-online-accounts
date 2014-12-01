@@ -47,6 +47,7 @@ public:
     ~RemoteProcess();
 
     Q_INVOKABLE bool run();
+    void setDelay(int delay) { m_delay = delay; }
     void setResult(const QVariantMap &result);
     void fail(const QString &errorName, const QString &errorMessage);
     void registerHandler(const QString &matchId);
@@ -71,6 +72,7 @@ private:
     QByteArray m_instanceId;
     QVariantMap m_lastData;
     int m_requestId;
+    int m_delay;
     QString m_requestInterface;
     QLocalSocket m_socket;
     Ipc m_ipc;
@@ -85,7 +87,8 @@ RemoteProcess::RemoteProcess(const QString &program, const QString &appId,
     m_program(program),
     m_appId(appId),
     m_arguments(arguments),
-    m_instanceId(QByteArray::number(processInstance++))
+    m_instanceId(QByteArray::number(processInstance++)),
+    m_delay(0)
 {
     QObject::connect(&m_ipc, SIGNAL(dataReady(QByteArray &)),
                      this, SLOT(onDataReady(QByteArray &)));
@@ -115,6 +118,7 @@ void RemoteProcess::setResult(const QVariantMap &result)
     operation.insert(OAU_OPERATION_ID, m_requestId);
     operation.insert(OAU_OPERATION_INTERFACE, m_requestInterface);
     operation.insert(OAU_OPERATION_DATA, result);
+    operation.insert(OAU_OPERATION_DELAY, m_delay);
     sendOperation(operation);
     deleteLater();
 }
@@ -200,6 +204,8 @@ private Q_SLOTS:
     void testInit();
     void testRequest_data();
     void testRequest();
+    void testRequestDelay_data();
+    void testRequestDelay();
     void testHandler();
 
 private:
@@ -332,6 +338,70 @@ void UiProxyTest::testRequest()
 
     if (finished.count() == 0) {
         QVERIFY(finished.wait());
+    }
+    QCOMPARE(finished.count(), 1);
+
+    delete proxy;
+}
+
+void UiProxyTest::testRequestDelay_data()
+{
+    QTest::addColumn<int>("delay");
+
+    QTest::newRow("no delay") << 0;
+
+    QTest::newRow("300 ms") << 300;
+
+    QTest::newRow("half second") << 500;
+}
+
+void UiProxyTest::testRequestDelay()
+{
+    QFETCH(int, delay);
+
+    QVariantMap parameters;
+    parameters.insert("greeting", "Hello!");
+    Request *request = createRequest(OAU_INTERFACE, "hello",
+                                     "unconfined", parameters);
+    RequestPrivate *r = RequestPrivate::mocked(request);
+    QSignalSpy requestFailCalled(r, SIGNAL(failCalled(QString,QString)));
+    QSignalSpy requestSetResultCalled(r, SIGNAL(setResultCalled(QVariantMap)));
+
+    UiProxy *proxy = new UiProxy(0, this);
+    QVERIFY(proxy->init());
+
+    QSignalSpy finished(proxy, SIGNAL(finished()));
+    proxy->handleRequest(request);
+
+    QTRY_VERIFY(!remoteProcesses.isEmpty());
+    QCOMPARE(remoteProcesses.count(), 1);
+
+    RemoteProcess *process = remoteProcesses.values().first();
+    QVERIFY(process);
+    QSignalSpy dataReceived(process, SIGNAL(dataReceived(QVariantMap)));
+
+    /* Check the received data */
+    if (process->lastReceived().isEmpty()) {
+        QVERIFY(dataReceived.wait());
+    }
+
+    QVariantMap result;
+    result.insert("response", "OK");
+    process->setDelay(delay);
+    process->setResult(result);
+    QVERIFY(requestSetResultCalled.wait());
+    QCOMPARE(requestSetResultCalled.count(), 1);
+    QCOMPARE(requestSetResultCalled.at(0).at(0).toMap(), result);
+
+    QCOMPARE(request->delay(), delay);
+
+    int wontFinishBefore = qMax(delay - 200, 0);
+    if (wontFinishBefore > 0) {
+        QTest::qWait(wontFinishBefore);
+        QCOMPARE(finished.count(), 0);
+        QTest::qWait(250);
+    } else {
+        QTest::qWait(10);
     }
     QCOMPARE(finished.count(), 1);
 

@@ -62,8 +62,8 @@ MirHelper *MirHelper::instance()
     return m_instance;
 }
 
-PromptSession *MirHelper::createPromptSession(pid_t initiatorPid)
+PromptSessionP MirHelper::createPromptSession(pid_t initiatorPid)
 {
     Q_UNUSED(initiatorPid);
-    return 0;
+    return PromptSessionP();
 }

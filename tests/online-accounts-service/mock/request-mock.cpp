@@ -34,6 +34,7 @@ RequestPrivate::RequestPrivate(const QDBusConnection &connection,
     m_message(message),
     m_parameters(parameters),
     m_inProgress(false),
+    m_delay(0),
     q_ptr(request)
 {
 }
@@ -103,6 +104,18 @@ QString Request::interface() const {
 QString Request::providerId() const {
     Q_D(const Request);
     return d->m_providerId;
+}
+
+void Request::setDelay(int delay)
+{
+    Q_D(Request);
+    d->m_delay = delay;
+}
+
+int Request::delay() const
+{
+    Q_D(const Request);
+    return d->m_delay;
 }
 
 void Request::cancel()

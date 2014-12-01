@@ -51,6 +51,9 @@ public:
     QString interface() const;
     QString providerId() const;
 
+    void setDelay(int delay);
+    int delay() const;
+
 public Q_SLOTS:
     void cancel();
 

@@ -1,6 +1,8 @@
 TEMPLATE = subdirs
-CONFIG += ordered
 SUBDIRS = \
     OnlineAccountsPlugin \
+    exec-tool \
     module \
     example
+
+module.depends = OnlineAccountsPlugin

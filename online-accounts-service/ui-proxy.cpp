@@ -24,7 +24,11 @@
 #include "request.h"
 #include "ui-proxy.h"
 
+#include <Accounts/Manager>
+#include <Accounts/Provider>
 #include <QDir>
+#include <QDomDocument>
+#include <QDomElement>
 #include <QFileInfo>
 #include <QLocalServer>
 #include <QLocalSocket>
@@ -49,11 +53,14 @@ public:
     inline UiProxyPrivate(pid_t clientPid, UiProxy *pluginProxy);
     inline ~UiProxyPrivate();
 
+    void setStatus(UiProxy::Status status);
     bool setupSocket();
     bool init();
     void sendOperation(const QVariantMap &data);
     void sendRequest(int requestId, Request *request);
     void setupPromptSession();
+    QString findAppArmorProfile();
+    void startProcess();
 
 private Q_SLOTS:
     void onNewConnection();
@@ -63,6 +70,7 @@ private Q_SLOTS:
 
 private:
     QProcess m_process;
+    UiProxy::Status m_status;
     QLocalServer m_server;
     QLocalSocket *m_socket;
     OnlineAccountsUi::Ipc m_ipc;
@@ -72,6 +80,7 @@ private:
     QStringList m_handlers;
     pid_t m_clientPid;
     PromptSessionP m_promptSession;
+    QStringList m_arguments;
     mutable UiProxy *q_ptr;
 };
 
@@ -79,6 +88,7 @@ private:
 
 UiProxyPrivate::UiProxyPrivate(pid_t clientPid, UiProxy *uiProxy):
     QObject(uiProxy),
+    m_status(UiProxy::Null),
     m_socket(0),
     m_nextRequestId(0),
     m_clientPid(clientPid),
@@ -109,6 +119,14 @@ UiProxyPrivate::~UiProxyPrivate()
     m_server.close();
 }
 
+void UiProxyPrivate::setStatus(UiProxy::Status status)
+{
+    Q_Q(UiProxy);
+    if (m_status == status) return;
+    m_status = status;
+    Q_EMIT q->statusChanged();
+}
+
 void UiProxyPrivate::sendOperation(const QVariantMap &data)
 {
     QByteArray ba;
@@ -135,6 +153,8 @@ void UiProxyPrivate::onNewConnection()
                      q, SIGNAL(finished()));
     m_ipc.setChannels(socket, socket);
     m_server.close(); // stop listening
+
+    setStatus(UiProxy::Ready);
 
     /* Execute any pending requests */
     QMapIterator<int, Request*> it(m_requests);
@@ -218,29 +238,74 @@ bool UiProxyPrivate::init()
 {
     if (Q_UNLIKELY(!setupSocket())) return false;
 
+    m_arguments.clear();
+    if (!m_promptSession) {
+        /* the first argument is required to be the desktop file */
+        m_arguments.append("--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop");
+    }
+    m_arguments.append("--socket");
+    m_arguments.append(m_server.fullServerName());
+
+    if (m_clientPid) {
+        setupPromptSession();
+    }
+
+    return true;
+}
+
+QString UiProxyPrivate::findAppArmorProfile()
+{
+    QString providerId;
+    /* Look through the requests, and look for the first one which has a
+     * provider set. We'll use that provider's AppArmor id for confinement. */
+    Q_FOREACH(Request *request, m_requests) {
+        providerId = request->providerId();
+        if (!providerId.isEmpty())
+            break;
+    }
+
+    if (Q_UNLIKELY(providerId.isEmpty())) return QString();
+
+    /* Load the provider XML file */
+    Accounts::Manager manager;
+    Accounts::Provider provider = manager.provider(providerId);
+    if (Q_UNLIKELY(!provider.isValid())) {
+        qWarning() << "Provider not found:" << providerId;
+        return QString();
+    }
+
+    const QDomDocument doc = provider.domDocument();
+    QDomElement root = doc.documentElement();
+    return root.firstChildElement("profile").text();
+}
+
+void UiProxyPrivate::startProcess()
+{
+    QString profile = findAppArmorProfile();
+    if (profile.isEmpty()) {
+        profile = "unconfined";
+    }
+
+    m_arguments.append("--profile");
+    m_arguments.append(profile);
+
     QString processName;
-    QStringList arguments;
     QString wrapper = QString::fromUtf8(qgetenv("OAU_WRAPPER"));
     QString accountsUi = QStringLiteral(INSTALL_BIN_DIR "/online-accounts-ui");
     if (wrapper.isEmpty()) {
         processName = accountsUi;
     } else {
         processName = wrapper;
-        arguments.append(accountsUi);
-    }
-    if (!m_promptSession) {
-        /* the first argument is required to be the desktop file */
-        arguments.append("--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop");
-    }
-    arguments.append("--socket");
-    arguments.append(m_server.fullServerName());
-
-    if (m_clientPid) {
-        setupPromptSession();
+        m_arguments.prepend(accountsUi);
     }
 
-    m_process.start(processName, arguments);
-    return m_process.waitForStarted();
+    setStatus(UiProxy::Loading);
+    m_process.start(processName, m_arguments);
+    if (Q_UNLIKELY(!m_process.waitForStarted())) {
+        qWarning() << "Couldn't start account plugin process";
+        setStatus(UiProxy::Error);
+        return;
+    }
 }
 
 void UiProxyPrivate::sendRequest(int requestId, Request *request)
@@ -285,6 +350,13 @@ UiProxy::UiProxy(pid_t clientPid, QObject *parent):
 
 UiProxy::~UiProxy()
 {
+    DEBUG();
+}
+
+UiProxy::Status UiProxy::status() const
+{
+    Q_D(const UiProxy);
+    return d->m_status;
 }
 
 bool UiProxy::init()
@@ -303,8 +375,10 @@ void UiProxy::handleRequest(Request *request)
                      d, SLOT(onRequestCompleted()));
     request->setInProgress(true);
 
-    if (d->m_socket && d->m_socket->isValid()) {
+    if (d->m_status == UiProxy::Ready) {
         d->sendRequest(requestId, request);
+    } else if (d->m_status == UiProxy::Null) {
+        d->startProcess();
     }
 }
 

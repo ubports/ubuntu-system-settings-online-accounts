@@ -14,6 +14,7 @@ QT += \
     network
 
 PKGCONFIG += \
+    accounts-qt5 \
     libnotify \
     libsignon-qt5 \
     signon-plugins-common

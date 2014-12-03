@@ -32,6 +32,7 @@
 #else
 #include <QtGui/private/qopenglcontext_p.h>
 #endif
+#include <sys/apparmor.h>
 
 using namespace OnlineAccountsUi;
 
@@ -81,19 +82,32 @@ int main(int argc, char **argv)
     QOpenGLContextPrivate::setGlobalShareContext(glcontext);
 #endif
 
+    QString socket;
+    QString profile;
     QStringList arguments = app.arguments();
-    int i = arguments.indexOf("--socket");
-    if (i < 0 || i + 1 >= arguments.count()) {
+    for (int i = 0; i < arguments.count(); i++) {
+        const QString &arg = arguments[i];
+        if (arg == "--socket") {
+            socket = arguments.value(++i);
+        } else if (arg == "--profile") {
+            profile = arguments.value(++i);
+        }
+    }
+    if (Q_UNLIKELY(socket.isEmpty())) {
         qWarning() << "Missing --socket argument";
         return EXIT_FAILURE;
     }
 
-    UiServer server(arguments[i + 1]);
+    UiServer server(socket);
     QObject::connect(&server, SIGNAL(finished()),
                      &app, SLOT(quit()));
     if (Q_UNLIKELY(!server.init())) {
         qWarning() << "Could not connect to socket";
         return EXIT_FAILURE;
+    }
+
+    if (!profile.isEmpty()) {
+        aa_change_profile(profile.toUtf8().constData());
     }
 
     return app.exec();

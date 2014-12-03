@@ -192,6 +192,16 @@ QString Request::interface() const {
     return d->m_message.interface();
 }
 
+QString Request::providerId() const
+{
+    Q_D(const Request);
+    if (interface() == OAU_INTERFACE) {
+        return d->m_parameters.value(OAU_KEY_PROVIDER, 0).toString();
+    } else {
+        return QString();
+    }
+}
+
 void Request::setDelay(int delay)
 {
     Q_D(Request);

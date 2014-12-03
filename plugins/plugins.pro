@@ -1,7 +1,6 @@
 TEMPLATE = subdirs
 SUBDIRS = \
     OnlineAccountsPlugin \
-    exec-tool \
     module \
     example
 

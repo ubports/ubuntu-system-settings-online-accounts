@@ -16,6 +16,7 @@ DEFINES += \
     INSTALL_BIN_DIR=\\\"$${INSTALL_PREFIX}/bin\\\"
 
 PKGCONFIG += \
+    accounts-qt5 \
     signon-plugins-common
 
 ONLINE_ACCOUNTS_SERVICE_DIR = $${TOP_SRC_DIR}/online-accounts-service

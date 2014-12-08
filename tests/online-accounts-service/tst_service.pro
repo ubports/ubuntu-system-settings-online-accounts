@@ -25,6 +25,7 @@ SOURCES += \
     $${ONLINE_ACCOUNTS_SERVICE_DIR}/request.cpp \
     $${ONLINE_ACCOUNTS_SERVICE_DIR}/request-manager.cpp \
     $${ONLINE_ACCOUNTS_SERVICE_DIR}/service.cpp \
+    $${ONLINE_ACCOUNTS_SERVICE_DIR}/utils.cpp \
     tst_service.cpp
 
 HEADERS += \
@@ -33,6 +34,7 @@ HEADERS += \
     $${ONLINE_ACCOUNTS_SERVICE_DIR}/request-manager.h \
     $${ONLINE_ACCOUNTS_SERVICE_DIR}/service.h \
     $${ONLINE_ACCOUNTS_SERVICE_DIR}/ui-proxy.h \
+    $${ONLINE_ACCOUNTS_SERVICE_DIR}/utils.h \
 
 INCLUDEPATH += \
     $${ONLINE_ACCOUNTS_SERVICE_DIR} \

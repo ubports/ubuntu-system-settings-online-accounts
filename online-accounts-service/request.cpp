@@ -21,6 +21,7 @@
 #include "debug.h"
 #include "globals.h"
 #include "request.h"
+#include "utils.h"
 
 #include <SignOn/uisessiondata_priv.h>
 
@@ -58,9 +59,6 @@ public:
     }
 
 private:
-    QString findClientApparmorProfile();
-
-private:
     mutable Request *q_ptr;
     QDBusConnection m_connection;
     QDBusMessage m_message;
@@ -84,39 +82,11 @@ RequestPrivate::RequestPrivate(const QDBusConnection &connection,
     m_inProgress(false),
     m_delay(0)
 {
-    m_clientApparmorProfile = findClientApparmorProfile();
+    m_clientApparmorProfile = apparmorProfileOfPeer(message);
 }
 
 RequestPrivate::~RequestPrivate()
 {
-}
-
-QString RequestPrivate::findClientApparmorProfile()
-{
-    QString uniqueConnectionId = m_message.service();
-    /* This is mainly for unit tests: real messages on the session bus always
-     * have a service name. */
-    if (uniqueConnectionId.isEmpty()) return QString();
-
-    QString appId;
-
-    QDBusMessage msg =
-        QDBusMessage::createMethodCall("org.freedesktop.DBus",
-                                       "/org/freedesktop/DBus",
-                                       "org.freedesktop.DBus",
-                                       "GetConnectionAppArmorSecurityContext");
-    QVariantList args;
-    args << uniqueConnectionId;
-    msg.setArguments(args);
-    QDBusMessage reply = QDBusConnection::sessionBus().call(msg, QDBus::Block);
-    if (reply.type() == QDBusMessage::ReplyMessage) {
-        appId = reply.arguments().value(0, QString()).toString();
-        DEBUG() << "App ID:" << appId;
-    } else {
-        qWarning() << "Error getting app ID:" << reply.errorName() <<
-            reply.errorMessage();
-    }
-    return appId;
 }
 
 Request::Request(const QDBusConnection &connection,

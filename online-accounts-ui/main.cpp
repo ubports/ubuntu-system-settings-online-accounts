@@ -44,7 +44,7 @@ int main(int argc, char **argv)
      * add some unneeded overhead => Let's load the testability driver on our
      * own.
      */
-    if (app.arguments().contains(QStringLiteral("-testability"))) {
+    if (getenv("QT_LOAD_TESTABILITY")) {
         QLibrary testLib(QStringLiteral("qttestability"));
         if (testLib.load()) {
             typedef void (*TasInitialize)(void);

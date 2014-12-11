@@ -34,6 +34,17 @@ class LibaccountsService: public QObject, protected QDBusContext
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface",
                 "com.google.code.AccountsSSO.Accounts.Manager")
+    Q_CLASSINFO("D-Bus Introspection", ""
+"  <interface name=\"com.google.code.AccountsSSO.Accounts.Manager\">\n"
+"    <method name=\"store\">\n"
+"      <arg direction=\"in\" type=\"u\" name=\"account_id\"/>\n"
+"      <arg direction=\"in\" type=\"b\"/>\n"
+"      <arg direction=\"in\" type=\"b\"/>\n"
+"      <arg direction=\"in\" type=\"s\"/>\n"
+"      <arg direction=\"in\" type=\"a(ssua{sv}as)\"/>\n"
+"    </method>\n"
+"  </interface>\n"
+        "")
 
 public:
     explicit LibaccountsService(QObject *parent = 0);

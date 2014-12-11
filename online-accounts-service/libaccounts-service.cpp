@@ -34,7 +34,7 @@ using namespace OnlineAccountsUi;
 static QString stripVersion(const QString &appId)
 {
     QStringList components = appId.split('_');
-    if (components.count() != 3) return QString();
+    if (components.count() != 3) return appId;
 
     /* Click packages have a profile of the form
      *  $name_$application_$version
@@ -64,6 +64,13 @@ struct AccountChanges {
     QList<ServiceChanges> serviceChanges;
 };
 
+struct PendingWrite {
+    PendingWrite(const QDBusConnection &c, const QDBusMessage &m):
+        message(m), connection(c) {}
+    QDBusMessage message;
+    QDBusConnection connection;
+};
+
 class LibaccountsServicePrivate: public QObject
 {
     Q_OBJECT
@@ -81,7 +88,7 @@ private Q_SLOTS:
 
 private:
     Accounts::Manager m_manager;
-    QHash<Accounts::Account *,QDBusMessage> m_pendingWrites;
+    QHash<Accounts::Account *,PendingWrite> m_pendingWrites;
     mutable LibaccountsService *q_ptr;
 };
 
@@ -136,10 +143,11 @@ void LibaccountsServicePrivate::writeChanges(const AccountChanges &changes)
         }
     }
 
-    m_pendingWrites.insert(account, q->message());
+    m_pendingWrites.insert(account,
+                           PendingWrite(q->connection(), q->message()));
     QObject::connect(account, SIGNAL(synced()),
                      this, SLOT(onAccountSynced()));
-    QObject::connect(account, SIGNAL(Accounts::Error),
+    QObject::connect(account, SIGNAL(error(Accounts::Error)),
                      this, SLOT(onAccountError(Accounts::Error)));
     account->sync();
 }
@@ -151,8 +159,13 @@ void LibaccountsServicePrivate::onAccountSynced()
     Accounts::Account *account = qobject_cast<Accounts::Account*>(sender());
     account->deleteLater();
 
-    QDBusMessage message = m_pendingWrites.take(account);
-    q->connection().send(message.createReply());
+    QHash<Accounts::Account*,PendingWrite>::iterator i =
+        m_pendingWrites.find(account);
+    if (Q_LIKELY(i != m_pendingWrites.end())) {
+        PendingWrite &w = i.value();
+        w.connection.send(w.message.createReply());
+        m_pendingWrites.erase(i);
+    }
 }
 
 void LibaccountsServicePrivate::onAccountError(Accounts::Error error)
@@ -162,10 +175,16 @@ void LibaccountsServicePrivate::onAccountError(Accounts::Error error)
     Accounts::Account *account = qobject_cast<Accounts::Account*>(sender());
     account->deleteLater();
 
-    QDBusMessage message = m_pendingWrites.take(account);
-    QDBusMessage reply =
-        message.createErrorReply(QDBusError::InternalError, error.message());
-    q->connection().send(reply);
+    QHash<Accounts::Account*,PendingWrite>::iterator i =
+        m_pendingWrites.find(account);
+    if (Q_LIKELY(i != m_pendingWrites.end())) {
+        PendingWrite &w = i.value();
+        QDBusMessage reply =
+            w.message.createErrorReply(QDBusError::InternalError,
+                                       error.message());
+        w.connection.send(reply);
+        m_pendingWrites.erase(i);
+    }
 }
 
 LibaccountsService::LibaccountsService(QObject *parent):
@@ -211,7 +230,7 @@ void LibaccountsService::store(const QDBusMessage &msg)
         return;
     }
 
-    QDBusArgument dbusChanges = args.value(n++).value<QDBusArgument>();
+    const QDBusArgument dbusChanges = args.value(n++).value<QDBusArgument>();
     dbusChanges.beginArray();
     while (!dbusChanges.atEnd()) {
         ServiceChanges sc;

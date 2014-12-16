@@ -27,6 +27,11 @@
 
 namespace OnlineAccountsUi {
 
+#define LIBACCOUNTS_OBJECT_PATH \
+    QStringLiteral("/com/google/code/AccountsSSO/Accounts/Manager")
+#define LIBACCOUNTS_BUS_NAME \
+    QStringLiteral("com.google.code.AccountsSSO.Accounts.Manager")
+
 class LibaccountsServicePrivate;
 
 class LibaccountsService: public QObject, protected QDBusContext

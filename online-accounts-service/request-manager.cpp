@@ -117,14 +117,16 @@ void RequestManagerPrivate::runQueue(RequestQueue &queue)
         return; // Nothing to do
     }
 
+    QObject::connect(request, SIGNAL(completed()),
+                     this, SLOT(onRequestCompleted()));
+
     UiProxy *proxy = new UiProxy(request->clientPid(), this);
     if (Q_UNLIKELY(!proxy->init())) {
         qWarning() << "UiProxy initialization failed!";
-        runQueue(queue);
+        request->fail(OAU_ERROR_PROMPT_SESSION,
+                      "Could not create a prompt session");
         return;
     }
-    QObject::connect(request, SIGNAL(completed()),
-                     this, SLOT(onRequestCompleted()));
     QObject::connect(proxy, SIGNAL(finished()),
                      this, SLOT(onProxyFinished()));
     m_proxies.append(proxy);

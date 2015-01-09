@@ -305,7 +305,8 @@ QString Request::mechanism() const
 QString Request::providerId() const
 {
     Q_D(const Request);
-    return d->m_account ? d->m_account->providerName() : QString();
+    return d->m_account ? d->m_account->providerName() :
+        d->m_clientData.value("providerId").toString();
 }
 
 const QVariantMap &Request::clientData() const

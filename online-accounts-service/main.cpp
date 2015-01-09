@@ -82,7 +82,8 @@ int main(int argc, char **argv)
 
     LibaccountsService *libaccountsService = new LibaccountsService();
     connection.registerService(LIBACCOUNTS_BUS_NAME);
-    connection.registerObject(LIBACCOUNTS_OBJECT_PATH, libaccountsService);
+    connection.registerObject(LIBACCOUNTS_OBJECT_PATH, libaccountsService,
+                              QDBusConnection::ExportAllContents);
 
     InactivityTimer *inactivityTimer = 0;
     if (daemonTimeout > 0) {

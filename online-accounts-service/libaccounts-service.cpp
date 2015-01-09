@@ -123,13 +123,17 @@ void LibaccountsServicePrivate::writeChanges(const AccountChanges &changes)
         account->remove();
     } else {
         Q_FOREACH(const ServiceChanges &sc, changes.serviceChanges) {
-            Accounts::Service service = m_manager.service(sc.service);
-            if (Q_UNLIKELY(!service.isValid())) {
-                qWarning() << "Invalid service" << sc.service;
-                continue;
-            }
+            if (sc.service == "global") {
+                account->selectService();
+            } else {
+                Accounts::Service service = m_manager.service(sc.service);
+                if (Q_UNLIKELY(!service.isValid())) {
+                    qWarning() << "Invalid service" << sc.service;
+                    continue;
+                }
 
-            account->selectService(service);
+                account->selectService(service);
+            }
 
             QMapIterator<QString, QVariant> it(sc.settings);
             while (it.hasNext()) {

@@ -47,6 +47,7 @@ class LibaccountsService: public QObject, protected QDBusContext
 "      <arg direction=\"in\" type=\"b\"/>\n"
 "      <arg direction=\"in\" type=\"s\"/>\n"
 "      <arg direction=\"in\" type=\"a(ssua{sv}as)\"/>\n"
+"      <arg direction=\"out\" type=\"u\" name=\"account_id\"/>\n"
 "    </method>\n"
 "  </interface>\n"
         "")

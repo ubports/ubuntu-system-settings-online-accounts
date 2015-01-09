@@ -161,13 +161,14 @@ void LibaccountsServicePrivate::onAccountSynced()
     Q_Q(LibaccountsService);
 
     Accounts::Account *account = qobject_cast<Accounts::Account*>(sender());
+    uint accountId = account->id();
     account->deleteLater();
 
     QHash<Accounts::Account*,PendingWrite>::iterator i =
         m_pendingWrites.find(account);
     if (Q_LIKELY(i != m_pendingWrites.end())) {
         PendingWrite &w = i.value();
-        w.connection.send(w.message.createReply());
+        w.connection.send(w.message.createReply(accountId));
         m_pendingWrites.erase(i);
     }
 }

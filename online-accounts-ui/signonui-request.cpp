@@ -64,6 +64,7 @@ private:
     QVariantMap m_clientData;
     QPointer<RequestHandler> m_handler;
     OnlineAccountsUi::Notification *m_notification;
+    Accounts::Account *m_account;
     QWindow *m_window;
 };
 
@@ -83,6 +84,8 @@ RequestPrivate::RequestPrivate(Request *request):
             variant.toMap() :
             qdbus_cast<QVariantMap>(variant.value<QDBusArgument>());
     }
+
+    m_account = findAccount();
 }
 
 RequestPrivate::~RequestPrivate()
@@ -98,8 +101,7 @@ void RequestPrivate::setWindow(QWindow *window)
     /* Don't show the window yet: the user must be presented with a
      * snap-decision, and we'll show the window only if he decides to
      * authenticate. */
-    Accounts::Account *account = findAccount();
-    if (Q_UNLIKELY(!account)) {
+    if (Q_UNLIKELY(!m_account)) {
         QVariantMap result;
         result[SSOUI_KEY_ERROR] = SignOn::QUERY_ERROR_FORBIDDEN;
         q->setResult(result);
@@ -114,13 +116,13 @@ void RequestPrivate::setWindow(QWindow *window)
     OnlineAccountsUi::AccountManager *accountManager =
         OnlineAccountsUi::AccountManager::instance();
     Accounts::Provider provider =
-        accountManager->provider(account->providerName());
+        accountManager->provider(m_account->providerName());
 
     QString summary =
         QString("Please authorize %1 to access your %2 account %3").
         arg(application.isValid() ? application.displayName() : "Ubuntu").
         arg(provider.displayName()).
-        arg(account->displayName());
+        arg(m_account->displayName());
     m_notification =
         new OnlineAccountsUi::Notification("Authentication request", summary);
     m_notification->addAction("cancel", "Cancel");
@@ -298,6 +300,12 @@ QString Request::method() const
 QString Request::mechanism() const
 {
     return parameters().value(SSOUI_KEY_MECHANISM).toString();
+}
+
+QString Request::providerId() const
+{
+    Q_D(const Request);
+    return d->m_account ? d->m_account->providerName() : QString();
 }
 
 const QVariantMap &Request::clientData() const

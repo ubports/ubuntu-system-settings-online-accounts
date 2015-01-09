@@ -39,10 +39,13 @@ public:
     ~RequestPrivate();
     static RequestPrivate *mocked(Request *r) { return r->d_ptr; }
 
+    void setProviderId(const QString &id) { m_providerId = id; }
+
 private:
     mutable Request *q_ptr;
     QVariantMap m_clientData;
     QPointer<RequestHandler> m_handler;
+    QString m_providerId;
 };
 
 } // namespace

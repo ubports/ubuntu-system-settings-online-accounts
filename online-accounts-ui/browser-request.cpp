@@ -70,7 +70,7 @@ public:
     QUrl responseUrl() const { return m_responseUrl; }
     QUrl rootDir() const { return QUrl::fromLocalFile(m_rootDir); }
 
-    static QString rootDirForIdentity(quint32 id);
+    QString rootDirForIdentity() const;
 
 public Q_SLOTS:
     void setCookies(const QVariant &cookies);
@@ -120,11 +120,12 @@ BrowserRequestPrivate::~BrowserRequestPrivate()
     delete m_dialog;
 }
 
-QString BrowserRequestPrivate::rootDirForIdentity(quint32 id)
+QString BrowserRequestPrivate::rootDirForIdentity() const
 {
+    Q_Q(const BrowserRequest);
     QString cachePath =
         QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-    return cachePath + QString("/id-%1").arg(id);
+    return cachePath + QString("/id-%1-%2").arg(q->identity()).arg(q->providerId());
 }
 
 void BrowserRequestPrivate::start()
@@ -134,7 +135,7 @@ void BrowserRequestPrivate::start()
     const QVariantMap &params = q->parameters();
     DEBUG() << params;
 
-    QDir rootDir(rootDirForIdentity(q->identity()));
+    QDir rootDir(rootDirForIdentity());
     if (!rootDir.exists()) {
         rootDir.mkpath(".");
     }

@@ -202,6 +202,11 @@ Account::~Account()
     delete d;
 }
 
+AccountId Account::id() const
+{
+    return d->m_controller->m_id;
+}
+
 void Account::selectService(const Service &service)
 {
     d->m_selectedService = service.m_service ?

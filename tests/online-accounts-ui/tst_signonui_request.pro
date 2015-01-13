@@ -27,18 +27,15 @@ DEFINES += \
 SOURCES += \
     $${ONLINE_ACCOUNTS_UI_DIR}/debug.cpp \
     $${ONLINE_ACCOUNTS_UI_DIR}/signonui-request.cpp \
-    mock/notification-mock.cpp \
     mock/request-mock.cpp \
     mock/qwindow.cpp \
     mock/ui-server-mock.cpp \
     tst_signonui_request.cpp
 
 HEADERS += \
-    $${ONLINE_ACCOUNTS_UI_DIR}/notification.h \
     $${ONLINE_ACCOUNTS_UI_DIR}/request.h \
     $${ONLINE_ACCOUNTS_UI_DIR}/signonui-request.h \
     $${ONLINE_ACCOUNTS_UI_DIR}/ui-server.h \
-    mock/notification-mock.h \
     mock/request-mock.h \
     mock/ui-server-mock.h \
     window-watcher.h

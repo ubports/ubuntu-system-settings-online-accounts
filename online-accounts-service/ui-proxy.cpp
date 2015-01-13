@@ -53,7 +53,7 @@ public:
     bool init();
     void sendOperation(const QVariantMap &data);
     void sendRequest(int requestId, Request *request);
-    void setupPromptSession();
+    bool setupPromptSession();
 
 private Q_SLOTS:
     void onNewConnection();
@@ -190,28 +190,27 @@ bool UiProxyPrivate::setupSocket()
     return m_server.listen(socketDir.filePath(uniqueName));
 }
 
-void UiProxyPrivate::setupPromptSession()
+bool UiProxyPrivate::setupPromptSession()
 {
     Q_Q(UiProxy);
 
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    if (!env.value("QT_QPA_PLATFORM").startsWith("ubuntu")) return;
-
     PromptSessionP session =
         MirHelper::instance()->createPromptSession(m_clientPid);
-    if (!session) return;
+    if (!session) return false;
 
     QString mirSocket = session->requestSocket();
     if (mirSocket.isEmpty()) {
-        return;
+        return false;
     }
 
     m_promptSession = session;
     QObject::connect(m_promptSession.data(), SIGNAL(finished()),
                      q, SIGNAL(finished()));
 
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.insert("MIR_SOCKET", mirSocket);
     m_process.setProcessEnvironment(env);
+    return true;
 }
 
 bool UiProxyPrivate::init()
@@ -235,8 +234,9 @@ bool UiProxyPrivate::init()
     arguments.append("--socket");
     arguments.append(m_server.fullServerName());
 
-    if (m_clientPid) {
-        setupPromptSession();
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    if (env.value("QT_QPA_PLATFORM").startsWith("ubuntu")) {
+        if (!setupPromptSession()) return false;
     }
 
     m_process.start(processName, arguments);

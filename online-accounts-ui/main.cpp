@@ -98,16 +98,16 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
+    if (!profile.isEmpty()) {
+        aa_change_profile(profile.toUtf8().constData());
+    }
+
     UiServer server(socket);
     QObject::connect(&server, SIGNAL(finished()),
                      &app, SLOT(quit()));
     if (Q_UNLIKELY(!server.init())) {
         qWarning() << "Could not connect to socket";
         return EXIT_FAILURE;
-    }
-
-    if (!profile.isEmpty()) {
-        aa_change_profile(profile.toUtf8().constData());
     }
 
     return app.exec();

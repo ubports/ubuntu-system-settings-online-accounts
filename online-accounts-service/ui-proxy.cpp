@@ -79,6 +79,7 @@ private:
     QMap<int,Request*> m_requests;
     QStringList m_handlers;
     pid_t m_clientPid;
+    QString m_providerId;
     PromptSessionP m_promptSession;
     QStringList m_arguments;
     mutable UiProxy *q_ptr;
@@ -198,7 +199,7 @@ bool UiProxyPrivate::setupSocket()
     QDir socketDir(runtimeDir + "/online-accounts-ui");
     if (!socketDir.exists()) socketDir.mkpath(".");
 
-    QString uniqueName = QString("ui-%1").arg(socketCounter++);
+    QString uniqueName = QString("ui-%1-%2").arg(socketCounter++).arg(m_providerId);
 
     /* If the file exists, it's a stale file: online-accounts-ui is a single
      * instance process, and the only one creating files in this directory. */
@@ -236,15 +237,11 @@ void UiProxyPrivate::setupPromptSession()
 
 bool UiProxyPrivate::init()
 {
-    if (Q_UNLIKELY(!setupSocket())) return false;
-
     m_arguments.clear();
     if (!m_promptSession) {
         /* the first argument is required to be the desktop file */
         m_arguments.append("--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop");
     }
-    m_arguments.append("--socket");
-    m_arguments.append(m_server.fullServerName());
 
     if (m_clientPid) {
         setupPromptSession();
@@ -255,22 +252,13 @@ bool UiProxyPrivate::init()
 
 QString UiProxyPrivate::findAppArmorProfile()
 {
-    QString providerId;
-    /* Look through the requests, and look for the first one which has a
-     * provider set. We'll use that provider's AppArmor id for confinement. */
-    Q_FOREACH(Request *request, m_requests) {
-        providerId = request->providerId();
-        if (!providerId.isEmpty())
-            break;
-    }
-
-    if (Q_UNLIKELY(providerId.isEmpty())) return QString();
+    if (Q_UNLIKELY(m_providerId.isEmpty())) return QString();
 
     /* Load the provider XML file */
     Accounts::Manager manager;
-    Accounts::Provider provider = manager.provider(providerId);
+    Accounts::Provider provider = manager.provider(m_providerId);
     if (Q_UNLIKELY(!provider.isValid())) {
-        qWarning() << "Provider not found:" << providerId;
+        qWarning() << "Provider not found:" << m_providerId;
         return QString();
     }
 
@@ -281,6 +269,14 @@ QString UiProxyPrivate::findAppArmorProfile()
 
 void UiProxyPrivate::startProcess()
 {
+    if (Q_UNLIKELY(!setupSocket())) {
+        qWarning() << "Couldn't setup IPC socket";
+        setStatus(UiProxy::Error);
+        return;
+    }
+    m_arguments.append("--socket");
+    m_arguments.append(m_server.fullServerName());
+
     QString profile = findAppArmorProfile();
     if (profile.isEmpty()) {
         profile = "unconfined";
@@ -378,6 +374,9 @@ void UiProxy::handleRequest(Request *request)
 {
     Q_D(UiProxy);
 
+    if (d->m_providerId.isEmpty()) {
+        d->m_providerId = request->providerId();
+    }
     int requestId = d->m_nextRequestId++;
     d->m_requests.insert(requestId, request);
     QObject::connect(request, SIGNAL(completed()),

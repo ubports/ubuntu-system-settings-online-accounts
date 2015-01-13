@@ -1,3 +1,11 @@
+ubuntu-system-settings-online-accounts (0.6) UNRELEASED; urgency=medium
+
+  * New upstream release
+    - Make sure app items are not overlaid on top of each other (LP: #1384314)
+    - Remove snap decision fallback
+
+ -- Alberto Mardegan <alberto.mardegan@canonical.com>  Tue, 13 Jan 2015 14:56:51 +0100
+
 ubuntu-system-settings-online-accounts (0.5+15.04.20141209-0ubuntu1) vivid; urgency=low
 
   [ Ubuntu daily release ]

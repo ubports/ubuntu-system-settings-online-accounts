@@ -49,6 +49,7 @@ public:
     const QVariantMap &parameters() const;
     QString clientApparmorProfile() const;
     QString interface() const;
+    QString providerId() const;
 
     void setDelay(int delay);
     int delay() const;

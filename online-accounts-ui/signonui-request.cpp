@@ -25,6 +25,8 @@
 #include "dialog-request.h"
 #include "globals.h"
 
+#include <Accounts/Account>
+#include <OnlineAccountsPlugin/account-manager.h>
 #include <OnlineAccountsPlugin/request-handler.h>
 #include <QDBusArgument>
 #include <QPointer>
@@ -46,9 +48,13 @@ public:
     ~RequestPrivate();
 
 private:
+    Accounts::Account *findAccount();
+
+private:
     mutable Request *q_ptr;
     QVariantMap m_clientData;
     QPointer<RequestHandler> m_handler;
+    Accounts::Account *m_account;
 };
 
 } // namespace
@@ -65,10 +71,40 @@ RequestPrivate::RequestPrivate(Request *request):
             variant.toMap() :
             qdbus_cast<QVariantMap>(variant.value<QDBusArgument>());
     }
+
+    m_account = findAccount();
 }
 
 RequestPrivate::~RequestPrivate()
 {
+}
+
+Accounts::Account *RequestPrivate::findAccount()
+{
+    Q_Q(Request);
+
+    uint identity = q->identity();
+    if (identity == 0)
+        return 0;
+
+    /* Find the account using this identity.
+     * FIXME: there might be more than one!
+     */
+    OnlineAccountsUi::AccountManager *manager =
+        OnlineAccountsUi::AccountManager::instance();
+    Q_FOREACH(Accounts::AccountId accountId, manager->accountList()) {
+        Accounts::Account *account = manager->account(accountId);
+        if (account == 0) continue;
+
+        QVariant value(QVariant::UInt);
+        if (account->value("CredentialsId", value) != Accounts::NONE &&
+            value.toUInt() == identity) {
+            return account;
+        }
+    }
+
+    // Not found
+    return 0;
 }
 
 #ifndef NO_REQUEST_FACTORY
@@ -165,6 +201,13 @@ QString Request::method() const
 QString Request::mechanism() const
 {
     return parameters().value(SSOUI_KEY_MECHANISM).toString();
+}
+
+QString Request::providerId() const
+{
+    Q_D(const Request);
+    return d->m_account ? d->m_account->providerName() :
+        d->m_clientData.value("providerId").toString();
 }
 
 const QVariantMap &Request::clientData() const

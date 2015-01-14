@@ -14,6 +14,7 @@ QT += \
     network
 
 PKGCONFIG += \
+    accounts-qt5 \
     libnotify \
     libsignon-qt5 \
     signon-plugins-common
@@ -46,13 +47,15 @@ SOURCES += \
     $${COMMON_SRC}/notification.cpp \
     inactivity-timer.cpp \
     indicator-service.cpp \
+    libaccounts-service.cpp \
     main.cpp \
     reauthenticator.cpp \
     request.cpp \
     request-manager.cpp \
     service.cpp \
     signonui-service.cpp \
-    ui-proxy.cpp
+    ui-proxy.cpp \
+    utils.cpp
 
 HEADERS += \
     $${COMMON_SRC}/debug.h \
@@ -61,13 +64,15 @@ HEADERS += \
     $${COMMON_SRC}/notification.h \
     inactivity-timer.h \
     indicator-service.h \
+    libaccounts-service.h \
     mir-helper.h \
     reauthenticator.h \
     request.h \
     request-manager.h \
     service.h \
     signonui-service.h \
-    ui-proxy.h
+    ui-proxy.h \
+    utils.h
 
 QMAKE_SUBSTITUTES += \
     com.ubuntu.OnlineAccountsUi.service.in

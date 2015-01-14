@@ -22,6 +22,7 @@
 #include "globals.h"
 #include "inactivity-timer.h"
 #include "indicator-service.h"
+#include "libaccounts-service.h"
 #include "request-manager.h"
 #include "service.h"
 #include "signonui-service.h"
@@ -79,6 +80,10 @@ int main(int argc, char **argv)
     connection.registerObject(WEBCREDENTIALS_OBJECT_PATH,
                               indicatorService->serviceObject());
 
+    LibaccountsService *libaccountsService = new LibaccountsService();
+    connection.registerService(LIBACCOUNTS_BUS_NAME);
+    connection.registerObject(LIBACCOUNTS_OBJECT_PATH, libaccountsService,
+                              QDBusConnection::ExportAllContents);
 
     InactivityTimer *inactivityTimer = 0;
     if (daemonTimeout > 0) {
@@ -90,6 +95,10 @@ int main(int argc, char **argv)
     }
 
     int ret = app.exec();
+
+    connection.unregisterService(LIBACCOUNTS_BUS_NAME);
+    connection.unregisterObject(LIBACCOUNTS_OBJECT_PATH);
+    delete libaccountsService;
 
     connection.unregisterService(WEBCREDENTIALS_BUS_NAME);
     connection.unregisterObject(WEBCREDENTIALS_OBJECT_PATH);

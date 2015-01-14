@@ -24,6 +24,7 @@ COMMON_SRC_DIR = $${TOP_SRC_DIR}/online-accounts-ui
 SOURCES += \
     $${ONLINE_ACCOUNTS_SERVICE_DIR}/request.cpp \
     $${ONLINE_ACCOUNTS_SERVICE_DIR}/signonui-service.cpp \
+    $${ONLINE_ACCOUNTS_SERVICE_DIR}/utils.cpp \
     mock/request-manager-mock.cpp \
     tst_signonui_service.cpp
 
@@ -31,6 +32,7 @@ HEADERS += \
     $${ONLINE_ACCOUNTS_SERVICE_DIR}/request.h \
     $${ONLINE_ACCOUNTS_SERVICE_DIR}/request-manager.h \
     $${ONLINE_ACCOUNTS_SERVICE_DIR}/signonui-service.h \
+    $${ONLINE_ACCOUNTS_SERVICE_DIR}/utils.h \
     mock/request-manager-mock.h
 
 INCLUDEPATH += \

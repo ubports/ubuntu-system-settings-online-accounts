@@ -85,6 +85,7 @@ void BrowserRequestTest::initTestCase()
 void BrowserRequestTest::testParametersWithHandler_data()
 {
     QTest::addColumn<QVariantMap>("parameters");
+    QTest::addColumn<QString>("providerId");
     QTest::addColumn<QString>("pageComponentUrl");
     QTest::addColumn<QString>("startUrl");
     QTest::addColumn<QString>("finalUrl");
@@ -95,10 +96,11 @@ void BrowserRequestTest::testParametersWithHandler_data()
 
     QTest::newRow("empty") <<
         QVariantMap() <<
+        QString() <<
         "DefaultPage.qml" <<
         QString() <<
         QString() <<
-        baseCacheDir + "/id-0";
+        baseCacheDir + "/id-0-";
 
     QVariantMap parameters;
     QVariantMap clientData;
@@ -107,10 +109,11 @@ void BrowserRequestTest::testParametersWithHandler_data()
     parameters.insert(SSOUI_KEY_IDENTITY, uint(4));
     QTest::newRow("with URLs and ID") <<
         parameters <<
+        "google" <<
         "DefaultPage.qml" <<
         "http://localhost/start.html" <<
         "http://localhost/end.html" <<
-        baseCacheDir + "/id-4";
+        baseCacheDir + "/id-4-google";
     parameters.clear();
 
     clientData.insert("X-PageComponent",
@@ -121,16 +124,18 @@ void BrowserRequestTest::testParametersWithHandler_data()
     parameters.insert(SSOUI_KEY_IDENTITY, uint(4));
     QTest::newRow("with page component") <<
         parameters <<
+        "com.ubuntu.app_plugin" <<
         "file:///usr/share/signon-ui/MyPage.qml" <<
         "http://localhost/start.html" <<
         "http://localhost/end.html" <<
-        baseCacheDir + "/id-4";
+        baseCacheDir + "/id-4-com.ubuntu.app_plugin";
     parameters.clear();
 }
 
 void BrowserRequestTest::testParametersWithHandler()
 {
     QFETCH(QVariantMap, parameters);
+    QFETCH(QString, providerId);
     QFETCH(QString, pageComponentUrl);
     QFETCH(QString, startUrl);
     QFETCH(QString, finalUrl);
@@ -140,6 +145,9 @@ void BrowserRequestTest::testParametersWithHandler()
     QSignalSpy requestChanged(&handler, SIGNAL(requestChanged()));
 
     TestRequest request(parameters);
+    SignOnUi::RequestPrivate *mockedRequest =
+        SignOnUi::RequestPrivate::mocked(&request);
+    mockedRequest->setProviderId(providerId);
     request.setHandler(&handler);
 
     request.start();

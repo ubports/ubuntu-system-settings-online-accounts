@@ -18,36 +18,17 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MOCK_SIGNON_UI_REQUEST_H
-#define MOCK_SIGNON_UI_REQUEST_H
+#ifndef OAU_UTILS_H
+#define OAU_UTILS_H
 
-#include "signonui-request.h"
+#include <QString>
 
-#include <OnlineAccountsPlugin/request-handler.h>
-#include <QPointer>
-#include <QVariantMap>
+class QDBusMessage;
 
-namespace SignOnUi {
+namespace OnlineAccountsUi {
 
-class RequestPrivate: public QObject
-{
-    Q_OBJECT
-    Q_DECLARE_PUBLIC(Request)
-
-public:
-    RequestPrivate(Request *request);
-    ~RequestPrivate();
-    static RequestPrivate *mocked(Request *r) { return r->d_ptr; }
-
-    void setProviderId(const QString &id) { m_providerId = id; }
-
-private:
-    mutable Request *q_ptr;
-    QVariantMap m_clientData;
-    QPointer<RequestHandler> m_handler;
-    QString m_providerId;
-};
+QString apparmorProfileOfPeer(const QDBusMessage &message);
 
 } // namespace
 
-#endif // MOCK_SIGNON_UI_REQUEST_H
+#endif // OAU_UTILS_H

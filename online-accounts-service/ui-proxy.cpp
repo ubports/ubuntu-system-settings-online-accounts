@@ -24,7 +24,11 @@
 #include "request.h"
 #include "ui-proxy.h"
 
+#include <Accounts/Manager>
+#include <Accounts/Provider>
 #include <QDir>
+#include <QDomDocument>
+#include <QDomElement>
 #include <QFileInfo>
 #include <QLocalServer>
 #include <QLocalSocket>
@@ -49,11 +53,14 @@ public:
     inline UiProxyPrivate(pid_t clientPid, UiProxy *pluginProxy);
     inline ~UiProxyPrivate();
 
+    void setStatus(UiProxy::Status status);
     bool setupSocket();
     bool init();
     void sendOperation(const QVariantMap &data);
     void sendRequest(int requestId, Request *request);
     bool setupPromptSession();
+    QString findAppArmorProfile();
+    void startProcess();
 
 private Q_SLOTS:
     void onNewConnection();
@@ -63,6 +70,7 @@ private Q_SLOTS:
 
 private:
     QProcess m_process;
+    UiProxy::Status m_status;
     QLocalServer m_server;
     QLocalSocket *m_socket;
     OnlineAccountsUi::Ipc m_ipc;
@@ -71,7 +79,9 @@ private:
     QMap<int,Request*> m_requests;
     QStringList m_handlers;
     pid_t m_clientPid;
+    QString m_providerId;
     PromptSessionP m_promptSession;
+    QStringList m_arguments;
     mutable UiProxy *q_ptr;
 };
 
@@ -79,6 +89,7 @@ private:
 
 UiProxyPrivate::UiProxyPrivate(pid_t clientPid, UiProxy *uiProxy):
     QObject(uiProxy),
+    m_status(UiProxy::Null),
     m_socket(0),
     m_nextRequestId(0),
     m_clientPid(clientPid),
@@ -109,6 +120,14 @@ UiProxyPrivate::~UiProxyPrivate()
     m_server.close();
 }
 
+void UiProxyPrivate::setStatus(UiProxy::Status status)
+{
+    Q_Q(UiProxy);
+    if (m_status == status) return;
+    m_status = status;
+    Q_EMIT q->statusChanged();
+}
+
 void UiProxyPrivate::sendOperation(const QVariantMap &data)
 {
     QByteArray ba;
@@ -135,6 +154,8 @@ void UiProxyPrivate::onNewConnection()
                      q, SIGNAL(finished()));
     m_ipc.setChannels(socket, socket);
     m_server.close(); // stop listening
+
+    setStatus(UiProxy::Ready);
 
     /* Execute any pending requests */
     QMapIterator<int, Request*> it(m_requests);
@@ -178,7 +199,7 @@ bool UiProxyPrivate::setupSocket()
     QDir socketDir(runtimeDir + "/online-accounts-ui");
     if (!socketDir.exists()) socketDir.mkpath(".");
 
-    QString uniqueName = QString("ui-%1").arg(socketCounter++);
+    QString uniqueName = QString("ui-%1-%2").arg(socketCounter++).arg(m_providerId);
 
     /* If the file exists, it's a stale file: online-accounts-ui is a single
      * instance process, and the only one creating files in this directory. */
@@ -215,32 +236,89 @@ bool UiProxyPrivate::setupPromptSession()
 
 bool UiProxyPrivate::init()
 {
-    if (Q_UNLIKELY(!setupSocket())) return false;
+    m_arguments.clear();
+    if (!m_promptSession) {
+        /* the first argument is required to be the desktop file */
+        m_arguments.append("--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop");
+    }
+
+    if (m_clientPid) {
+        setupPromptSession();
+    }
+
+    return true;
+}
+
+QString UiProxyPrivate::findAppArmorProfile()
+{
+    if (Q_UNLIKELY(m_providerId.isEmpty())) return QString();
+
+    /* Load the provider XML file */
+    Accounts::Manager manager;
+    Accounts::Provider provider = manager.provider(m_providerId);
+    if (Q_UNLIKELY(!provider.isValid())) {
+        qWarning() << "Provider not found:" << m_providerId;
+        return QString();
+    }
+
+    const QDomDocument doc = provider.domDocument();
+    QDomElement root = doc.documentElement();
+    return root.firstChildElement("profile").text();
+}
+
+void UiProxyPrivate::startProcess()
+{
+    if (Q_UNLIKELY(!setupSocket())) {
+        qWarning() << "Couldn't setup IPC socket";
+        setStatus(UiProxy::Error);
+        return;
+    }
+    m_arguments.append("--socket");
+    m_arguments.append(m_server.fullServerName());
+
+    QString profile = findAppArmorProfile();
+    if (profile.isEmpty()) {
+        profile = "unconfined";
+    } else {
+        /* Set TMPDIR to a location which the confined process can actually
+         * use */
+        QString tmpdir =
+            QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) +
+            "/" + profile.split('_')[0];
+        QProcessEnvironment env = m_process.processEnvironment();
+        env.insert("TMPDIR", tmpdir);
+        m_process.setProcessEnvironment(env);
+    }
+
+    m_arguments.append("--profile");
+    m_arguments.append(profile);
 
     QString processName;
-    QStringList arguments;
     QString wrapper = QString::fromUtf8(qgetenv("OAU_WRAPPER"));
     QString accountsUi = QStringLiteral(INSTALL_BIN_DIR "/online-accounts-ui");
     if (wrapper.isEmpty()) {
         processName = accountsUi;
     } else {
         processName = wrapper;
-        arguments.append(accountsUi);
+        m_arguments.prepend(accountsUi);
     }
-    if (!m_promptSession) {
-        /* the first argument is required to be the desktop file */
-        arguments.append("--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop");
-    }
-    arguments.append("--socket");
-    arguments.append(m_server.fullServerName());
 
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     if (env.value("QT_QPA_PLATFORM").startsWith("ubuntu")) {
-        if (!setupPromptSession()) return false;
+        if (!setupPromptSession()) {
+            qWarning() << "Couldn't setup prompt session";
+            setStatus(UiProxy::Error);
+            return;
+        }
     }
 
-    m_process.start(processName, arguments);
-    return m_process.waitForStarted();
+    setStatus(UiProxy::Loading);
+    m_process.start(processName, m_arguments);
+    if (Q_UNLIKELY(!m_process.waitForStarted())) {
+        qWarning() << "Couldn't start account plugin process";
+        setStatus(UiProxy::Error);
+        return;
+    }
 }
 
 void UiProxyPrivate::sendRequest(int requestId, Request *request)
@@ -285,6 +363,13 @@ UiProxy::UiProxy(pid_t clientPid, QObject *parent):
 
 UiProxy::~UiProxy()
 {
+    DEBUG();
+}
+
+UiProxy::Status UiProxy::status() const
+{
+    Q_D(const UiProxy);
+    return d->m_status;
 }
 
 bool UiProxy::init()
@@ -297,14 +382,19 @@ void UiProxy::handleRequest(Request *request)
 {
     Q_D(UiProxy);
 
+    if (d->m_providerId.isEmpty()) {
+        d->m_providerId = request->providerId();
+    }
     int requestId = d->m_nextRequestId++;
     d->m_requests.insert(requestId, request);
     QObject::connect(request, SIGNAL(completed()),
                      d, SLOT(onRequestCompleted()));
     request->setInProgress(true);
 
-    if (d->m_socket && d->m_socket->isValid()) {
+    if (d->m_status == UiProxy::Ready) {
         d->sendRequest(requestId, request);
+    } else if (d->m_status == UiProxy::Null) {
+        d->startProcess();
     }
 }
 

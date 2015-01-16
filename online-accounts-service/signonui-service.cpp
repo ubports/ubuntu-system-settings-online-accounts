@@ -179,7 +179,9 @@ QString ServicePrivate::rootDirForIdentity(quint32 id)
 void ServicePrivate::removeIdentityData(quint32 id)
 {
     /* Remove any data associated with the given identity. */
-    QDir rootDir(ServicePrivate::rootDirForIdentity(id));
+    QString rootDirName = rootDirForIdentity(id);
+    if (rootDirName.isEmpty()) return;
+    QDir rootDir(rootDirName);
     rootDir.removeRecursively();
 }
 

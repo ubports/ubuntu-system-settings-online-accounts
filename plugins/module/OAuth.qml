@@ -169,6 +169,7 @@ Item {
         if (creds.credentialsId == 0) return
         var parameters = {}
         parameters[requestHandler.matchKey] = requestHandler.matchId
+        parameters["providerId"] = account.provider.id
         for (var p in authenticationParameters) {
             parameters[p] = authenticationParameters[p]
         }

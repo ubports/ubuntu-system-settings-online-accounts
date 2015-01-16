@@ -45,6 +45,7 @@ public:
     uint identity() const;
     QString method() const;
     QString mechanism() const;
+    QString providerId() const;
 
     const QVariantMap &clientData() const;
 

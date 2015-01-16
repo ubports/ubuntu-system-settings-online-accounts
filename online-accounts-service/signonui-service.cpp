@@ -156,15 +156,32 @@ void ServicePrivate::cancelUiRequest(const QString &requestId)
 
 QString ServicePrivate::rootDirForIdentity(quint32 id)
 {
+    /* the BrowserRequest class instructs the webview to store its cookies and
+     * local data into
+     * ~/.cache/online-accounts-ui/id-<signon-id>-<provider-id>/; while we
+     * don't normally expect to find more than one entry for a given signon-id,
+     * it's a possibility we cannot completely discard, since in older versions
+     * we were not appending the "-<provider-id>" suffix. Besides, unless we
+     * look up into the accounts DB, we don't know the value for the provider
+     * ID.
+     * Because of both of these reasons, we list all the directories whose name
+     * starts with "id-<signon-id>" and pick the most recent one.
+     */
     QString cachePath =
         QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
-    return cachePath + QString("/online-accounts-ui/id-%1").arg(id);
+    QDir cacheDir(cachePath + QStringLiteral("/online-accounts-ui"));
+    QString nameFilter = QString("id-%1*").arg(id);
+    QStringList rootDirs = cacheDir.entryList(QStringList() << nameFilter,
+                                              QDir::Dirs, QDir::Time);
+    return rootDirs.count() > 0 ? cacheDir.filePath(rootDirs.at(0)) : QString();
 }
 
 void ServicePrivate::removeIdentityData(quint32 id)
 {
     /* Remove any data associated with the given identity. */
-    QDir rootDir(ServicePrivate::rootDirForIdentity(id));
+    QString rootDirName = rootDirForIdentity(id);
+    if (rootDirName.isEmpty()) return;
+    QDir rootDir(rootDirName);
     rootDir.removeRecursively();
 }
 

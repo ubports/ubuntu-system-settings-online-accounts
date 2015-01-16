@@ -21,7 +21,7 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.OnlineAccounts 0.1
 
-Item {
+Column {
     property variant accountServiceHandle
 
     signal applicationAdded(string applicationId)
@@ -29,7 +29,6 @@ Item {
 
     anchors.left: parent.left
     anchors.right: parent.right
-    height: childrenRect.height
 
     Repeater {
         resources: AccountService {

@@ -20,7 +20,6 @@
 
 #include "globals.h"
 #include "signonui-request.h"
-#include "mock/notification-mock.h"
 #include "mock/request-mock.h"
 #include "mock/ui-server-mock.h"
 
@@ -68,8 +67,6 @@ private Q_SLOTS:
     void testParameters_data();
     void testParameters();
     void testHandler();
-    void testSnapDecision_data();
-    void testSnapDecision();
 
 private:
     bool mustCreateAccount(uint credentialsId) { return credentialsId > 10; }
@@ -165,171 +162,6 @@ void SignonuiRequestTest::testHandler()
 
     delete handler2;
     delete handler;
-}
-
-void SignonuiRequestTest::testSnapDecision_data()
-{
-    QTest::addColumn<uint>("credentialsId");
-    QTest::addColumn<QString>("accountName");
-    QTest::addColumn<QString>("clientProfile");
-    QTest::addColumn<QString>("applicationName");
-    QTest::addColumn<bool>("mustAccept");
-    QTest::addColumn<QVariantMap>("result");
-
-    QVariantMap acceptedResult;
-    acceptedResult.insert("some key", QString("some value"));
-
-    QVariantMap declinedResult;
-    declinedResult.insert(SSOUI_KEY_ERROR, SignOn::QUERY_ERROR_CANCELED);
-
-    QVariantMap errorResult;
-    errorResult.insert(SSOUI_KEY_ERROR, SignOn::QUERY_ERROR_FORBIDDEN);
-
-    QTest::newRow("no account") <<
-        uint(0) <<
-        "tom@example.com" <<
-        "com.ubuntu.tests_application_0.3" <<
-        QString() <<
-        false <<
-        errorResult;
-
-    QTest::newRow("invalid account") <<
-        uint(1) <<
-        "tom@example.com" <<
-        "com.ubuntu.tests_application_0.3" <<
-        QString() <<
-        false <<
-        errorResult;
-
-    QTest::newRow("valid application, accepted") <<
-        uint(14231) <<
-        "tom@example.com" <<
-        "com.ubuntu.tests_application_0.3" <<
-        "Easy Mailer" <<
-        true <<
-        acceptedResult;
-
-    QTest::newRow("valid application, declined") <<
-        uint(14231) <<
-        "tom@example.com" <<
-        "com.ubuntu.tests_application_0.3" <<
-        "Easy Mailer" <<
-        false <<
-        declinedResult;
-
-    QTest::newRow("unconfined application, accepted") <<
-        uint(14235) <<
-        "tom@example.com" <<
-        "unconfined" <<
-        "Ubuntu" <<
-        true <<
-        acceptedResult;
-
-    QTest::newRow("unconfined application, declined") <<
-        uint(14235) <<
-        "tom@example.com" <<
-        "unconfined" <<
-        "Ubuntu" <<
-        false <<
-        declinedResult;
-}
-
-void SignonuiRequestTest::testSnapDecision()
-{
-    QString providerId("cool");
-    QFETCH(uint, credentialsId);
-    QFETCH(QString, accountName);
-    QFETCH(QString, clientProfile);
-    QFETCH(QString, applicationName);
-    QFETCH(bool, mustAccept);
-    QFETCH(QVariantMap, result);
-
-    // First, create an account
-    Accounts::Manager *manager = new Accounts::Manager(this);
-    Accounts::Provider provider = manager->provider(providerId);
-    QVERIFY(provider.isValid());
-    if (mustCreateAccount(credentialsId)) {
-        Accounts::Account *account = manager->createAccount(providerId);
-        QVERIFY(account != 0);
-        account->setEnabled(true);
-        account->setDisplayName(accountName);
-        account->setCredentialsId(credentialsId);
-        account->syncAndBlock();
-    }
-
-    /* Then, create a request referring to the same credentials ID of the
-     * created account. */
-    QVariantMap parameters;
-    parameters.insert(SSOUI_KEY_IDENTITY, credentialsId);
-    parameters.insert(SSOUI_KEY_METHOD, "funnyMethod");
-    parameters.insert(SSOUI_KEY_MECHANISM, "funnyMechanism");
-    TestRequest request(clientProfile, parameters);
-    OnlineAccountsUi::RequestPrivate *mockRequest =
-        OnlineAccountsUi::RequestPrivate::mocked(&request);
-    QSignalSpy failCalled(mockRequest,
-                          SIGNAL(failCalled(const QString&, const QString&)));
-    QSignalSpy setResultCalled(mockRequest,
-                               SIGNAL(setResultCalled(const QVariantMap &)));
-    request.start();
-
-    /* Request to show a window; a snap decision should appear instead */
-    QWindow *window = new QWindow;
-    QSignalSpy setWindowCalled(mockRequest,
-                               SIGNAL(setWindowCalled(QWindow*)));
-    request.setWindow(window);
-    QCOMPARE(setWindowCalled.count(), 0);
-    if (mustCreateAccount(credentialsId)) {
-        QCOMPARE(NotificationPrivate::allNotifications.count(), 1);
-    } else {
-        /* If the account is not found, no notification should appear, and an
-         * error returned to the app */
-        QCOMPARE(NotificationPrivate::allNotifications.count(), 0);
-        QCOMPARE(setResultCalled.count(), 1);
-        QCOMPARE(setResultCalled.at(0).at(0).toMap(), result);
-        return;
-    }
-
-    /* Inspect the snap decision contents */
-    Notification *notification =
-        NotificationPrivate::allNotifications.first();
-    NotificationPrivate *mockNotification =
-        NotificationPrivate::mocked(notification);
-    QCOMPARE(mockNotification->m_summary, QString("Authentication request"));
-    QCOMPARE(mockNotification->m_body,
-             QString("Please authorize %1 to access your %2 account %3").
-             arg(applicationName).arg(provider.displayName()).arg(accountName));
-    QVERIFY(mockNotification->m_isSnapDecision);
-
-    /* Invoke the action on the snap decision */
-    QString action = mustAccept ? "continue" : "cancel";
-    QSignalSpy actionInvoked(notification,
-                             SIGNAL(actionInvoked(const QString &)));
-    mockNotification->invokeAction(action);
-    QCOMPARE(actionInvoked.count(), 1);
-    QCOMPARE(actionInvoked.at(0).at(0).toString(), action);
-
-    /* Here we iterate the main loop because the notification object is
-     * destroyed with deleteLater() */
-    QTest::qWait(5);
-
-    if (mustAccept) {
-        QCOMPARE(setWindowCalled.count(), 1);
-        QCOMPARE(setWindowCalled.at(0).at(0), QVariant::fromValue(window));
-        QCOMPARE(failCalled.count(), 0);
-        QCOMPARE(setResultCalled.count(), 0);
-
-        /* deliver the result */
-        request.sendResult(result);
-        QCOMPARE(setResultCalled.count(), 1);
-        QCOMPARE(setResultCalled.at(0).at(0).toMap(), result);
-    } else {
-        QCOMPARE(setWindowCalled.count(), 0);
-        QCOMPARE(failCalled.count(), 0);
-        QCOMPARE(setResultCalled.count(), 1);
-        QCOMPARE(setResultCalled.at(0).at(0).toMap(), result);
-    }
-    delete window;
-    delete manager;
 }
 
 QTEST_MAIN(SignonuiRequestTest);

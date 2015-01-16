@@ -40,6 +40,8 @@
     QStringLiteral(OAU_ERROR_PREFIX "InvalidParameters")
 #define OAU_ERROR_INVALID_APPLICATION \
     QStringLiteral(OAU_ERROR_PREFIX "InvalidApplication")
+#define OAU_ERROR_PROMPT_SESSION \
+    QStringLiteral(OAU_ERROR_PREFIX "NoPromptSession")
 
 /* SignOnUi service */
 #define SIGNONUI_SERVICE_NAME   QStringLiteral("com.nokia.singlesignonui")

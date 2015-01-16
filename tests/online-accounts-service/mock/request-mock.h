@@ -43,6 +43,7 @@ public:
     static RequestPrivate *mocked(Request *r) { return r->d_ptr; }
 
     void setClientApparmorProfile(const QString &profile);
+    void setProviderId(const QString &provider);
 
 Q_SIGNALS:
     void cancelCalled();
@@ -54,6 +55,7 @@ private:
     QDBusMessage m_message;
     QVariantMap m_parameters;
     QString m_clientApparmorProfile;
+    QString m_providerId;
     bool m_inProgress;
     int m_delay;
     mutable Request *q_ptr;

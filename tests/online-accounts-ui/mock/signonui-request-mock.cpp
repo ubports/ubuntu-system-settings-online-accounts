@@ -86,6 +86,12 @@ QString Request::mechanism() const
     return parameters().value(SSOUI_KEY_MECHANISM).toString();
 }
 
+QString Request::providerId() const
+{
+    Q_D(const Request);
+    return d->m_providerId;
+}
+
 const QVariantMap &Request::clientData() const
 {
     Q_D(const Request);

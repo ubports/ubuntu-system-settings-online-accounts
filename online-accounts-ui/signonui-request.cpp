@@ -24,13 +24,9 @@
 #include "debug.h"
 #include "dialog-request.h"
 #include "globals.h"
-#include "notification.h"
 
 #include <Accounts/Account>
-#include <Accounts/Application>
-#include <Accounts/Provider>
 #include <OnlineAccountsPlugin/account-manager.h>
-#include <OnlineAccountsPlugin/application-manager.h>
 #include <OnlineAccountsPlugin/request-handler.h>
 #include <QDBusArgument>
 #include <QPointer>
@@ -52,19 +48,13 @@ public:
     ~RequestPrivate();
 
 private:
-    void setWindow(QWindow *window);
     Accounts::Account *findAccount();
-
-private Q_SLOTS:
-    void onActionInvoked(const QString &action);
-    void onNotificationClosed();
 
 private:
     mutable Request *q_ptr;
     QVariantMap m_clientData;
     QPointer<RequestHandler> m_handler;
-    OnlineAccountsUi::Notification *m_notification;
-    QWindow *m_window;
+    Accounts::Account *m_account;
 };
 
 } // namespace
@@ -72,9 +62,7 @@ private:
 RequestPrivate::RequestPrivate(Request *request):
     QObject(request),
     q_ptr(request),
-    m_handler(0),
-    m_notification(0),
-    m_window(0)
+    m_handler(0)
 {
     const QVariantMap &parameters = request->parameters();
     if (parameters.contains(SSOUI_KEY_CLIENT_DATA)) {
@@ -83,55 +71,12 @@ RequestPrivate::RequestPrivate(Request *request):
             variant.toMap() :
             qdbus_cast<QVariantMap>(variant.value<QDBusArgument>());
     }
+
+    m_account = findAccount();
 }
 
 RequestPrivate::~RequestPrivate()
 {
-    delete m_notification;
-    m_notification = 0;
-}
-
-void RequestPrivate::setWindow(QWindow *window)
-{
-    Q_Q(Request);
-
-    /* Don't show the window yet: the user must be presented with a
-     * snap-decision, and we'll show the window only if he decides to
-     * authenticate. */
-    Accounts::Account *account = findAccount();
-    if (Q_UNLIKELY(!account)) {
-        QVariantMap result;
-        result[SSOUI_KEY_ERROR] = SignOn::QUERY_ERROR_FORBIDDEN;
-        q->setResult(result);
-        return;
-    }
-
-    OnlineAccountsUi::ApplicationManager *appManager =
-        OnlineAccountsUi::ApplicationManager::instance();
-    Accounts::Application application =
-        appManager->applicationFromProfile(q->clientApparmorProfile());
-
-    OnlineAccountsUi::AccountManager *accountManager =
-        OnlineAccountsUi::AccountManager::instance();
-    Accounts::Provider provider =
-        accountManager->provider(account->providerName());
-
-    QString summary =
-        QString("Please authorize %1 to access your %2 account %3").
-        arg(application.isValid() ? application.displayName() : "Ubuntu").
-        arg(provider.displayName()).
-        arg(account->displayName());
-    m_notification =
-        new OnlineAccountsUi::Notification("Authentication request", summary);
-    m_notification->addAction("cancel", "Cancel");
-    m_notification->addAction("continue", "Authorize...");
-    m_notification->setSnapDecision(true);
-    QObject::connect(m_notification, SIGNAL(actionInvoked(const QString &)),
-                     this, SLOT(onActionInvoked(const QString &)));
-    QObject::connect(m_notification, SIGNAL(closed()),
-                     this, SLOT(onNotificationClosed()));
-    m_notification->show();
-    m_window = window;
 }
 
 Accounts::Account *RequestPrivate::findAccount()
@@ -160,39 +105,6 @@ Accounts::Account *RequestPrivate::findAccount()
 
     // Not found
     return 0;
-}
-
-void RequestPrivate::onActionInvoked(const QString &action)
-{
-    Q_Q(Request);
-
-    DEBUG() << action;
-
-    QObject::disconnect(m_notification, 0, this, 0);
-    m_notification->deleteLater();
-    m_notification = 0;
-
-    if (action == QStringLiteral("continue")) {
-        q->setWindow(m_window);
-    } else {
-        q->cancel();
-    }
-}
-
-void RequestPrivate::onNotificationClosed()
-{
-    Q_Q(Request);
-
-    DEBUG();
-
-    /* setResult() should have been called by onActionInvoked(), but calling it
-     * twice won't harm because only the first invocation counts. */
-    QVariantMap result;
-    result[SSOUI_KEY_ERROR] = SignOn::QUERY_ERROR_FORBIDDEN;
-    q->setResult(result);
-
-    m_notification->deleteLater();
-    m_notification = 0;
 }
 
 #ifndef NO_REQUEST_FACTORY
@@ -266,22 +178,13 @@ void Request::setWindow(QWindow *window)
 {
     Q_D(Request);
 
-    /* While a notification is shown, ignore any further calls to
-     * setWindow(). */
-    if (d->m_notification) return;
-
-    /* The first time that this method is called, we handle it by presenting a
-     * snap decision to the user.
-     * Then, if this is called again with the same QWindow, it means that the
-     * snap decision was accepted, and we show the window.
-     */
-    if (window == d->m_window ||
-        /* If we are part of a prompt session, just show the window */
-        !qgetenv("MIR_SOCKET").isEmpty()) {
-        OnlineAccountsUi::Request::setWindow(window);
-        d->m_window = 0;
+    /* Show the window only if we are in a prompt session */
+    if (qgetenv("MIR_SOCKET").isEmpty()) {
+        QVariantMap result;
+        result[SSOUI_KEY_ERROR] = SignOn::QUERY_ERROR_FORBIDDEN;
+        setResult(result);
     } else {
-        d->setWindow(window);
+        OnlineAccountsUi::Request::setWindow(window);
     }
 }
 
@@ -298,6 +201,13 @@ QString Request::method() const
 QString Request::mechanism() const
 {
     return parameters().value(SSOUI_KEY_MECHANISM).toString();
+}
+
+QString Request::providerId() const
+{
+    Q_D(const Request);
+    return d->m_account ? d->m_account->providerName() :
+        d->m_clientData.value("providerId").toString();
 }
 
 const QVariantMap &Request::clientData() const

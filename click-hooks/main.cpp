@@ -322,6 +322,7 @@ int main(int argc, char **argv)
      */
     Accounts::Manager *manager =
         new Accounts::Manager(Accounts::Manager::DisableNotifications);
+    manager->serviceList();
     delete manager;
 
     return EXIT_SUCCESS;

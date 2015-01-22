@@ -217,7 +217,20 @@ bool LibAccountsFile::writeTo(const QString &fileName) const
     }
 }
 
-static void removeStaleFiles(const QStringList &fileTypes,
+static void removeStaleAccounts(Accounts::Manager *manager,
+                                const QString &providerName)
+{
+    Q_FOREACH(Accounts::AccountId id, manager->accountList()) {
+        Accounts::Account *account = manager->account(id);
+        if (account->providerName() == providerName) {
+            account->remove();
+            account->syncAndBlock();
+        }
+    }
+}
+
+static void removeStaleFiles(Accounts::Manager *manager,
+                             const QStringList &fileTypes,
                              const QString &localShare,
                              const QDir &hooksDirIn)
 {
@@ -245,8 +258,13 @@ static void removeStaleFiles(const QStringList &fileTypes,
              * means that the click package was removed, and we must remove our
              * copy as well. */
             QString hookFileName = profile + "." + fileType;
-            if (!hooksDirIn.exists(hookFileName)) {
-                QFile::remove(fileInfo.filePath());
+            if (hooksDirIn.exists(hookFileName)) continue;
+
+            QFile::remove(fileInfo.filePath());
+            /* If this is a provider, we must also remove any accounts
+             * associated with it */
+            if (fileType == QStringLiteral("provider")) {
+                removeStaleAccounts(manager, fileInfo.completeBaseName());
             }
         }
     }
@@ -255,6 +273,12 @@ static void removeStaleFiles(const QStringList &fileTypes,
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
+
+    Accounts::Manager::Options managerOptions;
+    if (qgetenv("DBUS_SESSION_BUS_ADDRESS").isEmpty()) {
+        managerOptions |= Accounts::Manager::DisableNotifications;
+    }
+    Accounts::Manager *manager = new Accounts::Manager(managerOptions);
 
     /* Go through the hook files in ~/.local/share/online-accounts-hooks/ and
      * check if they have already been processed into a file under
@@ -274,7 +298,7 @@ int main(int argc, char **argv)
         QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
     QDir hooksDirIn(localShare + "/" HOOK_FILES_SUBDIR);
 
-    removeStaleFiles(fileTypes, localShare, hooksDirIn);
+    removeStaleFiles(manager, fileTypes, localShare, hooksDirIn);
 
     Q_FOREACH(const QFileInfo &fileInfo, hooksDirIn.entryInfoList()) {
         const QString fileType = fileInfo.suffix();
@@ -320,8 +344,6 @@ int main(int argc, char **argv)
     /* To ensure that all the installed services are parsed into
      * libaccounts' DB, we enumerate them now.
      */
-    Accounts::Manager *manager =
-        new Accounts::Manager(Accounts::Manager::DisableNotifications);
     manager->serviceList();
     delete manager;
 

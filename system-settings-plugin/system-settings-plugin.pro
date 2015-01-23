@@ -1,7 +1,27 @@
 include(../common-project-config.pri)
 include($${TOP_SRC_DIR}/common-vars.pri)
 
-TEMPLATE=aux
+TEMPLATE=lib
+TARGET = online-accounts
+
+CONFIG += \
+    link_pkgconfig \
+    plugin \
+    qt
+
+QT += \
+    core \
+    qml
+
+PKGCONFIG += \
+    SystemSettings \
+    accounts-qt5
+
+SOURCES += \
+    plugin.cpp
+
+HEADERS += \
+    plugin.h
 
 QML_SOURCES = \
     AccountEditPage.qml \
@@ -18,6 +38,9 @@ QML_SOURCES = \
 settings.files = online-accounts.settings
 settings.path = $${PLUGIN_MANIFEST_DIR}
 INSTALLS += settings
+
+target.path = $${PLUGIN_MODULE_DIR}
+INSTALLS += target
 
 image.files = settings-accounts.svg
 image.path = $${PLUGIN_MANIFEST_DIR}/icons

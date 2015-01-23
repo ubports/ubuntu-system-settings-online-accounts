@@ -130,8 +130,7 @@ Item {
             top: parent.top
             left: parent.left
             right: parent.right
-            bottom: cancelButton.top
-            bottomMargin: Math.max(osk.height - cancelButton.height, 0)
+            bottom: Qt.inputMethod.visible ? osk.top : cancelButton.top
         }
         focus: true
         visible: !loading

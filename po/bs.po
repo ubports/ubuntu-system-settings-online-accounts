@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-26 10:31+0200\n"
-"PO-Revision-Date: 2014-05-15 13:43+0000\n"
-"Last-Translator: Dinko Osmankovic <Unknown>\n"
+"PO-Revision-Date: 2015-01-25 21:41+0000\n"
+"Last-Translator: Kenan Gutić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-01-24 06:19+0000\n"
+"X-Launchpad-Export-Date: 2015-01-26 06:54+0000\n"
 "X-Generator: Launchpad (build 17306)\n"
 
 #: ../plugins/example/Main.qml:33
@@ -57,7 +57,7 @@ msgstr "Dodaj račun:"
 
 #: ../online-accounts-ui/module/OAuth.qml:119
 msgid "Loading…"
-msgstr ""
+msgstr "Učitavanje..."
 
 #: ../online-accounts-ui/module/OAuth.qml:149
 #: ../online-accounts-ui/module/RemovalConfirmation.qml:43
@@ -96,16 +96,16 @@ msgstr "Pristup ovom računu:"
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:41
 #, qt-format
 msgid "%1 wants to access your %2 account"
-msgstr ""
+msgstr "%1 želi pristupiti vaše %2 računu"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:64
 msgid "Allow"
-msgstr ""
+msgstr "Dozvoli"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:71
 msgid "Don't allow"
-msgstr ""
+msgstr "Zabrani"
 
 #: ../online-accounts-ui/qml/ProviderRequest.qml:87
 msgid "Add another"
-msgstr ""
+msgstr "Dodaj drugi"

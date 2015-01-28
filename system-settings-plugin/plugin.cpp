@@ -64,7 +64,9 @@ static QStringList translations(const QString &text, const QString &domain)
         QByteArray baDomain = domain.toUtf8();
         QString translated = QString::fromUtf8(dgettext(baDomain.constData(),
                                                         baText.constData()));
-        keys.append(translated.toLower().split(" "));
+        if (translated != text) {
+            keys.append(translated.toLower().split(" "));
+        }
     }
     return keys;
 }

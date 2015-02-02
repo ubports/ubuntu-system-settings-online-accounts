@@ -58,14 +58,15 @@ static QStringList translations(const QString &text, const QString &domain)
      * - the translated text (lowercase, split into words)
      */
     QStringList keys;
-    keys = text.toLower().split(" ");
+    keys = text.toLower().split(" ", QString::SkipEmptyParts);
     if (!domain.isEmpty()) {
         QByteArray baText = text.toUtf8();
         QByteArray baDomain = domain.toUtf8();
         QString translated = QString::fromUtf8(dgettext(baDomain.constData(),
                                                         baText.constData()));
         if (translated != text) {
-            keys.append(translated.toLower().split(" "));
+            keys.append(translated.toLower().split(" ",
+                                                   QString::SkipEmptyParts));
         }
     }
     return keys;
@@ -95,7 +96,10 @@ void Item::computeKeywords()
     Q_FOREACH(Accounts::AccountId id, manager->accountList()) {
         Accounts::Account *account = manager->account(id);
         if (Q_UNLIKELY(!account)) continue;
-        keywords.append(account->displayName().toLower());
+        QString name = account->displayName().toLower();
+        if (!name.isEmpty()) {
+            keywords.append(name);
+        }
     }
 
     delete manager;

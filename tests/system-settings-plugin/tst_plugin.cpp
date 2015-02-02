@@ -91,7 +91,6 @@ private:
     void createAccount(const QString &name);
 
 private:
-    friend char *dgettext(const char *, const char *);
     QHash<QString,FileData> m_providersData;
     QHash<QString,FileData> m_servicesData;
     QDir m_dataDir;

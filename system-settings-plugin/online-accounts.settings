@@ -14,14 +14,10 @@
         "access",
         "authorize",
         "revoke",
-        "web",
-        "facebook",
-        "twitter",
-        "flickr",
-        "google",
-        "gmail"
+        "web"
     ],
     "has-dynamic-keywords": true,
     "has-dynamic-visibility": false,
+    "plugin": "online-accounts",
     "page-component": "MainPage.qml"
 }

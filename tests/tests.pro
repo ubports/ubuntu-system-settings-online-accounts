@@ -5,4 +5,5 @@ SUBDIRS = \
     client \
     online-accounts-service \
     online-accounts-ui \
-    plugin
+    plugin \
+    system-settings-plugin

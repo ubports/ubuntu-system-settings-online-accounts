@@ -1,0 +1,108 @@
+# Occitan (post 1500) translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
+# This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntu-system-settings-online-accounts\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-08-26 10:31+0200\n"
+"PO-Revision-Date: 2015-02-06 06:22+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Occitan (post 1500) <oc@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2015-02-07 07:31+0000\n"
+"X-Generator: Launchpad (build 17331)\n"
+
+#: ../plugins/example/Main.qml:33
+msgid "User name"
+msgstr "Nom d'utilizaire"
+
+#: ../plugins/example/Main.qml:39
+msgid "Password"
+msgstr "Senhal"
+
+#: ../system-settings-plugin/AccountsPage.qml:51
+msgid "Add account…"
+msgstr "Apondre un compte…"
+
+#: ../system-settings-plugin/AddAccountLabel.qml:27
+msgid ""
+"Storing account details here lets apps use the accounts without you having "
+"to sign in for each app."
+msgstr ""
+
+#: ../system-settings-plugin/MainPage.qml:29
+#: ../online-accounts-ui/qml/ProviderRequest.qml:51
+#: ../online-accounts-ui/qml/ProviderRequest.qml:119 ../.build/settings.js:1
+msgid "Accounts"
+msgstr "Comptes"
+
+#: ../system-settings-plugin/NewAccountPage.qml:23
+msgid "Add account"
+msgstr "Apondre un compte"
+
+#: ../system-settings-plugin/NoAccountsPage.qml:36
+msgid "No accounts"
+msgstr ""
+
+#: ../system-settings-plugin/NoAccountsPage.qml:44
+msgid "Add account:"
+msgstr ""
+
+#: ../online-accounts-ui/module/OAuth.qml:119
+msgid "Loading…"
+msgstr "Cargament…"
+
+#: ../online-accounts-ui/module/OAuth.qml:149
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:43
+#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
+msgid "Cancel"
+msgstr "Abandonar"
+
+#: ../online-accounts-ui/module/Options.qml:36
+msgid "ID"
+msgstr "Identificant"
+
+#: ../online-accounts-ui/module/Options.qml:48
+msgid "Remove account…"
+msgstr "Suprimir lo compte..."
+
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr "Suprimir lo compte"
+
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr ""
+
+#: ../online-accounts-ui/module/RemovalConfirmation.qml:38
+msgid "Remove"
+msgstr "Suprimir"
+
+#: ../online-accounts-ui/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr ""
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:41
+#, qt-format
+msgid "%1 wants to access your %2 account"
+msgstr ""
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:64
+msgid "Allow"
+msgstr "Autorizar"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:71
+msgid "Don't allow"
+msgstr "Refusar"
+
+#: ../online-accounts-ui/qml/ProviderRequest.qml:87
+msgid "Add another"
+msgstr ""

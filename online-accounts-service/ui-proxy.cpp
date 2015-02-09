@@ -246,6 +246,13 @@ bool UiProxyPrivate::init()
         setupPromptSession();
     }
 
+    /* We also create ~/cache/online-accounts-ui/, since the plugin might not
+     * have permissions to do that. */
+    QString userCacheDir =
+        QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
+    QDir cacheDir(userCacheDir + "/online-accounts-ui");
+    if (!cacheDir.exists()) cacheDir.mkpath(".");
+
     return true;
 }
 

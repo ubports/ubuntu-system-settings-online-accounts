@@ -76,10 +76,12 @@ int main(int argc, char **argv)
     // Enable compositing in oxide
     QOpenGLContext *glcontext = new QOpenGLContext();
     glcontext->create();
-#if QT_VERSION < QT_VERSION_CHECK(5, 3, 0)
-    QSGContext::setSharedOpenGLContext(glcontext);
-#else
+#if QT_VERSION >= QT_VERSION_CHECK(5, 4, 0)
+    qt_gl_set_global_share_context(shareContext.data());
+#elif QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
     QOpenGLContextPrivate::setGlobalShareContext(glcontext);
+#else
+    QSGContext::setSharedOpenGLContext(glcontext);
 #endif
 
     QString socket;

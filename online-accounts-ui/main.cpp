@@ -77,7 +77,7 @@ int main(int argc, char **argv)
     QOpenGLContext *glcontext = new QOpenGLContext();
     glcontext->create();
 #if QT_VERSION >= QT_VERSION_CHECK(5, 4, 0)
-    qt_gl_set_global_share_context(shareContext.data());
+    qt_gl_set_global_share_context(glcontext);
 #elif QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
     QOpenGLContextPrivate::setGlobalShareContext(glcontext);
 #else

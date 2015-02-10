@@ -64,6 +64,7 @@ public:
 
 private Q_SLOTS:
     void onNewConnection();
+    void onDisconnected();
     void onDataReady(QByteArray &data);
     void onRequestCompleted();
     void onFinishedTimer();
@@ -136,6 +137,15 @@ void UiProxyPrivate::sendOperation(const QVariantMap &data)
     m_ipc.write(ba);
 }
 
+void UiProxyPrivate::onDisconnected()
+{
+    Q_Q(UiProxy);
+
+    if (!m_finishedTimer.isActive()) {
+        Q_EMIT q->finished();
+    }
+}
+
 void UiProxyPrivate::onNewConnection()
 {
     Q_Q(UiProxy);
@@ -151,7 +161,7 @@ void UiProxyPrivate::onNewConnection()
 
     m_socket = socket;
     QObject::connect(socket, SIGNAL(disconnected()),
-                     q, SIGNAL(finished()));
+                     this, SLOT(onDisconnected()));
     m_ipc.setChannels(socket, socket);
     m_server.close(); // stop listening
 

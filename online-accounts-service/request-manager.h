@@ -42,7 +42,6 @@ public:
     static RequestManager *instance();
 
     void enqueue(Request *request);
-    UiProxy *findMatching(const QVariantMap &parameters);
 
     bool isIdle() const;
 

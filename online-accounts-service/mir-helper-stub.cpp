@@ -40,7 +40,11 @@ PromptSession::~PromptSession()
 
 QString PromptSession::requestSocket()
 {
+#ifdef BUILDING_TESTS
+    return QString::fromUtf8(qgetenv("TEST_MIR_HELPER_SOCKET"));
+#else
     return QString();
+#endif
 }
 
 MirHelper::MirHelper(QObject *parent):
@@ -65,5 +69,10 @@ MirHelper *MirHelper::instance()
 PromptSessionP MirHelper::createPromptSession(pid_t initiatorPid)
 {
     Q_UNUSED(initiatorPid);
+#ifdef BUILDING_TESTS
+    return qgetenv("TEST_MIR_HELPER_FAIL_CREATE").isEmpty() ?
+        PromptSessionP(new PromptSession(0)) : PromptSessionP();
+#else
     return PromptSessionP();
+#endif
 }

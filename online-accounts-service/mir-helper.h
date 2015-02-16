@@ -27,6 +27,7 @@
 namespace OnlineAccountsUi {
 
 class PromptSessionPrivate;
+class MirHelper;
 class MirHelperPrivate;
 
 class PromptSession: public QObject
@@ -45,6 +46,7 @@ private:
     explicit PromptSession(PromptSessionPrivate *priv);
 
 private:
+    friend class MirHelper;
     friend class MirHelperPrivate;
     PromptSessionPrivate *d_ptr;
     Q_DECLARE_PRIVATE(PromptSession)

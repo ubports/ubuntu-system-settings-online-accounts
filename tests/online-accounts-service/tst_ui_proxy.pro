@@ -13,6 +13,7 @@ QT += \
     testlib
 
 DEFINES += \
+    BUILDING_TESTS \
     INSTALL_BIN_DIR=\\\"$${INSTALL_PREFIX}/bin\\\"
 
 PKGCONFIG += \

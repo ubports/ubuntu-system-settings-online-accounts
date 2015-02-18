@@ -204,6 +204,8 @@ private Q_SLOTS:
     void testRequestDelay();
     void testHandler();
     void testWrapper();
+    void testTrustSessionError_data();
+    void testTrustSessionError();
 
 private:
     QDBusConnection m_connection;
@@ -475,6 +477,43 @@ void UiProxyTest::testWrapper()
              QString(INSTALL_BIN_DIR "/online-accounts-ui"));
 
     delete proxy;
+}
+
+void UiProxyTest::testTrustSessionError_data()
+{
+    QTest::addColumn<int>("clientPid");
+    QTest::addColumn<QString>("envVar");
+    QTest::addColumn<bool>("expectSuccess");
+
+    QTest::newRow("PID 0") << 0 << "" << false;
+
+    QTest::newRow("fail creation") << 4 <<
+        "TEST_MIR_HELPER_FAIL_CREATE=1" << false;
+
+    QTest::newRow("return empty socket") << 4 <<
+        "" << false;
+
+    QTest::newRow("success") << 4 <<
+        "TEST_MIR_HELPER_SOCKET=something" << true;
+}
+
+void UiProxyTest::testTrustSessionError()
+{
+    QFETCH(int, clientPid);
+    QFETCH(QString, envVar);
+    QFETCH(bool, expectSuccess);
+
+    qputenv("QT_QPA_PLATFORM", "ubuntu-something");
+
+    QStringList envVarSplit = envVar.split('=');
+    QByteArray envVarKey = envVarSplit.value(0, "").toUtf8();
+    QByteArray envVarValue = envVarSplit.value(1, "").toUtf8();
+    qputenv(envVarKey.constData(), envVarValue);
+    UiProxy *proxy = new UiProxy(clientPid, this);
+    QCOMPARE(proxy->init(), expectSuccess);
+    delete proxy;
+
+    qunsetenv(envVarKey.constData());
 }
 
 QTEST_MAIN(UiProxyTest);

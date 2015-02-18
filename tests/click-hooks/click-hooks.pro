@@ -3,12 +3,16 @@ include(../../common-project-config.pri)
 TARGET = tst_online_accounts_hooks
 
 CONFIG += \
-    debug
+    debug \
+    link_pkgconfig
 
 QT += \
     core \
     testlib \
     xml
+
+PKGCONFIG += \
+    accounts-qt5
 
 DEFINES += \
     DEBUG_ENABLED \

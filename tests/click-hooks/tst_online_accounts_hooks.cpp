@@ -18,6 +18,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <Accounts/Account>
+#include <Accounts/Manager>
 #include <QDebug>
 #include <QDir>
 #include <QDomDocument>
@@ -42,6 +44,7 @@ private Q_SLOTS:
     void testValidHooks_data();
     void testValidHooks();
     void testRemoval();
+    void testAccountRemoval();
     void testUpdate();
     void testDesktopEntry_data();
     void testDesktopEntry();
@@ -139,6 +142,8 @@ void OnlineAccountsHooksTest::initTestCase()
 {
     qputenv("XDG_DATA_HOME", TEST_DIR);
     qputenv("OAH_CLICK_DIR", m_packageDir.path().toUtf8());
+    qputenv("ACCOUNTS", TEST_DIR);
+
     // The hook must be able to run without a D-Bus session
     qunsetenv("DBUS_SESSION_BUS_ADDRESS");
 
@@ -375,6 +380,64 @@ void OnlineAccountsHooksTest::testRemoval()
     QVERIFY(m_installDir.exists(stillInstalled));
     QVERIFY(!m_installDir.exists(myApp));
     QVERIFY(m_installDir.exists(noProfile));
+}
+
+void OnlineAccountsHooksTest::testAccountRemoval()
+{
+    clearHooksDir();
+    clearInstallDir();
+
+    Accounts::Manager *manager =
+        new Accounts::Manager(Accounts::Manager::DisableNotifications);
+
+    QString stillInstalled("providers/com.ubuntu.test_StillInstalled.provider");
+    writeInstalledFile(stillInstalled,
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<provider>\n"
+        "  <profile>com-ubuntu.test_StillInstalled_2.0</profile>\n"
+        "</provider>");
+    QVERIFY(m_installDir.exists(stillInstalled));
+
+    writeHookFile("com-ubuntu.test_StillInstalled_2.0.provider",
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<provider>\n"
+        "</provider>");
+
+    Accounts::Account *account =
+        manager->createAccount("com.ubuntu.test_StillInstalled");
+    account->setDisplayName("Still alive");
+    account->syncAndBlock();
+    Accounts::AccountId idPreserved = account->id();
+    QVERIFY(idPreserved > 0);
+
+    QString myProvider("providers/com.ubuntu.test_MyProvider.provider");
+    writeInstalledFile(myProvider,
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<provider>\n"
+        "  <profile>com-ubuntu.test_MyProvider_3.0</profile>\n"
+        "</provider>");
+    QVERIFY(m_installDir.exists(myProvider));
+
+    account = manager->createAccount("com.ubuntu.test_MyProvider");
+    account->setDisplayName("Must die");
+    account->syncAndBlock();
+    Accounts::AccountId idRemoved = account->id();
+    QVERIFY(idRemoved > 0);
+
+    delete manager;
+
+    QVERIFY(runHookProcess());
+
+    QVERIFY(m_installDir.exists(stillInstalled));
+    QVERIFY(!m_installDir.exists(myProvider));
+
+    manager = new Accounts::Manager(Accounts::Manager::DisableNotifications);
+    account = manager->account(idPreserved);
+    QVERIFY(account != 0);
+    account = manager->account(idRemoved);
+    QVERIFY(account == 0);
+
+    delete manager;
 }
 
 void OnlineAccountsHooksTest::testUpdate()

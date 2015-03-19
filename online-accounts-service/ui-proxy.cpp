@@ -225,6 +225,8 @@ bool UiProxyPrivate::setupPromptSession()
 {
     Q_Q(UiProxy);
 
+    if (!m_clientPid) return false;
+
     PromptSessionP session =
         MirHelper::instance()->createPromptSession(m_clientPid);
     if (!session) return false;
@@ -246,15 +248,20 @@ bool UiProxyPrivate::setupPromptSession()
 
 bool UiProxyPrivate::init()
 {
-    m_arguments.clear();
-    if (!m_promptSession) {
-        /* the first argument is required to be the desktop file */
-        m_arguments.append("--desktop_file_hint=/usr/share/applications/online-accounts-ui.desktop");
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    if (env.value("QT_QPA_PLATFORM").startsWith("ubuntu")) {
+        if (!setupPromptSession()) {
+            qWarning() << "Couldn't setup prompt session";
+            return false;
+        }
     }
 
-    if (m_clientPid) {
-        setupPromptSession();
-    }
+    /* We also create ~/cache/online-accounts-ui/, since the plugin might not
+     * have permissions to do that. */
+    QString userCacheDir =
+        QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
+    QDir cacheDir(userCacheDir + "/online-accounts-ui");
+    if (!cacheDir.exists()) cacheDir.mkpath(".");
 
     return true;
 }
@@ -311,15 +318,6 @@ void UiProxyPrivate::startProcess()
     } else {
         processName = wrapper;
         m_arguments.prepend(accountsUi);
-    }
-
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    if (env.value("QT_QPA_PLATFORM").startsWith("ubuntu")) {
-        if (!setupPromptSession()) {
-            qWarning() << "Couldn't setup prompt session";
-            setStatus(UiProxy::Error);
-            return;
-        }
     }
 
     setStatus(UiProxy::Loading);

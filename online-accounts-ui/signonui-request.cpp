@@ -33,6 +33,8 @@
 #include <SignOn/uisessiondata.h>
 #include <SignOn/uisessiondata_priv.h>
 #include <sys/apparmor.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 using namespace SignOnUi;
 
@@ -135,6 +137,13 @@ static QString findClientProfile(const QString &clientProfile,
     if (profile == "unconfined" &&
         parameters.contains(SSOUI_KEY_PID)) {
         pid_t pid = parameters.value(SSOUI_KEY_PID).toUInt();
+        if (pid == getpid()) {
+            /* If the request was initiated by our own process, we might not
+             * have the rights to call the aa_* functions (we might be
+             * confined). */
+            return QString();
+        }
+
         char *con = NULL, *mode = NULL;
         int ret = aa_gettaskcon(pid, &con, &mode);
         if (Q_LIKELY(ret >= 0)) {

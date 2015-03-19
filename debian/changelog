@@ -1,12 +1,19 @@
-ubuntu-system-settings-online-accounts (0.6+15.04.20150211-0ubuntu2) UNRELEASED; urgency=medium
+ubuntu-system-settings-online-accounts (0.6+15.04.20150319-0ubuntu1) vivid; urgency=medium
 
+  [ Alberto Mardegan ]
   * Merge from upstream
     - Add account data as search keywords (LP: #1373279)
     - Delete accounts when their plugin is removed (LP: #1413542)
     - More fixes for plugin confinement (LP: #1219644)
     - Fail initialization if trust session cannot be setup (LP: #1420847)
 
- -- Alberto Mardegan <alberto.mardegan@canonical.com>  Wed, 18 Feb 2015 09:34:01 +0200
+  [ CI Train Bot ]
+  * Resync trunk
+  * Resync trunk
+  * Resync trunk
+  * Resync trunk
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 19 Mar 2015 10:52:45 +0000
 
 ubuntu-system-settings-online-accounts (0.6+15.04.20150211-0ubuntu1) vivid; urgency=medium
 

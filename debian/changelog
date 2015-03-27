@@ -1,3 +1,9 @@
+ubuntu-system-settings-online-accounts (0.6+15.04.20150327-0ubuntu1) vivid; urgency=medium
+
+  * New rebuild forced.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Fri, 27 Mar 2015 11:13:26 +0000
+
 ubuntu-system-settings-online-accounts (0.6+15.04.20150319-0ubuntu1) vivid; urgency=medium
 
   [ Alberto Mardegan ]

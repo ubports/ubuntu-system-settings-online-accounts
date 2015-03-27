@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-02-07 07:31+0000\n"
-"X-Generator: Launchpad (build 17331)\n"
+"X-Launchpad-Export-Date: 2015-03-27 05:35+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -47,11 +47,11 @@ msgstr "Apondre un compte"
 
 #: ../system-settings-plugin/NoAccountsPage.qml:36
 msgid "No accounts"
-msgstr ""
+msgstr "Pas de compte"
 
 #: ../system-settings-plugin/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr ""
+msgstr "Apondre un compte :"
 
 #: ../online-accounts-ui/module/OAuth.qml:119
 msgid "Loading…"
@@ -88,7 +88,7 @@ msgstr "Suprimir"
 
 #: ../online-accounts-ui/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr ""
+msgstr "Accedir a aqueste compte :"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:41
 #, qt-format
@@ -105,4 +105,4 @@ msgstr "Refusar"
 
 #: ../online-accounts-ui/qml/ProviderRequest.qml:87
 msgid "Add another"
-msgstr ""
+msgstr "Apondre un autre"

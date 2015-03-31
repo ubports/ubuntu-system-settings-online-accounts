@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-26 10:31+0200\n"
-"PO-Revision-Date: 2015-03-27 17:53+0000\n"
+"PO-Revision-Date: 2015-03-30 07:20+0000\n"
 "Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-03-28 05:32+0000\n"
+"X-Launchpad-Export-Date: 2015-03-31 05:58+0000\n"
 "X-Generator: Launchpad (build 17413)\n"
 
 #: ../plugins/example/Main.qml:33
@@ -71,7 +71,7 @@ msgstr "ID"
 
 #: ../online-accounts-ui/module/Options.qml:48
 msgid "Remove account…"
-msgstr "Eliminar conta..."
+msgstr "Eliminar a conta..."
 
 #: ../online-accounts-ui/module/RemovalConfirmation.qml:32
 msgid "Remove account"

@@ -212,6 +212,7 @@ void BrowserRequestPrivate::setCookies(const QVariant &cookies)
     if (Q_LIKELY(file.open(QIODevice::WriteOnly | QIODevice::Text))) {
         QJsonDocument doc(jsonCookies);
         file.write(doc.toJson());
+        file.close();
     }
 
     onFinished();

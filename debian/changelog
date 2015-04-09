@@ -1,3 +1,17 @@
+ubuntu-system-settings-online-accounts (0.6+15.04.20150409-0ubuntu1) vivid; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Flush writes to the JSON cookie file before telling to online-
+    accounts-service that we are ready. Otherwise there is the risk of
+    having online-accounts-service read that file before it has been
+    written. (LP: #1440034)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+  * Resync trunk.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 09 Apr 2015 13:22:39 +0000
+
 ubuntu-system-settings-online-accounts (0.6+15.04.20150327-0ubuntu1) vivid; urgency=medium
 
   * New rebuild forced.

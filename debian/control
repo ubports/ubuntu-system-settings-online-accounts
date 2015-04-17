@@ -43,6 +43,7 @@ Depends: ${misc:Depends},
          qtdeclarative5-ubuntu-ui-toolkit-plugin | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles,
          signon-ui-service,
          ubuntu-system-settings
+Conflicts: account-plugin-windows-live
 Provides: qml-module-ubuntu-onlineaccounts-plugin
 Description: Online Accounts setup for Ubuntu Touch
  Online Accounts setup utility for the Ubuntu Touch System Settings.

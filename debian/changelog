@@ -1,3 +1,13 @@
+ubuntu-system-settings-online-accounts (0.6+15.04.20150417-0ubuntu1) vivid; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Update pot file (LP: #1445072, #1432613)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Fri, 17 Apr 2015 14:57:06 +0000
+
 ubuntu-system-settings-online-accounts (0.6+15.04.20150409-0ubuntu1) vivid; urgency=medium
 
   [ Alberto Mardegan ]

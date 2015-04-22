@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 10:31+0200\n"
+"POT-Creation-Date: 2015-04-17 09:24+0300\n"
 "PO-Revision-Date: 2014-10-16 03:05+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Punjabi <pa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-04-17 05:35+0000\n"
+"X-Launchpad-Export-Date: 2015-04-22 06:10+0000\n"
 "X-Generator: Launchpad (build 17430)\n"
 
 #: ../plugins/example/Main.qml:33
@@ -24,6 +24,46 @@ msgstr "ਯੂਜ਼ਰ ਨਾਂ"
 #: ../plugins/example/Main.qml:39
 msgid "Password"
 msgstr "ਪਾਸਵਰਡ"
+
+#: ../plugins/module/OAuth.qml:119
+msgid "Loading…"
+msgstr "…ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+
+#: ../plugins/module/OAuth.qml:148
+#: ../plugins/module/RemovalConfirmation.qml:43
+#: ../online-accounts-ui/qml/SignOnUiDialog.qml:90
+#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
+msgid "Cancel"
+msgstr "ਰੱਦ ਕਰੋ"
+
+#: ../plugins/module/Options.qml:36
+msgid "ID"
+msgstr "ID"
+
+#: ../plugins/module/Options.qml:48
+msgid "Remove account…"
+msgstr "ਅਕਾਊਂਟ ਹਟਾਓ..."
+
+#: ../plugins/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr "ਅਕਾਊਂਟ ਹਟਾਓ"
+
+#: ../plugins/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr ""
+"%1 ਅਕਾਊਂਟ ਕੇਵਲ ਤੁਹਾਡੇ ਫੋਨ ਤੋਂ ਹੀ ਹਟਾਇਆ ਜਾਵੇਗਾ। ਤੁਸੀਂ ਇਸ ਨੂੰ ਬਾਅਦ ਵਿੱਚ ਫੇਰ "
+"ਜੋੜ ਸਕਦੇ ਹੋ।"
+
+#: ../plugins/module/RemovalConfirmation.qml:38
+msgid "Remove"
+msgstr "ਹਟਾਓ"
+
+#: ../plugins/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr "ਇਹ ਅਕਾਊਂਟ ਲਈ ਪਹੁੰਚ:"
 
 #: ../system-settings-plugin/AccountsPage.qml:51
 msgid "Add account…"
@@ -37,9 +77,7 @@ msgstr ""
 "ਇੱਥੇ ਅਕਾਊਂਟ ਵੇਰਵਾ ਸੰਭਾਲਣ ਨਾਲ ਐਪਸ ਤੁਹਾਡੇ ਵਲੋਂ ਹਰੇਕ ਐਪ ਲਈ ਸਾਇਨ ਕੀਤੇ ਬਿਨਾਂ "
 "ਅਕਾਊਂਟ ਨੂੰ ਵਰਤ ਸਕਦੀਆਂ ਹਨ।"
 
-#: ../system-settings-plugin/MainPage.qml:29
-#: ../online-accounts-ui/qml/ProviderRequest.qml:51
-#: ../online-accounts-ui/qml/ProviderRequest.qml:119 ../.build/settings.js:1
+#: ../system-settings-plugin/MainPage.qml:32 ../.build/settings.js:1
 msgid "Accounts"
 msgstr "ਅਕਾਊਂਟ"
 
@@ -55,58 +93,22 @@ msgstr "ਕੋਈ ਅਕਾਊਂਟ ਨਹੀਂ"
 msgid "Add account:"
 msgstr "ਅਕਾਊਂਟ ਸ਼ਾਮਿਲ ਕਰੋ:"
 
-#: ../online-accounts-ui/module/OAuth.qml:119
-msgid "Loading…"
-msgstr "…ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
-
-#: ../online-accounts-ui/module/OAuth.qml:149
-#: ../online-accounts-ui/module/RemovalConfirmation.qml:43
-#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
-msgid "Cancel"
-msgstr "ਰੱਦ ਕਰੋ"
-
-#: ../online-accounts-ui/module/Options.qml:36
-msgid "ID"
-msgstr "ID"
-
-#: ../online-accounts-ui/module/Options.qml:48
-msgid "Remove account…"
-msgstr "ਅਕਾਊਂਟ ਹਟਾਓ..."
-
-#: ../online-accounts-ui/module/RemovalConfirmation.qml:32
-msgid "Remove account"
-msgstr "ਅਕਾਊਂਟ ਹਟਾਓ"
-
-#: ../online-accounts-ui/module/RemovalConfirmation.qml:33
-#, qt-format
-msgid ""
-"The %1 account will be removed only from your phone. You can add it again "
-"later."
-msgstr ""
-"%1 ਅਕਾਊਂਟ ਕੇਵਲ ਤੁਹਾਡੇ ਫੋਨ ਤੋਂ ਹੀ ਹਟਾਇਆ ਜਾਵੇਗਾ। ਤੁਸੀਂ ਇਸ ਨੂੰ ਬਾਅਦ ਵਿੱਚ ਫੇਰ "
-"ਜੋੜ ਸਕਦੇ ਹੋ।"
-
-#: ../online-accounts-ui/module/RemovalConfirmation.qml:38
-msgid "Remove"
-msgstr "ਹਟਾਓ"
-
-#: ../online-accounts-ui/module/ServiceSwitches.qml:33
-msgid "Access to this account:"
-msgstr "ਇਹ ਅਕਾਊਂਟ ਲਈ ਪਹੁੰਚ:"
-
-#: ../online-accounts-ui/qml/AuthorizationPage.qml:41
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:46
 #, qt-format
 msgid "%1 wants to access your %2 account"
 msgstr "%1 ਤੁਹਾਡੇ %2 ਅਕਾਊਂਟ ਨੂੰ ਵਰਤਣਾ ਚਾਹੁੰਦਾ ਹੈ"
 
-#: ../online-accounts-ui/qml/AuthorizationPage.qml:64
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:87
 msgid "Allow"
 msgstr "ਮਨਜ਼ੂਰ"
 
-#: ../online-accounts-ui/qml/AuthorizationPage.qml:71
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:96
+msgid "Add another account…"
+msgstr ""
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:104
 msgid "Don't allow"
 msgstr "ਮਨਜ਼ੂਰੀ ਨਾ ਦਿਓ"
 
-#: ../online-accounts-ui/qml/ProviderRequest.qml:87
-msgid "Add another"
-msgstr "ਹੋਰ ਸ਼ਾਮਿਲ ਕਰੋ"
+#~ msgid "Add another"
+#~ msgstr "ਹੋਰ ਸ਼ਾਮਿਲ ਕਰੋ"

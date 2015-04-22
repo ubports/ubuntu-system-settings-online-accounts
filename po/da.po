@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 10:31+0200\n"
+"POT-Creation-Date: 2015-04-17 09:24+0300\n"
 "PO-Revision-Date: 2014-07-22 15:46+0000\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-04-17 05:35+0000\n"
+"X-Launchpad-Export-Date: 2015-04-22 06:10+0000\n"
 "X-Generator: Launchpad (build 17430)\n"
 
 #: ../plugins/example/Main.qml:33
@@ -25,6 +25,46 @@ msgstr "Brugernavn"
 #: ../plugins/example/Main.qml:39
 msgid "Password"
 msgstr "Adgangskode"
+
+#: ../plugins/module/OAuth.qml:119
+msgid "Loading…"
+msgstr ""
+
+#: ../plugins/module/OAuth.qml:148
+#: ../plugins/module/RemovalConfirmation.qml:43
+#: ../online-accounts-ui/qml/SignOnUiDialog.qml:90
+#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
+msgid "Cancel"
+msgstr "Annullér"
+
+#: ../plugins/module/Options.qml:36
+msgid "ID"
+msgstr "Id"
+
+#: ../plugins/module/Options.qml:48
+msgid "Remove account…"
+msgstr "Fjern konto…"
+
+#: ../plugins/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr "Fjern konto"
+
+#: ../plugins/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr ""
+"Kontoen %1 vil kun blive fjernet fra din telefon. Du kan tilføje den igen "
+"senere."
+
+#: ../plugins/module/RemovalConfirmation.qml:38
+msgid "Remove"
+msgstr "Fjern"
+
+#: ../plugins/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr "Adgang til denne konto:"
 
 #: ../system-settings-plugin/AccountsPage.qml:51
 msgid "Add account…"
@@ -38,9 +78,7 @@ msgstr ""
 "Hvis kontodetaljer lagres her, kan apps bruge kontoerne uden at du skal "
 "logge ind for hver app."
 
-#: ../system-settings-plugin/MainPage.qml:29
-#: ../online-accounts-ui/qml/ProviderRequest.qml:51
-#: ../online-accounts-ui/qml/ProviderRequest.qml:119 ../.build/settings.js:1
+#: ../system-settings-plugin/MainPage.qml:32 ../.build/settings.js:1
 msgid "Accounts"
 msgstr "Konti"
 
@@ -56,58 +94,19 @@ msgstr "Ingen konti"
 msgid "Add account:"
 msgstr "Tilføj konto:"
 
-#: ../online-accounts-ui/module/OAuth.qml:119
-msgid "Loading…"
-msgstr ""
-
-#: ../online-accounts-ui/module/OAuth.qml:149
-#: ../online-accounts-ui/module/RemovalConfirmation.qml:43
-#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
-msgid "Cancel"
-msgstr "Annullér"
-
-#: ../online-accounts-ui/module/Options.qml:36
-msgid "ID"
-msgstr "Id"
-
-#: ../online-accounts-ui/module/Options.qml:48
-msgid "Remove account…"
-msgstr "Fjern konto…"
-
-#: ../online-accounts-ui/module/RemovalConfirmation.qml:32
-msgid "Remove account"
-msgstr "Fjern konto"
-
-#: ../online-accounts-ui/module/RemovalConfirmation.qml:33
-#, qt-format
-msgid ""
-"The %1 account will be removed only from your phone. You can add it again "
-"later."
-msgstr ""
-"Kontoen %1 vil kun blive fjernet fra din telefon. Du kan tilføje den igen "
-"senere."
-
-#: ../online-accounts-ui/module/RemovalConfirmation.qml:38
-msgid "Remove"
-msgstr "Fjern"
-
-#: ../online-accounts-ui/module/ServiceSwitches.qml:33
-msgid "Access to this account:"
-msgstr "Adgang til denne konto:"
-
-#: ../online-accounts-ui/qml/AuthorizationPage.qml:41
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:46
 #, qt-format
 msgid "%1 wants to access your %2 account"
 msgstr ""
 
-#: ../online-accounts-ui/qml/AuthorizationPage.qml:64
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:87
 msgid "Allow"
 msgstr ""
 
-#: ../online-accounts-ui/qml/AuthorizationPage.qml:71
-msgid "Don't allow"
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:96
+msgid "Add another account…"
 msgstr ""
 
-#: ../online-accounts-ui/qml/ProviderRequest.qml:87
-msgid "Add another"
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:104
+msgid "Don't allow"
 msgstr ""

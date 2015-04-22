@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-26 10:31+0200\n"
+"POT-Creation-Date: 2015-04-17 09:24+0300\n"
 "PO-Revision-Date: 2015-02-06 06:22+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Occitan (post 1500) <oc@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-04-17 05:35+0000\n"
+"X-Launchpad-Export-Date: 2015-04-22 06:10+0000\n"
 "X-Generator: Launchpad (build 17430)\n"
 
 #: ../plugins/example/Main.qml:33
@@ -24,6 +24,44 @@ msgstr "Nom d'utilizaire"
 #: ../plugins/example/Main.qml:39
 msgid "Password"
 msgstr "Senhal"
+
+#: ../plugins/module/OAuth.qml:119
+msgid "Loading…"
+msgstr "Cargament…"
+
+#: ../plugins/module/OAuth.qml:148
+#: ../plugins/module/RemovalConfirmation.qml:43
+#: ../online-accounts-ui/qml/SignOnUiDialog.qml:90
+#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
+msgid "Cancel"
+msgstr "Abandonar"
+
+#: ../plugins/module/Options.qml:36
+msgid "ID"
+msgstr "Identificant"
+
+#: ../plugins/module/Options.qml:48
+msgid "Remove account…"
+msgstr "Suprimir lo compte..."
+
+#: ../plugins/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr "Suprimir lo compte"
+
+#: ../plugins/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr ""
+
+#: ../plugins/module/RemovalConfirmation.qml:38
+msgid "Remove"
+msgstr "Suprimir"
+
+#: ../plugins/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr "Accedir a aqueste compte :"
 
 #: ../system-settings-plugin/AccountsPage.qml:51
 msgid "Add account…"
@@ -35,9 +73,7 @@ msgid ""
 "to sign in for each app."
 msgstr ""
 
-#: ../system-settings-plugin/MainPage.qml:29
-#: ../online-accounts-ui/qml/ProviderRequest.qml:51
-#: ../online-accounts-ui/qml/ProviderRequest.qml:119 ../.build/settings.js:1
+#: ../system-settings-plugin/MainPage.qml:32 ../.build/settings.js:1
 msgid "Accounts"
 msgstr "Comptes"
 
@@ -53,56 +89,22 @@ msgstr "Pas de compte"
 msgid "Add account:"
 msgstr "Apondre un compte :"
 
-#: ../online-accounts-ui/module/OAuth.qml:119
-msgid "Loading…"
-msgstr "Cargament…"
-
-#: ../online-accounts-ui/module/OAuth.qml:149
-#: ../online-accounts-ui/module/RemovalConfirmation.qml:43
-#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
-msgid "Cancel"
-msgstr "Abandonar"
-
-#: ../online-accounts-ui/module/Options.qml:36
-msgid "ID"
-msgstr "Identificant"
-
-#: ../online-accounts-ui/module/Options.qml:48
-msgid "Remove account…"
-msgstr "Suprimir lo compte..."
-
-#: ../online-accounts-ui/module/RemovalConfirmation.qml:32
-msgid "Remove account"
-msgstr "Suprimir lo compte"
-
-#: ../online-accounts-ui/module/RemovalConfirmation.qml:33
-#, qt-format
-msgid ""
-"The %1 account will be removed only from your phone. You can add it again "
-"later."
-msgstr ""
-
-#: ../online-accounts-ui/module/RemovalConfirmation.qml:38
-msgid "Remove"
-msgstr "Suprimir"
-
-#: ../online-accounts-ui/module/ServiceSwitches.qml:33
-msgid "Access to this account:"
-msgstr "Accedir a aqueste compte :"
-
-#: ../online-accounts-ui/qml/AuthorizationPage.qml:41
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:46
 #, qt-format
 msgid "%1 wants to access your %2 account"
 msgstr ""
 
-#: ../online-accounts-ui/qml/AuthorizationPage.qml:64
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:87
 msgid "Allow"
 msgstr "Autorizar"
 
-#: ../online-accounts-ui/qml/AuthorizationPage.qml:71
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:96
+msgid "Add another account…"
+msgstr ""
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:104
 msgid "Don't allow"
 msgstr "Refusar"
 
-#: ../online-accounts-ui/qml/ProviderRequest.qml:87
-msgid "Add another"
-msgstr "Apondre un autre"
+#~ msgid "Add another"
+#~ msgstr "Apondre un autre"

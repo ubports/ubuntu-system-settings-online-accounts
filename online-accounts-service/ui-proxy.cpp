@@ -26,6 +26,8 @@
 
 #include <Accounts/Manager>
 #include <Accounts/Provider>
+#include <QByteArray>
+#include <QDataStream>
 #include <QDir>
 #include <QDomDocument>
 #include <QDomElement>

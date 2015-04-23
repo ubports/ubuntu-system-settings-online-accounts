@@ -23,6 +23,8 @@
 #include "mock/request-mock.h"
 #include "ui-proxy.h"
 
+#include <QByteArray>
+#include <QDataStream>
 #include <QDebug>
 #include <QDBusConnection>
 #include <QDBusMessage>

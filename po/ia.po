@@ -1,16 +1,16 @@
-# Spanish translation for ubuntu-system-settings-online-accounts
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# Interlingua translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
 # This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-04-17 09:24+0300\n"
-"PO-Revision-Date: 2015-04-24 10:40+0000\n"
-"Last-Translator: Víctor R. Ruiz <Unknown>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"PO-Revision-Date: 2015-04-24 08:27+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Interlingua <ia@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,34 +19,34 @@ msgstr ""
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
-msgstr "Nombre de usuario"
+msgstr "Nomine de usator"
 
 #: ../plugins/example/Main.qml:39
 msgid "Password"
-msgstr "Contraseña"
+msgstr "Contrasigno"
 
 #: ../plugins/module/OAuth.qml:119
 msgid "Loading…"
-msgstr "Cargando…"
+msgstr "Cargamento..."
 
 #: ../plugins/module/OAuth.qml:148
 #: ../plugins/module/RemovalConfirmation.qml:43
 #: ../online-accounts-ui/qml/SignOnUiDialog.qml:90
 #: ../online-accounts-ui/qml/SignOnUiPage.qml:30
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Annullar"
 
 #: ../plugins/module/Options.qml:36
 msgid "ID"
-msgstr "Id."
+msgstr "ID"
 
 #: ../plugins/module/Options.qml:48
 msgid "Remove account…"
-msgstr "Eliminar cuenta…"
+msgstr "Remover le conto..."
 
 #: ../plugins/module/RemovalConfirmation.qml:32
 msgid "Remove account"
-msgstr "Eliminar cuenta"
+msgstr "Remove conto"
 
 #: ../plugins/module/RemovalConfirmation.qml:33
 #, qt-format
@@ -54,61 +54,61 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
-"La cuenta %1 se eliminará solo de su teléfono. Puede volver a añadirla "
-"después."
+"Le conto %1 essera removite solmente de tu telephono. Tu potera readder lo "
+"postea."
 
 #: ../plugins/module/RemovalConfirmation.qml:38
 msgid "Remove"
-msgstr "Eliminar"
+msgstr "Remover"
 
 #: ../plugins/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr "Acceso a esta cuenta:"
+msgstr "Accesso a iste conto:"
 
 #: ../system-settings-plugin/AccountsPage.qml:51
 msgid "Add account…"
-msgstr "Añadir cuenta…"
+msgstr "Adder un conto..."
 
 #: ../system-settings-plugin/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
-"Al guardar detalles de cuentas aquí, permitirá que las aplicaciones las usen "
-"sin que tenga que iniciar sesión en cada una."
+"Memorisar ci le informationes del contos permitte al applicationes de usar "
+"le contos sin demandar te de inserer tu contrasignos in cata application."
 
 #: ../system-settings-plugin/MainPage.qml:32 ../.build/settings.js:1
 msgid "Accounts"
-msgstr "Cuentas"
+msgstr "Contos"
 
 #: ../system-settings-plugin/NewAccountPage.qml:23
 msgid "Add account"
-msgstr "Añadir cuenta"
+msgstr "Adder un conto"
 
 #: ../system-settings-plugin/NoAccountsPage.qml:36
 msgid "No accounts"
-msgstr "No hay cuentas"
+msgstr "Nulle conto"
 
 #: ../system-settings-plugin/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr "Añadir cuenta:"
+msgstr "Adde un conto:"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:46
 #, qt-format
 msgid "%1 wants to access your %2 account"
-msgstr "%1 quiere acceder a su cuenta de %2"
+msgstr "%1 vole utilisar tu conto %2"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:87
 msgid "Allow"
-msgstr "Permitir"
+msgstr "Permitter"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:96
 msgid "Add another account…"
-msgstr "Añadir otra cuenta..."
+msgstr ""
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:104
 msgid "Don't allow"
-msgstr "No permitir"
+msgstr "Non permitter"
 
 #~ msgid "Add another"
-#~ msgstr "Añadir otra"
+#~ msgstr "Adder un altere"

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-04-17 09:24+0300\n"
-"PO-Revision-Date: 2015-06-09 15:41+0000\n"
+"PO-Revision-Date: 2015-06-11 21:39+0000\n"
 "Last-Translator: enolp <enolp@softastur.org>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-06-10 05:07+0000\n"
-"X-Generator: Launchpad (build 17549)\n"
+"X-Launchpad-Export-Date: 2015-06-12 05:29+0000\n"
+"X-Generator: Launchpad (build 17557)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -54,7 +54,8 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
-"La cuenta %1 desaniciaráse sólo del teléfonu. Pue volver a amestala más sero."
+"La cuenta %1 desaniciaráse namái del to teléfonu. Pues amestala de nueves "
+"sero."
 
 #: ../plugins/module/RemovalConfirmation.qml:38
 msgid "Remove"
@@ -62,7 +63,7 @@ msgstr "Desaniciar"
 
 #: ../plugins/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr "Entrar a esta cuenta:"
+msgstr "Accesu d'esta cuenta a:"
 
 #: ../system-settings-plugin/AccountsPage.qml:51
 msgid "Add account…"
@@ -73,8 +74,8 @@ msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
-"Guardar equí la información de la cuenta permitirá que les aplicaciones la "
-"usen ensin tener qu'aniciar sesión con caúna d'elles."
+"Atroxar equí los detalles de les cuentes dexa a les aplicaciones usar les "
+"cuentes ensin tener d'aniciar sesión en cada aplicación."
 
 #: ../system-settings-plugin/MainPage.qml:32 ../.build/settings.js:1
 msgid "Accounts"

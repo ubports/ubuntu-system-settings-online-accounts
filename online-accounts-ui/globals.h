@@ -27,6 +27,7 @@
 
 #define OAU_KEY_APPLICATION         QStringLiteral("application")
 #define OAU_KEY_PROVIDER            QStringLiteral("provider")
+#define OAU_KEY_SERVICE_ID          QStringLiteral("serviceId")
 #define OAU_KEY_SERVICE_TYPE        QStringLiteral("serviceType")
 #define OAU_KEY_WINDOW_ID           QStringLiteral("windowId")
 #define OAU_KEY_PID                 QStringLiteral("pid")
@@ -40,6 +41,8 @@
     QStringLiteral(OAU_ERROR_PREFIX "InvalidParameters")
 #define OAU_ERROR_INVALID_APPLICATION \
     QStringLiteral(OAU_ERROR_PREFIX "InvalidApplication")
+#define OAU_ERROR_INVALID_SERVICE \
+    QStringLiteral(OAU_ERROR_PREFIX "InvalidService")
 #define OAU_ERROR_PROMPT_SESSION \
     QStringLiteral(OAU_ERROR_PREFIX "NoPromptSession")
 

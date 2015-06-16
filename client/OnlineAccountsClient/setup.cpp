@@ -55,6 +55,7 @@ private Q_SLOTS:
 private:
     OnlineAccountsUi m_onlineAccountsUi;
     QString m_applicationId;
+    QString m_serviceId;
     QString m_serviceTypeId;
     QString m_providerId;
     mutable Setup *q_ptr;
@@ -93,6 +94,10 @@ void SetupPrivate::exec()
 
     if (!m_applicationId.isEmpty()) {
         options.insert(OAU_KEY_APPLICATION, m_applicationId);
+    }
+
+    if (!m_serviceId.isEmpty()) {
+        options.insert(OAU_KEY_SERVICE_ID, m_serviceId);
     }
 
     if (!m_serviceTypeId.isEmpty()) {
@@ -210,6 +215,25 @@ QString Setup::applicationId() const
 {
     Q_D(const Setup);
     return d->m_applicationId;
+}
+
+/*!
+ * \qmlproperty string Setup::serviceId
+ * If set to a valid service ID, the user will be asked to create an Online
+ * Account which provides this service.
+ */
+void Setup::setServiceId(const QString &serviceId)
+{
+    Q_D(Setup);
+    if (serviceId == d->m_serviceId) return;
+    d->m_serviceId = serviceId;
+    Q_EMIT serviceIdChanged();
+}
+
+QString Setup::serviceId() const
+{
+    Q_D(const Setup);
+    return d->m_serviceId;
 }
 
 /*!

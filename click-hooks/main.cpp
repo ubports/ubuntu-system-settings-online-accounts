@@ -257,8 +257,9 @@ static void removeStaleFiles(Accounts::Manager *manager,
             /* Check that the hook file is still there; if it isn't, then it
              * means that the click package was removed, and we must remove our
              * copy as well. */
-            QString hookFileName = profile + "." + fileType;
-            if (hooksDirIn.exists(hookFileName)) continue;
+            QString hookFileName = stripVersion(profile) + "_*." + fileType;
+            QStringList nameFilters = QStringList() << hookFileName;
+            if (!hooksDirIn.entryList(nameFilters).isEmpty()) continue;
 
             QFile::remove(fileInfo.filePath());
             /* If this is a provider, we must also remove any accounts

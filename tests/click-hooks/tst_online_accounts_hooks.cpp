@@ -398,7 +398,9 @@ void OnlineAccountsHooksTest::testAccountRemoval()
         "</provider>");
     QVERIFY(m_installDir.exists(stillInstalled));
 
-    writeHookFile("com-ubuntu.test_StillInstalled_2.0.provider",
+    /* Write a newer version of the hook, to make sure that accounts created
+     * with older versions of the app are preserved */
+    writeHookFile("com-ubuntu.test_StillInstalled_3.0.provider",
         "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
         "<provider>\n"
         "</provider>");
@@ -471,6 +473,7 @@ void OnlineAccountsHooksTest::testUpdate()
 
     /* Now remove the hook file and write a newer version of it */
     clearHooksDir();
+    QTest::qWait(1500); // make sure that the timestamp is newer
     writeHookFile("com-ubuntu.test_MyApp_1.1.application",
         "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
         "<application>\n"

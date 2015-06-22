@@ -88,7 +88,7 @@ void SetupTest::testLoadPlugin()
 {
     QQmlEngine engine;
     QQmlComponent component(&engine);
-    component.setData("import Ubuntu.OnlineAccounts.Client 0.1\n"
+    component.setData("import Ubuntu.OnlineAccounts.Client 0.2\n"
                       "Setup {}",
                       QUrl());
     QObject *object = component.create();
@@ -105,10 +105,11 @@ void SetupTest::testProperties()
 {
     QQmlEngine engine;
     QQmlComponent component(&engine);
-    component.setData("import Ubuntu.OnlineAccounts.Client 0.1\n"
+    component.setData("import Ubuntu.OnlineAccounts.Client 0.2\n"
                       "Setup { providerId: \"hello\" }",
                       QUrl());
     QObject *object = component.create();
+    qDebug() << component.errors();
     QVERIFY(object != 0);
 
     QCOMPARE(object->property("providerId").toString(), QString("hello"));
@@ -120,6 +121,9 @@ void SetupTest::testProperties()
     object->setProperty("serviceTypeId", QString("hi"));
     QCOMPARE(object->property("serviceTypeId").toString(), QString("hi"));
 
+    object->setProperty("serviceId", QString("bonjour"));
+    QCOMPARE(object->property("serviceId").toString(), QString("bonjour"));
+
     delete object;
 }
 
@@ -127,7 +131,7 @@ void SetupTest::testExec()
 {
     QQmlEngine engine;
     QQmlComponent component(&engine);
-    component.setData("import Ubuntu.OnlineAccounts.Client 0.1\n"
+    component.setData("import Ubuntu.OnlineAccounts.Client 0.2\n"
                       "Setup {}",
                       QUrl());
     QObject *object = component.create();
@@ -139,13 +143,14 @@ void SetupTest::testExec()
     QVERIFY(finished.wait());
     QCOMPARE(options().contains(OAU_KEY_PROVIDER), false);
     QCOMPARE(options().contains(OAU_KEY_SERVICE_TYPE), false);
+    QCOMPARE(options().contains(OAU_KEY_SERVICE_ID), false);
 }
 
 void SetupTest::testExecWithServiceType()
 {
     QQmlEngine engine;
     QQmlComponent component(&engine);
-    component.setData("import Ubuntu.OnlineAccounts.Client 0.1\n"
+    component.setData("import Ubuntu.OnlineAccounts.Client 0.2\n"
                       "Setup { serviceTypeId: \"e-mail\" }",
                       QUrl());
     QObject *object = component.create();

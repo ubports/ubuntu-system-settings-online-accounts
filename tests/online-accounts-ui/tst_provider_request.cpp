@@ -66,6 +66,7 @@ public:
     ProviderRequestTest();
 
 private Q_SLOTS:
+    void initTestCase();
     void testParameters_data();
     void testParameters();
 
@@ -77,6 +78,16 @@ ProviderRequestTest::ProviderRequestTest():
     QObject(),
     m_uiServer("fake")
 {
+}
+
+void ProviderRequestTest::initTestCase()
+{
+    qputenv("ACCOUNTS", "/tmp/");
+    qputenv("AG_APPLICATIONS", TEST_DATA_DIR);
+    qputenv("AG_SERVICES", TEST_DATA_DIR);
+    qputenv("AG_SERVICE_TYPES", TEST_DATA_DIR);
+    qputenv("AG_PROVIDERS", TEST_DATA_DIR);
+    qputenv("XDG_DATA_HOME", TEST_DATA_DIR);
 }
 
 void ProviderRequestTest::testParameters_data()
@@ -104,11 +115,25 @@ void ProviderRequestTest::testParameters_data()
     parameters.insert(OAU_KEY_PROVIDER, "my provider");
     providerInfo.insert("some", "value");
     applicationInfo.insert("one", "two");
-
-    QTest::newRow("by confined app") <<
+    QTest::newRow("confined app") <<
         parameters <<
         "my-app" <<
         "my provider" <<
+        providerInfo <<
+        applicationInfo <<
+        "";
+    parameters.clear();
+    providerInfo.clear();
+    applicationInfo.clear();
+
+    parameters.insert(OAU_KEY_APPLICATION, "Gallery");
+    parameters.insert(OAU_KEY_SERVICE_ID, "coolmail");
+    providerInfo.insert("name", "cool");
+    applicationInfo.insert("one", "two");
+    QTest::newRow("by service ID") <<
+        parameters <<
+        "my-app" <<
+        "cool" <<
         providerInfo <<
         applicationInfo <<
         "";

@@ -7,7 +7,7 @@ TARGET = OnlineAccountsClient
 API_URI = "Ubuntu.OnlineAccounts.Client"
 API_VER = 0.2
 
-DESTDIR = $$replace(API_URI, \\., /).$$API_VER
+DESTDIR = $$replace(API_URI, \\., /)
 PLUGIN_INSTALL_BASE = $$[QT_INSTALL_QML]/$${DESTDIR}
 
 CONFIG += \
@@ -34,13 +34,7 @@ QMLDIR_FILES += qmldir
 QMAKE_SUBSTITUTES += qmldir.in
 OTHER_FILES += qmldir.in
 
-copy2build.output = $${DESTDIR}/${QMAKE_FILE_IN}
-copy2build.input = QMLDIR_FILES
-copy2build.commands = $$QMAKE_COPY ${QMAKE_FILE_IN} ${QMAKE_FILE_OUT}
-copy2build.name = COPY ${QMAKE_FILE_IN}
-copy2build.variable_out = PRE_TARGETDEPS
-copy2build.CONFIG += no_link
-QMAKE_EXTRA_COMPILERS += copy2build
+QMAKE_POST_LINK += $$QMAKE_COPY $${QMLDIR_FILES} $$DESTDIR
 
 target.path = $${PLUGIN_INSTALL_BASE}
 INSTALLS += target

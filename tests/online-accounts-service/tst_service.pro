@@ -37,6 +37,7 @@ HEADERS += \
     $${ONLINE_ACCOUNTS_SERVICE_DIR}/utils.h \
 
 INCLUDEPATH += \
+    $${TOP_BUILD_DIR}/online-accounts-service \
     $${ONLINE_ACCOUNTS_SERVICE_DIR} \
     $${COMMON_SRC_DIR}
 

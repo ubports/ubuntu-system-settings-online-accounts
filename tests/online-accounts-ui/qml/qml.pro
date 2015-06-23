@@ -7,6 +7,7 @@ CONFIG += \
     warn_on
 
 DEFINES += \
+    SOURCE_MODULE_PATH=\\\"$${PWD}\\\" \
     TEST_DATA_DIR=\\\"$${PWD}/../data\\\"
 
 SOURCES += \

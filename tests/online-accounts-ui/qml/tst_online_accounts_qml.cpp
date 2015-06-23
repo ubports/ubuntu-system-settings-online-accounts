@@ -16,5 +16,7 @@ int main(int argc, char **argv)
     qputenv("AG_PROVIDERS", TEST_DATA_DIR);
     qputenv("XDG_DATA_HOME", TEST_DATA_DIR);
 
+    qputenv("QML2_IMPORT_PATH", SOURCE_MODULE_PATH);
+
     return quick_test_main(argc, argv, "online_accounts_qml", QUICK_TEST_SOURCE_DIR);
 }

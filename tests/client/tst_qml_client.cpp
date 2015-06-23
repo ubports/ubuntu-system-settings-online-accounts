@@ -63,6 +63,8 @@ private Q_SLOTS:
     void initTestCase();
     void testLoadPlugin();
     void testProperties();
+    void testVersions_data();
+    void testVersions();
     void testExec();
     void testExecWithServiceType();
 
@@ -88,7 +90,7 @@ void SetupTest::testLoadPlugin()
 {
     QQmlEngine engine;
     QQmlComponent component(&engine);
-    component.setData("import Ubuntu.OnlineAccounts.Client 0.2\n"
+    component.setData("import Ubuntu.OnlineAccounts.Client 0.1\n"
                       "Setup {}",
                       QUrl());
     QObject *object = component.create();
@@ -127,11 +129,62 @@ void SetupTest::testProperties()
     delete object;
 }
 
+void SetupTest::testVersions_data()
+{
+    QTest::addColumn<QString>("qmlCode");
+    QTest::addColumn<bool>("mustBuild");
+
+    QTest::newRow("0.1, regular") <<
+        "import Ubuntu.OnlineAccounts.Client 0.1\n"
+        "Setup {\n"
+        "  providerId: \"hello\"\n"
+        "  serviceTypeId: \"something\"\n"
+        "}" <<
+        true;
+
+    QTest::newRow("0.1, newer prop") <<
+        "import Ubuntu.OnlineAccounts.Client 0.1\n"
+        "Setup {\n"
+        "  providerId: \"hello\"\n"
+        "  serviceTypeId: \"something\"\n"
+        "  serviceId: \"wishful\"\n"
+        "}" <<
+        false;
+
+    QTest::newRow("0.2, newer prop") <<
+        "import Ubuntu.OnlineAccounts.Client 0.2\n"
+        "Setup {\n"
+        "  providerId: \"hello\"\n"
+        "  serviceTypeId: \"something\"\n"
+        "  serviceId: \"yes we can\"\n"
+        "}" <<
+        true;
+}
+
+void SetupTest::testVersions()
+{
+    QFETCH(QString, qmlCode);
+    QFETCH(bool, mustBuild);
+
+    if (!mustBuild) {
+        QTest::ignoreMessage(QtWarningMsg,
+                             "QQmlComponent: Component is not ready");
+    }
+
+    QQmlEngine engine;
+    QQmlComponent component(&engine);
+    component.setData(qmlCode.toUtf8(), QUrl());
+    QObject *object = component.create();
+    QCOMPARE(object != 0, mustBuild);
+
+    delete object;
+}
+
 void SetupTest::testExec()
 {
     QQmlEngine engine;
     QQmlComponent component(&engine);
-    component.setData("import Ubuntu.OnlineAccounts.Client 0.2\n"
+    component.setData("import Ubuntu.OnlineAccounts.Client 0.1\n"
                       "Setup {}",
                       QUrl());
     QObject *object = component.create();
@@ -150,7 +203,7 @@ void SetupTest::testExecWithServiceType()
 {
     QQmlEngine engine;
     QQmlComponent component(&engine);
-    component.setData("import Ubuntu.OnlineAccounts.Client 0.2\n"
+    component.setData("import Ubuntu.OnlineAccounts.Client 0.1\n"
                       "Setup { serviceTypeId: \"e-mail\" }",
                       QUrl());
     QObject *object = component.create();

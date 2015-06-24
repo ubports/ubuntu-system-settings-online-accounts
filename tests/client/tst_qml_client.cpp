@@ -111,7 +111,6 @@ void SetupTest::testProperties()
                       "Setup { providerId: \"hello\" }",
                       QUrl());
     QObject *object = component.create();
-    qDebug() << component.errors();
     QVERIFY(object != 0);
 
     QCOMPARE(object->property("providerId").toString(), QString("hello"));

@@ -47,6 +47,6 @@ HEADERS += \
 RESOURCES += \
     tst_provider_request.qrc
 
-check.commands += "xvfb-run -s '-screen 0 640x480x24' -a ./$${TARGET}"
+check.commands += "xvfb-run -s '-screen 0 640x480x24' -a dbus-test-runner -t ./$${TARGET}"
 check.depends = $${TARGET}
 QMAKE_EXTRA_TARGETS += check

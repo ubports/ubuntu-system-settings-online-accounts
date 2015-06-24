@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canonical Ltd.
+ * Copyright (C) 2013-2015 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -23,21 +23,16 @@
 #include "i18n.h"
 #include "ui-server.h"
 
-#include <QtGui/QOpenGLContext>
 #include <QGuiApplication>
 #include <QLibrary>
 #include <QProcessEnvironment>
-#if QT_VERSION < QT_VERSION_CHECK(5, 3, 0)
-#include <QtQuick/private/qsgcontext_p.h>
-#else
-#include <QtGui/private/qopenglcontext_p.h>
-#endif
 #include <sys/apparmor.h>
 
 using namespace OnlineAccountsUi;
 
 int main(int argc, char **argv)
 {
+    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QGuiApplication app(argc, argv);
 
     /* The testability driver is only loaded by QApplication but not by
@@ -72,17 +67,6 @@ int main(int argc, char **argv)
     }
 
     initTr(I18N_DOMAIN, NULL);
-
-    // Enable compositing in oxide
-    QOpenGLContext *glcontext = new QOpenGLContext();
-    glcontext->create();
-#if QT_VERSION >= QT_VERSION_CHECK(5, 4, 0)
-    qt_gl_set_global_share_context(glcontext);
-#elif QT_VERSION >= QT_VERSION_CHECK(5, 3, 0)
-    QOpenGLContextPrivate::setGlobalShareContext(glcontext);
-#else
-    QSGContext::setSharedOpenGLContext(glcontext);
-#endif
 
     QString socket;
     QString profile;

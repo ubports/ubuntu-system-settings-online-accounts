@@ -23,6 +23,8 @@
 #include "request.h"
 #include "utils.h"
 
+#include <Accounts/Manager>
+#include <Accounts/Service>
 #include <SignOn/uisessiondata_priv.h>
 
 using namespace OnlineAccountsUi;
@@ -166,7 +168,18 @@ QString Request::providerId() const
 {
     Q_D(const Request);
     if (interface() == OAU_INTERFACE) {
-        return d->m_parameters.value(OAU_KEY_PROVIDER, 0).toString();
+        QString providerId =
+            d->m_parameters.value(OAU_KEY_PROVIDER).toString();
+        if (providerId.isEmpty() &&
+            d->m_parameters.contains(OAU_KEY_SERVICE_ID)) {
+            Accounts::Manager manager;
+            QString serviceId = d->m_parameters[OAU_KEY_SERVICE_ID].toString();
+            Accounts::Service service = manager.service(serviceId);
+            if (service.isValid()) {
+                providerId = service.provider();
+            }
+        }
+        return providerId;
     } else {
         return QString();
     }

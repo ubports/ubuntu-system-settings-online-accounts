@@ -134,6 +134,7 @@ void SetupPrivate::onRequestAccessReply(QDBusPendingCallWatcher *watcher)
     QDBusPendingReply<QVariantMap> reply = *watcher;
     if (reply.isError()) {
         qWarning() << "RequestAccess failed:" << reply.error();
+        response.insert("errorName", reply.error().name());
     } else {
         // At the moment, we don't have any use for the reply.
         response = reply.value();

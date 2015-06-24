@@ -1,3 +1,14 @@
+ubuntu-system-settings-online-accounts (0.6+15.10.20150624-0ubuntu1) wily; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Fix build with Qt 5.5 (LP: #1387537, #1421009, #1448878, #1447175)
+  * Return the error name to the client (LP: #1441873)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 24 Jun 2015 13:36:39 +0000
+
 ubuntu-system-settings-online-accounts (0.6+15.04.20150417-0ubuntu1) vivid; urgency=medium
 
   [ Alberto Mardegan ]

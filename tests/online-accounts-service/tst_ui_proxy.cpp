@@ -54,6 +54,7 @@ public:
     QString programName() const { return m_program; }
     QStringList arguments() const { return m_arguments; }
     void sendOperation(const QVariantMap &data);
+    QProcessEnvironment environment() const { return m_process->processEnvironment(); }
 
 private Q_SLOTS:
     void onDataReady(QByteArray &data);
@@ -197,6 +198,7 @@ private:
                            const QVariantMap &parameters);
 
 private Q_SLOTS:
+    void initTestCase();
     void testInit();
     void testRequest_data();
     void testRequest();
@@ -206,6 +208,8 @@ private Q_SLOTS:
     void testWrapper();
     void testTrustSessionError_data();
     void testTrustSessionError();
+    void testConfinedPlugin_data();
+    void testConfinedPlugin();
 
 private:
     QDBusConnection m_connection;
@@ -232,6 +236,16 @@ Request *UiProxyTest::createRequest(const QString &interface,
 
     r->setClientApparmorProfile(clientApparmorProfile);
     return request;
+}
+
+void UiProxyTest::initTestCase()
+{
+    qputenv("ACCOUNTS", "/tmp/");
+    qputenv("AG_APPLICATIONS", TEST_DATA_DIR);
+    qputenv("AG_SERVICES", TEST_DATA_DIR);
+    qputenv("AG_SERVICE_TYPES", TEST_DATA_DIR);
+    qputenv("AG_PROVIDERS", TEST_DATA_DIR);
+    qputenv("XDG_DATA_HOME", TEST_DATA_DIR);
 }
 
 void UiProxyTest::testInit()
@@ -514,6 +528,59 @@ void UiProxyTest::testTrustSessionError()
     delete proxy;
 
     qunsetenv(envVarKey.constData());
+    qunsetenv("QT_QPA_PLATFORM");
+}
+
+void UiProxyTest::testConfinedPlugin_data()
+{
+    QTest::addColumn<QString>("providerId");
+    QTest::addColumn<QString>("expectedProfile");
+    QTest::addColumn<QString>("expectedAppId");
+
+    QTest::newRow("unconfined") <<
+        QString() <<
+        "unconfined" <<
+        QString();
+
+    QTest::newRow("confined") <<
+        "com.ubuntu.test_confined" <<
+        "com.ubuntu.test_confined_0.2" <<
+        "com.ubuntu.test_confined_0.2";
+}
+
+void UiProxyTest::testConfinedPlugin()
+{
+    QFETCH(QString, providerId);
+    QFETCH(QString, expectedProfile);
+    QFETCH(QString, expectedAppId);
+
+    Request *request = createRequest(OAU_INTERFACE, "doSomething",
+                                     "unconfined", QVariantMap());
+    RequestPrivate *r = RequestPrivate::mocked(request);
+    r->setProviderId(providerId);
+
+    UiProxy *proxy = new UiProxy(0, this);
+    QVERIFY(proxy->init());
+
+    QSignalSpy finished(proxy, SIGNAL(finished()));
+    proxy->handleRequest(request);
+
+    QTRY_VERIFY(!remoteProcesses.isEmpty());
+    QCOMPARE(remoteProcesses.count(), 1);
+
+    RemoteProcess *process = remoteProcesses.values().first();
+    QVERIFY(process);
+
+    QStringList args = process->arguments();
+    int option = args.indexOf("--profile");
+    QVERIFY(option > 0);
+
+    QCOMPARE(args.at(option + 1), expectedProfile);
+
+    QProcessEnvironment env = process->environment();
+    QCOMPARE(env.value("APP_ID"), expectedAppId);
+
+    delete proxy;
 }
 
 QTEST_MAIN(UiProxyTest);

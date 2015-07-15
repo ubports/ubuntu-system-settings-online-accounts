@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<provider id="com.ubuntu.test_confined">
+  <name>Click provider</name>
+  <icon>general_myprovider</icon>
+	<profile>com.ubuntu.test_confined_0.2</profile>
+</provider>

@@ -1,0 +1,111 @@
+# Welsh translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
+# This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntu-system-settings-online-accounts\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-04-17 09:24+0300\n"
+"PO-Revision-Date: 2015-07-14 12:26+0000\n"
+"Last-Translator: Owen Llywelyn <owen.llywelyn@gmail.com>\n"
+"Language-Team: Welsh <cy@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2015-07-16 05:42+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
+
+#: ../plugins/example/Main.qml:33
+msgid "User name"
+msgstr "Enw defnyddiwr"
+
+#: ../plugins/example/Main.qml:39
+msgid "Password"
+msgstr "Cyfrinair"
+
+#: ../plugins/module/OAuth.qml:119
+msgid "Loading…"
+msgstr "Yn llwytho..."
+
+#: ../plugins/module/OAuth.qml:148
+#: ../plugins/module/RemovalConfirmation.qml:43
+#: ../online-accounts-ui/qml/SignOnUiDialog.qml:90
+#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
+msgid "Cancel"
+msgstr "Diddymu"
+
+#: ../plugins/module/Options.qml:36
+msgid "ID"
+msgstr "ID"
+
+#: ../plugins/module/Options.qml:48
+msgid "Remove account…"
+msgstr "Tynnu cyfrif..."
+
+#: ../plugins/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr "Tynnu cyfrif"
+
+#: ../plugins/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr ""
+"Bydd cyfrif %1 yn cael ei dynnu o'r ffôn yn unig. Gallwch ei ychwanegu eto "
+"yn nes ymlaen."
+
+#: ../plugins/module/RemovalConfirmation.qml:38
+msgid "Remove"
+msgstr "Tynnu"
+
+#: ../plugins/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr "Mynediad at y cyfrif hwn:"
+
+#: ../system-settings-plugin/AccountsPage.qml:51
+msgid "Add account…"
+msgstr "Ychwanegu cyfrif..."
+
+#: ../system-settings-plugin/AddAccountLabel.qml:27
+msgid ""
+"Storing account details here lets apps use the accounts without you having "
+"to sign in for each app."
+msgstr ""
+"Mae stori manylion cyfrif fan hyn yn golygu y bydd aps yn medru defnyddio'r "
+"cyfrif heb i chi orfod mewngofnodi i bob ap."
+
+#: ../system-settings-plugin/MainPage.qml:32 ../.build/settings.js:1
+msgid "Accounts"
+msgstr "Cyfrifon"
+
+#: ../system-settings-plugin/NewAccountPage.qml:23
+msgid "Add account"
+msgstr "Ychwanegu cyfrif"
+
+#: ../system-settings-plugin/NoAccountsPage.qml:36
+msgid "No accounts"
+msgstr "Dim cyfrifon"
+
+#: ../system-settings-plugin/NoAccountsPage.qml:44
+msgid "Add account:"
+msgstr "Ychwanegu cyfrif:"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:46
+#, qt-format
+msgid "%1 wants to access your %2 account"
+msgstr "Mae %1 eisiau mynediad i'ch cyfrif %2"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:87
+msgid "Allow"
+msgstr "Caniatáu"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:96
+msgid "Add another account…"
+msgstr "Ychwanegu cyfrif arall..."
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:104
+msgid "Don't allow"
+msgstr "Peidio caniatáu"

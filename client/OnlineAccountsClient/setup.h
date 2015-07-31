@@ -26,6 +26,8 @@
 #include "global.h"
 #include <QObject>
 #include <QVariantMap>
+#include <sys/types.h>
+#include <unistd.h>
 
 namespace OnlineAccountsClient {
 
@@ -57,6 +59,9 @@ public:
 
     void setProviderId(const QString &providerId);
     QString providerId() const;
+
+    // Intentionally not exposed to QML; see the source code for the reason
+    void setClientPid(pid_t clientPid);
 
     Q_INVOKABLE void exec();
 

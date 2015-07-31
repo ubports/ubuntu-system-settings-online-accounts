@@ -30,7 +30,6 @@
 #include <QGuiApplication>
 #include <QWindow>
 #include <climits>
-#include <unistd.h>
 
 using namespace OnlineAccountsClient;
 using namespace com::ubuntu;
@@ -58,6 +57,7 @@ private:
     QString m_serviceId;
     QString m_serviceTypeId;
     QString m_providerId;
+    pid_t m_clientPid;
     mutable Setup *q_ptr;
 };
 
@@ -68,6 +68,7 @@ SetupPrivate::SetupPrivate(Setup *setup):
     m_onlineAccountsUi(OAU_SERVICE_NAME,
                        OAU_OBJECT_PATH,
                        QDBusConnection::sessionBus()),
+    m_clientPid(0),
     q_ptr(setup)
 {
     m_onlineAccountsUi.setTimeout(INT_MAX);
@@ -77,7 +78,8 @@ void SetupPrivate::exec()
 {
     QVariantMap options;
 
-    options.insert(OAU_KEY_PID, uint(getpid()));
+    options.insert(OAU_KEY_PID,
+                   uint(m_clientPid != 0 ? m_clientPid : getpid()));
 
     QWindow *window = clientWindow();
     if (window) {
@@ -272,6 +274,15 @@ QString Setup::providerId() const
 {
     Q_D(const Setup);
     return d->m_providerId;
+}
+
+/* At the moment this method is meant to be used by unconfined services, when
+ * forwarding a request from their client.
+ */
+void Setup::setClientPid(pid_t clientPid)
+{
+    Q_D(Setup);
+    d->m_clientPid = clientPid;
 }
 
 /*!

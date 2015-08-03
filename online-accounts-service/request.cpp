@@ -129,6 +129,13 @@ pid_t Request::clientPid() const
     if (interface() == OAU_INTERFACE) {
         return d->m_parameters.value(OAU_KEY_PID, 0).toUInt();
     } else if (interface() == SIGNONUI_INTERFACE) {
+        if (d->m_clientApparmorProfile == "unconfined") {
+            QVariantMap clientData =
+                d->m_parameters.value(SSOUI_KEY_CLIENT_DATA).toMap();
+            if (clientData.contains("requestorPid")) {
+                return d->m_parameters.value("requestorPid").toUInt();
+            }
+        }
         return d->m_parameters.value(SSOUI_KEY_PID, 0).toUInt();
     }
 

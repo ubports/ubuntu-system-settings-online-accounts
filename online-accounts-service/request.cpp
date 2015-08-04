@@ -133,7 +133,7 @@ pid_t Request::clientPid() const
             QVariantMap clientData =
                 d->m_parameters.value(SSOUI_KEY_CLIENT_DATA).toMap();
             if (clientData.contains("requestorPid")) {
-                return d->m_parameters.value("requestorPid").toUInt();
+                return clientData.value("requestorPid").toUInt();
             }
         }
         return d->m_parameters.value(SSOUI_KEY_PID, 0).toUInt();

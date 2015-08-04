@@ -1,3 +1,9 @@
+ubuntu-system-settings-online-accounts (0.6+15.10.20150804-0ubuntu1) wily; urgency=medium
+
+  * Resync trunk.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 04 Aug 2015 09:05:45 +0000
+
 ubuntu-system-settings-online-accounts (0.6+15.10.20150716-0ubuntu2~gcc5.1) wily; urgency=medium
 
   * No-change test rebuild for g++5 ABI transition

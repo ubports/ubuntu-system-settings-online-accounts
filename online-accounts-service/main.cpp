@@ -66,24 +66,24 @@ int main(int argc, char **argv)
 
     Service *service = new Service();
     QDBusConnection connection = QDBusConnection::sessionBus();
-    connection.registerService(OAU_SERVICE_NAME);
     connection.registerObject(OAU_OBJECT_PATH, service);
+    connection.registerService(OAU_SERVICE_NAME);
 
     SignOnUi::Service *signonuiService = new SignOnUi::Service();
-    connection.registerService(SIGNONUI_SERVICE_NAME);
     connection.registerObject(SIGNONUI_OBJECT_PATH, signonuiService,
                               QDBusConnection::ExportAllContents);
+    connection.registerService(SIGNONUI_SERVICE_NAME);
 
     SignOnUi::IndicatorService *indicatorService =
         new SignOnUi::IndicatorService();
-    connection.registerService(WEBCREDENTIALS_BUS_NAME);
     connection.registerObject(WEBCREDENTIALS_OBJECT_PATH,
                               indicatorService->serviceObject());
+    connection.registerService(WEBCREDENTIALS_BUS_NAME);
 
     LibaccountsService *libaccountsService = new LibaccountsService();
-    connection.registerService(LIBACCOUNTS_BUS_NAME);
     connection.registerObject(LIBACCOUNTS_OBJECT_PATH, libaccountsService,
                               QDBusConnection::ExportAllContents);
+    connection.registerService(LIBACCOUNTS_BUS_NAME);
 
     InactivityTimer *inactivityTimer = 0;
     if (daemonTimeout > 0) {

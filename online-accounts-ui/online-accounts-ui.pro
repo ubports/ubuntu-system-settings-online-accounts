@@ -13,10 +13,7 @@ QT += \
     dbus \
     gui \
     qml \
-    quick \
-    gui-private \
-    quick-private \
-    core-private
+    quick
 
 PKGCONFIG += \
     accounts-qt5 \

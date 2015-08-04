@@ -26,6 +26,8 @@
 
 #include <Accounts/Manager>
 #include <Accounts/Provider>
+#include <QByteArray>
+#include <QDataStream>
 #include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
@@ -297,12 +299,13 @@ void UiProxyPrivate::startProcess()
     if (profile.isEmpty()) {
         profile = "unconfined";
     } else {
+        QProcessEnvironment env = m_process.processEnvironment();
+        env.insert("APP_ID", profile);
         /* Set TMPDIR to a location which the confined process can actually
          * use */
         QString tmpdir =
             QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation) +
             "/" + profile.split('_')[0];
-        QProcessEnvironment env = m_process.processEnvironment();
         env.insert("TMPDIR", tmpdir);
         m_process.setProcessEnvironment(env);
     }

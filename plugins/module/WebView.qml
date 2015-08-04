@@ -7,7 +7,7 @@ WebView {
 
     property QtObject signonRequest
 
-    Component.onCompleted: {
+    onSignonRequestChanged: if (signonRequest) {
         signonRequest.authenticated.connect(onAuthenticated)
         url = signonRequest.startUrl
     }

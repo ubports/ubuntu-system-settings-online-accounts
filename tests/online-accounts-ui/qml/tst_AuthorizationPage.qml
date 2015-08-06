@@ -53,6 +53,7 @@ Item {
         when: windowShown
 
         function createAccount(displayName) {
+            spyAccount.clear()
             var accountHandle = Manager.createAccount("cool")
             var account = accountComponent.createObject(null, {
                 "objectHandle": accountHandle

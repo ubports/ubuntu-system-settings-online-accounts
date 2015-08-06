@@ -14,7 +14,8 @@ QT += \
 
 DEFINES += \
     BUILDING_TESTS \
-    INSTALL_BIN_DIR=\\\"$${INSTALL_PREFIX}/bin\\\"
+    INSTALL_BIN_DIR=\\\"$${INSTALL_PREFIX}/bin\\\" \
+    TEST_DATA_DIR=\\\"$${PWD}/data\\\"
 
 PKGCONFIG += \
     accounts-qt5 \

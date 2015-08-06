@@ -25,6 +25,8 @@
 #include "ui-server.h"
 
 #include <OnlineAccountsPlugin/request-handler.h>
+#include <QByteArray>
+#include <QDataStream>
 #include <QLocalSocket>
 #include <QtQml>
 #include <SignOn/uisessiondata_priv.h>

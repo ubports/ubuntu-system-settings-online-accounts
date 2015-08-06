@@ -24,6 +24,7 @@
 
 #include <OnlineAccountsClient/Setup>
 #include <QDBusConnection>
+#include <QDBusContext>
 #include <QDebug>
 #include <QFile>
 #include <QProcessEnvironment>
@@ -32,7 +33,7 @@
 
 using namespace OnlineAccountsClient;
 
-class Service: public QObject
+class Service: public QObject, QDBusContext
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface",
@@ -42,14 +43,21 @@ public:
     Service(): QObject() {}
     QVariantMap options() const { return m_options; }
 
+    void setError(const QString &name) { m_errorName = name; }
+
 public Q_SLOTS:
     QVariantMap requestAccess(const QVariantMap &options) {
         m_options = options;
+        if (!m_errorName.isEmpty()) {
+            sendErrorReply(m_errorName, "Some error");
+            m_errorName = QString();
+        }
         return QVariantMap();
     }
 
 private:
     QVariantMap m_options;
+    QString m_errorName;
 };
 
 class SetupTest: public QObject
@@ -67,6 +75,7 @@ private Q_SLOTS:
     void testExecWithProvider();
     void testExecWithServiceType();
     void testExecWithApplication();
+    void testError();
     void testWindowId();
 
 private:
@@ -168,6 +177,21 @@ void SetupTest::testWindowId()
     QVERIFY(finished.wait());
     QCOMPARE(options().value(OAU_KEY_WINDOW_ID).toUInt(),
              uint(window.winId()));
+}
+
+void SetupTest::testError()
+{
+    m_service.setError("com.ubuntu.SomeError");
+
+    Setup setup;
+
+    QSignalSpy finished(&setup, SIGNAL(finished(QVariantMap)));
+    setup.exec();
+
+    QVERIFY(finished.wait(10000));
+    QCOMPARE(finished.count(), 1);
+    QCOMPARE(finished.at(0).at(0).toMap().value("errorName").toString(),
+             QString("com.ubuntu.SomeError"));
 }
 
 QTEST_MAIN(SetupTest);

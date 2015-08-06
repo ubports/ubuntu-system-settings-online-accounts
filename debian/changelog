@@ -1,11 +1,12 @@
-ubuntu-system-settings-online-accounts (0.7-0ubuntu1) UNRELEASED; urgency=medium
+ubuntu-system-settings-online-accounts (0.7+15.10.20150806-0ubuntu1) wily; urgency=medium
 
+  [ Alberto Mardegan ]
   * New release
     - Add new "serviceId" property to the Ubuntu.OnlineAccounts.Client Setup
       class.
     - Support shadow builds
 
- -- Alberto Mardegan <alberto.mardegan@canonical.com>  Tue, 23 Jun 2015 17:38:21 +0300
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 06 Aug 2015 13:07:08 +0000
 
 ubuntu-system-settings-online-accounts (0.6+15.10.20150804-0ubuntu1) wily; urgency=medium
 

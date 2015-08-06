@@ -135,13 +135,8 @@ Request *Request::newRequest(const QString &interface,
      * the @parameters argument to figure out which subclass is the most apt to
      * handle the request. */
     if (interface == OAU_INTERFACE) {
-        if (parameters.contains(OAU_KEY_PROVIDER)) {
-            return new ProviderRequest(interface, id, clientProfile,
-                                       parameters, parent);
-        } else {
-            return new PanelRequest(interface, id, clientProfile,
-                                    parameters, parent);
-        }
+        return new ProviderRequest(interface, id, clientProfile,
+                                   parameters, parent);
     } else {
         Q_ASSERT(interface == SIGNONUI_INTERFACE);
         return SignOnUi::Request::newRequest(id, clientProfile,

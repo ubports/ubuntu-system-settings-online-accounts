@@ -31,4 +31,5 @@ void Plugin::registerTypes(const char *uri)
 {
     qDebug() << Q_FUNC_INFO << uri;
     qmlRegisterType<Setup>(uri, 0, 1, "Setup");
+    qmlRegisterType<Setup,2>(uri, 0, 2, "Setup");
 }

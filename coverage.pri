@@ -2,7 +2,6 @@
 CONFIG(coverage) {
     OBJECTS_DIR =
     MOC_DIR =
-    TOP_SRC_DIR = $$PWD
 
     LIBS += -lgcov
     QMAKE_CXXFLAGS += --coverage

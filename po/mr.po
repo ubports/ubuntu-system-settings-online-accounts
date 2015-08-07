@@ -1,0 +1,113 @@
+# Marathi translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
+# This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntu-system-settings-online-accounts\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-04-17 09:24+0300\n"
+"PO-Revision-Date: 2015-08-06 09:15+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Marathi <mr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2015-08-07 06:10+0000\n"
+"X-Generator: Launchpad (build 17656)\n"
+
+#: ../plugins/example/Main.qml:33
+msgid "User name"
+msgstr "वापरकर्त्याचे नाव"
+
+#: ../plugins/example/Main.qml:39
+msgid "Password"
+msgstr "संकेतशब्द"
+
+#: ../plugins/module/OAuth.qml:119
+msgid "Loading…"
+msgstr "लोड करत आहे..."
+
+#: ../plugins/module/OAuth.qml:148
+#: ../plugins/module/RemovalConfirmation.qml:43
+#: ../online-accounts-ui/qml/SignOnUiDialog.qml:90
+#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
+msgid "Cancel"
+msgstr "रद्द"
+
+#: ../plugins/module/Options.qml:36
+msgid "ID"
+msgstr "ओळख"
+
+#: ../plugins/module/Options.qml:48
+msgid "Remove account…"
+msgstr "खाते काढुन टाका"
+
+#: ../plugins/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr "खाते काढुन टाका"
+
+#: ../plugins/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr ""
+"%1 हॆ खाते फक्त फॊन मधुन काढण्यात यॆईल. नंतर तुम्ही तॆ समाविष्ट करु शकता."
+
+#: ../plugins/module/RemovalConfirmation.qml:38
+msgid "Remove"
+msgstr "काढून टाका"
+
+#: ../plugins/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr "खात्यांमध्यॆ प्रवॆश"
+
+#: ../system-settings-plugin/AccountsPage.qml:51
+msgid "Add account…"
+msgstr "खाते समाविष्ट करा"
+
+#: ../system-settings-plugin/AddAccountLabel.qml:27
+msgid ""
+"Storing account details here lets apps use the accounts without you having "
+"to sign in for each app."
+msgstr ""
+"खात्यांची माहिती यॆथॆ टाकल्यावर तुम्ही साईन-इन न करताही तॆ खाते ॲप्सला "
+"वापरता यॆईल"
+
+#: ../system-settings-plugin/MainPage.qml:32 ../.build/settings.js:1
+msgid "Accounts"
+msgstr "खाते"
+
+#: ../system-settings-plugin/NewAccountPage.qml:23
+msgid "Add account"
+msgstr "खाते समाविष्ट करा"
+
+#: ../system-settings-plugin/NoAccountsPage.qml:36
+msgid "No accounts"
+msgstr "खाते समाविष्ट नाही"
+
+#: ../system-settings-plugin/NoAccountsPage.qml:44
+msgid "Add account:"
+msgstr "खाते समाविष्ट करा"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:46
+#, qt-format
+msgid "%1 wants to access your %2 account"
+msgstr "%1 ना तुमच्या %2 खात्यांमध्यॆ प्रवॆश करायचा आहॆ"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:87
+msgid "Allow"
+msgstr "परवानगी द्या"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:96
+msgid "Add another account…"
+msgstr ""
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:104
+msgid "Don't allow"
+msgstr "परवानगी दॆऊ नका"
+
+#~ msgid "Add another"
+#~ msgstr "दुसरॆ खाते समाविष्ट करा"

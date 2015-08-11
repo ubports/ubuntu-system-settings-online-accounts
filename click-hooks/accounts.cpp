@@ -91,6 +91,7 @@ public:
     bool writeFiles(const QDir &localShareDir);
     bool writeServiceFile(const QDir &localShare, const QString &id,
                           const QString &provider, const QJsonObject &json);
+    QDomDocument createDocument() const;
     QDomElement createGroup(QDomDocument &doc, const QString &name);
     void addSetting(QDomElement &parent, const QString &name,
                     const QString &value, const QString &type = QString());
@@ -138,8 +139,7 @@ ManifestFile::ManifestFile(const QFileInfo &hookFileInfo,
 bool ManifestFile::writeFiles(const QDir &localShareDir)
 {
     bool ok = true;
-    QDomDocument doc;
-    doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
+    QDomDocument doc = createDocument();
     QDomElement root = doc.createElement(QStringLiteral("application"));
     root.setAttribute(QStringLiteral("id"), m_shortAppId);
     doc.appendChild(root);
@@ -188,8 +188,7 @@ bool ManifestFile::writeServiceFile(const QDir &localShare, const QString &id,
                                     const QString &provider,
                                     const QJsonObject &json)
 {
-    QDomDocument doc;
-    doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
+    QDomDocument doc = createDocument();
     QDomElement root = doc.createElement(QStringLiteral("service"));
     root.setAttribute(QStringLiteral("id"), id);
     doc.appendChild(root);
@@ -246,6 +245,14 @@ bool ManifestFile::writeServiceFile(const QDir &localShare, const QString &id,
     }
 
     return writeXmlFile(doc, localShare.filePath(QString("accounts/services/%1.service").arg(id)));
+}
+
+QDomDocument ManifestFile::createDocument() const
+{
+    QDomDocument doc;
+    doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
+    doc.appendChild(doc.createComment("this file is auto-generated; do not modify"));
+    return doc;
 }
 
 QDomElement ManifestFile::createGroup(QDomDocument &doc, const QString &name)

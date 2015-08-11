@@ -227,6 +227,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
 
     files["applications/com.ubuntu.test_MyApp.application"] =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<!--this file is auto-generated; do not modify-->\n"
         "<application id=\"com.ubuntu.test_MyApp\">\n"
         "  <profile>com.ubuntu.test_MyApp_0.2</profile>\n"
         "  <package-dir>/tmp/hooks-test2/package</package-dir>\n"
@@ -239,6 +240,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "</application>\n";
     files["services/com.ubuntu.test_MyApp_google.service"] =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<!--this file is auto-generated; do not modify-->\n"
         "<service id=\"com.ubuntu.test_MyApp_google\">\n"
         "  <type>com.ubuntu.test_MyApp</type>\n"
         "  <provider>google</provider>\n"
@@ -261,6 +263,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
     files.clear();
     files["applications/com.ubuntu.test_MyApp.application"] =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<!--this file is auto-generated; do not modify-->\n"
         "<application id=\"com.ubuntu.test_MyApp\">\n"
         "  <profile>com.ubuntu.test_MyApp_0.3</profile>\n"
         "  <package-dir>/tmp/hooks-test2/package</package-dir>\n"
@@ -277,6 +280,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "</application>\n";
     files["services/com.ubuntu.test_MyApp_google.service"] =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<!--this file is auto-generated; do not modify-->\n"
         "<service id=\"com.ubuntu.test_MyApp_google\">\n"
         "  <type>com.ubuntu.test_MyApp</type>\n"
         "  <provider>google</provider>\n"
@@ -286,6 +290,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "</service>\n";
     files["services/com.ubuntu.test_MyApp_facebook.service"] =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<!--this file is auto-generated; do not modify-->\n"
         "<service id=\"com.ubuntu.test_MyApp_facebook\">\n"
         "  <type>com.ubuntu.test_MyApp</type>\n"
         "  <provider>facebook</provider>\n"
@@ -315,6 +320,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
     files.clear();
     files["applications/com.ubuntu.test_MyApp2.application"] =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<!--this file is auto-generated; do not modify-->\n"
         "<application id=\"com.ubuntu.test_MyApp2\">\n"
         "  <profile>com.ubuntu.test_MyApp2_0.2</profile>\n"
         "  <package-dir>/tmp/hooks-test2/package</package-dir>\n"
@@ -327,6 +333,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "</application>\n";
     files["services/com.ubuntu.test_MyApp2_google.service"] =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<!--this file is auto-generated; do not modify-->\n"
         "<service id=\"com.ubuntu.test_MyApp2_google\">\n"
         "  <type>com.ubuntu.test_MyApp2</type>\n"
         "  <provider>google</provider>\n"
@@ -367,7 +374,6 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "  ]"
         "}" <<
         files;
-
 }
 
 void OnlineAccountsHooksTest::testValidHooks()

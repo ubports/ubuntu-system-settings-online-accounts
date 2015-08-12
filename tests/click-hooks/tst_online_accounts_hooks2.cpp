@@ -83,7 +83,7 @@ private:
 OnlineAccountsHooksTest::OnlineAccountsHooksTest():
     QObject(0),
     m_testDir(TEST_DIR),
-    m_hooksDir(TEST_DIR "/online-accounts-hooks"),
+    m_hooksDir(TEST_DIR "/online-accounts-hooks2"),
     m_installDir(TEST_DIR "/accounts"),
     m_packageDir(TEST_DIR "/package")
 {

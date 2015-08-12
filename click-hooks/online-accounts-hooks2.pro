@@ -19,7 +19,7 @@ SOURCES += \
     accounts.cpp
 
 DEFINES += \
-    HOOK_FILES_SUBDIR=\\\"online-accounts-hooks\\\" \
+    HOOK_FILES_SUBDIR=\\\"$${TARGET}\\\" \
     QT_NO_KEYWORDS
 
 QMAKE_SUBSTITUTES += \

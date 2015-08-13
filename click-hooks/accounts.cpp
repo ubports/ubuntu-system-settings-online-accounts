@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Canonical Ltd.
+ * Copyright (C) 2015 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -18,7 +18,9 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <Accounts/Account>
 #include <Accounts/Manager>
+#include <Accounts/Service>
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QDebug>
@@ -33,6 +35,7 @@
 #include <QStandardPaths>
 #include <QStringList>
 #include <click.h>
+#include "acl-updater.h"
 
 static QString findPackageDir(const QString &appId)
 {
@@ -380,7 +383,32 @@ static QString xmlFileProfile(const QString &fileName)
     return profile;
 }
 
-static void removeStaleFiles(const QStringList &fileTypes,
+static void disableService(Accounts::Manager *manager,
+                           const QString &serviceId,
+                           const QString &profile)
+{
+    Accounts::Service service = manager->service(serviceId);
+    if (Q_UNLIKELY(!service.isValid())) return;
+
+    AclUpdater aclUpdater;
+    Q_FOREACH(Accounts::AccountId accountId, manager->accountListEnabled()) {
+        Accounts::Account *account = manager->account(accountId);
+        if (Q_UNLIKELY(!account)) continue;
+
+        if (account->providerName() != service.provider()) continue;
+
+        uint credentialsId = account->credentialsId();
+        account->selectService(service);
+        if (account->isEnabled()) {
+            account->setEnabled(false);
+            account->sync();
+            aclUpdater.removeApp(stripVersion(profile), credentialsId);
+        }
+    }
+}
+
+static void removeStaleFiles(Accounts::Manager *manager,
+                             const QStringList &fileTypes,
                              const QString &localShare,
                              const QDir &hooksDirIn)
 {
@@ -409,6 +437,11 @@ static void removeStaleFiles(const QStringList &fileTypes,
             QStringList nameFilters = QStringList() << hookFileName;
             if (!hooksDirIn.entryList(nameFilters).isEmpty()) continue;
 
+            /* Make sure services get disabled. See also:
+             * https://bugs.launchpad.net/bugs/1417261 */
+            if (fileInfo.suffix() == "service") {
+                disableService(manager, fileInfo.completeBaseName(), profile);
+            }
             QFile::remove(fileInfo.filePath());
         }
     }
@@ -446,7 +479,7 @@ int main(int argc, char **argv)
     localShareDir.mkpath("accounts/applications");
     localShareDir.mkpath("accounts/services");
 
-    removeStaleFiles(fileTypes, localShare, hooksDirIn);
+    removeStaleFiles(manager, fileTypes, localShare, hooksDirIn);
 
     Q_FOREACH(const QFileInfo &fileInfo, hooksDirIn.entryInfoList()) {
         if (fileInfo.suffix() != "accounts") continue;

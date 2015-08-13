@@ -3,20 +3,26 @@ include(../../common-project-config.pri)
 TARGET = tst_online_accounts_hooks2
 
 CONFIG += \
+    c++11 \
     debug \
     link_pkgconfig
 
 QT += \
     core \
+    dbus \
     testlib \
     xml
 
 PKGCONFIG += \
-    accounts-qt5
+    accounts-qt5 \
+    libqtdbusmock-1 \
+    libqtdbustest-1 \
+    libsignon-qt5
 
 DEFINES += \
     DEBUG_ENABLED \
-    HOOK_PROCESS=\\\"../../click-hooks/online-accounts-hooks2\\\"
+    HOOK_PROCESS=\\\"../../click-hooks/online-accounts-hooks2\\\" \
+    SIGNOND_MOCK_TEMPLATE=\\\"$${PWD}/signond.py\\\"
 
 SOURCES += \
     tst_online_accounts_hooks2.cpp

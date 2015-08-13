@@ -195,6 +195,7 @@ void OnlineAccountsHooksTest::initTestCase()
     qputenv("XDG_DATA_HOME", TEST_DIR);
     qputenv("OAH_CLICK_DIR", m_packageDir.path().toUtf8());
     qputenv("ACCOUNTS", TEST_DIR);
+    qputenv("SSO_USE_PEER_BUS", "0");
 
     // The hook must be able to run without a D-Bus session
     qunsetenv("DBUS_SESSION_BUS_ADDRESS");

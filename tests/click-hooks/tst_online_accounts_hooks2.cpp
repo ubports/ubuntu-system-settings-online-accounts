@@ -30,6 +30,10 @@
 #include <QSignalSpy>
 #include <QTest>
 #include <QTextStream>
+#include <SignOn/Identity>
+#include <SignOn/IdentityInfo>
+#include <libqtdbusmock/DBusMock.h>
+#include "fake_signond.h"
 
 #define TEST_DIR "/tmp/hooks-test2"
 
@@ -61,6 +65,7 @@ private Q_SLOTS:
     void testValidHooks_data();
     void testValidHooks();
     void testRemoval();
+    void testRemovalWithAcl();
 
 private:
     void clearHooksDir();
@@ -476,6 +481,85 @@ void OnlineAccountsHooksTest::testRemoval()
     QVERIFY(!m_installDir.exists(myApp));
     QVERIFY(!m_installDir.exists(myService));
     QVERIFY(m_installDir.exists(noProfile));
+}
+
+void OnlineAccountsHooksTest::testRemovalWithAcl()
+{
+    clearHooksDir();
+    clearInstallDir();
+
+    QtDBusTest::DBusTestRunner dbus;
+    QtDBusMock::DBusMock mock(dbus);
+    FakeSignond signond(&mock);
+
+    dbus.startServices();
+
+    QString myApp("applications/com.ubuntu.test_MyAcl.application");
+    writeInstalledFile(myApp,
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"com-ubuntu.test_MyAcl\">\n"
+        "  <description>My application</description>\n"
+        "  <services>\n"
+        "    <service id=\"com-ubuntu.test_MyAcl_example\">\n"
+        "      <description>Publish somewhere</description>\n"
+        "    </service>\n"
+        "  </services>\n"
+        "  <profile>com-ubuntu.test_MyAcl_3.0</profile>\n"
+        "</application>");
+    QVERIFY(m_installDir.exists(myApp));
+
+    QString myService("services/com.ubuntu.test_MyAcl_example.service");
+    writeInstalledFile(myService,
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<service id=\"com-ubuntu.test_MyAcl_example\">\n"
+        "  <name>Hello world</name>\n"
+        "  <type>com-ubuntu.test_MyAcl</type>\n"
+        "  <provider>example</provider>\n"
+        "  <description>My application</description>\n"
+        "  <profile>com-ubuntu.test_MyAcl_3.0</profile>\n"
+        "</service>");
+    QVERIFY(m_installDir.exists(myService));
+
+    /* Create an account, enable the app and add it to the ACL */
+    Accounts::Manager manager;
+    Accounts::Service service =
+        manager.service("com.ubuntu.test_MyAcl_example");
+    QVERIFY(service.isValid());
+    Accounts::Account *account = manager.createAccount("example");
+    account->setDisplayName("Example account");
+    account->setEnabled(true);
+    account->setCredentialsId(25);
+    account->selectService(service);
+    account->setEnabled(true);
+    account->syncAndBlock();
+    Accounts::AccountId accountId = account->id();
+    QVERIFY(accountId > 0);
+
+    QVariantMap initialInfo;
+    QStringList initialAcl;
+    initialAcl << "one" << "com-ubuntu.test_MyAcl_0.1" << "two_click";
+    initialInfo["ACL"] = initialAcl;
+    initialInfo["Id"] = 25;
+    signond.addIdentity(25, initialInfo);
+
+    /* Now run the hook process; it should delete the .service and .application
+     * files, and also disable the service and remove the app from the ACL */
+    QVERIFY(runHookProcess());
+
+    QVERIFY(!m_installDir.exists(myApp));
+    QVERIFY(!m_installDir.exists(myService));
+    QTRY_COMPARE(account->isEnabled(), false);
+
+    SignOn::Identity *identity = SignOn::Identity::existingIdentity(25, this);
+    QSignalSpy gotInfo(identity, SIGNAL(info(const SignOn::IdentityInfo&)));
+    identity->queryInfo();
+    QTRY_COMPARE(gotInfo.count(), 1);
+
+    SignOn::IdentityInfo info =
+        gotInfo.at(0).at(0).value<SignOn::IdentityInfo>();
+    QStringList expectedAcl;
+    expectedAcl << "one" << "two_click";
+    QCOMPARE(info.accessControlList().toSet(), expectedAcl.toSet());
 }
 
 QTEST_MAIN(OnlineAccountsHooksTest);

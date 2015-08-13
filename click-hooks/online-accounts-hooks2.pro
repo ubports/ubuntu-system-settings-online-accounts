@@ -13,10 +13,15 @@ QT += \
 PKGCONFIG += \
     accounts-qt5 \
     click-0.4 \
-    gobject-2.0
+    gobject-2.0 \
+    libsignon-qt5
 
 SOURCES += \
-    accounts.cpp
+    accounts.cpp \
+    acl-updater.cpp
+
+HEADERS += \
+    acl-updater.h
 
 DEFINES += \
     HOOK_FILES_SUBDIR=\\\"$${TARGET}\\\" \

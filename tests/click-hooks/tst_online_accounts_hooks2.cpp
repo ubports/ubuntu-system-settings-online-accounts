@@ -266,6 +266,39 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "}" <<
         files;
 
+    files["applications/com.ubuntu.test_MyApp.application"] =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<!--this file is auto-generated; do not modify-->\n"
+        "<application id=\"com.ubuntu.test_MyApp\">\n"
+        "  <profile>com.ubuntu.test_MyApp_0.2</profile>\n"
+        "  <package-dir>/tmp/hooks-test2/package</package-dir>\n"
+        "  <desktop-entry>com.ubuntu.test_MyApp_0.2</desktop-entry>\n"
+        "  <services>\n"
+        "    <service id=\"com.ubuntu.test_MyApp_google\">\n"
+        "      <description> </description>\n"
+        "    </service>\n"
+        "  </services>\n"
+        "</application>\n";
+    files["services/com.ubuntu.test_MyApp_google.service"] =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<!--this file is auto-generated; do not modify-->\n"
+        "<service id=\"com.ubuntu.test_MyApp_google\">\n"
+        "  <type>com.ubuntu.test_MyApp</type>\n"
+        "  <provider>google</provider>\n"
+        "  <name> </name>\n"
+        "  <profile>com.ubuntu.test_MyApp_0.2</profile>\n"
+        "</service>\n";
+    QTest::newRow("minimal") <<
+        "com.ubuntu.test_MyApp_0.2.accounts" <<
+        "{"
+        "  \"services\": ["
+        "    {"
+        "      \"provider\": \"google\""
+        "    }"
+        "  ]"
+        "}" <<
+        files;
+
     files.clear();
     files["applications/com.ubuntu.test_MyApp.application"] =
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"

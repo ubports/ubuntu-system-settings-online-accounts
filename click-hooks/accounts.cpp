@@ -208,6 +208,9 @@ bool ManifestFile::writeServiceFile(const QDir &localShare, const QString &id,
 
     // name
     QString name = json.value(QStringLiteral("name")).toString();
+    if (name.isEmpty()) {
+        name = " ";
+    }
     elem = doc.createElement(QStringLiteral("name"));
     elem.appendChild(doc.createTextNode(name));
     root.appendChild(elem);

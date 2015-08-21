@@ -91,11 +91,15 @@ public:
     ManifestFile(const QFileInfo &hookFileInfo,
                  const QString &appId, const QString &shortAppId);
 
-    bool writeFiles(const QDir &localShareDir);
-    bool writeServiceFile(const QDir &localShare, const QString &id,
+    bool writeFiles(const QDir &accountsDir);
+    bool writeServiceFile(const QDir &accountsDir, const QString &id,
                           const QString &provider, const QJsonObject &json);
+    bool writePlugins(const QDir &accountsDir);
+    bool writeProviderFile(const QDir &accountsDir, const QString &id,
+                           const QJsonObject &json);
     QDomDocument createDocument() const;
     QDomElement createGroup(QDomDocument &doc, const QString &name);
+    void addTemplate(QDomDocument &doc, const QJsonObject &json);
     void addSetting(QDomElement &parent, const QString &name,
                     const QString &value, const QString &type = QString());
     void addSettings(QDomElement &parent, const QJsonObject &json);
@@ -111,7 +115,9 @@ public:
 
 private:
     QFileInfo m_hookFileInfo;
+    QString m_packageDir;
     QJsonArray m_services;
+    QJsonArray m_plugins;
     QString m_appId;
     QString m_shortAppId;
     QString m_trDomain;
@@ -136,10 +142,14 @@ ManifestFile::ManifestFile(const QFileInfo &hookFileInfo,
         m_isValid = !m_services.isEmpty();
 
         m_trDomain = mainObject.value("translations").toString();
+
+        m_plugins = mainObject.value("plugins").toArray();
+
+        m_packageDir = findPackageDir(appId);
     }
 }
 
-bool ManifestFile::writeFiles(const QDir &localShareDir)
+bool ManifestFile::writeFiles(const QDir &accountsDir)
 {
     bool ok = true;
     QDomDocument doc = createDocument();
@@ -167,7 +177,7 @@ bool ManifestFile::writeFiles(const QDir &localShareDir)
         serviceElem.appendChild(elem);
         servicesElem.appendChild(serviceElem);
 
-        if (!writeServiceFile(localShareDir, id, provider, o)) {
+        if (!writeServiceFile(accountsDir, id, provider, o)) {
             qWarning() << "Writing service file failed" << id;
             ok = false;
             break;
@@ -175,10 +185,14 @@ bool ManifestFile::writeFiles(const QDir &localShareDir)
     }
     root.appendChild(servicesElem);
 
+    if (!writePlugins(accountsDir)) {
+        ok = false;
+    }
+
     if (ok) {
         QString applicationFile =
-            QString("accounts/applications/%1.application").arg(m_shortAppId);
-        if (!writeXmlFile(doc, localShareDir.filePath(applicationFile))) {
+            QString("applications/%1.application").arg(m_shortAppId);
+        if (!writeXmlFile(doc, accountsDir.filePath(applicationFile))) {
             qWarning() << "Writing application file failed" << applicationFile;
             ok = false;
         }
@@ -187,7 +201,7 @@ bool ManifestFile::writeFiles(const QDir &localShareDir)
     return ok;
 }
 
-bool ManifestFile::writeServiceFile(const QDir &localShare, const QString &id,
+bool ManifestFile::writeServiceFile(const QDir &accountsDir, const QString &id,
                                     const QString &provider,
                                     const QJsonObject &json)
 {
@@ -217,8 +231,116 @@ bool ManifestFile::writeServiceFile(const QDir &localShare, const QString &id,
 
     addProfile(doc);
     addTranslations(doc);
+    addTemplate(doc, json);
 
-    // template
+    return writeXmlFile(doc, accountsDir.filePath(QString("services/%1.service").arg(id)));
+}
+
+bool ManifestFile::writePlugins(const QDir &accountsDir)
+{
+    bool ok = true;
+
+    Q_FOREACH(const QJsonValue &v, m_plugins) {
+        QJsonObject o = v.toObject();
+        QString provider = o.value("provider").toString();
+        if (Q_UNLIKELY(provider.isEmpty())) {
+            qWarning() << "Plugin is missing 'provider' key";
+            ok = false;
+            break;
+        }
+
+        QString id = QString("%1_%2").arg(m_shortAppId).arg(provider);
+
+        QString qmlPlugin = o.value("qml").toString();
+        if (Q_UNLIKELY(qmlPlugin.isEmpty())) {
+            qWarning() << "Plugin is missing 'qml' key";
+            ok = false;
+            break;
+        }
+
+        if (!QDir::isAbsolutePath(qmlPlugin)) {
+            qmlPlugin = m_packageDir + "/" + qmlPlugin;
+        }
+
+        if (!QFile::exists(qmlPlugin)) {
+            qWarning() << "Can't find QML files in" << qmlPlugin;
+            ok = false;
+            break;
+        }
+
+        QString qmlDestination = QString("qml-plugins/%1").arg(id);
+        if (!QFile::link(qmlPlugin, accountsDir.filePath(qmlDestination))) {
+            qWarning() << "Cannot symlink QML files" << qmlPlugin;
+            ok = false;
+            break;
+        }
+
+        if (!writeProviderFile(accountsDir, id, o)) {
+            qWarning() << "Writing provider file failed" << id;
+            ok = false;
+            break;
+        }
+    }
+    return ok;
+}
+
+bool ManifestFile::writeProviderFile(const QDir &accountsDir,
+                                     const QString &id,
+                                     const QJsonObject &json)
+{
+    QDomDocument doc = createDocument();
+    QDomElement root = doc.createElement(QStringLiteral("provider"));
+    root.setAttribute(QStringLiteral("id"), id);
+    doc.appendChild(root);
+
+    // name
+    QString name = json.value(QStringLiteral("name")).toString();
+    if (Q_UNLIKELY(name.isEmpty())) {
+        qWarning() << "Provider name is required";
+        return false;
+    }
+    QDomElement elem = doc.createElement(QStringLiteral("name"));
+    elem.appendChild(doc.createTextNode(name));
+    root.appendChild(elem);
+
+    // icon
+    QString icon = json.value(QStringLiteral("icon")).toString();
+    if (Q_UNLIKELY(icon.isEmpty())) {
+        qWarning() << "Provider icon is required";
+        return false;
+    }
+    if (!QDir::isAbsolutePath(icon)) {
+        icon = m_packageDir + "/" + icon;
+    }
+    elem = doc.createElement(QStringLiteral("icon"));
+    elem.appendChild(doc.createTextNode(icon));
+    root.appendChild(elem);
+
+    addProfile(doc);
+    addTranslations(doc);
+    addTemplate(doc, json);
+
+    return writeXmlFile(doc, accountsDir.filePath(QString("providers/%1.provider").arg(id)));
+}
+
+QDomDocument ManifestFile::createDocument() const
+{
+    QDomDocument doc;
+    doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
+    doc.appendChild(doc.createComment("this file is auto-generated; do not modify"));
+    return doc;
+}
+
+QDomElement ManifestFile::createGroup(QDomDocument &doc, const QString &name)
+{
+    QDomElement group = doc.createElement(QStringLiteral("group"));
+    group.setAttribute(QStringLiteral("name"), name);
+    return group;
+}
+
+void ManifestFile::addTemplate(QDomDocument &doc, const QJsonObject &json)
+{
+    QDomElement root = doc.documentElement();
     QDomElement templateElem = doc.createElement(QStringLiteral("template"));
 
     // auth
@@ -249,23 +371,6 @@ bool ManifestFile::writeServiceFile(const QDir &localShare, const QString &id,
     if (templateElem.hasChildNodes()) {
         root.appendChild(templateElem);
     }
-
-    return writeXmlFile(doc, localShare.filePath(QString("accounts/services/%1.service").arg(id)));
-}
-
-QDomDocument ManifestFile::createDocument() const
-{
-    QDomDocument doc;
-    doc.appendChild(doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
-    doc.appendChild(doc.createComment("this file is auto-generated; do not modify"));
-    return doc;
-}
-
-QDomElement ManifestFile::createGroup(QDomDocument &doc, const QString &name)
-{
-    QDomElement group = doc.createElement(QStringLiteral("group"));
-    group.setAttribute(QStringLiteral("name"), name);
-    return group;
 }
 
 void ManifestFile::addSetting(QDomElement &parent, const QString &name,
@@ -336,12 +441,11 @@ void ManifestFile::addTranslations(QDomDocument &doc)
 
 void ManifestFile::addPackageDir(QDomDocument &doc)
 {
-    QString packageDir = findPackageDir(m_appId);
-    if (Q_UNLIKELY(packageDir.isEmpty())) return;
+    if (Q_UNLIKELY(m_packageDir.isEmpty())) return;
 
     QDomElement root = doc.documentElement();
     QDomElement elem = doc.createElement(QStringLiteral("package-dir"));
-    elem.appendChild(doc.createTextNode(packageDir));
+    elem.appendChild(doc.createTextNode(m_packageDir));
     root.appendChild(elem);
 }
 
@@ -410,17 +514,29 @@ static void disableService(Accounts::Manager *manager,
     }
 }
 
+static void removeStaleAccounts(Accounts::Manager *manager,
+                                const QString &providerName)
+{
+    Q_FOREACH(Accounts::AccountId id, manager->accountList()) {
+        Accounts::Account *account = manager->account(id);
+        if (account->providerName() == providerName) {
+            account->remove();
+            account->syncAndBlock();
+        }
+    }
+}
+
 static void removeStaleFiles(Accounts::Manager *manager,
                              const QStringList &fileTypes,
-                             const QString &localShare,
+                             const QDir &accountsDir,
                              const QDir &hooksDirIn)
 {
     /* Walk through all of
-     * ~/.local/share/accounts/{providers,services,service-types,applications}/
+     * ~/.local/share/accounts/{providers,services,applications}/
      * and remove files which are no longer present in hooksDirIn.
      */
     Q_FOREACH(const QString &fileType, fileTypes) {
-        QDir dir(QString("%1/accounts/%2s").arg(localShare).arg(fileType));
+        QDir dir(accountsDir.filePath(fileType + "s"));
         dir.setFilter(QDir::Files | QDir::Readable);
         QStringList fileTypeFilter;
         fileTypeFilter << "*." + fileType;
@@ -440,10 +556,14 @@ static void removeStaleFiles(Accounts::Manager *manager,
             QStringList nameFilters = QStringList() << hookFileName;
             if (!hooksDirIn.entryList(nameFilters).isEmpty()) continue;
 
-            /* Make sure services get disabled. See also:
-             * https://bugs.launchpad.net/bugs/1417261 */
-            if (fileInfo.suffix() == "service") {
+            if (fileType == "service") {
+                /* Make sure services get disabled. See also:
+                 * https://bugs.launchpad.net/bugs/1417261 */
                 disableService(manager, fileInfo.completeBaseName(), profile);
+            } else if (fileType == "provider") {
+                /* If this is a provider, we must also remove any accounts
+                 * associated with it */
+                removeStaleAccounts(manager, fileInfo.completeBaseName());
             }
             QFile::remove(fileInfo.filePath());
         }
@@ -470,6 +590,7 @@ int main(int argc, char **argv)
     QStringList fileTypes;
     fileTypes <<
         QStringLiteral("service") <<
+        QStringLiteral("provider") <<
         QStringLiteral("application");
 
     // This is ~/.local/share/
@@ -478,11 +599,13 @@ int main(int argc, char **argv)
     QDir hooksDirIn(localShare + "/" HOOK_FILES_SUBDIR);
 
     /* Make sure the directories exist */
-    QDir localShareDir(localShare);
-    localShareDir.mkpath("accounts/applications");
-    localShareDir.mkpath("accounts/services");
+    QDir accountsDir(localShare + "/accounts");
+    accountsDir.mkpath("applications");
+    accountsDir.mkpath("services");
+    accountsDir.mkpath("providers");
+    accountsDir.mkpath("qml-plugins");
 
-    removeStaleFiles(manager, fileTypes, localShare, hooksDirIn);
+    removeStaleFiles(manager, fileTypes, accountsDir, hooksDirIn);
 
     Q_FOREACH(const QFileInfo &fileInfo, hooksDirIn.entryInfoList()) {
         if (fileInfo.suffix() != "accounts") continue;
@@ -514,7 +637,7 @@ int main(int argc, char **argv)
             continue;
         }
 
-        manifest.writeFiles(localShareDir);
+        manifest.writeFiles(accountsDir);
     }
 
     /* To ensure that all the installed services are parsed into

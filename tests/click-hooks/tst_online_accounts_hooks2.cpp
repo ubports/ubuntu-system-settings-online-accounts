@@ -50,7 +50,7 @@ char *toString(const QSet<QString> &set)
 } // QTest namespace
 
 // map file name -> contents
-typedef QHash<QString,QString> GeneratedFiles;
+typedef QHash<QString,QString> FileData;
 
 class OnlineAccountsHooksTest: public QObject
 {
@@ -61,6 +61,13 @@ public:
 
 private Q_SLOTS:
     void initTestCase();
+    void cleanup() {
+        if (!QTest::currentTestFailed()) {
+            clearHooksDir();
+            clearInstallDir();
+            clearPackageDir();
+        }
+    }
     void testNoFiles();
     void testValidHooks_data();
     void testValidHooks();
@@ -70,6 +77,7 @@ private Q_SLOTS:
 private:
     void clearHooksDir();
     void clearInstallDir();
+    void clearPackageDir();
     bool runHookProcess();
     bool runXmlDiff(const QString &generated, const QString &expected);
     void writeHookFile(const QString &name, const QString &contents);
@@ -104,6 +112,12 @@ void OnlineAccountsHooksTest::clearInstallDir()
 {
     m_installDir.removeRecursively();
     m_installDir.mkpath(".");
+}
+
+void OnlineAccountsHooksTest::clearPackageDir()
+{
+    m_packageDir.removeRecursively();
+    m_packageDir.mkpath(".");
 }
 
 bool OnlineAccountsHooksTest::runHookProcess()
@@ -202,13 +216,11 @@ void OnlineAccountsHooksTest::initTestCase()
 
     clearHooksDir();
     clearInstallDir();
+    clearPackageDir();
 }
 
 void OnlineAccountsHooksTest::testNoFiles()
 {
-    clearHooksDir();
-    clearInstallDir();
-
     QVERIFY(runHookProcess());
     QVERIFY(m_hooksDir.entryList(QDir::Files).isEmpty());
     QVERIFY(findGeneratedFiles().isEmpty());
@@ -218,17 +230,21 @@ void OnlineAccountsHooksTest::testValidHooks_data()
 {
     QTest::addColumn<QString>("hookName");
     QTest::addColumn<QString>("contents");
-    QTest::addColumn<GeneratedFiles>("expectedFiles");
+    QTest::addColumn<FileData>("packageFiles");
+    QTest::addColumn<FileData>("expectedFiles");
 
-    GeneratedFiles files;
+    FileData files;
+    FileData package;
     QTest::newRow("empty file") <<
         "com.ubuntu.test_MyApp_0.1.accounts" <<
         "" <<
+        package <<
         files;
 
     QTest::newRow("empty dictionary") <<
         "com.ubuntu.test_MyApp_0.1.accounts" <<
         "{}" <<
+        package <<
         files;
 
     files["applications/com.ubuntu.test_MyApp.application"] =
@@ -264,6 +280,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "    }"
         "  ]"
         "}" <<
+        package <<
         files;
 
     files["applications/com.ubuntu.test_MyApp.application"] =
@@ -297,6 +314,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "    }"
         "  ]"
         "}" <<
+        package <<
         files;
 
     files.clear();
@@ -354,6 +372,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "    }"
         "  ]"
         "}" <<
+        package <<
         files;
 
     files.clear();
@@ -412,6 +431,61 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "    }"
         "  ]"
         "}" <<
+        package <<
+        files;
+
+    package["myapp/Main.qml"] = "Something here";
+    files.clear();
+    files["applications/com.ubuntu.test_MyApp.application"] =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<!--this file is auto-generated; do not modify-->\n"
+        "<application id=\"com.ubuntu.test_MyApp\">\n"
+        "  <profile>com.ubuntu.test_MyApp_0.2</profile>\n"
+        "  <package-dir>/tmp/hooks-test2/package</package-dir>\n"
+        "  <desktop-entry>com.ubuntu.test_MyApp_0.2</desktop-entry>\n"
+        "  <services>\n"
+        "    <service id=\"com.ubuntu.test_MyApp_google\">\n"
+        "      <description> </description>\n"
+        "    </service>\n"
+        "  </services>\n"
+        "</application>\n";
+    files["services/com.ubuntu.test_MyApp_google.service"] =
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<!--this file is auto-generated; do not modify-->\n"
+        "<service id=\"com.ubuntu.test_MyApp_google\">\n"
+        "  <type>com.ubuntu.test_MyApp</type>\n"
+        "  <provider>google</provider>\n"
+        "  <name> </name>\n"
+        "  <profile>com.ubuntu.test_MyApp_0.2</profile>\n"
+        "</service>\n";
+    files["providers/com.ubuntu.test_MyApp_google.provider"] =
+        QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        "<!--this file is auto-generated; do not modify-->\n"
+        "<provider id=\"com.ubuntu.test_MyApp_google\">\n"
+        "  <name>Google</name>\n"
+        "  <icon>%1/google.svg</icon>\n"
+        "  <profile>com.ubuntu.test_MyApp_0.2</profile>\n"
+        "</provider>\n").arg(m_packageDir.path());
+    files["qml-plugins/com.ubuntu.test_MyApp_google/Main.qml"] =
+        "Something here";
+    QTest::newRow("account plugin") <<
+        "com.ubuntu.test_MyApp_0.2.accounts" <<
+        "{"
+        "  \"services\": ["
+        "    {"
+        "      \"provider\": \"google\""
+        "    }"
+        "  ],"
+        "  \"plugins\": ["
+        "    {"
+        "      \"provider\": \"google\","
+        "      \"name\": \"Google\","
+        "      \"icon\": \"google.svg\","
+        "      \"qml\": \"myapp\""
+        "    }"
+        "  ]"
+        "}" <<
+        package <<
         files;
 }
 
@@ -419,37 +493,45 @@ void OnlineAccountsHooksTest::testValidHooks()
 {
     QFETCH(QString, hookName);
     QFETCH(QString, contents);
-    QFETCH(GeneratedFiles, expectedFiles);
-
-    clearHooksDir();
-    clearInstallDir();
+    QFETCH(FileData, packageFiles);
+    QFETCH(FileData, expectedFiles);
 
     writeHookFile(hookName, contents);
+    for (FileData::const_iterator i = packageFiles.constBegin();
+         i != packageFiles.constEnd(); i++) {
+        writePackageFile(i.key(), i.value());
+    }
     QVERIFY(runHookProcess());
 
     QCOMPARE(findGeneratedFiles().toSet(), expectedFiles.keys().toSet());
 
-    GeneratedFiles::const_iterator i = expectedFiles.constBegin();
-    while (i != expectedFiles.constEnd()) {
-        QString generatedXml = m_installDir.filePath(i.key());
-        /* Dump the expected XML into a file */
-        QString expectedXml = generatedXml + ".expected";
-        QFile file(expectedXml);
-        QVERIFY(file.open(QIODevice::WriteOnly));
-        QByteArray expectedContents = i.value().toUtf8();
-        QCOMPARE(file.write(expectedContents), expectedContents.length());
-        file.close();
+    QStringList xmlSuffixes;
+    xmlSuffixes << "provider" << "service" << "application";
+    for (FileData::const_iterator i = expectedFiles.constBegin();
+         i != expectedFiles.constEnd(); i++) {
+        QFileInfo generatedFile(m_installDir.filePath(i.key()));
+        if (xmlSuffixes.contains(generatedFile.suffix())) {
+            /* Dump the expected XML into a file */
+            QString expectedXml = generatedFile.filePath() + ".expected";
+            QFile file(expectedXml);
+            QVERIFY(file.open(QIODevice::WriteOnly));
+            QByteArray expectedContents = i.value().toUtf8();
+            QCOMPARE(file.write(expectedContents), expectedContents.length());
+            file.close();
 
-        QVERIFY(runXmlDiff(generatedXml, expectedXml));
-        i++;
+            QVERIFY(runXmlDiff(generatedFile.filePath(), expectedXml));
+        } else {
+            // direct comparison
+            QFile file(generatedFile.filePath());
+            QVERIFY(file.open(QIODevice::ReadOnly));
+            QByteArray expectedContents = i.value().toUtf8();
+            QCOMPARE(file.readAll(), expectedContents);
+        }
     }
 }
 
 void OnlineAccountsHooksTest::testRemoval()
 {
-    clearHooksDir();
-    clearInstallDir();
-
     QString stillInstalled("applications/com.ubuntu.test_StillInstalled.application");
     writeInstalledFile(stillInstalled,
         "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
@@ -519,9 +601,6 @@ void OnlineAccountsHooksTest::testRemoval()
 
 void OnlineAccountsHooksTest::testRemovalWithAcl()
 {
-    clearHooksDir();
-    clearInstallDir();
-
     QtDBusTest::DBusTestRunner dbus;
     QtDBusMock::DBusMock mock(dbus);
     FakeSignond signond(&mock);

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-04-17 09:24+0300\n"
-"PO-Revision-Date: 2015-05-14 10:20+0000\n"
-"Last-Translator: Phillip Sz <Unknown>\n"
+"PO-Revision-Date: 2015-08-27 22:04+0000\n"
+"Last-Translator: Tobias Bannert <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-25 05:38+0000\n"
-"X-Generator: Launchpad (build 17628)\n"
+"X-Launchpad-Export-Date: 2015-08-28 05:48+0000\n"
+"X-Generator: Launchpad (build 17690)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -27,7 +27,7 @@ msgstr "Passwort"
 
 #: ../plugins/module/OAuth.qml:119
 msgid "Loading…"
-msgstr "Laden…"
+msgstr "Wird geladen …"
 
 #: ../plugins/module/OAuth.qml:148
 #: ../plugins/module/RemovalConfirmation.qml:43
@@ -38,7 +38,7 @@ msgstr "Abbrechen"
 
 #: ../plugins/module/Options.qml:36
 msgid "ID"
-msgstr "ID"
+msgstr "Kennung"
 
 #: ../plugins/module/Options.qml:48
 msgid "Remove account…"
@@ -54,7 +54,7 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
-"Das %1-Konto wird nur von ihrem Telefon entfernt. Sie können es später "
+"Das %1-Konto wird nur von Ihrem Telefon entfernt. Sie können es später "
 "wieder hinzufügen."
 
 #: ../plugins/module/RemovalConfirmation.qml:38

@@ -36,6 +36,7 @@ qrc_*.cpp
 /plugins/example/libexample.so*
 /po/*.mo
 /online-accounts-service/com.ubuntu.OnlineAccountsUi.service
+/online-accounts-service/com.ubuntu.OnlineAccounts.Manager.service
 /online-accounts-service/online-accounts-service
 /online-accounts-ui/module/libOnlineAccountsPlugin.so*
 /online-accounts-ui/module/qmldir

@@ -27,15 +27,17 @@
 #include "service.h"
 #include "signonui-service.h"
 
-#include <OnlineAccountsDaemon/Manager>
-#include <OnlineAccountsDaemon/dbus_constants.h>
-
 #include <QCoreApplication>
 #include <QDBusConnection>
 #include <QDBusMetaType>
+#include <QLibrary>
 #include <QProcessEnvironment>
 
 using namespace OnlineAccountsUi;
+
+#define ONLINE_ACCOUNTS_MANAGER_SERVICE_NAME \
+    "com.ubuntu.OnlineAccounts.Manager"
+#define ONLINE_ACCOUNTS_MANAGER_PATH "/com/ubuntu/OnlineAccounts/Manager"
 
 int main(int argc, char **argv)
 {
@@ -88,16 +90,22 @@ int main(int argc, char **argv)
                               QDBusConnection::ExportAllContents);
     connection.registerService(LIBACCOUNTS_BUS_NAME);
 
-    // V2 API
-    OnlineAccountsDaemon::Manager *v2api =
-        new OnlineAccountsDaemon::Manager();
-    connection.registerObject(ONLINE_ACCOUNTS_MANAGER_PATH, v2api);
-    connection.registerService(ONLINE_ACCOUNTS_MANAGER_SERVICE_NAME);
-    connection.connect(QString(),
-                       QStringLiteral("/org/freedesktop/DBus/Local"),
-                       QStringLiteral("org.freedesktop.DBus.Local"),
-                       QStringLiteral("Disconnected"),
-                       v2api, SLOT(onDisconnected()));
+    /* V2 API; we load it dynamically in order to resolve a build-time
+     * circular dependency loop. */
+    QLibrary v2lib("OnlineAccountsDaemon");
+    typedef QObject *(*CreateManager)(QObject *);
+    CreateManager createManager =
+        (CreateManager) v2lib.resolve("oad_create_manager");
+    QObject *v2api = createManager ? createManager(0) : 0;
+    if (v2api) {
+        connection.registerObject(ONLINE_ACCOUNTS_MANAGER_PATH, v2api);
+        connection.registerService(ONLINE_ACCOUNTS_MANAGER_SERVICE_NAME);
+        connection.connect(QString(),
+                           QStringLiteral("/org/freedesktop/DBus/Local"),
+                           QStringLiteral("org.freedesktop.DBus.Local"),
+                           QStringLiteral("Disconnected"),
+                           v2api, SLOT(onDisconnected()));
+    }
 
     InactivityTimer *inactivityTimer = 0;
     if (daemonTimeout > 0) {
@@ -111,9 +119,11 @@ int main(int argc, char **argv)
 
     int ret = app.exec();
 
-    connection.unregisterService(ONLINE_ACCOUNTS_MANAGER_SERVICE_NAME);
-    connection.unregisterObject(ONLINE_ACCOUNTS_MANAGER_PATH);
-    delete v2api;
+    if (v2api) {
+        connection.unregisterService(ONLINE_ACCOUNTS_MANAGER_SERVICE_NAME);
+        connection.unregisterObject(ONLINE_ACCOUNTS_MANAGER_PATH);
+        delete v2api;
+    }
 
     connection.unregisterService(LIBACCOUNTS_BUS_NAME);
     connection.unregisterObject(LIBACCOUNTS_OBJECT_PATH);

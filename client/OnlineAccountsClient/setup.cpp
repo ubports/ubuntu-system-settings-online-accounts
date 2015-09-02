@@ -66,7 +66,7 @@ SetupPrivate::SetupPrivate(Setup *setup):
     QObject(setup),
     m_onlineAccountsUi(OAU_SERVICE_NAME,
                        OAU_OBJECT_PATH,
-                       QDBusConnection::sessionBus()),
+                       QDBusConnection::connectToBus(QDBusConnection::SessionBus, "my private")),
     q_ptr(setup)
 {
     m_onlineAccountsUi.setTimeout(INT_MAX);

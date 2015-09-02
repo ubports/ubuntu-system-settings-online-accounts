@@ -53,6 +53,7 @@ private:
     QVariantMap m_parameters;
     QString m_clientApparmorProfile;
     QWindow *m_window;
+    int m_delay;
     bool m_inProgress;
 };
 

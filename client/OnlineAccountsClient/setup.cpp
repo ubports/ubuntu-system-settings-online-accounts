@@ -30,7 +30,6 @@
 #include <QGuiApplication>
 #include <QWindow>
 #include <climits>
-#include <unistd.h>
 
 using namespace OnlineAccountsClient;
 using namespace com::ubuntu;
@@ -55,8 +54,10 @@ private Q_SLOTS:
 private:
     OnlineAccountsUi m_onlineAccountsUi;
     QString m_applicationId;
+    QString m_serviceId;
     QString m_serviceTypeId;
     QString m_providerId;
+    pid_t m_clientPid;
     mutable Setup *q_ptr;
 };
 
@@ -67,6 +68,7 @@ SetupPrivate::SetupPrivate(Setup *setup):
     m_onlineAccountsUi(OAU_SERVICE_NAME,
                        OAU_OBJECT_PATH,
                        QDBusConnection::connectToBus(QDBusConnection::SessionBus, "my private")),
+    m_clientPid(0),
     q_ptr(setup)
 {
     m_onlineAccountsUi.setTimeout(INT_MAX);
@@ -76,7 +78,8 @@ void SetupPrivate::exec()
 {
     QVariantMap options;
 
-    options.insert(OAU_KEY_PID, uint(getpid()));
+    options.insert(OAU_KEY_PID,
+                   uint(m_clientPid != 0 ? m_clientPid : getpid()));
 
     QWindow *window = clientWindow();
     if (window) {
@@ -93,6 +96,10 @@ void SetupPrivate::exec()
 
     if (!m_applicationId.isEmpty()) {
         options.insert(OAU_KEY_APPLICATION, m_applicationId);
+    }
+
+    if (!m_serviceId.isEmpty()) {
+        options.insert(OAU_KEY_SERVICE_ID, m_serviceId);
     }
 
     if (!m_serviceTypeId.isEmpty()) {
@@ -214,6 +221,25 @@ QString Setup::applicationId() const
 }
 
 /*!
+ * \qmlproperty string Setup::serviceId
+ * If set to a valid service ID, the user will be asked to create an Online
+ * Account which provides this service.
+ */
+void Setup::setServiceId(const QString &serviceId)
+{
+    Q_D(Setup);
+    if (serviceId == d->m_serviceId) return;
+    d->m_serviceId = serviceId;
+    Q_EMIT serviceIdChanged();
+}
+
+QString Setup::serviceId() const
+{
+    Q_D(const Setup);
+    return d->m_serviceId;
+}
+
+/*!
  * \qmlproperty string Setup::serviceTypeId
  * If set to a valid service type, the user will be asked to create an Online
  * Account which supports this service type.
@@ -249,6 +275,15 @@ QString Setup::providerId() const
 {
     Q_D(const Setup);
     return d->m_providerId;
+}
+
+/* At the moment this method is meant to be used by unconfined services, when
+ * forwarding a request from their client.
+ */
+void Setup::setClientPid(pid_t clientPid)
+{
+    Q_D(Setup);
+    d->m_clientPid = clientPid;
 }
 
 /*!

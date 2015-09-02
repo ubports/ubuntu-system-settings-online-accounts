@@ -13,6 +13,7 @@ QT += \
     testlib
 
 PKGCONFIG += \
+    accounts-qt5 \
     signon-plugins-common
 
 DEFINES += \

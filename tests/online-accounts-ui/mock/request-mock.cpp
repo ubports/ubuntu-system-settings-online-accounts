@@ -35,6 +35,7 @@ RequestPrivate::RequestPrivate(const QString &interface,
     m_parameters(parameters),
     m_clientApparmorProfile(clientProfile),
     m_window(0),
+    m_delay(0),
     m_inProgress(false)
 {
     Q_UNUSED(interface);
@@ -93,6 +94,18 @@ QWindow *Request::window() const
 {
     Q_D(const Request);
     return d->m_window;
+}
+
+void Request::setDelay(int delay)
+{
+    Q_D(Request);
+    d->m_delay = delay;
+}
+
+int Request::delay() const
+{
+    Q_D(const Request);
+    return d->m_delay;
 }
 
 void Request::start()

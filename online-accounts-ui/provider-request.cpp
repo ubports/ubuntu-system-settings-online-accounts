@@ -23,6 +23,7 @@
 #include "globals.h"
 #include "provider-request.h"
 
+#include <OnlineAccountsPlugin/account-manager.h>
 #include <OnlineAccountsPlugin/application-manager.h>
 #include <QQmlContext>
 #include <QQmlEngine>
@@ -97,7 +98,20 @@ void ProviderRequestPrivate::start()
         return;
     }
 
-    QString providerId = q->parameters().value(OAU_KEY_PROVIDER).toString();
+    QString providerId;
+    QString serviceId = q->parameters().value(OAU_KEY_SERVICE_ID).toString();
+    if (!serviceId.isEmpty()) {
+        Accounts::Service service =
+            AccountManager::instance()->service(serviceId);
+        if (Q_UNLIKELY(!service.isValid())) {
+            q->fail(OAU_ERROR_INVALID_SERVICE,
+                    QString("Service %1 not found").arg(serviceId));
+            return;
+        }
+        providerId = service.provider();
+    } else {
+        providerId = q->parameters().value(OAU_KEY_PROVIDER).toString();
+    }
     QVariantMap providerInfo = appManager->providerInfo(providerId);
 
     m_view = new QQuickView;

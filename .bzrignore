@@ -58,6 +58,7 @@ qrc_*.cpp
 /tests/online-accounts-ui/tst_access_model
 /tests/online-accounts-ui/tst_browser_request
 /tests/online-accounts-ui/tst_notification
+/tests/online-accounts-ui/tst_provider_request
 /tests/online-accounts-ui/tst_signonui_request
 /tests/plugin/tst_application_manager
 /tests/system-settings-plugin/tst_plugin

@@ -26,6 +26,8 @@
 #include "global.h"
 #include <QObject>
 #include <QVariantMap>
+#include <sys/types.h>
+#include <unistd.h>
 
 namespace OnlineAccountsClient {
 
@@ -35,6 +37,8 @@ class OAC_EXPORT Setup: public QObject
     Q_OBJECT
     Q_PROPERTY(QString applicationId READ applicationId \
                WRITE setApplicationId NOTIFY applicationIdChanged)
+    Q_PROPERTY(QString serviceId READ serviceId \
+               WRITE setServiceId NOTIFY serviceIdChanged REVISION 2)
     Q_PROPERTY(QString serviceTypeId READ serviceTypeId \
                WRITE setServiceTypeId NOTIFY serviceTypeIdChanged)
     Q_PROPERTY(QString providerId READ providerId \
@@ -47,16 +51,23 @@ public:
     void setApplicationId(const QString &applicationId);
     QString applicationId() const;
 
+    void setServiceId(const QString &serviceId);
+    QString serviceId() const;
+
     void setServiceTypeId(const QString &serviceTypeId);
     QString serviceTypeId() const;
 
     void setProviderId(const QString &providerId);
     QString providerId() const;
 
+    // Intentionally not exposed to QML; see the source code for the reason
+    void setClientPid(pid_t clientPid);
+
     Q_INVOKABLE void exec();
 
 Q_SIGNALS:
     void applicationIdChanged();
+    Q_REVISION(2) void serviceIdChanged();
     void serviceTypeIdChanged();
     void providerIdChanged();
     void finished(QVariantMap reply);

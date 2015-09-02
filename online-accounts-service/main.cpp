@@ -34,39 +34,8 @@
 #include <QDBusConnection>
 #include <QDBusMetaType>
 #include <QProcessEnvironment>
-#include <QEventLoop>
-#include <QThread>
 
 using namespace OnlineAccountsUi;
-
-class V2Thread: public QThread
-{
-    Q_OBJECT
-
-public:
-    V2Thread(QObject *service):
-        m_service(service)
-    {
-        m_service->moveToThread(this);
-    }
-
-    void run() {
-        QDBusConnection connection = QDBusConnection::connectToBus(QDBusConnection::SessionBus, "privatissima");
-        connection.registerObject(ONLINE_ACCOUNTS_MANAGER_PATH, m_service);
-        connection.registerService(ONLINE_ACCOUNTS_MANAGER_SERVICE_NAME);
-        connection.connect(QString(),
-                             QStringLiteral("/org/freedesktop/DBus/Local"),
-                             QStringLiteral("org.freedesktop.DBus.Local"),
-                             QStringLiteral("Disconnected"),
-                             m_service, SLOT(onDisconnected()));
-        qDebug() << "connection for v2 is" << connection.name() << QByteArray((const char *)&connection, sizeof(QDBusConnection));
-        QEventLoop loop;
-        loop.exec();
-    }
-
-private:
-    QObject *m_service;
-};
 
 int main(int argc, char **argv)
 {
@@ -119,14 +88,16 @@ int main(int argc, char **argv)
                               QDBusConnection::ExportAllContents);
     connection.registerService(LIBACCOUNTS_BUS_NAME);
 
-    qDebug() << "connection is" << connection.name() << QByteArray((const char *)&connection, sizeof(QDBusConnection));
     // V2 API
     OnlineAccountsDaemon::Manager *v2api =
         new OnlineAccountsDaemon::Manager();
-    V2Thread v2Thread(v2api);
-    qDebug() << "Starting thread";
-    v2Thread.start();
-    qDebug() << "started";
+    connection.registerObject(ONLINE_ACCOUNTS_MANAGER_PATH, v2api);
+    connection.registerService(ONLINE_ACCOUNTS_MANAGER_SERVICE_NAME);
+    connection.connect(QString(),
+                       QStringLiteral("/org/freedesktop/DBus/Local"),
+                       QStringLiteral("org.freedesktop.DBus.Local"),
+                       QStringLiteral("Disconnected"),
+                       v2api, SLOT(onDisconnected()));
 
     InactivityTimer *inactivityTimer = 0;
     if (daemonTimeout > 0) {
@@ -167,4 +138,3 @@ int main(int argc, char **argv)
     return ret;
 }
 
-#include "main.moc"

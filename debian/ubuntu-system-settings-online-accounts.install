@@ -1,4 +1,5 @@
 usr/bin/online-accounts-hooks
+usr/bin/online-accounts-hooks2
 usr/bin/online-accounts-service
 usr/bin/online-accounts-ui
 usr/lib/*/libonline-accounts-plugin.so.*

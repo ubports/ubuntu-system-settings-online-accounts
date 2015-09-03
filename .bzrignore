@@ -12,7 +12,9 @@ qrc_*.cpp
 /click-hooks/account-application.hook
 /click-hooks/account-provider.hook
 /click-hooks/account-service.hook
+/click-hooks/accounts.hook
 /click-hooks/online-accounts-hooks
+/click-hooks/online-accounts-hooks2
 /client/OnlineAccountsClient/OnlineAccountsClient.pc
 /client/OnlineAccountsClient/libonline-accounts-client.so*
 /client/doc/html/*
@@ -44,6 +46,7 @@ qrc_*.cpp
 /plugins/module/libOnlineAccountsPlugin.so*
 /plugins/module/qmldir
 /tests/click-hooks/tst_online_accounts_hooks
+/tests/click-hooks/tst_online_accounts_hooks2
 /tests/client/tst_client
 /tests/client/tst_qml_client
 /tests/online-accounts-service/tst_inactivity_timer

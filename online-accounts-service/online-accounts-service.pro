@@ -14,7 +14,6 @@ QT += \
     network
 
 PKGCONFIG += \
-    OnlineAccountsDaemon \
     accounts-qt5 \
     libnotify \
     libsignon-qt5 \

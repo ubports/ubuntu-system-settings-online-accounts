@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-25 05:38+0000\n"
-"X-Generator: Launchpad (build 17628)\n"
+"X-Launchpad-Export-Date: 2015-09-03 05:38+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -72,6 +72,8 @@ msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
+"Regropar los detalhs de vòstres comptes aicí permet a las aplicacions de los "
+"utilizar sens qu'ajatz besonh de vos connectar per cacuna d'elas."
 
 #: ../system-settings-plugin/MainPage.qml:32 ../.build/settings.js:1
 msgid "Accounts"
@@ -92,7 +94,7 @@ msgstr "Apondre un compte :"
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:46
 #, qt-format
 msgid "%1 wants to access your %2 account"
-msgstr ""
+msgstr "%1 vòl accedir a vòstre compte %2"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:87
 msgid "Allow"

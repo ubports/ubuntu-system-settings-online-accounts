@@ -1,0 +1,115 @@
+# Belarusian translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
+# This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ubuntu-system-settings-online-accounts\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-04-17 09:24+0300\n"
+"PO-Revision-Date: 2015-09-14 08:54+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Belarusian <be@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2015-09-15 05:44+0000\n"
+"X-Generator: Launchpad (build 17737)\n"
+
+#: ../plugins/example/Main.qml:33
+msgid "User name"
+msgstr "Імя карыстальніка"
+
+#: ../plugins/example/Main.qml:39
+msgid "Password"
+msgstr "Пароль"
+
+#: ../plugins/module/OAuth.qml:119
+msgid "Loading…"
+msgstr "Загрузка..."
+
+#: ../plugins/module/OAuth.qml:148
+#: ../plugins/module/RemovalConfirmation.qml:43
+#: ../online-accounts-ui/qml/SignOnUiDialog.qml:90
+#: ../online-accounts-ui/qml/SignOnUiPage.qml:30
+msgid "Cancel"
+msgstr "Скасаваць"
+
+#: ../plugins/module/Options.qml:36
+msgid "ID"
+msgstr "ID"
+
+#: ../plugins/module/Options.qml:48
+msgid "Remove account…"
+msgstr "Выдаліць конт..."
+
+#: ../plugins/module/RemovalConfirmation.qml:32
+msgid "Remove account"
+msgstr "Выдаліць конт"
+
+#: ../plugins/module/RemovalConfirmation.qml:33
+#, qt-format
+msgid ""
+"The %1 account will be removed only from your phone. You can add it again "
+"later."
+msgstr ""
+"Конт %1 будзе выняты толькі з вашага тэлефона. Пазней вы зможаце зноў яго "
+"дадаць."
+
+#: ../plugins/module/RemovalConfirmation.qml:38
+msgid "Remove"
+msgstr "Выдаліць"
+
+#: ../plugins/module/ServiceSwitches.qml:33
+msgid "Access to this account:"
+msgstr "Доступ да гэтага ўліковага запісу:"
+
+#: ../system-settings-plugin/AccountsPage.qml:51
+msgid "Add account…"
+msgstr "Дадаць конт…"
+
+#: ../system-settings-plugin/AddAccountLabel.qml:27
+msgid ""
+"Storing account details here lets apps use the accounts without you having "
+"to sign in for each app."
+msgstr ""
+"Захоўванне дадзеных уліковых запісаў тут дазволіць іншым праграмам "
+"карыстацца гэтымі ўліковымі запісамі без неабходнасці ў вызначэнні "
+"рэгістрацыйных параметраў у кожнай з гэтых праграм."
+
+#: ../system-settings-plugin/MainPage.qml:32 ../.build/settings.js:1
+msgid "Accounts"
+msgstr "Рахункі"
+
+#: ../system-settings-plugin/NewAccountPage.qml:23
+msgid "Add account"
+msgstr "Дадаць конт"
+
+#: ../system-settings-plugin/NoAccountsPage.qml:36
+msgid "No accounts"
+msgstr "Не мае контаў"
+
+#: ../system-settings-plugin/NoAccountsPage.qml:44
+msgid "Add account:"
+msgstr "Дадаць уліковы запіс:"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:46
+#, qt-format
+msgid "%1 wants to access your %2 account"
+msgstr "%1 хоча атрымаць доступ да вашай ўліковага запісу %2"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:87
+msgid "Allow"
+msgstr "Дазволіць"
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:96
+msgid "Add another account…"
+msgstr ""
+
+#: ../online-accounts-ui/qml/AuthorizationPage.qml:104
+msgid "Don't allow"
+msgstr "Не дазваляць"
+
+#~ msgid "Add another"
+#~ msgstr "Дадаць"

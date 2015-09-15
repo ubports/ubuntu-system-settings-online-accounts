@@ -139,11 +139,9 @@ ManifestFile::ManifestFile(const QFileInfo &hookFileInfo,
         file.close();
 
         m_services = mainObject.value("services").toArray();
-        m_isValid = !m_services.isEmpty();
-
         m_trDomain = mainObject.value("translations").toString();
-
         m_plugins = mainObject.value("plugins").toArray();
+        m_isValid = !m_services.isEmpty() || !m_plugins.isEmpty();
 
         m_packageDir = findPackageDir(appId);
     }

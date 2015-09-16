@@ -187,7 +187,7 @@ bool ManifestFile::writeFiles(const QDir &accountsDir)
         ok = false;
     }
 
-    if (ok) {
+    if (ok && !m_services.isEmpty()) {
         QString applicationFile =
             QString("applications/%1.application").arg(m_shortAppId);
         if (!writeXmlFile(doc, accountsDir.filePath(applicationFile))) {

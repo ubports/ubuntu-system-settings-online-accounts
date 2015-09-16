@@ -645,17 +645,13 @@ int main(int argc, char **argv)
          * the version number out. */
         QString shortAppId = stripVersion(appId);
 
-        /* When building the destination file name, use the file suffix with an
-         * "s" appended: remember that libaccounts uses
-         * ~/.local/share/accounts/{providers,services,service-types,applications}.
-         * */
-        QString applicationFile = QString("%1/accounts/applications/%2.application").
-            arg(localShare).arg(shortAppId);
-
-        QFileInfo applicationInfo(applicationFile);
-        /* If the destination is there and up to date, we have nothing to do */
-        if (applicationInfo.exists() &&
-            applicationInfo.lastModified() >= fileInfo.lastModified()) {
+        /* We create an empty file whenever we succesfully process a hook file.
+         * The name of this file is the same as the hook file, with the
+         * .processed suffix appended.
+         */
+        QFileInfo processedInfo(fileInfo.filePath() + ".processed");
+        if (processedInfo.exists() &&
+            processedInfo.lastModified() >= fileInfo.lastModified()) {
             continue;
         }
 
@@ -665,7 +661,13 @@ int main(int argc, char **argv)
             continue;
         }
 
-        manifest.writeFiles(accountsDir);
+        if (manifest.writeFiles(accountsDir)) {
+            QFile file(processedInfo.filePath());
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                qWarning() << "Could not create timestamp file" <<
+                    processedInfo.filePath();
+            }
+        }
     }
 
     /* To ensure that all the installed services are parsed into

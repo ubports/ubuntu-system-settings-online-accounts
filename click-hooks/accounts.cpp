@@ -267,6 +267,7 @@ bool ManifestFile::writePlugins(const QDir &accountsDir)
         }
 
         QString qmlDestination = QString("qml-plugins/%1").arg(id);
+        QFile::remove(accountsDir.filePath(qmlDestination));
         if (!QFile::link(qmlPlugin, accountsDir.filePath(qmlDestination))) {
             qWarning() << "Cannot symlink QML files" << qmlPlugin;
             ok = false;

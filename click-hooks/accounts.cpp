@@ -318,6 +318,7 @@ bool ManifestFile::writeProviderFile(const QDir &accountsDir,
     addProfile(doc);
     addTranslations(doc);
     addTemplate(doc, json);
+    addPackageDir(doc);
 
     return writeXmlFile(doc, accountsDir.filePath(QString("providers/%1.provider").arg(id)));
 }
@@ -599,6 +600,20 @@ static void removeStaleFiles(Accounts::Manager *manager,
     }
 }
 
+static void removeStaleTimestampFiles(const QDir &hooksDirIn)
+{
+    Q_FOREACH(const QFileInfo &fileInfo, hooksDirIn.entryInfoList()) {
+        if (fileInfo.suffix() != "processed") continue;
+
+        /* Find the corresponding hook file */
+        QFileInfo hookInfo(fileInfo.absolutePath() + "/" + fileInfo.completeBaseName());
+
+        if (!hookInfo.exists()) {
+            QFile::remove(fileInfo.filePath());
+        }
+    }
+}
+
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
@@ -635,6 +650,7 @@ int main(int argc, char **argv)
     accountsDir.mkpath("qml-plugins");
 
     removeStaleFiles(manager, fileTypes, accountsDir, hooksDirIn);
+    removeStaleTimestampFiles(hooksDirIn);
 
     Q_FOREACH(const QFileInfo &fileInfo, hooksDirIn.entryInfoList()) {
         if (fileInfo.suffix() != "accounts") continue;

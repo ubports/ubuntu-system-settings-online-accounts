@@ -73,6 +73,7 @@ private Q_SLOTS:
     void testValidHooks();
     void testRemoval();
     void testRemovalWithAcl();
+    void testTimestampRemoval();
 
 private:
     void clearHooksDir();
@@ -465,6 +466,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "  <name>Google</name>\n"
         "  <icon>%1/google.svg</icon>\n"
         "  <profile>com.ubuntu.test_MyApp_0.2</profile>\n"
+        "  <package-dir>/tmp/hooks-test2/package</package-dir>\n"
         "</provider>\n").arg(m_packageDir.path());
     files["qml-plugins/com.ubuntu.test_MyApp_google/Main.qml"] =
         "Something here";
@@ -692,6 +694,28 @@ void OnlineAccountsHooksTest::testRemovalWithAcl()
     QStringList expectedAcl;
     expectedAcl << "one" << "two_click";
     QCOMPARE(info.accessControlList().toSet(), expectedAcl.toSet());
+}
+
+void OnlineAccountsHooksTest::testTimestampRemoval()
+{
+    QString stillInstalled("com-ubuntu.test_MyApp_2.0.accounts");
+    writeHookFile(stillInstalled, "{}");
+    QString stillInstalledTimestamp("com-ubuntu.test_MyApp_2.0.accounts.processed");
+    writeHookFile(stillInstalledTimestamp, "");
+    QString oldTimestamp("com-ubuntu.test_MyApp_1.0.accounts.processed");
+    writeHookFile(oldTimestamp, "");
+    QString staleTimestamp1("com-ubuntu.app_MyOtherApp_2.0.accounts.processed");
+    writeHookFile(staleTimestamp1, "");
+    QString staleTimestamp2("com-ubuntu.app_MyOtherApp_1.0.accounts.processed");
+    writeHookFile(staleTimestamp2, "");
+
+    QVERIFY(runHookProcess());
+
+    QVERIFY(m_hooksDir.exists(stillInstalled));
+    QVERIFY(m_hooksDir.exists(stillInstalledTimestamp));
+    QVERIFY(!m_hooksDir.exists(oldTimestamp));
+    QVERIFY(!m_hooksDir.exists(staleTimestamp1));
+    QVERIFY(!m_hooksDir.exists(staleTimestamp2));
 }
 
 QTEST_MAIN(OnlineAccountsHooksTest);

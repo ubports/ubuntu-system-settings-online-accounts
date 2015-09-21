@@ -166,7 +166,7 @@ bool ManifestFile::writeFiles(const QDir &accountsDir)
         QString provider = o.value("provider").toString();
         QString id = QString("%1_%2").arg(m_shortAppId).arg(provider);
         QString description = o.value("description").toString();
-        if (description.isEmpty()) description = " ";
+        if (description.isEmpty()) description = ".";
 
         QDomElement serviceElem = doc.createElement(QStringLiteral("service"));
         serviceElem.setAttribute(QStringLiteral("id"), id);
@@ -221,7 +221,7 @@ bool ManifestFile::writeServiceFile(const QDir &accountsDir, const QString &id,
     // name
     QString name = json.value(QStringLiteral("name")).toString();
     if (name.isEmpty()) {
-        name = " ";
+        name = ".";
     }
     elem = doc.createElement(QStringLiteral("name"));
     elem.appendChild(doc.createTextNode(name));

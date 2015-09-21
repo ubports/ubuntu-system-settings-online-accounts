@@ -293,7 +293,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "  <desktop-entry>com.ubuntu.test_MyApp_0.2</desktop-entry>\n"
         "  <services>\n"
         "    <service id=\"com.ubuntu.test_MyApp_google\">\n"
-        "      <description> </description>\n"
+        "      <description>.</description>\n"
         "    </service>\n"
         "  </services>\n"
         "</application>\n";
@@ -303,7 +303,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "<service id=\"com.ubuntu.test_MyApp_google\">\n"
         "  <type>com.ubuntu.test_MyApp</type>\n"
         "  <provider>google</provider>\n"
-        "  <name> </name>\n"
+        "  <name>.</name>\n"
         "  <profile>com.ubuntu.test_MyApp_0.2</profile>\n"
         "</service>\n";
     QTest::newRow("minimal") <<
@@ -446,7 +446,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "  <desktop-entry>com.ubuntu.test_MyApp_0.2</desktop-entry>\n"
         "  <services>\n"
         "    <service id=\"com.ubuntu.test_MyApp_google\">\n"
-        "      <description> </description>\n"
+        "      <description>.</description>\n"
         "    </service>\n"
         "  </services>\n"
         "</application>\n";
@@ -456,7 +456,7 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "<service id=\"com.ubuntu.test_MyApp_google\">\n"
         "  <type>com.ubuntu.test_MyApp</type>\n"
         "  <provider>google</provider>\n"
-        "  <name> </name>\n"
+        "  <name>.</name>\n"
         "  <profile>com.ubuntu.test_MyApp_0.2</profile>\n"
         "</service>\n";
     files["providers/com.ubuntu.test_MyApp_google.provider"] =

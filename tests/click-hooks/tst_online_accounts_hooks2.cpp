@@ -142,7 +142,12 @@ bool OnlineAccountsHooksTest::runXmlDiff(const QString &generated,
     process.start("xmldiff", args);
     if (!process.waitForFinished()) return false;
 
-    return process.exitCode() == EXIT_SUCCESS;
+    int exitCode = process.exitCode();
+    if (exitCode != EXIT_SUCCESS) {
+        process.start("cat", args);
+        process.waitForFinished();
+    }
+    return exitCode == EXIT_SUCCESS;
 }
 
 void OnlineAccountsHooksTest::writeHookFile(const QString &name,
@@ -269,6 +274,23 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "  <provider>google</provider>\n"
         "  <name>Picasa</name>\n"
         "  <profile>com.ubuntu.test_MyApp_0.2</profile>\n"
+        "  <template>\n"
+        "    <setting name=\"Key\">value</setting>\n"
+        "    <group name=\"a\">\n"
+        "      <group name=\"b\">\n"
+        "        <group name=\"c\">\n"
+        "          <setting name=\"Key3\">value3</setting>\n"
+        "          <setting name=\"Key4\">value4</setting>\n"
+        "        </group>\n"
+        "      </group>\n"
+        "    </group>\n"
+        "    <group name=\"other\">\n"
+        "      <setting name=\"key\">value5</setting>\n"
+        "    </group>\n"
+        "    <group name=\"subgroup\">\n"
+        "      <setting name=\"Key2\">value2</setting>\n"
+        "    </group>\n"
+        "  </template>\n"
         "</service>\n";
     QTest::newRow("one service") <<
         "com.ubuntu.test_MyApp_0.2.accounts" <<
@@ -277,7 +299,18 @@ void OnlineAccountsHooksTest::testValidHooks_data()
         "    {"
         "      \"provider\": \"google\","
         "      \"description\": \"Publish to Picasa\","
-        "      \"name\": \"Picasa\""
+        "      \"name\": \"Picasa\","
+        "      \"settings\": {"
+        "        \"Key\": \"value\","
+        "        \"subgroup\": {"
+        "          \"Key2\": \"value2\""
+        "        },"
+        "        \"a/b/c\": {"
+        "          \"Key3\": \"value3\","
+        "          \"Key4\": \"value4\""
+        "        },"
+        "        \"other/key\": \"value5\""
+        "      }"
         "    }"
         "  ]"
         "}" <<

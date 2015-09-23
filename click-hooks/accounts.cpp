@@ -370,6 +370,10 @@ void ManifestFile::addTemplate(QDomDocument &doc, const QJsonObject &json)
 
     if (!auth.isEmpty()) templateElem.appendChild(authElem);
 
+    // settings
+    QJsonObject settings = json.value(QStringLiteral("settings")).toObject();
+    addSettings(templateElem, settings);
+
     if (templateElem.hasChildNodes()) {
         root.appendChild(templateElem);
     }
@@ -390,7 +394,16 @@ void ManifestFile::addSetting(QDomElement &parent, const QString &name,
 
 void ManifestFile::addSettings(QDomElement &parent, const QJsonObject &json)
 {
+    QDomDocument doc = parent.ownerDocument();
     for (QJsonObject::const_iterator i = json.begin(); i != json.end(); i++) {
+        QDomElement elem = parent;
+        QStringList parts = i.key().split('/');
+        QString key = parts.takeLast();
+        Q_FOREACH(const QString &groupName, parts) {
+            QDomElement subGroup = createGroup(doc, groupName);
+            elem.appendChild(subGroup);
+            elem = subGroup;
+        }
         QString value;
         QString type;
         switch (i.value().type()) {
@@ -414,13 +427,21 @@ void ManifestFile::addSettings(QDomElement &parent, const QJsonObject &json)
                 }
                 type = "as";
                 value = QString("[%1]").arg(values.join(','));
-                break;
             }
+            break;
+        case QJsonValue::Object:
+            {
+                QDomElement subGroup = createGroup(doc, key);
+                QJsonObject object = i.value().toObject();
+                addSettings(subGroup, object);
+                elem.appendChild(subGroup);
+            }
+            break;
         default:
             qWarning() << "Unsupported setting type:" << i.value();
         }
         if (value.isEmpty()) continue;
-        addSetting(parent, i.key(), value, type);
+        addSetting(elem, key, value, type);
     }
 }
 

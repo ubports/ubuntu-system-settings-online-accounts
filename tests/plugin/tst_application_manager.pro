@@ -8,6 +8,7 @@ CONFIG += \
 QT += \
     dbus \
     qml
+QT -= gui
 
 PKGCONFIG += \
     accounts-qt5

@@ -44,6 +44,8 @@ public:
                                             const QString &profile);
     QVariantMap providerInfo(const QString &providerId) const;
 
+    Q_INVOKABLE QStringList usefulProviders() const;
+
     Q_INVOKABLE QStringList addApplicationToAcl(const QStringList &acl,
                                                 const QString &appId) const;
     Q_INVOKABLE QStringList removeApplicationFromAcl(const QStringList &acl,

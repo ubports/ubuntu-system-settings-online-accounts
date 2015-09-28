@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=com.ubuntu.OnlineAccounts.Manager
+Exec=$${INSTALL_PREFIX}/bin/$${TARGET}

@@ -1,10 +1,12 @@
 usr/bin/online-accounts-hooks
+usr/bin/online-accounts-hooks2
 usr/bin/online-accounts-service
 usr/bin/online-accounts-ui
 usr/lib/*/libonline-accounts-plugin.so.*
 usr/lib/*/ubuntu-system-settings
 usr/share/applications/online-accounts-ui.desktop
 usr/share/click/hooks
+usr/share/dbus-1/services/com.ubuntu.OnlineAccounts.Manager.service
 usr/share/dbus-1/services/com.ubuntu.OnlineAccountsUi.service
 usr/share/locale
 usr/share/ubuntu/settings

@@ -309,7 +309,10 @@ bool ManifestFile::writeProviderFile(const QDir &accountsDir,
         return false;
     }
     if (!QDir::isAbsolutePath(icon)) {
-        icon = m_packageDir + "/" + icon;
+        QString test = m_packageDir + "/" + icon;
+        if (QFile::exists(test)) {
+            icon = test;
+        }
     }
     elem = doc.createElement(QStringLiteral("icon"));
     elem.appendChild(doc.createTextNode(icon));

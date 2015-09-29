@@ -95,7 +95,7 @@ Item {
     }
 
     ListItem.Base {
-        visible: loading
+        visible: loading && !errorItem.visible
         height: units.gu(7)
         showDivider: false
         anchors.top: parent.top
@@ -134,6 +134,16 @@ Item {
         }
         focus: true
         visible: !loading
+    }
+
+    ErrorItem {
+        id: errorItem
+        anchors { fill: parent; margins: units.gu(2) }
+        visible: false
+        onRetryRequested: {
+            root.credentialsStored()
+            visible = false
+        }
     }
 
     KeyboardRectangle {
@@ -217,7 +227,15 @@ Item {
 
     onAuthenticated: completeCreation(reply)
 
-    onAuthenticationError: root.cancel()
+    onAuthenticationError: {
+        console.log("Authentication error, code " + error.code)
+        if (error.code == AccountService.NetworkError) {
+            console.log("Network error")
+            errorItem.visible = true
+            return
+        }
+        root.cancel()
+    }
 
     onFinished: loading = false
 }

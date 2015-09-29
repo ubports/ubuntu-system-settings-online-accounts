@@ -146,8 +146,6 @@ MainView {
         Item {
             ActivityIndicator {
                 anchors.centerIn: parent
-                width: units.gu(5)
-                height: width
                 running: true
             }
         }

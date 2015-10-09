@@ -180,9 +180,7 @@ QUrl BrowserRequestPrivate::pageComponentUrl() const
 void BrowserRequestPrivate::setCurrentUrl(const QUrl &url)
 {
     DEBUG() << "Url changed:" << url;
-    if (url != m_currentUrl) {
-        m_failTimer.stop();
-    }
+    m_failTimer.restart();
 
     m_currentUrl = url;
     if (url.host() == m_finalUrl.host() &&

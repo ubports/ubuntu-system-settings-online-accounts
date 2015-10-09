@@ -30,7 +30,7 @@ Item {
             verticalCenter: parent.verticalCenter
             left: parent.left; right: parent.right
         }
-        spacing: units.gu(1)
+        spacing: units.gu(2)
 
         Label {
             anchors { left: parent.left; right: parent.right }

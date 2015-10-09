@@ -138,7 +138,7 @@ Item {
 
     ErrorItem {
         id: errorItem
-        anchors { fill: parent; margins: units.gu(2) }
+        anchors { fill: parent; margins: units.gu(4) }
         visible: false
         onRetryRequested: {
             root.credentialsStored()

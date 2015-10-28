@@ -35,6 +35,8 @@
 #include <QStandardPaths>
 #include <QStringList>
 #include <click.h>
+#include <sys/types.h>
+#include <utime.h>
 #include "acl-updater.h"
 
 static QString findPackageDir(const QString &appId)
@@ -692,7 +694,7 @@ int main(int argc, char **argv)
          */
         QFileInfo processedInfo(fileInfo.filePath() + ".processed");
         if (processedInfo.exists() &&
-            processedInfo.lastModified() >= fileInfo.lastModified()) {
+            processedInfo.lastModified() == fileInfo.lastModified()) {
             continue;
         }
 
@@ -704,7 +706,13 @@ int main(int argc, char **argv)
 
         if (manifest.writeFiles(accountsDir)) {
             QFile file(processedInfo.filePath());
-            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                struct utimbuf sourceTime;
+                sourceTime.actime = sourceTime.modtime =
+                    fileInfo.lastModified().toTime_t();
+                utime(processedInfo.filePath().toUtf8().constData(),
+                      &sourceTime);
+            } else {
                 qWarning() << "Could not create timestamp file" <<
                     processedInfo.filePath();
             }

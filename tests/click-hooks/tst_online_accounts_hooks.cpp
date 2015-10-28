@@ -28,6 +28,9 @@
 #include <QProcess>
 #include <QSignalSpy>
 #include <QTest>
+#include <sys/types.h>
+#include <time.h>
+#include <utime.h>
 
 #define TEST_DIR "/tmp/hooks-test"
 
@@ -465,6 +468,8 @@ void OnlineAccountsHooksTest::testUpdate()
     clearHooksDir();
     clearInstallDir();
 
+    time_t oldTime = time(NULL) - 3;
+
     writeHookFile("com-ubuntu.test_MyApp_1.0.application",
         "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
         "<application>\n"
@@ -511,6 +516,32 @@ void OnlineAccountsHooksTest::testUpdate()
     root = doc.documentElement();
     QCOMPARE(root.firstChildElement("profile").text(),
              QString("com-ubuntu.test_MyApp_1.1"));
+
+    // Create an *older* file
+    clearHooksDir();
+    QString fileName("com-ubuntu.test_MyApp_1.2.application");
+    writeHookFile(fileName,
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application>\n"
+        "  <description>My application</description>\n"
+        "  <service-types>\n"
+        "    <service-type>some type</service-type>\n"
+        "  </service-types>\n"
+        "</application>");
+    struct utimbuf sourceTime;
+    sourceTime.actime = sourceTime.modtime = oldTime;
+    utime(m_hooksDir.filePath(fileName).toUtf8().constData(), &sourceTime);
+
+    QVERIFY(runHookProcess());
+
+    // check that the file has been updated with the correct profile
+    file.close();
+    file.setFileName(m_installDir.absoluteFilePath(installedName));
+    QVERIFY(file.open(QIODevice::ReadOnly));
+    QVERIFY(doc.setContent(&file));
+    root = doc.documentElement();
+    QCOMPARE(root.firstChildElement("profile").text(),
+             QString("com-ubuntu.test_MyApp_1.2"));
 }
 
 void OnlineAccountsHooksTest::testDesktopEntry_data()

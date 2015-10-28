@@ -1,3 +1,13 @@
+ubuntu-system-settings-online-accounts (0.7+16.04.20151028.1-0ubuntu1) xenial; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Regenerate hooks whenever file time changes (LP: #1510640)
+
+  [ CI Train Bot ]
+  * Resync trunk. added: po/hi.po
+
+ -- David Barth <david.barth@canonical.com>  Wed, 28 Oct 2015 14:00:46 +0000
+
 ubuntu-system-settings-online-accounts (0.7+15.10.20150928-0ubuntu1) wily; urgency=medium
 
   [ Alberto Mardegan ]

@@ -707,6 +707,7 @@ int main(int argc, char **argv)
         if (manifest.writeFiles(accountsDir)) {
             QFile file(processedInfo.filePath());
             if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                file.close();
                 struct utimbuf sourceTime;
                 sourceTime.actime = sourceTime.modtime =
                     fileInfo.lastModified().toTime_t();

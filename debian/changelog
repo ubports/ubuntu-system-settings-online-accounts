@@ -1,3 +1,33 @@
+ubuntu-system-settings-online-accounts (0.7+16.04.20151028.1-0ubuntu1) xenial; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Regenerate hooks whenever file time changes (LP: #1510640)
+
+  [ CI Train Bot ]
+  * Resync trunk. added: po/hi.po
+
+ -- David Barth <david.barth@canonical.com>  Wed, 28 Oct 2015 14:00:46 +0000
+
+ubuntu-system-settings-online-accounts (0.7+15.10.20150928-0ubuntu1) wily; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Simplify hooks, load v2api library added: click-hooks/accounts.cpp
+    click-hooks/accounts.hook.in click-hooks/acl-updater.cpp click-
+    hooks/acl-updater.h click-hooks/click-hooks.pro click-hooks/online-
+    accounts-hooks2.pro online-accounts-
+    service/com.ubuntu.OnlineAccounts.Manager.service.in tests/click-
+    hooks/click-hooks.pro tests/click-hooks/fake_signond.h tests/click-
+    hooks/signond.py tests/click-hooks/tst_online_accounts_hooks2.cpp
+    tests/click-hooks/tst_online_accounts_hooks2.pro renamed: click-
+    hooks/click-hooks.pro => click-hooks/online-accounts-hooks.pro
+    tests/click-hooks/click-hooks.pro => tests/click-
+    hooks/tst_online_accounts_hooks.pro
+
+  [ CI Train Bot ]
+  * Resync trunk. added: po/mr.po po/th.po
+
+ -- David Barth <david.barth@canonical.com>  Mon, 28 Sep 2015 14:38:43 +0000
+
 ubuntu-system-settings-online-accounts (0.7+15.10.20150806-0ubuntu1) wily; urgency=medium
 
   [ Alberto Mardegan ]

@@ -10,6 +10,8 @@ Build-Depends: debhelper (>= 9),
                libclick-0.4-dev,
                libmirclient-dev (>= 0.14.0),
                libnotify-dev,
+               libqtdbusmock1-dev,
+               libqtdbustest1-dev,
                libsignon-qt5-dev,
                libsystemsettings-dev (>= 0.1+13.10.20130806),
                qt5-default,
@@ -21,6 +23,7 @@ Build-Depends: debhelper (>= 9),
                qtdeclarative5-ubuntu-ui-toolkit-plugin,
                signon-plugins-dev (>= 8.58),
                dbus-test-runner,
+               xmldiff,
                xvfb,
 Standards-Version: 3.9.4
 Homepage: https://launchpad.net/ubuntu-system-settings-online-accounts
@@ -36,13 +39,15 @@ Package: ubuntu-system-settings-online-accounts
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
+         libonline-accounts-daemon1,
          liboxideqt-qmlplugin (>= 1.2.0),
          qtdeclarative5-accounts-plugin (>= 0.6),
          qtdeclarative5-ubuntu-ui-toolkit-plugin | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles,
          signon-ui-service,
          ubuntu-system-settings
-Conflicts: account-plugin-windows-live
-Provides: qml-module-ubuntu-onlineaccounts-plugin
+Conflicts: account-plugin-windows-live, online-accounts-daemon
+Provides: qml-module-ubuntu-onlineaccounts-plugin, online-accounts-daemon
+Replaces: online-accounts-daemon
 Description: Online Accounts setup for Ubuntu Touch
  Online Accounts setup utility for the Ubuntu Touch System Settings.
 

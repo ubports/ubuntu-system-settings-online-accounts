@@ -1,0 +1,3 @@
+Pattern: ${home}/.local/share/$${TARGET}/${id}.accounts
+Exec: $${target.path}/$$TARGET
+User-Level: yes

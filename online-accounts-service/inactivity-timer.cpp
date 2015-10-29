@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2013-2015 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -46,6 +46,8 @@ void InactivityTimer::onIdleChanged()
 {
     if (allObjectsAreIdle()) {
         m_timer.start(m_interval);
+    } else {
+        m_timer.stop();
     }
 }
 

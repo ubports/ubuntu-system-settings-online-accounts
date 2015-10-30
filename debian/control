@@ -37,6 +37,7 @@ Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          liboxideqt-qmlplugin (>= 1.2.0),
+         qml-module-ubuntu-onlineaccounts2,
          qtdeclarative5-accounts-plugin (>= 0.3),
          qtdeclarative5-ubuntu-ui-toolkit-plugin | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles,
          signon-ui-service,

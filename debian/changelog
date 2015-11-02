@@ -1,3 +1,10 @@
+ubuntu-system-settings-online-accounts (0.7+16.04.20151102-0ubuntu1) xenial; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Retry authentication on network errors (LP: #1504099, #1349975)
+
+ -- David Barth <david.barth@canonical.com>  Mon, 02 Nov 2015 07:29:24 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.04.20151030.1-0ubuntu1) xenial; urgency=medium
 
   [ Alberto Mardegan ]

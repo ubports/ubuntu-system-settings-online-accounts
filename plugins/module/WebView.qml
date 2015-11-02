@@ -14,7 +14,7 @@ WebView {
 
     onLoadingChanged: {
         console.log("Loading changed")
-        if (loading) {
+        if (loading && !lastLoadFailed) {
             signonRequest.onLoadStarted()
         } else if (lastLoadSucceeded) {
             signonRequest.onLoadFinished(true)

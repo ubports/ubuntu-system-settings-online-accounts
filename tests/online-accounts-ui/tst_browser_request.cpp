@@ -259,7 +259,7 @@ void BrowserRequestTest::testFailureWithHandler()
 
     QCOMPARE(setResultCalled.count(), 1);
     QVariantMap results = setResultCalled.at(0).at(0).toMap();
-    QVERIFY(results.isEmpty());
+    QVERIFY(results.contains(SSOUI_KEY_ERROR));
 }
 
 void BrowserRequestTest::testCancelWithHandler()

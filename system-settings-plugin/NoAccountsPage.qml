@@ -34,8 +34,11 @@ Flickable {
         ListItem.Base {
             Label {
                 text: i18n.dtr(domain, "No accounts")
+                color: theme.palette.normal.backgroundText
+                fontSize: "large"
                 anchors.centerIn: parent
             }
+            showDivider: false
         }
 
         AddAccountLabel {}

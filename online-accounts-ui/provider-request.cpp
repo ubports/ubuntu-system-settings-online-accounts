@@ -164,6 +164,8 @@ void ProviderRequestPrivate::onWindowVisibleChanged(bool visible)
 {
     Q_Q(ProviderRequest);
 
+    QObject::disconnect(m_view, SIGNAL(visibleChanged(bool)),
+                        this, SLOT(onWindowVisibleChanged(bool)));
     if (!visible) {
         q->setResult(QVariantMap());
     }

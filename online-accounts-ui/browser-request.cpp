@@ -33,6 +33,7 @@
 #include <QList>
 #include <QQmlContext>
 #include <QQmlEngine>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QTimer>
 #include <QVariant>
@@ -89,9 +90,11 @@ Q_SIGNALS:
 private:
     void buildDialog(const QVariantMap &params);
     void closeView();
+    bool pathsAreEqual(const QString &p1, const QString &p2);
 
 private:
     Dialog *m_dialog;
+    QRegularExpression m_pathRegExp;
     QUrl m_currentUrl;
     QUrl m_startUrl;
     QUrl m_finalUrl;
@@ -106,6 +109,7 @@ private:
 BrowserRequestPrivate::BrowserRequestPrivate(BrowserRequest *request):
     QObject(request),
     m_dialog(0),
+    m_pathRegExp("/*^"),
     q_ptr(request)
 {
     m_failTimer.setSingleShot(true);
@@ -119,6 +123,13 @@ BrowserRequestPrivate::~BrowserRequestPrivate()
     DEBUG();
     closeView();
     delete m_dialog;
+}
+
+bool BrowserRequestPrivate::pathsAreEqual(const QString &p1, const QString &p2)
+{
+    QString p1copy(p1);
+    QString p2copy(p2);
+    return p1copy.remove(m_pathRegExp) == p2copy.remove(m_pathRegExp);
 }
 
 QString BrowserRequestPrivate::rootDirForIdentity() const
@@ -186,7 +197,7 @@ void BrowserRequestPrivate::setCurrentUrl(const QUrl &url)
 
     m_currentUrl = url;
     if (url.host() == m_finalUrl.host() &&
-        url.path() == m_finalUrl.path()) {
+        pathsAreEqual(url.path(), m_finalUrl.path())) {
         m_responseUrl = url;
         if (m_dialog != 0) {
             if (!m_dialog->isVisible()) {

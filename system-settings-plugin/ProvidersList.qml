@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2013-2015 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -17,8 +17,8 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 1.1
-import Ubuntu.Components.ListItems 1.0 as ListItem
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.OnlineAccounts 0.1
 import Ubuntu.OnlineAccounts.Plugin 1.0
 
@@ -59,19 +59,24 @@ Column {
         model: filteredProviderModel
 
         delegate: ListItem.Standard {
+            id: provider
             text: displayName
             enabled: accountModel === null || accountModel.count === 0
             iconSource: model.iconName.indexOf("/") === 0 ?
                 model.iconName : "image://theme/" + model.iconName
             progression: false
-            onClicked: { pressed = true; root.providerClicked(providerId) }
+            onTriggered: {
+                activated = true;
+                root.providerClicked(providerId);
+            }
             property var accountModel: isSingleAccount ? createAccountModel(providerId) : null
+            property bool activated: false
 
             ActivityIndicator {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: units.gu(2)
-                running: pressed
+                running: provider.activated
             }
 
             function createAccountModel(providerId) {
@@ -93,7 +98,7 @@ Column {
 
     function clearPressedButtons() {
         for (var i = 0; i < repeater.count; i++) {
-            repeater.itemAt(i).pressed = false
+            repeater.itemAt(i).activated = false
         }
     }
 }

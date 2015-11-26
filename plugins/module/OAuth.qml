@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2013-2015 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -17,8 +17,8 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.OnlineAccounts 0.1
 import Ubuntu.OnlineAccounts.Plugin 1.0
 
@@ -95,7 +95,7 @@ Item {
     }
 
     ListItem.Base {
-        visible: loading
+        visible: loading && !errorItem.visible
         height: units.gu(7)
         showDivider: false
         anchors.top: parent.top
@@ -134,6 +134,16 @@ Item {
         }
         focus: true
         visible: !loading
+    }
+
+    ErrorItem {
+        id: errorItem
+        anchors { fill: parent; margins: units.gu(4) }
+        visible: false
+        onRetryRequested: {
+            root.credentialsStored()
+            visible = false
+        }
     }
 
     KeyboardRectangle {
@@ -217,7 +227,15 @@ Item {
 
     onAuthenticated: completeCreation(reply)
 
-    onAuthenticationError: root.cancel()
+    onAuthenticationError: {
+        console.log("Authentication error, code " + error.code)
+        if (error.code == AccountService.NetworkError) {
+            console.log("Network error")
+            errorItem.visible = true
+            return
+        }
+        root.cancel()
+    }
 
     onFinished: loading = false
 }

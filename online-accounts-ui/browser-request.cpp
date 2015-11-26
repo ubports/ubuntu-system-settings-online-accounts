@@ -36,6 +36,7 @@
 #include <QStandardPaths>
 #include <QTimer>
 #include <QVariant>
+#include <SignOn/uisessiondata.h>
 #include <SignOn/uisessiondata_priv.h>
 
 using namespace SignOnUi;
@@ -179,8 +180,11 @@ QUrl BrowserRequestPrivate::pageComponentUrl() const
 void BrowserRequestPrivate::setCurrentUrl(const QUrl &url)
 {
     DEBUG() << "Url changed:" << url;
-    m_failTimer.stop();
+    if (m_failTimer.isActive()) {
+        m_failTimer.start();
+    }
 
+    m_currentUrl = url;
     if (url.host() == m_finalUrl.host() &&
         url.path() == m_finalUrl.path()) {
         m_responseUrl = url;
@@ -258,7 +262,9 @@ void BrowserRequestPrivate::onFailTimer()
 
     DEBUG() << "Page loading failed";
     closeView();
-    q->setResult(QVariantMap());
+    QVariantMap result;
+    result[SSOUI_KEY_ERROR] = SignOn::QUERY_ERROR_NETWORK;
+    q->setResult(result);
 }
 
 void BrowserRequestPrivate::onFinished()

@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import Ubuntu.Components 1.1
+import Ubuntu.Components 1.3
 import Ubuntu.Web 0.2
 
 WebView {
@@ -14,7 +14,7 @@ WebView {
 
     onLoadingChanged: {
         console.log("Loading changed")
-        if (loading) {
+        if (loading && !lastLoadFailed) {
             signonRequest.onLoadStarted()
         } else if (lastLoadSucceeded) {
             signonRequest.onLoadFinished(true)

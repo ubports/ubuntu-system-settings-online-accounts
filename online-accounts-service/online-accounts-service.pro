@@ -75,6 +75,7 @@ HEADERS += \
     utils.h
 
 QMAKE_SUBSTITUTES += \
+    com.ubuntu.OnlineAccounts.Manager.service.in \
     com.ubuntu.OnlineAccountsUi.service.in
 
 DBUS_ADAPTORS += \
@@ -82,6 +83,7 @@ DBUS_ADAPTORS += \
 
 service.path = $${INSTALL_PREFIX}/share/dbus-1/services
 service.files = \
+    com.ubuntu.OnlineAccounts.Manager.service \
     com.ubuntu.OnlineAccountsUi.service
 INSTALLS += service
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2013-2015 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -17,7 +17,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Ubuntu.OnlineAccounts 0.1
 import Ubuntu.OnlineAccounts.Internal 1.0
 
@@ -34,7 +34,6 @@ MainView {
 
     width: units.gu(48)
     height: units.gu(60)
-    useDeprecatedToolbar: false
     automaticOrientation: true
 
     Component.onCompleted: {
@@ -146,8 +145,6 @@ MainView {
         Item {
             ActivityIndicator {
                 anchors.centerIn: parent
-                width: units.gu(5)
-                height: width
                 running: true
             }
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd.
+ * Copyright (C) 2013-2015 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -63,11 +63,20 @@ private:
 
 }; // namespace
 
+static QDBusConnection sessionBus() {
+    /* When this module is used within the online-accounts-service process, we
+     * need to use a separate D-Bus connection otherwise link-local calls won't
+     * work (QtDBus does not support delayed replies on local calls). */
+    return QCoreApplication::applicationName() == "online-accounts-service" ?
+        QDBusConnection::connectToBus(QDBusConnection::SessionBus, "oa-private") :
+        QDBusConnection::sessionBus();
+}
+
 SetupPrivate::SetupPrivate(Setup *setup):
     QObject(setup),
     m_onlineAccountsUi(OAU_SERVICE_NAME,
                        OAU_OBJECT_PATH,
-                       QDBusConnection::sessionBus()),
+                       sessionBus()),
     m_clientPid(0),
     q_ptr(setup)
 {
@@ -167,7 +176,7 @@ void SetupPrivate::onRequestAccessReply(QDBusPendingCallWatcher *watcher)
  *
  * \qml
  * import QtQuick 2.0
- * import Ubuntu.Components 0.1
+ * import Ubuntu.Components 1.3
  * import Ubuntu.OnlineAccounts.Client 0.1
  *
  * Rectangle {

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service id="ussoa-fake-service">
+  <type>other</type>
+  <name>Integration tests</name>
+  <provider>ussoa-fake-oauth</provider>
+</service>

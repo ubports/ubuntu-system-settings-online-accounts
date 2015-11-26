@@ -34,6 +34,18 @@
 
 using namespace OnlineAccountsUi;
 
+namespace QTest {
+template<>
+char *toString(const QSet<QString> &set)
+{
+    QByteArray ba = "QSet<QString>(";
+    QStringList list = set.toList();
+    ba += list.join(", ");
+    ba += ")";
+    return qstrdup(ba.data());
+}
+} // QTest namespace
+
 class ApplicationManagerTest: public QObject
 {
     Q_OBJECT
@@ -54,6 +66,8 @@ private Q_SLOTS:
     void testApplicationFromProfile();
     void testProviderInfo_data();
     void testProviderInfo();
+    void testUsefulProviders_data();
+    void testUsefulProviders();
 
 private:
     void clearApplicationsDir();
@@ -123,6 +137,7 @@ void ApplicationManagerTest::initTestCase()
 {
     qputenv("ACCOUNTS", TEST_DIR);
     qputenv("XDG_DATA_HOME", TEST_DIR);
+    qputenv("XDG_DATA_DIRS", TEST_DIR);
 
     clearTestDir();
 
@@ -561,6 +576,128 @@ void ApplicationManagerTest::testProviderInfo()
     QCOMPARE(info.value("isSingleAccount").toBool(), isSingleAccount);
 }
 
-QTEST_MAIN(ApplicationManagerTest);
+void ApplicationManagerTest::testUsefulProviders_data()
+{
+    QTest::addColumn<QStringList>("applicationIds");
+    QTest::addColumn<QStringList>("contents");
+    QTest::addColumn<QStringList>("expectedProviders");
+
+    QStringList applicationIds;
+    QStringList contents;
+    applicationIds << "com.ubuntu.test_MyApp";
+    contents <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"com.ubuntu.test_MyApp\">\n"
+        "  <description>My application</description>\n"
+        "</application>";
+    QTest::newRow("no-services") <<
+        applicationIds << contents <<
+        QStringList();
+    applicationIds.clear();
+    contents.clear();
+
+    applicationIds <<
+        "com.ubuntu.test_MyApp2";
+    contents <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"com.ubuntu.test_MyApp2\">\n"
+        "  <description>My application 2</description>\n"
+        "  <service-types>\n"
+        "    <service-type id=\"some type\">Do something</service-type>\n"
+        "  </service-types>\n"
+        "</application>";
+    QTest::newRow("no-valid-services") <<
+        applicationIds << contents <<
+        QStringList();
+    applicationIds.clear();
+    contents.clear();
+
+    applicationIds <<
+        "com.ubuntu.test_MyApp3";
+    contents <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"com.ubuntu.test_MyApp3\">\n"
+        "  <description>My application 3</description>\n"
+        "  <service-types>\n"
+        "    <service-type id=\"tstemail\">\n"
+        "      <description>Send email</description>\n"
+        "    </service-type>\n"
+        "  </service-types>\n"
+        "</application>";
+    QTest::newRow("email-services") <<
+        applicationIds << contents <<
+        (QStringList() << "cool" << "bad");
+    applicationIds.clear();
+    contents.clear();
+
+    applicationIds <<
+        "com.ubuntu.test_MyApp4";
+    contents <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"com.ubuntu.test_MyApp4\">\n"
+        "  <description>My application 4</description>\n"
+        "  <services>\n"
+        "    <service id=\"cool-mail\">\n"
+        "      <description>Send email</description>\n"
+        "    </service>\n"
+        "    <service id=\"cool-sharing\">\n"
+        "      <description>Share stuff</description>\n"
+        "    </service>\n"
+        "  </services>\n"
+        "</application>";
+    QTest::newRow("cool-services") <<
+        applicationIds << contents <<
+        (QStringList() << "cool");
+    applicationIds.clear();
+    contents.clear();
+
+    applicationIds <<
+        "com.ubuntu.test_MyApp5" <<
+        "com.ubuntu.test_MyApp6";
+    contents <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"com.ubuntu.test_MyApp5\">\n"
+        "  <description>My application 5</description>\n"
+        "  <services>\n"
+        "    <service id=\"cool-mail\">\n"
+        "      <description>Send email</description>\n"
+        "    </service>\n"
+        "  </services>\n"
+        "</application>" <<
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+        "<application id=\"com.ubuntu.test_MyApp6\">\n"
+        "  <description>My application 6</description>\n"
+        "  <services>\n"
+        "    <service id=\"bad-sharing\">\n"
+        "      <description>Share stuff</description>\n"
+        "    </service>\n"
+        "  </services>\n"
+        "</application>";
+    QTest::newRow("two apps") <<
+        applicationIds << contents <<
+        (QStringList() << "cool" << "bad");
+    applicationIds.clear();
+    contents.clear();
+}
+
+void ApplicationManagerTest::testUsefulProviders()
+{
+    clearApplicationsDir();
+
+    QFETCH(QStringList, applicationIds);
+    QFETCH(QStringList, contents);
+    QFETCH(QStringList, expectedProviders);
+
+    for (int i = 0; i < applicationIds.count(); i++) {
+        writeAccountsFile(applicationIds[i] + ".application", contents[i]);
+    }
+
+    ApplicationManager manager;
+
+    QStringList providers = manager.usefulProviders();
+    QCOMPARE(providers.toSet(), expectedProviders.toSet());
+}
+
+QTEST_GUILESS_MAIN(ApplicationManagerTest);
 
 #include "tst_application_manager.moc"

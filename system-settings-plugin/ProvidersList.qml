@@ -20,6 +20,7 @@ import QtQuick 2.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.OnlineAccounts 0.1
+import Ubuntu.OnlineAccounts.Plugin 1.0
 
 Column {
     id: root
@@ -33,9 +34,29 @@ Column {
         id: providerModel
     }
 
+    ListModel {
+        id: filteredProviderModel
+        function populate() {
+            var length = providerModel.count
+            var usefulProviders = ApplicationManager.usefulProviders()
+            for (var i = 0; i < length; i++) {
+                var providerId = providerModel.get(i, "providerId")
+                if (usefulProviders.indexOf(providerId) < 0) continue
+                var provider = {
+                    "providerId": providerId,
+                    "displayName": providerModel.get(i, "displayName"),
+                    "iconName": providerModel.get(i, "iconName"),
+                    "isSingleAccount": providerModel.get(i, "isSingleAccount"),
+                    "translations": providerModel.get(i, "translations")
+                }
+                filteredProviderModel.append(provider)
+            }
+        }
+    }
+
     Repeater {
         id: repeater
-        model: providerModel
+        model: filteredProviderModel
 
         delegate: ListItem.Standard {
             id: provider
@@ -72,6 +93,8 @@ Column {
             includeDisabled: true
         }
     }
+
+    Component.onCompleted: filteredProviderModel.populate()
 
     function clearPressedButtons() {
         for (var i = 0; i < repeater.count; i++) {

@@ -205,6 +205,21 @@ QVariantMap ApplicationManager::providerInfo(const QString &providerId) const
     return info;
 }
 
+QStringList ApplicationManager::usefulProviders() const
+{
+    AccountManager *manager = AccountManager::instance();
+    Accounts::ServiceList allServices = manager->serviceList();
+    QStringList providers;
+    Q_FOREACH(const Accounts::Service &service, allServices) {
+        if (providers.contains(service.provider())) continue;
+
+        if (!manager->applicationList(service).isEmpty()) {
+            providers.append(service.provider());
+        }
+    }
+    return providers;
+}
+
 QStringList
 ApplicationManager::addApplicationToAcl(const QStringList &acl,
                                         const QString &applicationId) const

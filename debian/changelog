@@ -1,3 +1,17 @@
+ubuntu-system-settings-online-accounts (0.7+16.04.20151126-0ubuntu1) xenial; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Fixes to the password dialog and tests: Correct layout, by setting a
+    height on the button row Don't handle the finished() signal more
+    than once Fix click hook tests, by using a sincle D-Bus connection
+    for all tests (LP: #1418090, #1508935)
+  * Hide providers which no application can use (LP: #1495531)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+ -- David Barth <david.barth@canonical.com>  Thu, 26 Nov 2015 16:06:02 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.04.20151102-0ubuntu1) xenial; urgency=medium
 
   [ Alberto Mardegan ]

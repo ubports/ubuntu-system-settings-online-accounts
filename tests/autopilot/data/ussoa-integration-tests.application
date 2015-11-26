@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application id="ussoa-integration-tests">
+  <description>IntegrationTests</description>
+  <services>
+    <service id="ussoa-fake-service">
+      <description>Integration test 1</description>
+    </service>
+    <service id="ussoa-test-login-photos">
+      <description>Integration test 2</description>
+    </service>
+  </services>
+</application>

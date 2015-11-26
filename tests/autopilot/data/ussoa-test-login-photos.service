@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service id="ussoa-test-login-photos">
+  <type>ussoa-test-photos</type>
+  <name>TestLogin Photos</name>
+  <provider>ussoa-test-login</provider>
+</service>

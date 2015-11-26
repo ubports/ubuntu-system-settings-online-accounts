@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<provider id="ussoa-test-login">
+  <name>TestLogin</name>
+  <icon>test-login</icon>
+  <translations>account-plugins</translations>
+  <domains>.*example\.com</domains>
+
+  <template>
+    <group name="auth">
+      <setting name="method">password</setting>
+      <setting name="mechanism">password</setting>
+    </group>
+  </template>
+</provider>

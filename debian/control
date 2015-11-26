@@ -121,7 +121,6 @@ Depends: ${misc:Depends},
          ${python3:Depends},
          autopilot-qt5,
          ubuntu-system-settings-online-accounts (>= ${binary:Version}),
-         uoa-integration-tests,
          libqt5test5,
          python3-autopilot,
 Description: Online Accounts setup for Ubuntu Touch - tests

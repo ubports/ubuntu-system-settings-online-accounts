@@ -88,6 +88,10 @@ private:
     QStringList findGeneratedFiles() const;
 
 private:
+    QtDBusTest::DBusTestRunner m_dbus;
+    QtDBusMock::DBusMock m_mock;
+    FakeSignond m_signond;
+    QByteArray m_busAddress;
     QDir m_testDir;
     QDir m_hooksDir;
     QDir m_installDir;
@@ -96,11 +100,15 @@ private:
 
 OnlineAccountsHooksTest::OnlineAccountsHooksTest():
     QObject(0),
+    m_dbus(),
+    m_mock(m_dbus),
+    m_signond(&m_mock),
     m_testDir(TEST_DIR),
     m_hooksDir(TEST_DIR "/online-accounts-hooks2"),
     m_installDir(TEST_DIR "/accounts"),
     m_packageDir(TEST_DIR "/package")
 {
+    m_busAddress = qgetenv("DBUS_SESSION_BUS_ADDRESS");
 }
 
 void OnlineAccountsHooksTest::clearHooksDir()
@@ -710,11 +718,8 @@ void OnlineAccountsHooksTest::testRemoval()
 
 void OnlineAccountsHooksTest::testRemovalWithAcl()
 {
-    QtDBusTest::DBusTestRunner dbus;
-    QtDBusMock::DBusMock mock(dbus);
-    FakeSignond signond(&mock);
-
-    dbus.startServices();
+    qputenv("DBUS_SESSION_BUS_ADDRESS", m_busAddress);
+    m_dbus.startServices();
 
     QString myApp("applications/com.ubuntu.test_MyAcl.application");
     writeInstalledFile(myApp,
@@ -764,7 +769,7 @@ void OnlineAccountsHooksTest::testRemovalWithAcl()
     initialAcl << "one" << "com-ubuntu.test_MyAcl_0.1" << "two_click";
     initialInfo["ACL"] = initialAcl;
     initialInfo["Id"] = 25;
-    signond.addIdentity(25, initialInfo);
+    m_signond.addIdentity(25, initialInfo);
 
     /* Now run the hook process; it should delete the .service and .application
      * files, and also disable the service and remove the app from the ACL */
@@ -808,6 +813,6 @@ void OnlineAccountsHooksTest::testTimestampRemoval()
     QVERIFY(!m_hooksDir.exists(staleTimestamp2));
 }
 
-QTEST_MAIN(OnlineAccountsHooksTest);
+QTEST_GUILESS_MAIN(OnlineAccountsHooksTest);
 
 #include "tst_online_accounts_hooks2.moc"

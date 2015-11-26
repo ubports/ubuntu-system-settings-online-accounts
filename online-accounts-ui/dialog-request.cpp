@@ -236,6 +236,8 @@ void DialogRequestPrivate::onFinished()
     Q_Q(DialogRequest);
 
     DEBUG() << "Dialog closed";
+    QObject::disconnect(m_dialog, SIGNAL(finished(int)),
+                        this, SLOT(onFinished()));
 
     QVariantMap reply;
 

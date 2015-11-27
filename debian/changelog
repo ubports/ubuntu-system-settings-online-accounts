@@ -1,3 +1,15 @@
+ubuntu-system-settings-online-accounts (0.7+16.04.20151127-0ubuntu1) xenial; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Don't handle window closing more than once. (LP: #1517253)
+  * Fix label style and page scrolling (LP: #1289433)
+  * Strip trailing "/" when comparing URLs (LP: #1173926)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+ -- David Barth <david.barth@canonical.com>  Fri, 27 Nov 2015 08:57:10 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.04.20151126-0ubuntu1) xenial; urgency=medium
 
   [ Alberto Mardegan ]

@@ -31,7 +31,7 @@ ItemPage {
 
     title: i18n.dtr(domain, "Accounts")
 
-    property Item flickable: accountsPage.visible ? accountsPage : noAccountsPage
+    flickable: accountsPage.visible ? accountsPage : noAccountsPage
 
     AccountServiceModel {
         id: accountsModel
@@ -50,6 +50,6 @@ ItemPage {
         id: noAccountsPage
         anchors.fill: parent
         accountsModel: accountsModel
-        visible:!accountsPage.visible
+        visible: !accountsPage.visible
     }
 }

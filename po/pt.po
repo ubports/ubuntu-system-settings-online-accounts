@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-04-17 09:24+0300\n"
-"PO-Revision-Date: 2015-06-17 08:49+0000\n"
+"PO-Revision-Date: 2015-12-20 09:37+0000\n"
 "Last-Translator: Ivo Xavier <ivofernandes12@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-11-05 05:45+0000\n"
-"X-Generator: Launchpad (build 17838)\n"
+"X-Launchpad-Export-Date: 2015-12-21 05:33+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -74,8 +74,8 @@ msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
-"Guardar os detalhes das contas aqui permite que as apps as usem para não ter "
-"que iniciar sessão em cada app."
+"Ao guardar os detalhes das contas aqui, não precisa de iniciar sessão em "
+"cada app."
 
 #: ../system-settings-plugin/MainPage.qml:32 ../.build/settings.js:1
 msgid "Accounts"
@@ -100,7 +100,7 @@ msgstr "%1 quer acessar à sua conta %2"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:87
 msgid "Allow"
-msgstr "Aprovar o acesso"
+msgstr "Permitir"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:96
 msgid "Add another account…"
@@ -108,7 +108,7 @@ msgstr "Adicionar outra conta..."
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:104
 msgid "Don't allow"
-msgstr "Negar o acesso"
+msgstr "Não permitir"
 
 #~ msgid "Add another"
 #~ msgstr "Adicionar outro"

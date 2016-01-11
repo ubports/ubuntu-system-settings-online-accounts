@@ -1,3 +1,13 @@
+ubuntu-system-settings-online-accounts (0.7+16.04.20160111-0ubuntu1) xenial; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Hooks: allow only one plugin per manifest (LP: #1520605)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+ -- David Barth <david.barth@canonical.com>  Mon, 11 Jan 2016 17:00:13 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.04.20151127-0ubuntu1) xenial; urgency=medium
 
   [ Alberto Mardegan ]

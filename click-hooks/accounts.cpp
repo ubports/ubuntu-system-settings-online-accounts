@@ -119,7 +119,7 @@ private:
     QFileInfo m_hookFileInfo;
     QString m_packageDir;
     QJsonArray m_services;
-    QJsonArray m_plugins;
+    QJsonObject m_plugin;
     QString m_appId;
     QString m_shortAppId;
     QString m_trDomain;
@@ -142,8 +142,8 @@ ManifestFile::ManifestFile(const QFileInfo &hookFileInfo,
 
         m_services = mainObject.value("services").toArray();
         m_trDomain = mainObject.value("translations").toString();
-        m_plugins = mainObject.value("plugins").toArray();
-        m_isValid = !m_services.isEmpty() || !m_plugins.isEmpty();
+        m_plugin = mainObject.value("plugin").toObject();
+        m_isValid = !m_services.isEmpty() || !m_plugin.isEmpty();
 
         m_packageDir = findPackageDir(appId);
     }
@@ -238,51 +238,35 @@ bool ManifestFile::writeServiceFile(const QDir &accountsDir, const QString &id,
 
 bool ManifestFile::writePlugins(const QDir &accountsDir)
 {
-    bool ok = true;
+    if (m_plugin.isEmpty()) return true;
 
-    Q_FOREACH(const QJsonValue &v, m_plugins) {
-        QJsonObject o = v.toObject();
-        QString provider = o.value("provider").toString();
-        if (Q_UNLIKELY(provider.isEmpty())) {
-            qWarning() << "Plugin is missing 'provider' key";
-            ok = false;
-            break;
-        }
-
-        QString id = QString("%1_%2").arg(m_shortAppId).arg(provider);
-
-        QString qmlPlugin = o.value("qml").toString();
-        if (Q_UNLIKELY(qmlPlugin.isEmpty())) {
-            qWarning() << "Plugin is missing 'qml' key";
-            ok = false;
-            break;
-        }
-
-        if (!QDir::isAbsolutePath(qmlPlugin)) {
-            qmlPlugin = m_packageDir + "/" + qmlPlugin;
-        }
-
-        if (!QFile::exists(qmlPlugin)) {
-            qWarning() << "Can't find QML files in" << qmlPlugin;
-            ok = false;
-            break;
-        }
-
-        QString qmlDestination = QString("qml-plugins/%1").arg(id);
-        QFile::remove(accountsDir.filePath(qmlDestination));
-        if (!QFile::link(qmlPlugin, accountsDir.filePath(qmlDestination))) {
-            qWarning() << "Cannot symlink QML files" << qmlPlugin;
-            ok = false;
-            break;
-        }
-
-        if (!writeProviderFile(accountsDir, id, o)) {
-            qWarning() << "Writing provider file failed" << id;
-            ok = false;
-            break;
-        }
+    QString qmlPlugin = m_plugin.value("qml").toString();
+    if (Q_UNLIKELY(qmlPlugin.isEmpty())) {
+        qWarning() << "Plugin is missing 'qml' key";
+        return false;
     }
-    return ok;
+
+    if (!QDir::isAbsolutePath(qmlPlugin)) {
+        qmlPlugin = m_packageDir + "/" + qmlPlugin;
+    }
+
+    if (!QFile::exists(qmlPlugin)) {
+        qWarning() << "Can't find QML files in" << qmlPlugin;
+        return false;
+    }
+
+    QString qmlDestination = QString("qml-plugins/%1").arg(m_shortAppId);
+    QFile::remove(accountsDir.filePath(qmlDestination));
+    if (!QFile::link(qmlPlugin, accountsDir.filePath(qmlDestination))) {
+        qWarning() << "Cannot symlink QML files" << qmlPlugin;
+        return false;
+    }
+
+    if (!writeProviderFile(accountsDir, m_shortAppId, m_plugin)) {
+        qWarning() << "Writing provider file failed" << m_shortAppId;
+        return false;
+    }
+    return true;
 }
 
 bool ManifestFile::writeProviderFile(const QDir &accountsDir,

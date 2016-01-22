@@ -19,6 +19,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
+import Ubuntu.Components.Popups 1.3
 import Ubuntu.OnlineAccounts 0.1
 import Ubuntu.OnlineAccounts.Plugin 1.0
 
@@ -161,11 +162,10 @@ Item {
         }
     }
 
-    Component {
-        id: accountServiceComponent
-        AccountService {
-            autoSync: false
-        }
+    AccountServiceModel {
+        id: possiblyDuplicateAccounts
+        service: "global"
+        provider: account.provider.id
     }
 
     function authenticate() {
@@ -214,13 +214,29 @@ Item {
         return ''
     }
 
+    function accountIsDuplicate(userName) {
+        var model = possiblyDuplicateAccounts
+        for (var i = 0; i < model.count; i++) {
+            if (model.get(i, "displayName") == userName)
+                return true
+        }
+        return false
+    }
+
     /* reimplement this function in plugins in order to perform some actions
      * before quitting the plugin */
     function completeCreation(reply) {
         var userName = getUserName(reply)
 
         console.log("UserName: " + userName)
-        if (userName != '') account.updateDisplayName(userName)
+        if (userName != '') {
+            if (accountIsDuplicate(userName)) {
+                var dialog = PopupUtils.open(Qt.resolvedUrl("DuplicateAccount.qml"))
+                dialog.closed.connect(cancel)
+                return
+            }
+            account.updateDisplayName(userName)
+        }
         account.synced.connect(finished)
         account.sync()
     }

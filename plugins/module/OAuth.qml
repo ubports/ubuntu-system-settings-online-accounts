@@ -211,7 +211,7 @@ Item {
          * to be reimplemented */
         if ('ScreenName' in reply) return reply.ScreenName
         else if ('UserId' in reply) return reply.UserId
-        return false
+        return ''
     }
 
     function accountIsDuplicate(userName) {
@@ -234,7 +234,6 @@ Item {
             account.updateDisplayName(userName)
         }
         beforeSaving(reply)
-        saveAccount()
     }
 
     function saveAccount() {
@@ -244,7 +243,9 @@ Item {
 
     /* reimplement this function in plugins in order to perform some actions
      * before quitting the plugin */
-    function beforeSaving(reply) {}
+    function beforeSaving(reply) {
+        saveAccount()
+    }
 
     function __getUserNameAndSave(reply) {
         /* If the completeCreation function is defined, run it */
@@ -260,7 +261,8 @@ Item {
         if (typeof(userName) == "string") {
             __gotUserName(userName, reply)
         } else if (userName === false) {
-            __gotUserName('', reply)
+            cancel()
+            return
         }
         // otherwise (userName === true), wait for the callback to be invoked
     }

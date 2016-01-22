@@ -223,7 +223,7 @@ Item {
         return false
     }
 
-    function __gotUserName(userName) {
+    function __gotUserName(userName, reply) {
         console.log("UserName: " + userName)
         if (userName != '') {
             if (accountIsDuplicate(userName)) {
@@ -233,6 +233,23 @@ Item {
             }
             account.updateDisplayName(userName)
         }
+        completeCreation(reply)
+        saveAccount()
+    }
+
+    function __getUserNameAndSave(reply) {
+        var userName = getUserName(reply, function(name) {
+            __gotUserName(name, reply)
+        })
+        if (typeof(userName) == "string") {
+            __gotUserName(userName, reply)
+        } else if (userName === false) {
+            __gotUserName('', reply)
+        }
+        // otherwise (userName === true), wait for the callback to be invoked
+    }
+
+    function saveAccount() {
         account.synced.connect(finished)
         account.sync()
     }
@@ -240,16 +257,9 @@ Item {
     /* reimplement this function in plugins in order to perform some actions
      * before quitting the plugin */
     function completeCreation(reply) {
-        var userName = getUserName(reply, __gotUserName)
-        if (typeof(userName) == "string") {
-            __gotUserName(userName)
-        } else if (userName === false) {
-            __gotUserName('')
-        }
-        // otherwise (userName === true), wait for the callback to be invoked
     }
 
-    onAuthenticated: completeCreation(reply)
+    onAuthenticated: __getUserNameAndSave(reply)
 
     onAuthenticationError: {
         console.log("Authentication error, code " + error.code)

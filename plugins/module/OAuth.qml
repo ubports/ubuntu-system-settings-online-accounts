@@ -233,20 +233,8 @@ Item {
             }
             account.updateDisplayName(userName)
         }
-        completeCreation(reply)
+        beforeSaving(reply)
         saveAccount()
-    }
-
-    function __getUserNameAndSave(reply) {
-        var userName = getUserName(reply, function(name) {
-            __gotUserName(name, reply)
-        })
-        if (typeof(userName) == "string") {
-            __gotUserName(userName, reply)
-        } else if (userName === false) {
-            __gotUserName('', reply)
-        }
-        // otherwise (userName === true), wait for the callback to be invoked
     }
 
     function saveAccount() {
@@ -256,7 +244,25 @@ Item {
 
     /* reimplement this function in plugins in order to perform some actions
      * before quitting the plugin */
-    function completeCreation(reply) {
+    function beforeSaving(reply) {}
+
+    function __getUserNameAndSave(reply) {
+        /* If the completeCreation function is defined, run it */
+        if (typeof(completeCreation) == "function") {
+            console.warn("The completeCreation method is deprecated; use getUserName() or beforeSaving() instead")
+            completeCreation(reply)
+            return
+        }
+
+        var userName = getUserName(reply, function(name) {
+            __gotUserName(name, reply)
+        })
+        if (typeof(userName) == "string") {
+            __gotUserName(userName, reply)
+        } else if (userName === false) {
+            __gotUserName('', reply)
+        }
+        // otherwise (userName === true), wait for the callback to be invoked
     }
 
     onAuthenticated: __getUserNameAndSave(reply)

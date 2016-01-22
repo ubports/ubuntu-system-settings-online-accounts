@@ -206,12 +206,12 @@ Item {
         globalAccountSettings.updateServiceEnabled(true)
     }
 
-    function getUserName(reply) {
+    function getUserName(reply, callback) {
         /* This should work for OAuth 1.0a; for OAuth 2.0 this function needs
          * to be reimplemented */
         if ('ScreenName' in reply) return reply.ScreenName
         else if ('UserId' in reply) return reply.UserId
-        return ''
+        return false
     }
 
     function accountIsDuplicate(userName) {
@@ -223,11 +223,7 @@ Item {
         return false
     }
 
-    /* reimplement this function in plugins in order to perform some actions
-     * before quitting the plugin */
-    function completeCreation(reply) {
-        var userName = getUserName(reply)
-
+    function __gotUserName(userName) {
         console.log("UserName: " + userName)
         if (userName != '') {
             if (accountIsDuplicate(userName)) {
@@ -239,6 +235,18 @@ Item {
         }
         account.synced.connect(finished)
         account.sync()
+    }
+
+    /* reimplement this function in plugins in order to perform some actions
+     * before quitting the plugin */
+    function completeCreation(reply) {
+        var userName = getUserName(reply, __gotUserName)
+        if (typeof(userName) == "string") {
+            __gotUserName(userName)
+        } else if (userName === false) {
+            __gotUserName('')
+        }
+        // otherwise (userName === true), wait for the callback to be invoked
     }
 
     onAuthenticated: completeCreation(reply)

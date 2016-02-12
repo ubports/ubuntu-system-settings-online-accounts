@@ -12,7 +12,7 @@ WebView {
         url = signonRequest.startUrl
     }
 
-    onLoadingChanged: {
+    onLoadingStateChanged: {
         console.log("Loading changed")
         if (loading && !lastLoadFailed) {
             signonRequest.onLoadStarted()

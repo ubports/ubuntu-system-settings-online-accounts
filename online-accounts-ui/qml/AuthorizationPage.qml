@@ -39,12 +39,37 @@ Flickable {
         anchors.margins: units.gu(1)
         spacing: units.gu(1)
 
+        Icon {
+            anchors.horizontalCenter: parent.horizontalCenter
+            source: application.icon.indexOf("/") === 0 ?
+                application.icon : "image://theme/" + application.icon
+        }
+
+        Column {
+            anchors { left: parent.left; right: parent.right }
+
+            Label {
+                objectName: "appLabel"
+                anchors.left: parent.left
+                anchors.right: parent.right
+                elide: Text.ElideRight
+                text: application.displayName
+            }
+            Label {
+                objectName: "pkgLabel"
+                anchors.left: parent.left
+                anchors.right: parent.right
+                elide: Text.ElideRight
+                text: application.displayId
+            }
+        }
+
         Label {
             objectName: "msgLabel"
             anchors.left: parent.left
             anchors.right: parent.right
-            text: i18n.tr("%1 wants to access your %2 account").
-                arg(application.displayName).arg(provider.displayName);
+            text: i18n.tr("wants to access your %2 account").
+                arg(provider.displayName);
             wrapMode: Text.WordWrap
         }
 

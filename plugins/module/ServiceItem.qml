@@ -18,7 +18,6 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.OnlineAccounts 0.1
 
 Column {
@@ -40,21 +39,20 @@ Column {
             service: accountService.service.id
         }
 
-        delegate: ListItem.Standard {
+        delegate: ServiceItemBase {
             text: model.displayName ? model.displayName : model.applicationId
+            subText: ApplicationManager.applicationInfo(model.applicationId, "unconfined").displayId
             iconSource: model.iconName.indexOf("/") === 0 ?
                 model.iconName : "image://theme/" + model.iconName
-            control: Switch {
-                checked: accountService.serviceEnabled
-                onCheckedChanged: {
-                    if (checked != accountService.serviceEnabled) {
-                        if (checked) {
-                            applicationAdded(model.applicationId)
-                        } else {
-                            applicationRemoved(model.applicationId)
-                        }
-                        accountService.updateServiceEnabled(checked)
+            checked: accountService.serviceEnabled
+            onCheckedChanged: {
+                if (checked != accountService.serviceEnabled) {
+                    if (checked) {
+                        applicationAdded(model.applicationId)
+                    } else {
+                        applicationRemoved(model.applicationId)
                     }
+                    accountService.updateServiceEnabled(checked)
                 }
             }
         }

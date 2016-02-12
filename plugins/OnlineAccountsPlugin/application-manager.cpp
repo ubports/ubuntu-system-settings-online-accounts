@@ -42,6 +42,7 @@ public:
     bool applicationMatchesProfile(const Accounts::Application &application,
                                    const QString &profile) const;
     static QString stripVersion(const QString &appId);
+    static QString displayId(const QString &appId);
 };
 } // namespace
 
@@ -103,6 +104,15 @@ QString ApplicationManagerPrivate::stripVersion(const QString &appId)
     return components.join('_');
 }
 
+QString ApplicationManagerPrivate::displayId(const QString &appId)
+{
+    QStringList components = appId.split('_');
+    if (components.count() != 3) return appId;
+
+    components.removeLast();
+    return components.join('/');
+}
+
 ApplicationManager *ApplicationManager::instance()
 {
     if (!m_instance) {
@@ -156,6 +166,7 @@ QVariantMap ApplicationManager::applicationInfo(const QString &claimedAppId,
 
     QVariantMap app;
     app.insert(QStringLiteral("id"), applicationId);
+    app.insert(QStringLiteral("displayId"), d->displayId(applicationId));
     app.insert(QStringLiteral("displayName"), application.displayName());
     app.insert(QStringLiteral("icon"), application.iconName());
     /* The applicationMatchesProfile() test above ensures that either the peer

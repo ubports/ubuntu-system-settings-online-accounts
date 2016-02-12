@@ -1,3 +1,9 @@
+ubuntu-system-settings-online-accounts (0.7+16.04.20160111-0ubuntu2) vivid; urgency=medium
+
+  * Redesign prompt
+
+ -- Alberto Mardegan <alberto.mardegan@canonical.com>  Fri, 12 Feb 2016 16:28:55 +0300
+
 ubuntu-system-settings-online-accounts (0.7+16.04.20160111-0ubuntu1) xenial; urgency=medium
 
   [ Alberto Mardegan ]

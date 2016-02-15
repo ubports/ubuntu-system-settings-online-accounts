@@ -106,10 +106,9 @@ QString ApplicationManagerPrivate::stripVersion(const QString &appId)
 
 QString ApplicationManagerPrivate::displayId(const QString &appId)
 {
-    QStringList components = appId.split('_');
-    if (components.count() != 3) return appId;
+    QStringList components = appId.split('_').mid(0, 2);
+    if (components.count() != 2) return appId;
 
-    components.removeLast();
     return components.join('/');
 }
 

@@ -42,7 +42,7 @@ Flickable {
         Icon {
             anchors.horizontalCenter: parent.horizontalCenter
             source: application.icon.indexOf("/") === 0 ?
-                application.icon : "image://theme/" + application.icon
+                "file://" + application.icon : "image://theme/" + application.icon
         }
 
         Column {
@@ -52,6 +52,7 @@ Flickable {
                 objectName: "appLabel"
                 anchors.left: parent.left
                 anchors.right: parent.right
+                horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 text: application.displayName
             }
@@ -59,6 +60,8 @@ Flickable {
                 objectName: "pkgLabel"
                 anchors.left: parent.left
                 anchors.right: parent.right
+                horizontalAlignment: Text.AlignHCenter
+                color: theme.palette.normal.backgroundText
                 elide: Text.ElideRight
                 text: application.displayId
             }

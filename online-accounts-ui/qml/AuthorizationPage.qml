@@ -39,10 +39,18 @@ Flickable {
         anchors.margins: units.gu(1)
         spacing: units.gu(1)
 
-        Icon {
+        UbuntuShape {
+            id: iconShape
             anchors.horizontalCenter: parent.horizontalCenter
-            source: application.icon.indexOf("/") === 0 ?
-                "file://" + application.icon : "image://theme/" + application.icon
+            radius: "medium"
+            aspect: UbuntuShape.DropShadow
+            sourceFillMode: UbuntuShape.PreserveAspectCrop
+            Icon {
+                sourceSize.width: iconShape.width
+                sourceSize.height: iconShape.height
+                source: application.icon.indexOf("/") === 0 ?
+                    "file://" + application.icon : "image://theme/" + application.icon
+            }
         }
 
         Column {
@@ -55,6 +63,8 @@ Flickable {
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 text: application.displayName
+                wrapMode: Text.Wrap
+                maximumLineCount: 2
             }
             Label {
                 objectName: "pkgLabel"
@@ -62,7 +72,7 @@ Flickable {
                 anchors.right: parent.right
                 horizontalAlignment: Text.AlignHCenter
                 color: theme.palette.normal.backgroundText
-                elide: Text.ElideRight
+                elide: Text.ElideMiddle
                 text: application.displayId
             }
         }
@@ -74,6 +84,7 @@ Flickable {
             text: i18n.tr("wants to access your %2 account").
                 arg(provider.displayName);
             wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
         }
 
         Label {
@@ -112,6 +123,7 @@ Flickable {
             objectName: "allowButton"
             anchors.left: parent.left
             anchors.right: parent.right
+            color: UbuntuColors.green
             text: i18n.tr("Allow")
             onClicked: root.allowed(root.model.get(accountSelector.selectedIndex, "accountId"))
         }

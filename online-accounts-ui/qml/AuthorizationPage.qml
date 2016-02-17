@@ -45,7 +45,7 @@ Flickable {
             radius: "medium"
             aspect: UbuntuShape.DropShadow
             sourceFillMode: UbuntuShape.PreserveAspectCrop
-            Image {
+            source: Image {
                 sourceSize.width: iconShape.width
                 sourceSize.height: iconShape.height
                 source: application.icon.indexOf("/") === 0 ?

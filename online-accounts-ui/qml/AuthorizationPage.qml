@@ -36,6 +36,7 @@ Flickable {
         id: topColumn
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.top: parent.top
         anchors.margins: units.gu(1)
         spacing: units.gu(1)
 
@@ -54,7 +55,7 @@ Flickable {
         }
 
         Column {
-            anchors { left: parent.left; right: parent.right }
+            anchors { left: parent.left; right: parent.right; margins: units.gu(1) }
 
             Label {
                 objectName: "appLabel"

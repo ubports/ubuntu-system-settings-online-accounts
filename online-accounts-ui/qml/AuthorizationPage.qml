@@ -40,12 +40,11 @@ Flickable {
         anchors.margins: units.gu(1)
         spacing: units.gu(1)
 
-        UbuntuShape {
+        ProportionalShape {
             id: iconShape
             anchors.horizontalCenter: parent.horizontalCenter
-            radius: "medium"
             aspect: UbuntuShape.DropShadow
-            sourceFillMode: UbuntuShape.PreserveAspectCrop
+            width: units.gu(8)
             source: Image {
                 sourceSize.width: iconShape.width
                 sourceSize.height: iconShape.height

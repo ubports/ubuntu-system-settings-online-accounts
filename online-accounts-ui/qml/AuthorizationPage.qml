@@ -44,7 +44,7 @@ Flickable {
             id: iconShape
             anchors.horizontalCenter: parent.horizontalCenter
             aspect: UbuntuShape.DropShadow
-            width: units.gu(10)
+            width: units.gu(8)
             source: Image {
                 sourceSize.width: iconShape.width
                 sourceSize.height: iconShape.height

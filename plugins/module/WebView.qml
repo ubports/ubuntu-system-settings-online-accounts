@@ -18,7 +18,7 @@ WebView {
             signonRequest.onLoadStarted()
         } else if (lastLoadSucceeded) {
             signonRequest.onLoadFinished(true)
-        } else {
+        } else if (lastLoadFailed) {
             signonRequest.onLoadFinished(false)
         }
     }

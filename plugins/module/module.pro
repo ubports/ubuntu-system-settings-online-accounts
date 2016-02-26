@@ -34,6 +34,7 @@ QMAKE_LIBDIR = $${TOP_BUILD_DIR}/plugins/OnlineAccountsPlugin
 LIBS += -lonline-accounts-plugin
 
 QML_SOURCES = \
+    DuplicateAccount.qml \
     ErrorItem.qml \
     KeyboardRectangle.qml \
     OAuthMain.qml \

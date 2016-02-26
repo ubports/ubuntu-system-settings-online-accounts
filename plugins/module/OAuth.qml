@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2015 Canonical Ltd.
+ * Copyright (C) 2013-2016 Canonical Ltd.
  *
  * Contact: Alberto Mardegan <alberto.mardegan@canonical.com>
  *
@@ -19,6 +19,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as ListItem
+import Ubuntu.Components.Popups 1.3
 import Ubuntu.OnlineAccounts 0.1
 import Ubuntu.OnlineAccounts.Plugin 1.0
 
@@ -161,11 +162,10 @@ Item {
         }
     }
 
-    Component {
-        id: accountServiceComponent
-        AccountService {
-            autoSync: false
-        }
+    AccountServiceModel {
+        id: possiblyDuplicateAccounts
+        service: "global"
+        provider: account.provider.id
     }
 
     function authenticate() {
@@ -206,7 +206,7 @@ Item {
         globalAccountSettings.updateServiceEnabled(true)
     }
 
-    function getUserName(reply) {
+    function getUserName(reply, callback) {
         /* This should work for OAuth 1.0a; for OAuth 2.0 this function needs
          * to be reimplemented */
         if ('ScreenName' in reply) return reply.ScreenName
@@ -214,18 +214,60 @@ Item {
         return ''
     }
 
-    /* reimplement this function in plugins in order to perform some actions
-     * before quitting the plugin */
-    function completeCreation(reply) {
-        var userName = getUserName(reply)
+    function accountIsDuplicate(userName) {
+        var model = possiblyDuplicateAccounts
+        for (var i = 0; i < model.count; i++) {
+            if (model.get(i, "displayName") == userName)
+                return true
+        }
+        return false
+    }
 
+    function __gotUserName(userName, reply) {
         console.log("UserName: " + userName)
-        if (userName != '') account.updateDisplayName(userName)
+        if (userName != '') {
+            if (accountIsDuplicate(userName)) {
+                var dialog = PopupUtils.open(Qt.resolvedUrl("DuplicateAccount.qml"))
+                dialog.closed.connect(cancel)
+                return
+            }
+            account.updateDisplayName(userName)
+        }
+        beforeSaving(reply)
+    }
+
+    function saveAccount() {
         account.synced.connect(finished)
         account.sync()
     }
 
-    onAuthenticated: completeCreation(reply)
+    /* reimplement this function in plugins in order to perform some actions
+     * before quitting the plugin */
+    function beforeSaving(reply) {
+        saveAccount()
+    }
+
+    function __getUserNameAndSave(reply) {
+        /* If the completeCreation function is defined, run it */
+        if (typeof(completeCreation) == "function") {
+            console.warn("The completeCreation method is deprecated; use getUserName() or beforeSaving() instead")
+            completeCreation(reply)
+            return
+        }
+
+        var userName = getUserName(reply, function(name) {
+            __gotUserName(name, reply)
+        })
+        if (typeof(userName) == "string") {
+            __gotUserName(userName, reply)
+        } else if (userName === false) {
+            cancel()
+            return
+        }
+        // otherwise (userName === true), wait for the callback to be invoked
+    }
+
+    onAuthenticated: __getUserNameAndSave(reply)
 
     onAuthenticationError: {
         console.log("Authentication error, code " + error.code)

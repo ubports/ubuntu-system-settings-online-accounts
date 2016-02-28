@@ -8,45 +8,46 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-04-17 09:24+0300\n"
-"PO-Revision-Date: 2016-02-24 19:55+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2016-02-28 00:31+0000\n"
+"Last-Translator: P_E_T_O <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-02-25 05:21+0000\n"
+"X-Launchpad-Export-Date: 2016-02-28 05:45+0000\n"
 "X-Generator: Launchpad (build 17925)\n"
+"Language: sk_SK\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
-msgstr ""
+msgstr "Používateľské meno"
 
 #: ../plugins/example/Main.qml:39
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: ../plugins/module/OAuth.qml:119
 msgid "Loading…"
-msgstr ""
+msgstr "Načítavam..."
 
 #: ../plugins/module/OAuth.qml:148
 #: ../plugins/module/RemovalConfirmation.qml:43
 #: ../online-accounts-ui/qml/SignOnUiDialog.qml:90
 #: ../online-accounts-ui/qml/SignOnUiPage.qml:30
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
 #: ../plugins/module/Options.qml:36
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: ../plugins/module/Options.qml:48
 msgid "Remove account…"
-msgstr ""
+msgstr "Vymazať účet..."
 
 #: ../plugins/module/RemovalConfirmation.qml:32
 msgid "Remove account"
-msgstr ""
+msgstr "Vymazať účet"
 
 #: ../plugins/module/RemovalConfirmation.qml:33
 #, qt-format
@@ -54,54 +55,57 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
+"Účet %1 bude vymazaný len s vášho zariadenia.Môžete ho pridať neskôr."
 
 #: ../plugins/module/RemovalConfirmation.qml:38
 msgid "Remove"
-msgstr ""
+msgstr "Vymazať"
 
 #: ../plugins/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr ""
+msgstr "Prístup k tomuto účtu:"
 
 #: ../system-settings-plugin/AccountsPage.qml:51
 msgid "Add account…"
-msgstr ""
+msgstr "Pridať účet..."
 
 #: ../system-settings-plugin/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
+"Ukladanie údajov o aplikáciach tuto, umožní aplikáciám využívať účty, bez "
+"toho, aby ste sa museli prihlasovať pre každú aplikáciu."
 
 #: ../system-settings-plugin/MainPage.qml:32 ../.build/settings.js:1
 msgid "Accounts"
-msgstr ""
+msgstr "Účty"
 
 #: ../system-settings-plugin/NewAccountPage.qml:23
 msgid "Add account"
-msgstr ""
+msgstr "Pridať účet"
 
 #: ../system-settings-plugin/NoAccountsPage.qml:36
 msgid "No accounts"
-msgstr ""
+msgstr "Bez účtov"
 
 #: ../system-settings-plugin/NoAccountsPage.qml:44
 msgid "Add account:"
-msgstr ""
+msgstr "Pridať účet:"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:46
 #, qt-format
 msgid "%1 wants to access your %2 account"
-msgstr ""
+msgstr "%1 chce pristúpiť k účtu %2"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:87
 msgid "Allow"
-msgstr ""
+msgstr "Povoliť"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:96
 msgid "Add another account…"
-msgstr ""
+msgstr "Pridať iný účet..."
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:104
 msgid "Don't allow"
-msgstr ""
+msgstr "Nepovoliť"

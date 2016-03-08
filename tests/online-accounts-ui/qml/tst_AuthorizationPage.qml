@@ -87,14 +87,25 @@ Item {
         function test_1_one_account() {
             createAccount("My account")
             var page = createPage({
-                "application": { "displayName": "My app" },
+                "application": {
+                    "displayName": "My app",
+                    "displayId": "com.ubuntu/MyApp",
+                },
                 "provider": { "displayName": "My provider" }
             })
             verify(page != null)
 
-            var label = findChild(page, "msgLabel")
+            var label = findChild(page, "appLabel")
             verify(label != null)
-            compare(label.text, "My app wants to access your My provider account")
+            compare(label.text, "My app")
+
+            label = findChild(page, "pkgLabel")
+            verify(label != null)
+            compare(label.text, "com.ubuntu/MyApp")
+
+            label = findChild(page, "msgLabel")
+            verify(label != null)
+            compare(label.text, "wants to access your My provider account")
 
             var accountLabel = findChild(page, "accountLabel")
             verify(accountLabel != null)

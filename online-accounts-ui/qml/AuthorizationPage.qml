@@ -36,16 +36,55 @@ Flickable {
         id: topColumn
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.top: parent.top
         anchors.margins: units.gu(1)
         spacing: units.gu(1)
+
+        ProportionalShape {
+            id: iconShape
+            anchors.horizontalCenter: parent.horizontalCenter
+            aspect: UbuntuShape.DropShadow
+            width: units.gu(8)
+            source: Image {
+                sourceSize.width: iconShape.width
+                sourceSize.height: iconShape.height
+                source: application.icon.indexOf("/") === 0 ?
+                    "file://" + application.icon : "image://theme/" + application.icon
+            }
+        }
+
+        Column {
+            anchors { left: parent.left; right: parent.right; margins: units.gu(1) }
+
+            Label {
+                objectName: "appLabel"
+                anchors.left: parent.left
+                anchors.right: parent.right
+                horizontalAlignment: Text.AlignHCenter
+                elide: Text.ElideRight
+                text: application.displayName
+                wrapMode: Text.Wrap
+                maximumLineCount: 2
+            }
+            Label {
+                objectName: "pkgLabel"
+                anchors.left: parent.left
+                anchors.right: parent.right
+                horizontalAlignment: Text.AlignHCenter
+                color: theme.palette.normal.backgroundText
+                elide: Text.ElideMiddle
+                text: application.displayId
+            }
+        }
 
         Label {
             objectName: "msgLabel"
             anchors.left: parent.left
             anchors.right: parent.right
-            text: i18n.tr("%1 wants to access your %2 account").
-                arg(application.displayName).arg(provider.displayName);
+            text: i18n.tr("wants to access your %2 account").
+                arg(provider.displayName);
             wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
         }
 
         Label {
@@ -84,6 +123,7 @@ Flickable {
             objectName: "allowButton"
             anchors.left: parent.left
             anchors.right: parent.right
+            color: UbuntuColors.green
             text: i18n.tr("Allow")
             onClicked: root.allowed(root.model.get(accountSelector.selectedIndex, "accountId"))
         }

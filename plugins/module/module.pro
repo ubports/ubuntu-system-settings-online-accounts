@@ -42,6 +42,7 @@ QML_SOURCES = \
     Options.qml \
     RemovalConfirmation.qml \
     ServiceItem.qml \
+    ServiceItemBase.qml \
     ServiceSwitches.qml \
     StandardAnimation.qml \
     WebView.qml

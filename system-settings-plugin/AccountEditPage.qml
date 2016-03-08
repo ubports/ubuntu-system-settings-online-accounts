@@ -29,6 +29,7 @@ Page {
     signal finished
 
     title: account.provider.displayName
+    flickable: flick
 
     Account {
         id: account
@@ -36,6 +37,7 @@ Page {
     }
 
     Flickable {
+        id: flick
         anchors.fill: parent
         contentHeight: options.height
 

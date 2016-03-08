@@ -198,6 +198,10 @@ QVariantMap ApplicationManager::providerInfo(const QString &providerId) const
 {
     Accounts::Provider provider =
         AccountManager::instance()->provider(providerId);
+    if (Q_UNLIKELY(!provider.isValid())) {
+        qWarning() << "Invalid provider" << providerId;
+        return QVariantMap();
+    }
 
     QVariantMap info;
     info.insert(QStringLiteral("id"), providerId);

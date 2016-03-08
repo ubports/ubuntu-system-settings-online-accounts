@@ -1,3 +1,18 @@
+ubuntu-system-settings-online-accounts (0.7+16.04.20160308-0ubuntu1) xenial; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Bind flickable to page. (LP: #1544033)
+  * Don't crash on invalid providers (LP: #1554254)
+  * Don't use deprecated onLoadingChanged signal. (LP: #1544063)
+  * ProviderRequest: fix single account handling in authorization page
+    (LP: #1552762)
+  * Update authorisation prompt (LP: #1544919)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+ -- David Barth <david.barth@canonical.com>  Tue, 08 Mar 2016 08:48:44 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.04.20160226-0ubuntu1) xenial; urgency=medium
 
   [ Alberto Mardegan ]

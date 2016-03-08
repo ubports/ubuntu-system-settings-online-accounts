@@ -38,7 +38,7 @@ MainView {
 
     Component.onCompleted: {
         i18n.domain = "ubuntu-system-settings-online-accounts"
-        if (accessModel.count === 0 && !accessModel.canCreateAccounts()) {
+        if (accessModel.count === 0 && !accessModel.canCreateAccounts) {
             /* No accounts to authorize */
             denied()
             return
@@ -63,7 +63,7 @@ MainView {
                 id: loader
                 anchors.fill: parent
                 active: false
-                sourceComponent: ((accessModel.count == 0 && accessModel.canCreateAccounts()) ||
+                sourceComponent: ((accessModel.count == 0 && accessModel.canCreateAccounts) ||
                                   applicationInfo.id === "system-settings") ?
                     accountCreationPage : authorizationPage
                 onLoaded: {
@@ -96,10 +96,7 @@ MainView {
         accountModel: accountsModel
         applicationId: applicationInfo.id
 
-        function canCreateAccounts() {
-            if (!providerInfo.isSingleAccount) return true
-            return accountsModel.count === 0
-        }
+        property bool canCreateAccounts: !providerInfo.isSingleAccount || accountsModel.count === 0
     }
 
     Component {

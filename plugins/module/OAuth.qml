@@ -165,7 +165,7 @@ Item {
     AccountServiceModel {
         id: possiblyDuplicateAccounts
         service: "global"
-        provider: account.provider.id
+        provider: __account.provider.id
     }
 
     function authenticate() {

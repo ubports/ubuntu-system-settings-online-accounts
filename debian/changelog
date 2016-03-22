@@ -1,3 +1,13 @@
+ubuntu-system-settings-online-accounts (0.7+16.04.20160322-0ubuntu1) xenial; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Fix false positive in duplicate account detection (LP: #1560494)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+ -- David Barth <david.barth@canonical.com>  Tue, 22 Mar 2016 14:23:16 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.04.20160308-0ubuntu1) xenial; urgency=medium
 
   [ Alberto Mardegan ]

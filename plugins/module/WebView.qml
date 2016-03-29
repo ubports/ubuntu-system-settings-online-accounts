@@ -7,6 +7,24 @@ WebView {
 
     property QtObject signonRequest
 
+    onNewViewRequested: {
+        var popup = popupComponent.createObject(root, {
+            "context": context,
+            "request": request,
+        })
+        popup.closeRequested.connect(function() {
+            console.log("Close requested!")
+            popup.destroy()
+        })
+    }
+
+    Component {
+        id: popupComponent
+        WebView {
+            anchors.fill: parent
+        }
+    }
+
     onSignonRequestChanged: if (signonRequest) {
         signonRequest.authenticated.connect(onAuthenticated)
         url = signonRequest.startUrl

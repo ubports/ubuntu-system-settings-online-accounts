@@ -227,7 +227,8 @@ QStringList ApplicationManager::usefulProviders() const
     Q_FOREACH(const Accounts::Service &service, allServices) {
         if (providers.contains(service.provider())) continue;
 
-        if (!manager->applicationList(service).isEmpty()) {
+        if (!manager->applicationList(service).isEmpty() ||
+            service.provider() == "ubuntuone") {
             providers.append(service.provider());
         }
     }

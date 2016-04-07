@@ -12,6 +12,8 @@ MainView {
     height: units.gu(90)
 
     Page {
+        title: signonRequest.title
+
         WebView {
             id: loader
             signonRequest: root.signonRequest

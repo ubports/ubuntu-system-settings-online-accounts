@@ -46,6 +46,7 @@ public:
     QString method() const;
     QString mechanism() const;
     QString providerId() const;
+    QString windowTitle() const;
 
     const QVariantMap &clientData() const;
 

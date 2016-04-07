@@ -52,6 +52,7 @@ class BrowserRequestPrivate: public QObject
 {
     Q_OBJECT
     Q_DECLARE_PUBLIC(BrowserRequest)
+    Q_PROPERTY(QString title READ title CONSTANT)
     Q_PROPERTY(QUrl pageComponentUrl READ pageComponentUrl CONSTANT)
     Q_PROPERTY(QUrl currentUrl READ currentUrl WRITE setCurrentUrl)
     Q_PROPERTY(QUrl startUrl READ startUrl CONSTANT)
@@ -64,6 +65,7 @@ public:
 
     void start();
 
+    QString title() const { return q_ptr->windowTitle(); }
     void setCurrentUrl(const QUrl &url);
     QUrl pageComponentUrl() const;
     QUrl currentUrl() const { return m_currentUrl; }

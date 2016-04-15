@@ -32,6 +32,7 @@
 #include <QDBusMetaType>
 #include <QLibrary>
 #include <QProcessEnvironment>
+#include <QSettings>
 
 using namespace OnlineAccountsUi;
 
@@ -43,6 +44,8 @@ int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
 
+    QSettings settings("online-accounts-service");
+
     /* read environment variables */
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     if (environment.contains(QLatin1String("OAU_LOGGING_LEVEL"))) {
@@ -51,6 +54,8 @@ int main(int argc, char **argv)
             QLatin1String("OAU_LOGGING_LEVEL")).toInt(&isOk);
         if (isOk)
             setLoggingLevel(value);
+    } else {
+        setLoggingLevel(settings.value("LoggingLevel", 1).toInt());
     }
 
     /* default daemonTimeout to 5 seconds */
@@ -63,6 +68,8 @@ int main(int argc, char **argv)
             QLatin1String("OAU_DAEMON_TIMEOUT")).toInt(&isOk);
         if (isOk)
             daemonTimeout = value;
+    } else {
+        daemonTimeout = settings.value("DaemonTimeout", 5).toInt();
     }
 
     RequestManager *requestManager = new RequestManager();

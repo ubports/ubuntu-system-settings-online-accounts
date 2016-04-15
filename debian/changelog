@@ -1,3 +1,15 @@
+ubuntu-system-settings-online-accounts (0.7+16.04.20160331-0ubuntu1) xenial; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Always show the UbuntuOne provider in the providers list (LP:
+    #1559506)
+  * Enable scrolling in authorization page. (LP: #1561031)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+ -- David Barth <david.barth@canonical.com>  Thu, 31 Mar 2016 10:28:57 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.04.20160322-0ubuntu1) xenial; urgency=medium
 
   [ Alberto Mardegan ]

@@ -32,6 +32,9 @@ Flickable {
     signal denied
     signal createAccount
 
+    anchors.fill: parent
+    contentHeight: bottomColumn.y + bottomColumn.height + bottomColumn.anchors.margins
+
     Column {
         id: topColumn
         anchors.left: parent.left
@@ -113,6 +116,7 @@ Flickable {
     }
 
     Column {
+        id: bottomColumn
         anchors.top: topColumn.bottom
         anchors.margins: units.gu(2)
         anchors.left: parent.left

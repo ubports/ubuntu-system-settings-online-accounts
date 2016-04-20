@@ -1,3 +1,12 @@
+ubuntu-system-settings-online-accounts (0.7+16.04.20160420-0ubuntu1) xenial; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Allow configuring verbosity level from configuration file (LP:
+    #1570735)
+  * Use provider name as page title (LP: #1567435)
+
+ -- David Barth <david.barth@canonical.com>  Wed, 20 Apr 2016 13:58:51 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.04.20160331-0ubuntu1) xenial; urgency=medium
 
   [ Alberto Mardegan ]

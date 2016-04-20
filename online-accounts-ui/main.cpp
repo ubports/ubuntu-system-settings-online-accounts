@@ -26,6 +26,7 @@
 #include <QGuiApplication>
 #include <QLibrary>
 #include <QProcessEnvironment>
+#include <QSettings>
 #include <sys/apparmor.h>
 
 using namespace OnlineAccountsUi;
@@ -56,6 +57,8 @@ int main(int argc, char **argv)
         }
     }
 
+    QSettings settings("online-accounts-service");
+
     /* read environment variables */
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     if (environment.contains(QLatin1String("OAU_LOGGING_LEVEL"))) {
@@ -64,6 +67,8 @@ int main(int argc, char **argv)
             QLatin1String("OAU_LOGGING_LEVEL")).toInt(&isOk);
         if (isOk)
             setLoggingLevel(value);
+    } else {
+        setLoggingLevel(settings.value("LoggingLevel", 1).toInt());
     }
 
     initTr(I18N_DOMAIN, NULL);

@@ -40,12 +40,14 @@ public:
     static RequestPrivate *mocked(Request *r) { return r->d_ptr; }
 
     void setProviderId(const QString &id) { m_providerId = id; }
+    void setWindowTitle(const QString &title) { m_windowTitle = title; }
 
 private:
     mutable Request *q_ptr;
     QVariantMap m_clientData;
     QPointer<RequestHandler> m_handler;
     QString m_providerId;
+    QString m_windowTitle;
 };
 
 } // namespace

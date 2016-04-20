@@ -148,6 +148,8 @@ void BrowserRequestTest::testParametersWithHandler()
     SignOnUi::RequestPrivate *mockedRequest =
         SignOnUi::RequestPrivate::mocked(&request);
     mockedRequest->setProviderId(providerId);
+    QString title = providerId.toUpper();
+    mockedRequest->setWindowTitle(title);
     request.setHandler(&handler);
 
     request.start();
@@ -155,6 +157,7 @@ void BrowserRequestTest::testParametersWithHandler()
     QCOMPARE(requestChanged.count(), 1);
     QObject *req = handler.request();
 
+    QCOMPARE(req->property("title").toString(), title);
     QCOMPARE(req->property("pageComponentUrl").toUrl().toString(), pageComponentUrl);
     QCOMPARE(req->property("currentUrl").toUrl().toString(), QString());
     QCOMPARE(req->property("startUrl").toUrl().toString(), startUrl);

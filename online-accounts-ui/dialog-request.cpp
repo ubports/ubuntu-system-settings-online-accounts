@@ -69,7 +69,7 @@ public:
 
     void start();
 
-    QString title() const { return m_title; }
+    QString title() const { return q_ptr->windowTitle(); }
     void setUserName(const QString &userName);
     QString userName() const { return m_userName; }
     void setPassword(const QString &password);
@@ -101,7 +101,6 @@ private:
 
 private:
     Dialog *m_dialog;
-    QString m_title;
     QString m_userName;
     QString m_password;
     QString m_userNameText;
@@ -127,17 +126,6 @@ DialogRequestPrivate::DialogRequestPrivate(DialogRequest *request):
     q_ptr(request)
 {
     const QVariantMap &params = q_ptr->parameters();
-
-    if (params.contains(SSOUI_KEY_TITLE)) {
-        m_title = params[SSOUI_KEY_TITLE].toString();
-    } else if (params.contains(SSOUI_KEY_CAPTION)) {
-        m_title = OnlineAccountsUi::_("Web authentication for %1",
-                                      SIGNONUI_I18N_DOMAIN).
-            arg(params[SSOUI_KEY_CAPTION].toString());
-    } else {
-        m_title = OnlineAccountsUi::_("Web authentication",
-                                      SIGNONUI_I18N_DOMAIN);
-    }
 
     m_queryUsername = params.value(SSOUI_KEY_QUERYUSERNAME, false).toBool();
     m_userName = params.value(SSOUI_KEY_USERNAME).toString();
@@ -187,7 +175,7 @@ void DialogRequestPrivate::start()
 
     if (!q->hasHandler()) {
         m_dialog = new Dialog;
-        m_dialog->setTitle(m_title);
+        m_dialog->setTitle(title());
 
         QObject::connect(m_dialog, SIGNAL(finished(int)),
                          this, SLOT(onFinished()));

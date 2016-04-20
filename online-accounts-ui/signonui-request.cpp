@@ -26,6 +26,7 @@
 #include "globals.h"
 
 #include <Accounts/Account>
+#include <Accounts/Provider>
 #include <OnlineAccountsPlugin/account-manager.h>
 #include <OnlineAccountsPlugin/request-handler.h>
 #include <QDBusArgument>
@@ -217,6 +218,18 @@ QString Request::providerId() const
     Q_D(const Request);
     return d->m_account ? d->m_account->providerName() :
         d->m_clientData.value("providerId").toString();
+}
+
+QString Request::windowTitle() const
+{
+    if (parameters().contains(SSOUI_KEY_TITLE)) {
+        return parameters()[SSOUI_KEY_TITLE].toString();
+    }
+
+    OnlineAccountsUi::AccountManager *manager =
+        OnlineAccountsUi::AccountManager::instance();
+    Accounts::Provider provider = manager->provider(providerId());
+    return provider.displayName();
 }
 
 const QVariantMap &Request::clientData() const

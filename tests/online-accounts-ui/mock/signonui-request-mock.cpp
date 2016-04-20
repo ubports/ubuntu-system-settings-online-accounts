@@ -92,6 +92,12 @@ QString Request::providerId() const
     return d->m_providerId;
 }
 
+QString Request::windowTitle() const
+{
+    Q_D(const Request);
+    return d->m_windowTitle;
+}
+
 const QVariantMap &Request::clientData() const
 {
     Q_D(const Request);

@@ -43,7 +43,7 @@ Depends: ${misc:Depends},
          liboxideqt-qmlplugin (>= 1.2.0) [!arm64 !powerpc !ppc64el !s390x],
          qml-module-ubuntu-onlineaccounts2,
          qml-module-ubuntu-onlineaccounts (>= 0.6),
-         qml-module-ubuntu-components | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles,
+         qml-module-ubuntu-components | qml-module-ubuntu-components-gles,
          signon-ui-service,
          ubuntu-system-settings
 Conflicts: account-plugin-windows-live, online-accounts-daemon
@@ -77,7 +77,7 @@ Description: Library to interact with the Online Accounts panel - development fi
  Online Accounts panel in order to request the creation/configuration of
  accounts.
 
-Package: qml-module-ubintu-onlineaccounts-client
+Package: qtdeclarative5-online-accounts-client0.1
 Architecture: any
 Section: oldlibs
 Depends: qml-module-ubuntu-onlineaccounts-client, ${misc:Depends}
@@ -90,8 +90,8 @@ Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          qml-module-qtquick2,
-Breaks: qml-module-ubintu-onlineaccounts-client (<< 0.5)
-Replaces: qml-module-ubintu-onlineaccounts-client (<< 0.5)
+Breaks: qtdeclarative5-online-accounts-client0.1 (<< 0.5)
+Replaces: qtdeclarative5-online-accounts-client0.1 (<< 0.5)
 Description: Online Accounts panel library for QML applications
  This module offers an API for applications to invoke the Online Accounts panel
  in order to request the creation/configuration of accounts.

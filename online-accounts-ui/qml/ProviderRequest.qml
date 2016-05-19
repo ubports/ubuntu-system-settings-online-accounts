@@ -43,6 +43,13 @@ MainView {
             denied()
             return
         }
+        if (!application.id && accessModel.count == 1 &&
+            applicationInfo.profile == "unconfined") {
+            /* Degenerate case: unconfined app making requests with no valid
+             * app ID */
+            allowed(accountsModel.get(0, "accountId"))
+            return
+        }
         loader.active = true
         pageStack.push(mainPage)
     }

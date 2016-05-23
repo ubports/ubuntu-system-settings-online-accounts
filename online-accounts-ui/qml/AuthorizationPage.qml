@@ -127,7 +127,7 @@ Flickable {
             objectName: "allowButton"
             anchors.left: parent.left
             anchors.right: parent.right
-            color: UbuntuColors.green
+            color: theme.palette.normal.positive
             text: i18n.tr("Allow")
             onClicked: root.allowed(root.model.get(accountSelector.selectedIndex, "accountId"))
         }

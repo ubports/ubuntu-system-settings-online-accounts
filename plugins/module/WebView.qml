@@ -2,10 +2,28 @@ import QtQuick 2.0
 import Ubuntu.Components 1.3
 import Ubuntu.Web 0.2
 
-WebView {
+ChromedWebView {
     id: root
 
     property QtObject signonRequest
+
+    onNewViewRequested: {
+        var popup = popupComponent.createObject(root, {
+            "context": context,
+            "request": request,
+        })
+        popup.closeRequested.connect(function() {
+            console.log("Close requested!")
+            popup.destroy()
+        })
+    }
+
+    Component {
+        id: popupComponent
+        ChromedWebView {
+            anchors.fill: parent
+        }
+    }
 
     onSignonRequestChanged: if (signonRequest) {
         signonRequest.authenticated.connect(onAuthenticated)
@@ -38,16 +56,5 @@ WebView {
 
     function onGotCookies(requestId, cookies) {
         signonRequest.setCookies(cookies)
-    }
-
-    /* Taken from webbrowser-app */
-    ProgressBar {
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: units.dp(3)
-        showProgressPercentage: false
-        visible: root.loading
-        value: root.loadProgress / 100
     }
 }

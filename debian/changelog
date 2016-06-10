@@ -1,3 +1,18 @@
+ubuntu-system-settings-online-accounts (0.7+16.10.20160610-0ubuntu1) yakkety; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Immediately accept degenerate requests from unconfined processes
+    (LP: #1582824)
+  * Replace incorrect usage of UbuntuColors (LP: #1581047)
+  * Update pot file for translations (LP: #1533091)
+  * Open popups in an overlaid webview (LP: #1428591)
+  * Skip tests on arm64 (LP: #1585942)
+
+  [ Alberto Mardegan, Timo Jyrinki ]
+  * Stop depending on transitional packages. (LP: #1583079)
+
+ -- Alberto Mardegan <mardy@users.sourceforge.net>  Fri, 10 Jun 2016 09:46:37 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.04.20160420-0ubuntu1) xenial; urgency=medium
 
   [ Alberto Mardegan ]

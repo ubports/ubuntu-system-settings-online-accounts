@@ -17,10 +17,10 @@ Build-Depends: debhelper (>= 9),
                qt5-default,
                qtbase5-dev (>= 5.4),
                qtdeclarative5-dev,
-               qtdeclarative5-accounts-plugin,
-               qtdeclarative5-qtquick2-plugin,
-               qtdeclarative5-test-plugin,
-               qtdeclarative5-ubuntu-ui-toolkit-plugin,
+               qml-module-ubuntu-onlineaccounts,
+               qml-module-qtquick2,
+               qml-module-ubuntu-components,
+               qml-module-ubuntu-test,
                signon-plugins-dev (>= 8.58),
                dbus-test-runner,
                xmldiff,
@@ -42,8 +42,8 @@ Depends: ${misc:Depends},
          libonline-accounts-daemon1,
          liboxideqt-qmlplugin (>= 1.2.0) [!arm64 !powerpc !ppc64el !s390x],
          qml-module-ubuntu-onlineaccounts2,
-         qtdeclarative5-accounts-plugin (>= 0.6),
-         qtdeclarative5-ubuntu-ui-toolkit-plugin | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles,
+         qml-module-ubuntu-onlineaccounts (>= 0.6),
+         qml-module-ubuntu-components | qml-module-ubuntu-components-gles,
          signon-ui-service,
          ubuntu-system-settings
 Conflicts: account-plugin-windows-live, online-accounts-daemon
@@ -89,7 +89,7 @@ Package: qml-module-ubuntu-onlineaccounts-client
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
-         qtdeclarative5-qtquick2-plugin,
+         qml-module-qtquick2,
 Breaks: qtdeclarative5-online-accounts-client0.1 (<< 0.5)
 Replaces: qtdeclarative5-online-accounts-client0.1 (<< 0.5)
 Description: Online Accounts panel library for QML applications

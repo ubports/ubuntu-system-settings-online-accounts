@@ -81,6 +81,9 @@ bool ApplicationManagerPrivate::applicationMatchesProfile(const Accounts::Applic
 {
     /* We don't restrict unconfined apps. */
     if (profile == QStringLiteral("unconfined")) return true;
+    /* We don't restrict the Unity8 dash:
+     * https://bugs.launchpad.net/bugs/1589444. */
+    if (profile == QStringLiteral("unity8-dash")) return true;
 
     /* It's a confined app. We must make sure that the applicationId it
      * specified matches the apparmor profile.

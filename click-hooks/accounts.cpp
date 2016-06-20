@@ -123,6 +123,7 @@ private:
     QString m_appId;
     QString m_shortAppId;
     QString m_trDomain;
+    bool m_isScope;
     bool m_isValid;
 };
 
@@ -132,6 +133,7 @@ ManifestFile::ManifestFile(const QFileInfo &hookFileInfo,
     m_hookFileInfo(hookFileInfo),
     m_appId(appId),
     m_shortAppId(shortAppId),
+    m_isScope(false),
     m_isValid(false)
 {
     QFile file(hookFileInfo.filePath());
@@ -143,6 +145,7 @@ ManifestFile::ManifestFile(const QFileInfo &hookFileInfo,
         m_services = mainObject.value("services").toArray();
         m_trDomain = mainObject.value("translations").toString();
         m_plugin = mainObject.value("plugin").toObject();
+        m_isScope = mainObject.value("scope").toBool();
         m_isValid = !m_services.isEmpty() || !m_plugin.isEmpty();
 
         m_packageDir = findPackageDir(appId);
@@ -465,7 +468,7 @@ void ManifestFile::addDesktopFile(QDomDocument &doc)
 {
     QDomElement root = doc.documentElement();
     QDomElement elem = doc.createElement(QStringLiteral("desktop-entry"));
-    elem.appendChild(doc.createTextNode(m_appId));
+    elem.appendChild(doc.createTextNode(m_isScope ? m_shortAppId : m_appId));
     root.appendChild(elem);
 }
 

@@ -43,7 +43,7 @@ MainView {
             denied()
             return
         }
-        if (!application.id && accessModel.count == 1 &&
+        if (!applicationInfo.id && accessModel.count == 1 &&
             applicationInfo.profile == "unconfined") {
             /* Degenerate case: unconfined app making requests with no valid
              * app ID */

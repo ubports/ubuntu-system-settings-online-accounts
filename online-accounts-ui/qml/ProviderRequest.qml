@@ -56,8 +56,6 @@ MainView {
 
     on__CreatedAccountIdChanged: grantAccessIfReady()
 
-    onAllowed: loader.sourceComponent = spinnerComponent
-
     PageStack {
         id: pageStack
 
@@ -198,6 +196,7 @@ MainView {
             // If the request comes from system settings, stop here
             if (applicationInfo.id === "system-settings") {
                 request.allow(root.__createdAccountId)
+                loader.sourceComponent = spinnerComponent
                 return
             }
 
@@ -249,5 +248,6 @@ MainView {
     function accountEnablingDone() {
         console.log("account enabling done")
         request.allow(account.accountId)
+        loader.sourceComponent = spinnerComponent
     }
 }

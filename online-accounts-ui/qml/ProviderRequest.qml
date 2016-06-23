@@ -24,7 +24,6 @@ import Ubuntu.OnlineAccounts.Internal 1.0
 MainView {
     id: root
 
-    property var request: null
     property var applicationInfo: request.application
     property var providerInfo: request.provider
     property int __createdAccountId: 0
@@ -35,9 +34,6 @@ MainView {
 
     Component.onCompleted: {
         i18n.domain = "ubuntu-system-settings-online-accounts"
-    }
-
-    onRequestChanged: {
         if (accessModel.count === 0 && !accessModel.canCreateAccounts) {
             /* No accounts to authorize */
             request.deny()

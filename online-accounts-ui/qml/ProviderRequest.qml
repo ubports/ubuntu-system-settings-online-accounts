@@ -24,13 +24,9 @@ import Ubuntu.OnlineAccounts.Internal 1.0
 MainView {
     id: root
 
-    property variant applicationInfo: application
-    property variant providerInfo: provider
-    property bool wasDenied: false
+    property var applicationInfo: request.application
+    property var providerInfo: request.provider
     property int __createdAccountId: 0
-
-    signal denied
-    signal allowed(int accountId)
 
     width: units.gu(48)
     height: units.gu(60)
@@ -40,14 +36,14 @@ MainView {
         i18n.domain = "ubuntu-system-settings-online-accounts"
         if (accessModel.count === 0 && !accessModel.canCreateAccounts) {
             /* No accounts to authorize */
-            denied()
+            request.deny()
             return
         }
         if (!applicationInfo.id && accessModel.count == 1 &&
             applicationInfo.profile == "unconfined") {
             /* Degenerate case: unconfined app making requests with no valid
              * app ID */
-            allowed(accountsModel.get(0, "accountId"))
+            request.allow(accountsModel.get(0, "accountId"))
             return
         }
         loader.active = true
@@ -55,7 +51,6 @@ MainView {
     }
 
     on__CreatedAccountIdChanged: grantAccessIfReady()
-    onDenied: wasDenied = true
 
     onAllowed: loader.sourceComponent = spinnerComponent
 
@@ -111,7 +106,7 @@ MainView {
         AccountCreationPage {
             providerId: providerInfo.id
             onFinished: {
-                if (accountId == 0) root.denied()
+                if (accountId == 0) request.deny()
                 /* if an account was created, just remember its ID. when the
                  * accountsModel will notice it we'll proceed with the access
                  * grant */
@@ -127,7 +122,7 @@ MainView {
             application: applicationInfo
             provider: providerInfo
             canAddAnotherAccount: accessModel.canCreateAccounts
-            onDenied: root.denied()
+            onDenied: request.deny()
             onAllowed: root.grantAccess(accountId)
             onCreateAccount: pageStack.push(createAccountPageComponent)
         }
@@ -198,7 +193,7 @@ MainView {
         if (root.__createdAccountId != 0) {
             // If the request comes from system settings, stop here
             if (applicationInfo.id === "system-settings") {
-                root.allowed(root.__createdAccountId)
+                request.allow(root.__createdAccountId)
                 return
             }
 
@@ -216,7 +211,7 @@ MainView {
         if (i < 0) {
             // very unlikely; maybe the account has been deleted in the meantime
             console.log("Account not found:" + accountId)
-            root.denied()
+            request.deny()
             return
         }
 
@@ -249,6 +244,6 @@ MainView {
 
     function accountEnablingDone() {
         console.log("account enabling done")
-        allowed(account.accountId)
+        request.allow(account.accountId)
     }
 }

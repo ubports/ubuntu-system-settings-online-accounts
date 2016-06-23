@@ -147,10 +147,11 @@ void ProviderRequestPrivate::start()
                                 QUrl::fromLocalFile(QStandardPaths::writableLocation(
                                     QStandardPaths::GenericDataLocation) +
                                 "/accounts/qml-plugins/"));
-    context->setContextProperty("request", this);
     context->setContextProperty("mainWindow", m_view);
 
     m_view->setSource(QUrl(QStringLiteral("qrc:/qml/ProviderRequest.qml")));
+    QQuickItem *root = m_view->rootObject();
+    root->setProperty("request", QVariant::fromValue(this));
     /* It could be that allow() or deny() have been already called; don't show
      * the window in that case. */
     if (q->isInProgress()) {

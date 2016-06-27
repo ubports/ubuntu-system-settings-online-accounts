@@ -1,6 +1,6 @@
 {
     "name": "Accounts",
-    "icon": "/usr/share/ubuntu/settings/system/icons/settings-accounts.svg",
+    "icon": "preferences-desktop-accounts-symbolic",
     "translations": "ubuntu-system-settings-online-accounts",
     "category": "personal",
     "priority": 3,

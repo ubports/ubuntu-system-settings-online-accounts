@@ -1,3 +1,9 @@
+ubuntu-system-settings-online-accounts (0.7+16.10.20160628.2-0ubuntu1) yakkety; urgency=medium
+
+  * Read time from symlink file, not target (LP: #1596478)
+
+ -- Alberto Mardegan <mardy@users.sourceforge.net>  Tue, 28 Jun 2016 09:53:46 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.10.20160616.1-0ubuntu1) yakkety; urgency=medium
 
   [ Alberto Mardegan ]

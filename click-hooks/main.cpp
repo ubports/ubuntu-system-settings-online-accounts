@@ -30,7 +30,9 @@
 #include <QStandardPaths>
 #include <QStringList>
 #include <click.h>
+#include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 #include <utime.h>
 
 static QString findPackageDir(const QString &appId)
@@ -80,6 +82,18 @@ static QString stripVersion(const QString &appId)
      */
     components.removeLast();
     return components.join('_');
+}
+
+/* Get the modification time of a file; this differs from
+ * QFileInfo::lastModified() in that if the file is a symlink here we take the
+ * info from the symlink itself. */
+static QDateTime lastModified(const QFileInfo &fileInfo)
+{
+    struct stat data;
+    if (lstat(fileInfo.filePath().toUtf8().constData(), &data) < 0) {
+        return QDateTime();
+    }
+    return QDateTime::fromTime_t(data.st_mtime);
 }
 
 class LibAccountsFile: public QDomDocument {
@@ -216,7 +230,7 @@ bool LibAccountsFile::writeTo(const QString &fileName) const
     if (ok) {
         struct utimbuf sourceTime;
         sourceTime.actime = sourceTime.modtime =
-            m_hookFileInfo.lastModified().toTime_t();
+            lastModified(m_hookFileInfo).toTime_t();
         utime(fileName.toUtf8().constData(), &sourceTime);
         return true;
     } else {
@@ -348,7 +362,7 @@ int main(int argc, char **argv)
         QFileInfo destinationInfo(destination);
         /* If the destination is there and up to date, we have nothing to do */
         if (destinationInfo.exists() &&
-            destinationInfo.lastModified() == fileInfo.lastModified()) {
+            destinationInfo.lastModified() == lastModified(fileInfo)) {
             continue;
         }
 

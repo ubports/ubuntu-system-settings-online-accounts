@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-05-13 17:45+0300\n"
-"PO-Revision-Date: 2016-06-18 13:57+0000\n"
+"PO-Revision-Date: 2016-06-20 20:20+0000\n"
 "Last-Translator: Anne <anneonyme017@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-06-19 05:54+0000\n"
+"X-Launchpad-Export-Date: 2016-06-21 05:59+0000\n"
 "X-Generator: Launchpad (build 18097)\n"
 
 #: ../plugins/example/Main.qml:33
@@ -27,19 +27,20 @@ msgstr "Mot de passe"
 
 #: ../plugins/module/DuplicateAccount.qml:31
 msgid "Duplicate account"
-msgstr ""
+msgstr "Compte en double"
 
 #: ../plugins/module/DuplicateAccount.qml:32
 msgid "There is already an account created for this email address."
-msgstr ""
+msgstr "Il existe déjà un compte pour cette adresse électronique."
 
 #: ../plugins/module/DuplicateAccount.qml:37
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ../plugins/module/ErrorItem.qml:37
 msgid "This service is not available right now. Try again later."
 msgstr ""
+"Le service n'est pas disponible pour le moment. Veuillez réessayer plus tard."
 
 #: ../plugins/module/ErrorItem.qml:44
 msgid "Try Again"
@@ -117,7 +118,7 @@ msgstr "Ajouter un compte :"
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:87
 #, qt-format
 msgid "wants to access your %2 account"
-msgstr ""
+msgstr "veut accéder à votre compte %2"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:131
 msgid "Allow"

@@ -35,7 +35,9 @@
 #include <QStandardPaths>
 #include <QStringList>
 #include <click.h>
+#include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 #include <utime.h>
 #include "acl-updater.h"
 
@@ -627,6 +629,18 @@ static void removeStaleTimestampFiles(const QDir &hooksDirIn)
     }
 }
 
+/* Get the modification time of a file; this differs from
+ * QFileInfo::lastModified() in that if the file is a symlink here we take the
+ * info from the symlink itself. */
+static QDateTime lastModified(const QFileInfo &fileInfo)
+{
+    struct stat data;
+    if (lstat(fileInfo.filePath().toUtf8().constData(), &data) < 0) {
+        return QDateTime();
+    }
+    return QDateTime::fromTime_t(data.st_mtime);
+}
+
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
@@ -681,7 +695,7 @@ int main(int argc, char **argv)
          */
         QFileInfo processedInfo(fileInfo.filePath() + ".processed");
         if (processedInfo.exists() &&
-            processedInfo.lastModified() == fileInfo.lastModified()) {
+            processedInfo.lastModified() == lastModified(fileInfo)) {
             continue;
         }
 
@@ -697,7 +711,7 @@ int main(int argc, char **argv)
                 file.close();
                 struct utimbuf sourceTime;
                 sourceTime.actime = sourceTime.modtime =
-                    fileInfo.lastModified().toTime_t();
+                    lastModified(fileInfo).toTime_t();
                 utime(processedInfo.filePath().toUtf8().constData(),
                       &sourceTime);
             } else {

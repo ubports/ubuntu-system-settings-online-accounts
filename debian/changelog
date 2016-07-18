@@ -1,3 +1,14 @@
+ubuntu-system-settings-online-accounts (0.7+16.10.20160718-0ubuntu1) yakkety; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Fix desktop file name for scopes: they use their short app ID (LP:
+    #1541717)
+
+  [ Florian Boucault ]
+  * Crossbuilding fixes
+
+ -- Alberto Mardegan <mardy@users.sourceforge.net>  Mon, 18 Jul 2016 12:15:06 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.10.20160628.2-0ubuntu1) yakkety; urgency=medium
 
   * Read time from symlink file, not target (LP: #1596478)

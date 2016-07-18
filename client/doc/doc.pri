@@ -1,6 +1,6 @@
 include(../../common-project-config.pri)
 
-QDOC = $$[QT_INSTALL_BINS]/qdoc
+QDOC = $$[QT_HOST_BINS]/qdoc
 
 QMAKE_EXTRA_TARGETS += clean-docs docs-html clean-docs-html
 

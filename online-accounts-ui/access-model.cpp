@@ -88,8 +88,6 @@ AccessModel::AccessModel(QObject *parent):
     QSortFilterProxyModel(parent),
     d_ptr(new AccessModelPrivate(this))
 {
-    Q_D(AccessModel);
-
     QObject::connect(this, SIGNAL(rowsInserted(const QModelIndex&,int,int)),
                      this, SIGNAL(countChanged()));
     QObject::connect(this, SIGNAL(rowsRemoved(const QModelIndex&,int,int)),
@@ -103,15 +101,12 @@ AccessModel::~AccessModel()
 
 void AccessModel::setAccountModel(QAbstractItemModel *accountModel)
 {
-    Q_D(AccessModel);
-
     setSourceModel(accountModel);
     Q_EMIT accountModelChanged();
 }
 
 QAbstractItemModel *AccessModel::accountModel() const
 {
-    Q_D(const AccessModel);
     return sourceModel();
 }
 

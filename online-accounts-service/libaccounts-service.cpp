@@ -158,8 +158,6 @@ void LibaccountsServicePrivate::writeChanges(const AccountChanges &changes)
 
 void LibaccountsServicePrivate::onAccountSynced()
 {
-    Q_Q(LibaccountsService);
-
     Accounts::Account *account = qobject_cast<Accounts::Account*>(sender());
     uint accountId = account->id();
     account->deleteLater();
@@ -175,8 +173,6 @@ void LibaccountsServicePrivate::onAccountSynced()
 
 void LibaccountsServicePrivate::onAccountError(Accounts::Error error)
 {
-    Q_Q(LibaccountsService);
-
     Accounts::Account *account = qobject_cast<Accounts::Account*>(sender());
     account->deleteLater();
 

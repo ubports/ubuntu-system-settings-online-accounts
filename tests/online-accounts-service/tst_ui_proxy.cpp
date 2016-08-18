@@ -248,6 +248,9 @@ void UiProxyTest::initTestCase()
     qputenv("AG_SERVICE_TYPES", TEST_DATA_DIR);
     qputenv("AG_PROVIDERS", TEST_DATA_DIR);
     qputenv("XDG_DATA_HOME", TEST_DATA_DIR);
+    QDir runtimeDir("/tmp/oa-runtime/");
+    runtimeDir.mkpath(".");
+    qputenv("XDG_RUNTIME_DIR", runtimeDir.path().toUtf8());
 }
 
 void UiProxyTest::testInit()

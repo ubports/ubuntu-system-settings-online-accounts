@@ -23,7 +23,7 @@ Build-Depends: debhelper (>= 9),
                qml-module-ubuntu-test,
                signon-plugins-dev (>= 8.58),
                dbus-test-runner,
-               xmldiff,
+               xmldiff:native,
                xvfb,
 Standards-Version: 3.9.4
 Homepage: https://launchpad.net/ubuntu-system-settings-online-accounts

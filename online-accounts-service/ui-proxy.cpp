@@ -150,8 +150,6 @@ void UiProxyPrivate::onDisconnected()
 
 void UiProxyPrivate::onNewConnection()
 {
-    Q_Q(UiProxy);
-
     QLocalSocket *socket = m_server.nextPendingConnection();
     if (Q_UNLIKELY(socket == 0)) return;
 

@@ -52,6 +52,10 @@ private:
 
 } // namespace
 
+static void onNotificationClosed(Notification *notification) {
+    Q_EMIT notification->closed();
+}
+
 NotificationPrivate::NotificationPrivate(const QString &summary,
                                          const QString &body,
                                          Notification *notification):
@@ -70,7 +74,7 @@ NotificationPrivate::NotificationPrivate(const QString &summary,
                                              bodyUtf8.constData(),
                                              NULL);
     g_signal_connect_swapped(m_notification, "closed",
-                             G_CALLBACK(&Notification::closed), notification);
+                             G_CALLBACK(onNotificationClosed), notification);
 }
 
 NotificationPrivate::~NotificationPrivate()

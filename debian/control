@@ -113,7 +113,6 @@ Architecture: any
 Multi-Arch: same
 Depends: ${misc:Depends},
          ${shlibs:Depends},
-         ubuntu-system-settings-online-accounts (= ${binary:Version}),
 Pre-Depends: dpkg (>= 1.15.6~), ${misc:Pre-Depends},
 Description: Online Accounts plugin module for Ubuntu Touch - development files
  This module contains the necessary files for developing Online Accounts

@@ -9,5 +9,3 @@ Description: Online Accounts plugin module for Ubuntu Touch
 Version: $$PROJECT_VERSION
 Requires: Qt5Core
 Requires.private: Qt5Gui
-Cflags:  -I${includedir}
-Libs: -L${libdir} -l$${TARGET}

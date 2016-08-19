@@ -2,6 +2,9 @@ ubuntu-system-settings-online-accounts (0.7+16.10.20160718-0ubuntu2) UNRELEASED;
 
   * debian/rules:
     - Don't run tests on powerpc (LP: #1606927)
+  * debian/control, debian/libonline-accounts-plugin-dev.install:
+    - Don't depend on main package, don't allow linking to
+      libonline-accounts-plugin.so (LP: #1612299)
 
  -- Alberto Mardegan <alberto.mardegan@canonical.com>  Thu, 18 Aug 2016 15:15:04 +0300
 

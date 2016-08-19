@@ -25,7 +25,7 @@ ifneq ($(DEB_HOST_ARCH),$(findstring $(DEB_HOST_ARCH), $(testskip_architectures)
 endif
 
 override_dh_install:
-	rm -rf debian/*/usr/lib/x86_64-linux-gnu/libonline-accounts-plugin.so
+	rm -rf debian/*/usr/lib/*/libonline-accounts-plugin.so
 	rm -rf debian/*/usr/share/accounts/qml-plugins/example
 	rm -rf debian/*/usr/share/accounts/providers/example.provider
 	rm -rf debian/*/usr/tests

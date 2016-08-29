@@ -6,7 +6,7 @@ ChromedWebView {
     id: root
 
     property QtObject signonRequest
-    property string   userAgent
+    property string userAgent
 
     onNewViewRequested: {
         var popup = popupComponent.createObject(root, {
@@ -31,10 +31,6 @@ ChromedWebView {
         url = signonRequest.startUrl
     }
 
-    onUserAgentChanged: if (userAgent) {
-       webContext.userAgent = userAgent
-    }
-
     onLoadingStateChanged: {
         console.log("Loading changed")
         if (loading && !lastLoadFailed) {
@@ -48,8 +44,8 @@ ChromedWebView {
     onUrlChanged: signonRequest.currentUrl = url
 
     context: WebContext {
-        id: webContext
         dataPath: signonRequest ? signonRequest.rootDir : ""
+        userAgent: root.userAgent ? root.userAgent : defaultUserAgent
     }
 
     function onAuthenticated() {

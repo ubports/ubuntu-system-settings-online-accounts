@@ -37,6 +37,7 @@ Item {
     property bool __isAuthenticating: false
     property alias globalAccountService: globalAccountSettings
     property bool loading: loader.status == Loader.Null || loader.status == Loader.Loading
+    property string userAgent
 
     signal authenticated(variant reply)
     signal authenticationError(variant error)
@@ -56,7 +57,8 @@ Item {
             if (request) {
                 console.log("RequestHandler captured request!")
                 loader.setSource("WebView.qml", {
-                    "signonRequest": request
+                    "signonRequest": request,
+                    "userAgent": userAgent
                 })
             } else {
                 console.log("Request destroyed!")

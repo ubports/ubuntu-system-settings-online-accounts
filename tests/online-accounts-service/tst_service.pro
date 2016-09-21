@@ -13,6 +13,7 @@ QT += \
 
 PKGCONFIG += \
     accounts-qt5 \
+    libapparmor \
     signon-plugins-common
 
 DEFINES += \

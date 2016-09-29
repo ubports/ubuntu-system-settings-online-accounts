@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-08-18 05:51+0000\n"
-"X-Generator: Launchpad (build 18169)\n"
+"X-Launchpad-Export-Date: 2016-09-29 06:44+0000\n"
+"X-Generator: Launchpad (build 18204)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -32,18 +32,19 @@ msgstr ""
 #: ../plugins/module/DuplicateAccount.qml:32
 msgid "There is already an account created for this email address."
 msgstr ""
+"Уже имеется учётная запись, созданная для этого адреса электронной почты."
 
 #: ../plugins/module/DuplicateAccount.qml:37
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ../plugins/module/ErrorItem.qml:37
 msgid "This service is not available right now. Try again later."
-msgstr ""
+msgstr "Этот сервис сейчас недоступен. Попробуйте позже."
 
 #: ../plugins/module/ErrorItem.qml:44
 msgid "Try Again"
-msgstr ""
+msgstr "Попробовать снова"
 
 #: ../plugins/module/OAuth.qml:120
 msgid "Loading…"

@@ -173,12 +173,13 @@ void ProviderRequestTest::testParameters()
         QTRY_COMPARE(setWindowCalled.count(), 1);
         QQuickView *view = static_cast<QQuickView*>(setWindowCalled.at(0).at(0).value<QWindow*>());
         QQmlContext *context = view->engine()->rootContext();
+        QObject *request = context->contextProperty("request").value<QObject*>();
 
         QCOMPARE(applicationInfoCalled.count(), 1);
         QCOMPARE(applicationInfoCalled.at(0).at(1).toString(), profile);
 
-        QCOMPARE(context->contextProperty("provider").toMap(), providerInfo);
-        QCOMPARE(context->contextProperty("application").toMap(), applicationInfo);
+        QCOMPARE(request->property("provider").toMap(), providerInfo);
+        QCOMPARE(request->property("application").toMap(), applicationInfo);
     } else {
         QTRY_COMPARE(failCalled.count(), 1);
         QCOMPARE(failCalled.at(0).at(0).toString(), errorName);

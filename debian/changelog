@@ -1,3 +1,10 @@
+ubuntu-system-settings-online-accounts (0.7+16.10.20160929-0ubuntu1) yakkety; urgency=medium
+
+  * Properly handle early termination of account access requests (LP:
+    #1594944)
+
+ -- Alberto Mardegan <mardy@users.sourceforge.net>  Thu, 29 Sep 2016 09:08:00 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.10.20160830.2-0ubuntu1) yakkety; urgency=medium
 
   [ Alberto Mardegan ]

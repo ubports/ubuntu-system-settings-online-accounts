@@ -1,72 +1,72 @@
-# Serbian translation for ubuntu-system-settings-online-accounts
-# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# Chinese (Hong Kong) translation for ubuntu-system-settings-online-accounts
+# Copyright (c) 2016 Rosetta Contributors and Canonical Ltd 2016
 # This file is distributed under the same license as the ubuntu-system-settings-online-accounts package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-05-13 17:45+0300\n"
-"PO-Revision-Date: 2016-08-22 20:28+0000\n"
-"Last-Translator: Bojan Bogdanović <Unknown>\n"
-"Language-Team: Serbian <sr@li.org>\n"
+"PO-Revision-Date: 2016-09-23 14:23+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Chinese (Hong Kong) <zh_HK@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-08-23 06:05+0000\n"
-"X-Generator: Launchpad (build 18176)\n"
+"X-Launchpad-Export-Date: 2016-09-24 07:00+0000\n"
+"X-Generator: Launchpad (build 18204)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
-msgstr "Корисничко име"
+msgstr ""
 
 #: ../plugins/example/Main.qml:39
 msgid "Password"
-msgstr "Лозинка"
+msgstr ""
 
 #: ../plugins/module/DuplicateAccount.qml:31
 msgid "Duplicate account"
-msgstr "Дуплирани налог"
+msgstr ""
 
 #: ../plugins/module/DuplicateAccount.qml:32
 msgid "There is already an account created for this email address."
-msgstr "Већ остоји налог креиран са овом адресом епоште."
+msgstr ""
 
 #: ../plugins/module/DuplicateAccount.qml:37
 msgid "OK"
-msgstr "У реду"
+msgstr ""
 
 #: ../plugins/module/ErrorItem.qml:37
 msgid "This service is not available right now. Try again later."
-msgstr "Овај сервис ноје тренутно доступан. Покушајте поново касније."
+msgstr ""
 
 #: ../plugins/module/ErrorItem.qml:44
 msgid "Try Again"
-msgstr "Покушајте поново"
+msgstr ""
 
 #: ../plugins/module/OAuth.qml:120
 msgid "Loading…"
-msgstr "Учитавам..."
+msgstr ""
 
 #: ../plugins/module/OAuth.qml:159
 #: ../plugins/module/RemovalConfirmation.qml:43
 #: ../online-accounts-ui/qml/SignOnUiDialog.qml:91
 #: ../online-accounts-ui/qml/SignOnUiPage.qml:32
 msgid "Cancel"
-msgstr "Откажи"
+msgstr ""
 
 #: ../plugins/module/Options.qml:36
 msgid "ID"
-msgstr "ИБ"
+msgstr ""
 
 #: ../plugins/module/Options.qml:48
 msgid "Remove account…"
-msgstr "Уклони налог..."
+msgstr ""
 
 #: ../plugins/module/RemovalConfirmation.qml:32
 msgid "Remove account"
-msgstr "Уклони налог"
+msgstr ""
 
 #: ../plugins/module/RemovalConfirmation.qml:33
 #, qt-format
@@ -74,65 +74,54 @@ msgid ""
 "The %1 account will be removed only from your phone. You can add it again "
 "later."
 msgstr ""
-"Налог „%1“ ће бити уклоњен само са вашег телефона. Можете га касније поново "
-"додати."
 
 #: ../plugins/module/RemovalConfirmation.qml:38
 msgid "Remove"
-msgstr "Уклони"
+msgstr ""
 
 #: ../plugins/module/ServiceSwitches.qml:33
 msgid "Access to this account:"
-msgstr "Приступ овом налогу:"
+msgstr ""
 
 #: ../system-settings-plugin/AccountsPage.qml:51
 msgid "Add account…"
-msgstr "Додај налог…"
+msgstr ""
 
 #: ../system-settings-plugin/AddAccountLabel.qml:27
 msgid ""
 "Storing account details here lets apps use the accounts without you having "
 "to sign in for each app."
 msgstr ""
-"Чување детаља о налогу овде омогућава програмима да користе налоге без "
-"потребе да се пријављујете појединачно у сваком програму."
 
 #: ../system-settings-plugin/MainPage.qml:32 ../.build/settings.js:1
 msgid "Accounts"
-msgstr "Налози"
+msgstr ""
 
 #: ../system-settings-plugin/NewAccountPage.qml:23
 msgid "Add account"
-msgstr "Додајте налог"
+msgstr ""
 
 #: ../system-settings-plugin/NoAccountsPage.qml:36
 msgid "No accounts"
-msgstr "Без налога"
+msgstr ""
 
 #: ../system-settings-plugin/NoAccountsPage.qml:47
 msgid "Add account:"
-msgstr "Додај налог:"
+msgstr ""
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:87
 #, qt-format
 msgid "wants to access your %2 account"
-msgstr "жели да приступи вашем %2 налогу"
+msgstr ""
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:131
 msgid "Allow"
-msgstr "Допусти"
+msgstr ""
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:140
 msgid "Add another account…"
-msgstr "Додајте други налог..."
+msgstr ""
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:148
 msgid "Don't allow"
-msgstr "Не допуштај"
-
-#, qt-format
-#~ msgid "%1 wants to access your %2 account"
-#~ msgstr "%1 жели да приступи вашем налогу „%2“"
-
-#~ msgid "Add another"
-#~ msgstr "Додај нови"
+msgstr ""

@@ -1,12 +1,24 @@
-ubuntu-system-settings-online-accounts (0.7+16.10.20160718-0ubuntu2) UNRELEASED; urgency=medium
+ubuntu-system-settings-online-accounts (0.7+16.10.20160928-0ubuntu1) UNRELEASED; urgency=medium
 
-  * debian/rules:
-    - Don't run tests on powerpc (LP: #1606927)
   * debian/control, debian/libonline-accounts-plugin-dev.install:
     - Don't depend on main package, don't allow linking to
       libonline-accounts-plugin.so (LP: #1612299)
 
- -- Alberto Mardegan <alberto.mardegan@canonical.com>  Thu, 18 Aug 2016 15:15:04 +0300
+ -- Alberto Mardegan <alberto.mardegan@canonical.com>  Thu, 28 Sep 2016 15:15:04 +0300
+
+ubuntu-system-settings-online-accounts (0.7+16.10.20160830.2-0ubuntu1) yakkety; urgency=medium
+
+  [ Alberto Mardegan ]
+  * debian/rules:
+    - Don't run tests on powerpc (LP: #1606927)
+
+  [ Gary.Wzl ]
+  * add a new property "userAgent" for OAuth item. (LP: #1587282)
+
+  [ Timo Jyrinki ]
+  * Add qttools5-dev-tools build dependency (LP: #1608814)
+
+ -- Alberto Mardegan <mardy@users.sourceforge.net>  Tue, 30 Aug 2016 08:37:06 +0000
 
 ubuntu-system-settings-online-accounts (0.7+16.10.20160718-0ubuntu1) yakkety; urgency=medium
 

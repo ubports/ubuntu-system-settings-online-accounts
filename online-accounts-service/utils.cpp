@@ -24,7 +24,7 @@
 #include <QDBusConnection>
 #include <QDBusError>
 #include <QDBusMessage>
-#include <QDBusPendingReply>
+#include <QDBusReply>
 #include <sys/apparmor.h>
 
 namespace OnlineAccountsUi {
@@ -46,14 +46,15 @@ QString apparmorProfileOfPeer(const QDBusMessage &message)
     QVariantList args;
     args << uniqueConnectionId;
     msg.setArguments(args);
-    QDBusPendingReply<QVariantMap> reply =
-        QDBusConnection::sessionBus().asyncCall(msg);
-    reply.waitForFinished();
+    QDBusReply<QVariantMap> reply =
+        QDBusConnection::sessionBus().call(msg, QDBus::Block);
     if (reply.isValid()) {
         QVariantMap map = reply.value();
         QByteArray context = map.value("LinuxSecurityLabel").toByteArray();
-        aa_splitcon(context.data(), NULL);
-        appId = QString::fromUtf8(context);
+        if (!context.isEmpty()) {
+            aa_splitcon(context.data(), NULL);
+            appId = QString::fromUtf8(context);
+        }
         qDebug() << "App ID:" << appId;
     } else {
         QDBusError error = reply.error();

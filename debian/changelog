@@ -1,3 +1,11 @@
+ubuntu-system-settings-online-accounts (0.7+16.10.20161004-0ubuntu1) yakkety; urgency=medium
+
+  * Tests: create runtime directory, fix execution under pbuilder (LP:
+    #1614108)
+  * Build-Depend on upstart to avoid s390x builds on yakkety.
+
+ -- Alberto Mardegan <mardy@users.sourceforge.net>  Tue, 04 Oct 2016 09:33:35 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.10.20160929-0ubuntu1) yakkety; urgency=medium
 
   * Properly handle early termination of account access requests (LP:

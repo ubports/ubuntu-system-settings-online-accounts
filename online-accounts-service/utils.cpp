@@ -22,7 +22,10 @@
 #include "utils.h"
 
 #include <QDBusConnection>
+#include <QDBusError>
 #include <QDBusMessage>
+#include <QDBusReply>
+#include <sys/apparmor.h>
 
 namespace OnlineAccountsUi {
 
@@ -39,17 +42,24 @@ QString apparmorProfileOfPeer(const QDBusMessage &message)
         QDBusMessage::createMethodCall("org.freedesktop.DBus",
                                        "/org/freedesktop/DBus",
                                        "org.freedesktop.DBus",
-                                       "GetConnectionAppArmorSecurityContext");
+                                       "GetConnectionCredentials");
     QVariantList args;
     args << uniqueConnectionId;
     msg.setArguments(args);
-    QDBusMessage reply = QDBusConnection::sessionBus().call(msg, QDBus::Block);
-    if (reply.type() == QDBusMessage::ReplyMessage) {
-        appId = reply.arguments().value(0, QString()).toString();
-        DEBUG() << "App ID:" << appId;
+    QDBusReply<QVariantMap> reply =
+        QDBusConnection::sessionBus().call(msg, QDBus::Block);
+    if (reply.isValid()) {
+        QVariantMap map = reply.value();
+        QByteArray context = map.value("LinuxSecurityLabel").toByteArray();
+        if (!context.isEmpty()) {
+            aa_splitcon(context.data(), NULL);
+            appId = QString::fromUtf8(context);
+        }
+        qDebug() << "App ID:" << appId;
     } else {
-        qWarning() << "Error getting app ID:" << reply.errorName() <<
-            reply.errorMessage();
+        QDBusError error = reply.error();
+        qWarning() << "Error getting app ID:" << error.name() <<
+            error.message();
     }
     return appId;
 }

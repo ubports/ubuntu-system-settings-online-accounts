@@ -1,3 +1,11 @@
+ubuntu-system-settings-online-accounts (0.7+16.10.20161006.2-0ubuntu1) yakkety; urgency=medium
+
+  * Use GetConnectionCredentials() method instead of the deprecated
+    apparmor-specific method. (LP: #1489489)
+  * Re-enable tests for powerpc, disable arm64
+
+ -- Alberto Mardegan <mardy@users.sourceforge.net>  Thu, 06 Oct 2016 09:59:28 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.10.20161004-0ubuntu1) yakkety; urgency=medium
 
   * Tests: create runtime directory, fix execution under pbuilder (LP:

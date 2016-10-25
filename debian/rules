@@ -7,7 +7,8 @@
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 
 # Skip tests on the archs they are known to be flaky with current configuration
-testskip_architectures := arm64
+# See https://launchpad.net/bugs/1606927
+testskip_architectures := powerpc
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
@@ -24,6 +25,7 @@ ifneq ($(DEB_HOST_ARCH),$(findstring $(DEB_HOST_ARCH), $(testskip_architectures)
 endif
 
 override_dh_install:
+	rm -rf debian/*/usr/lib/*/libonline-accounts-plugin.so
 	rm -rf debian/*/usr/share/accounts/qml-plugins/example
 	rm -rf debian/*/usr/share/accounts/providers/example.provider
 	rm -rf debian/*/usr/tests

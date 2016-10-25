@@ -186,8 +186,6 @@ QString Request::ssoId() const
 
 void Request::setWindow(QWindow *window)
 {
-    Q_D(Request);
-
     /* Show the window only if we are in a prompt session */
     if (qgetenv("MIR_SOCKET").isEmpty()) {
         QVariantMap result;

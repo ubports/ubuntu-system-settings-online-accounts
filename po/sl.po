@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-06-17 05:43+0000\n"
-"X-Generator: Launchpad (build 18097)\n"
+"X-Launchpad-Export-Date: 2016-10-07 06:50+0000\n"
+"X-Generator: Launchpad (build 18217)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -27,23 +27,23 @@ msgstr "Geslo"
 
 #: ../plugins/module/DuplicateAccount.qml:31
 msgid "Duplicate account"
-msgstr ""
+msgstr "Podvojeni račun"
 
 #: ../plugins/module/DuplicateAccount.qml:32
 msgid "There is already an account created for this email address."
-msgstr ""
+msgstr "Račun s tem e-poštnim naslovom že obstaja."
 
 #: ../plugins/module/DuplicateAccount.qml:37
 msgid "OK"
-msgstr ""
+msgstr "V redu"
 
 #: ../plugins/module/ErrorItem.qml:37
 msgid "This service is not available right now. Try again later."
-msgstr ""
+msgstr "Ta storitev trenutno ni na voljo. Poskusite znova kasneje."
 
 #: ../plugins/module/ErrorItem.qml:44
 msgid "Try Again"
-msgstr ""
+msgstr "Poskusite znova"
 
 #: ../plugins/module/OAuth.qml:120
 msgid "Loading…"
@@ -115,7 +115,7 @@ msgstr "Dodaj račun:"
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:87
 #, qt-format
 msgid "wants to access your %2 account"
-msgstr ""
+msgstr "želi dostop do vašega %2 računa"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:131
 msgid "Allow"

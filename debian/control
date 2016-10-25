@@ -17,13 +17,15 @@ Build-Depends: debhelper (>= 9),
                qt5-default,
                qtbase5-dev (>= 5.4),
                qtdeclarative5-dev,
+               qttools5-dev-tools,
                qml-module-ubuntu-onlineaccounts,
                qml-module-qtquick2,
                qml-module-ubuntu-components,
                qml-module-ubuntu-test,
                signon-plugins-dev (>= 8.58),
                dbus-test-runner,
-               xmldiff,
+               upstart,
+               xmldiff:native,
                xvfb,
 Standards-Version: 3.9.4
 Homepage: https://launchpad.net/ubuntu-system-settings-online-accounts
@@ -113,7 +115,6 @@ Architecture: any
 Multi-Arch: same
 Depends: ${misc:Depends},
          ${shlibs:Depends},
-         ubuntu-system-settings-online-accounts (= ${binary:Version}),
 Pre-Depends: dpkg (>= 1.15.6~), ${misc:Pre-Depends},
 Description: Online Accounts plugin module for Ubuntu Touch - development files
  This module contains the necessary files for developing Online Accounts

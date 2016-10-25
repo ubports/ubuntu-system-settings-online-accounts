@@ -35,7 +35,9 @@
 #include <QStandardPaths>
 #include <QStringList>
 #include <click.h>
+#include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 #include <utime.h>
 #include "acl-updater.h"
 
@@ -123,6 +125,7 @@ private:
     QString m_appId;
     QString m_shortAppId;
     QString m_trDomain;
+    bool m_isScope;
     bool m_isValid;
 };
 
@@ -132,6 +135,7 @@ ManifestFile::ManifestFile(const QFileInfo &hookFileInfo,
     m_hookFileInfo(hookFileInfo),
     m_appId(appId),
     m_shortAppId(shortAppId),
+    m_isScope(false),
     m_isValid(false)
 {
     QFile file(hookFileInfo.filePath());
@@ -143,6 +147,7 @@ ManifestFile::ManifestFile(const QFileInfo &hookFileInfo,
         m_services = mainObject.value("services").toArray();
         m_trDomain = mainObject.value("translations").toString();
         m_plugin = mainObject.value("plugin").toObject();
+        m_isScope = mainObject.value("scope").toBool();
         m_isValid = !m_services.isEmpty() || !m_plugin.isEmpty();
 
         m_packageDir = findPackageDir(appId);
@@ -465,7 +470,7 @@ void ManifestFile::addDesktopFile(QDomDocument &doc)
 {
     QDomElement root = doc.documentElement();
     QDomElement elem = doc.createElement(QStringLiteral("desktop-entry"));
-    elem.appendChild(doc.createTextNode(m_appId));
+    elem.appendChild(doc.createTextNode(m_isScope ? m_shortAppId : m_appId));
     root.appendChild(elem);
 }
 
@@ -624,6 +629,18 @@ static void removeStaleTimestampFiles(const QDir &hooksDirIn)
     }
 }
 
+/* Get the modification time of a file; this differs from
+ * QFileInfo::lastModified() in that if the file is a symlink here we take the
+ * info from the symlink itself. */
+static QDateTime lastModified(const QFileInfo &fileInfo)
+{
+    struct stat data;
+    if (lstat(fileInfo.filePath().toUtf8().constData(), &data) < 0) {
+        return QDateTime();
+    }
+    return QDateTime::fromTime_t(data.st_mtime);
+}
+
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
@@ -678,7 +695,7 @@ int main(int argc, char **argv)
          */
         QFileInfo processedInfo(fileInfo.filePath() + ".processed");
         if (processedInfo.exists() &&
-            processedInfo.lastModified() == fileInfo.lastModified()) {
+            processedInfo.lastModified() == lastModified(fileInfo)) {
             continue;
         }
 
@@ -694,7 +711,7 @@ int main(int argc, char **argv)
                 file.close();
                 struct utimbuf sourceTime;
                 sourceTime.actime = sourceTime.modtime =
-                    fileInfo.lastModified().toTime_t();
+                    lastModified(fileInfo).toTime_t();
                 utime(processedInfo.filePath().toUtf8().constData(),
                       &sourceTime);
             } else {

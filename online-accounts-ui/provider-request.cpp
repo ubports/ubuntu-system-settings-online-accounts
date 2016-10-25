@@ -41,6 +41,8 @@ class ProviderRequestPrivate: public QObject
 {
     Q_OBJECT
     Q_DECLARE_PUBLIC(ProviderRequest)
+    Q_PROPERTY(QVariantMap application READ applicationInfo CONSTANT)
+    Q_PROPERTY(QVariantMap provider READ providerInfo CONSTANT)
 
 public:
     ProviderRequestPrivate(ProviderRequest *request);
@@ -48,18 +50,21 @@ public:
 
     void start();
 
+    QVariantMap applicationInfo() const { return m_applicationInfo; }
+    QVariantMap providerInfo() const { return m_providerInfo; }
+
+public Q_SLOTS:
+    void deny();
+    void allow(int accountId);
+
 private Q_SLOTS:
     void onWindowVisibleChanged(bool visible);
-    void onDenied();
-    void onAllowed(int accountId);
-
-private:
-    QVariantMap providerInfo(const QString &providerId) const;
 
 private:
     mutable ProviderRequest *q_ptr;
     QQuickView *m_view;
     QVariantMap m_applicationInfo;
+    QVariantMap m_providerInfo;
 };
 
 } // namespace
@@ -112,7 +117,7 @@ void ProviderRequestPrivate::start()
     } else {
         providerId = q->parameters().value(OAU_KEY_PROVIDER).toString();
     }
-    QVariantMap providerInfo = appManager->providerInfo(providerId);
+    m_providerInfo = appManager->providerInfo(providerId);
 
     m_view = new QQuickView;
     QObject::connect(m_view, SIGNAL(visibleChanged(bool)),
@@ -126,7 +131,7 @@ void ProviderRequestPrivate::start()
      *   <package-dir>/lib/<DEB_HOST_MULTIARCH>
      * to the QML import path.
      */
-    QString packageDir = providerInfo.value("package-dir").toString();
+    QString packageDir = m_providerInfo.value("package-dir").toString();
     if (!packageDir.isEmpty()) {
         engine->addImportPath(packageDir + "/lib");
 #ifdef DEB_HOST_MULTIARCH
@@ -142,22 +147,15 @@ void ProviderRequestPrivate::start()
                                 QUrl::fromLocalFile(QStandardPaths::writableLocation(
                                     QStandardPaths::GenericDataLocation) +
                                 "/accounts/qml-plugins/"));
-    context->setContextProperty("provider", providerInfo);
-    context->setContextProperty("application", m_applicationInfo);
+    context->setContextProperty("request", this);
     context->setContextProperty("mainWindow", m_view);
 
     m_view->setSource(QUrl(QStringLiteral("qrc:/qml/ProviderRequest.qml")));
-    QQuickItem *root = m_view->rootObject();
-    QObject::connect(root, SIGNAL(denied()),
-                     this, SLOT(onDenied()));
-    QObject::connect(root, SIGNAL(allowed(int)),
-                     this, SLOT(onAllowed(int)));
-    if (root->property("wasDenied").toBool()) {
-        DEBUG() << "Was denied";
-        q->setResult(QVariantMap());
-        return;
+    /* It could be that allow() or deny() have been already called; don't show
+     * the window in that case. */
+    if (q->isInProgress()) {
+        q->setWindow(m_view);
     }
-    q->setWindow(m_view);
 }
 
 void ProviderRequestPrivate::onWindowVisibleChanged(bool visible)
@@ -171,22 +169,27 @@ void ProviderRequestPrivate::onWindowVisibleChanged(bool visible)
     }
 }
 
-void ProviderRequestPrivate::onDenied()
+void ProviderRequestPrivate::deny()
 {
+    Q_Q(ProviderRequest);
     DEBUG();
-    /* Just close the window; this will deliver the empty result to the
-     * client */
-    m_view->close();
+    if (m_view->isVisible()) {
+        /* Just close the window; this will deliver the empty result to the
+         * client */
+        m_view->close();
+    } else {
+        q->setResult(QVariantMap());
+    }
 }
 
-void ProviderRequestPrivate::onAllowed(int accountId)
+void ProviderRequestPrivate::allow(int accountId)
 {
     Q_Q(ProviderRequest);
     DEBUG() << "Access allowed for account:" << accountId;
     /* If the request came from an app, add a small delay so that we could
      * serve an authentication request coming right after this one. */
-    if (m_applicationInfo.value("id").toString() !=
-        QStringLiteral("system-settings")) {
+    if (m_view->isVisible() &&
+        m_applicationInfo.value("id").toString() != "system-settings") {
         q->setDelay(3000);
     }
     QVariantMap result;

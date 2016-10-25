@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: ubuntu-system-settings-online-accounts\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-05-13 17:45+0300\n"
-"PO-Revision-Date: 2015-04-24 10:40+0000\n"
+"PO-Revision-Date: 2016-08-27 03:29+0000\n"
 "Last-Translator: Víctor R. Ruiz <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-06-17 05:43+0000\n"
-"X-Generator: Launchpad (build 18097)\n"
+"X-Launchpad-Export-Date: 2016-10-07 06:50+0000\n"
+"X-Generator: Launchpad (build 18217)\n"
 
 #: ../plugins/example/Main.qml:33
 msgid "User name"
@@ -27,23 +27,23 @@ msgstr "Contraseña"
 
 #: ../plugins/module/DuplicateAccount.qml:31
 msgid "Duplicate account"
-msgstr ""
+msgstr "Cuenta duplicada"
 
 #: ../plugins/module/DuplicateAccount.qml:32
 msgid "There is already an account created for this email address."
-msgstr ""
+msgstr "Ya existe una cuenta creada con esta dirección de correo."
 
 #: ../plugins/module/DuplicateAccount.qml:37
 msgid "OK"
-msgstr ""
+msgstr "Aceptar"
 
 #: ../plugins/module/ErrorItem.qml:37
 msgid "This service is not available right now. Try again later."
-msgstr ""
+msgstr "Servicio no disponible en estos momentos. Inténtelo más tarde."
 
 #: ../plugins/module/ErrorItem.qml:44
 msgid "Try Again"
-msgstr ""
+msgstr "Intentarlo de nuevo"
 
 #: ../plugins/module/OAuth.qml:120
 msgid "Loading…"
@@ -116,7 +116,7 @@ msgstr "Añadir cuenta:"
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:87
 #, qt-format
 msgid "wants to access your %2 account"
-msgstr ""
+msgstr "quiere acceder a su cuenta de %2"
 
 #: ../online-accounts-ui/qml/AuthorizationPage.qml:131
 msgid "Allow"

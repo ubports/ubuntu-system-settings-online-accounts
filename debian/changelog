@@ -1,3 +1,57 @@
+ubuntu-system-settings-online-accounts (0.7+16.10.20161004-0ubuntu1) yakkety; urgency=medium
+
+  * Tests: create runtime directory, fix execution under pbuilder (LP:
+    #1614108)
+  * Build-Depend on upstart to avoid s390x builds on yakkety.
+
+ -- Alberto Mardegan <mardy@users.sourceforge.net>  Tue, 04 Oct 2016 09:33:35 +0000
+
+ubuntu-system-settings-online-accounts (0.7+16.10.20160929-0ubuntu1) yakkety; urgency=medium
+
+  * Properly handle early termination of account access requests (LP:
+    #1594944)
+
+ -- Alberto Mardegan <mardy@users.sourceforge.net>  Thu, 29 Sep 2016 09:08:00 +0000
+
+ubuntu-system-settings-online-accounts (0.7+16.10.20160928-0ubuntu1) UNRELEASED; urgency=medium
+
+  * debian/control, debian/libonline-accounts-plugin-dev.install:
+    - Don't depend on main package, don't allow linking to
+      libonline-accounts-plugin.so (LP: #1612299)
+
+ -- Alberto Mardegan <alberto.mardegan@canonical.com>  Thu, 28 Sep 2016 15:15:04 +0300
+
+ubuntu-system-settings-online-accounts (0.7+16.10.20160830.2-0ubuntu1) yakkety; urgency=medium
+
+  [ Alberto Mardegan ]
+  * debian/rules:
+    - Don't run tests on powerpc (LP: #1606927)
+
+  [ Gary.Wzl ]
+  * add a new property "userAgent" for OAuth item. (LP: #1587282)
+
+  [ Timo Jyrinki ]
+  * Add qttools5-dev-tools build dependency (LP: #1608814)
+
+ -- Alberto Mardegan <mardy@users.sourceforge.net>  Tue, 30 Aug 2016 08:37:06 +0000
+
+ubuntu-system-settings-online-accounts (0.7+16.10.20160718-0ubuntu1) yakkety; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Fix desktop file name for scopes: they use their short app ID (LP:
+    #1541717)
+
+  [ Florian Boucault ]
+  * Crossbuilding fixes
+
+ -- Alberto Mardegan <mardy@users.sourceforge.net>  Mon, 18 Jul 2016 12:15:06 +0000
+
+ubuntu-system-settings-online-accounts (0.7+16.10.20160628.2-0ubuntu1) yakkety; urgency=medium
+
+  * Read time from symlink file, not target (LP: #1596478)
+
+ -- Alberto Mardegan <mardy@users.sourceforge.net>  Tue, 28 Jun 2016 09:53:46 +0000
+
 ubuntu-system-settings-online-accounts (0.7+16.10.20160616.1-0ubuntu1) yakkety; urgency=medium
 
   [ Alberto Mardegan ]

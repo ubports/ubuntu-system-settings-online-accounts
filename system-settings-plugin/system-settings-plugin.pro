@@ -42,10 +42,6 @@ INSTALLS += settings
 target.path = $${PLUGIN_MODULE_DIR}
 INSTALLS += target
 
-image.files = settings-accounts.svg
-image.path = $${PLUGIN_MANIFEST_DIR}/icons
-INSTALLS += image
-
 qml.files = $${QML_SOURCES}
 qml.path = $${PLUGIN_QML_DIR}/online-accounts
 INSTALLS += qml

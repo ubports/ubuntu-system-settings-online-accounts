@@ -31,10 +31,20 @@ namespace OnlineAccountsUi {
 
 QString apparmorProfileOfPeer(const QDBusMessage &message)
 {
+    static QString ourProfile;
+
     QString uniqueConnectionId = message.service();
     /* This is mainly for unit tests: real messages on the session bus always
      * have a service name. */
     if (uniqueConnectionId.isEmpty()) return QString();
+
+    if (ourProfile.isEmpty()) {
+        char *label = NULL;
+        char *mode = NULL;
+        aa_getcon(&label, &mode);
+        ourProfile = QString::fromUtf8(label);
+        free(label);
+    }
 
     QString appId;
 
@@ -54,6 +64,10 @@ QString apparmorProfileOfPeer(const QDBusMessage &message)
         if (!context.isEmpty()) {
             aa_splitcon(context.data(), NULL);
             appId = QString::fromUtf8(context);
+            if (appId == ourProfile) {
+                qDebug() << "Same profile as ourselves, assuming unconfined";
+                appId = "unconfined";
+            }
         }
         qDebug() << "App ID:" << appId;
     } else {

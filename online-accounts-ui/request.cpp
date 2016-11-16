@@ -21,7 +21,6 @@
 #include "debug.h"
 // TODO #include "dialog-request.h"
 #include "globals.h"
-#include "panel-request.h"
 #include "provider-request.h"
 #include "request.h"
 #include "signonui-request.h"

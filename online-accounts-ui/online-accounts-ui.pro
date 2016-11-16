@@ -49,7 +49,6 @@ SOURCES += \
     i18n.cpp \
     ipc.cpp \
     main.cpp \
-    panel-request.cpp \
     provider-request.cpp \
     request.cpp \
     signonui-request.cpp \
@@ -63,7 +62,6 @@ HEADERS += \
     dialog-request.h \
     i18n.h \
     ipc.h \
-    panel-request.h \
     provider-request.h \
     request.h \
     signonui-request.h \

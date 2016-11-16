@@ -297,4 +297,9 @@ void Request::setResult(const QVariantMap &result)
     }
 }
 
+QString Request::mountPoint() const
+{
+    return qEnvironmentVariableIsSet("SNAP") ? qgetenv("SNAP") : "";
+}
+
 #include "request.moc"

@@ -25,6 +25,7 @@
 #include "request.h"
 #include "signonui-request.h"
 
+#include <QFile>
 #include <QPointer>
 
 using namespace OnlineAccountsUi;
@@ -299,7 +300,8 @@ void Request::setResult(const QVariantMap &result)
 
 QString Request::mountPoint() const
 {
-    return qEnvironmentVariableIsSet("SNAP") ? qgetenv("SNAP") : "";
+    return qEnvironmentVariableIsSet("SNAP") ?
+        QFile::decodeName(qgetenv("SNAP")) : "";
 }
 
 #include "request.moc"

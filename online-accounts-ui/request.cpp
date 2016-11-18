@@ -21,11 +21,11 @@
 #include "debug.h"
 // TODO #include "dialog-request.h"
 #include "globals.h"
-#include "panel-request.h"
 #include "provider-request.h"
 #include "request.h"
 #include "signonui-request.h"
 
+#include <QFile>
 #include <QPointer>
 
 using namespace OnlineAccountsUi;
@@ -296,6 +296,12 @@ void Request::setResult(const QVariantMap &result)
         Q_EMIT completed();
         d->m_inProgress = false;
     }
+}
+
+QString Request::mountPoint() const
+{
+    return qEnvironmentVariableIsSet("SNAP") ?
+        QFile::decodeName(qgetenv("SNAP")) : "";
 }
 
 #include "request.moc"

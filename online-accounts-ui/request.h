@@ -71,6 +71,8 @@ protected:
     virtual void setWindow(QWindow *window);
     void setDelay(int delay);
 
+    QString mountPoint() const;
+
 protected Q_SLOTS:
     void fail(const QString &name, const QString &message);
     virtual void setCanceled();

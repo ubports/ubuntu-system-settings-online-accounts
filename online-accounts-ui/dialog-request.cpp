@@ -180,7 +180,8 @@ void DialogRequestPrivate::start()
         QObject::connect(m_dialog, SIGNAL(finished(int)),
                          this, SLOT(onFinished()));
 
-        m_dialog->engine()->addImportPath(PLUGIN_PRIVATE_MODULE_DIR);
+        m_dialog->engine()->addImportPath(q->mountPoint() +
+                                          PLUGIN_PRIVATE_MODULE_DIR);
         m_dialog->rootContext()->setContextProperty("request", this);
         m_dialog->setSource(QUrl("qrc:/qml/SignOnUiDialog.qml"));
         q->setWindow(m_dialog);

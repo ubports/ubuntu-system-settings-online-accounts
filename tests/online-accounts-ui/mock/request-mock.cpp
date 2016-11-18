@@ -150,3 +150,8 @@ void Request::setResult(const QVariantMap &result)
         d->m_inProgress = false;
     }
 }
+
+QString Request::mountPoint() const
+{
+    return "";
+}

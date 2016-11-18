@@ -123,8 +123,9 @@ void ProviderRequestPrivate::start()
     QObject::connect(m_view, SIGNAL(visibleChanged(bool)),
                      this, SLOT(onWindowVisibleChanged(bool)));
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);
+    QString mountPoint = q->mountPoint();
     QQmlEngine *engine = m_view->engine();
-    engine->addImportPath(PLUGIN_PRIVATE_MODULE_DIR);
+    engine->addImportPath(mountPoint + PLUGIN_PRIVATE_MODULE_DIR);
 
     /* If the plugin comes from a click package, also add
      *   <package-dir>/lib
@@ -142,7 +143,7 @@ void ProviderRequestPrivate::start()
     QQmlContext *context = m_view->rootContext();
 
     context->setContextProperty("systemQmlPluginPath",
-                                QUrl::fromLocalFile(OAU_PLUGIN_DIR));
+                                QUrl::fromLocalFile(mountPoint + OAU_PLUGIN_DIR));
     context->setContextProperty("localQmlPluginPath",
                                 QUrl::fromLocalFile(QStandardPaths::writableLocation(
                                     QStandardPaths::GenericDataLocation) +

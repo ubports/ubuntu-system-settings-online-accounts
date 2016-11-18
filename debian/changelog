@@ -1,3 +1,10 @@
+ubuntu-system-settings-online-accounts (0.7+17.04.20161118-0ubuntu1) zesty; urgency=medium
+
+  [ Alberto Mardegan ]
+  * Support running inside a snap (LP: #1642225)
+
+ -- Marcus Tomlinson <marcus.tomlinson@canonical.com>  Fri, 18 Nov 2016 06:09:50 +0000
+
 ubuntu-system-settings-online-accounts (0.7+17.04.20161101-0ubuntu1) zesty; urgency=medium
 
   * Re-enable tests on arm64

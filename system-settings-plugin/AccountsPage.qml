@@ -50,7 +50,7 @@ Flickable {
             control: Button {
                 text: i18n.dtr(domain, "Add account…")
                 width: parent.width - units.gu(4)
-                onClicked: pageStack.push(newAccountPage)
+                onClicked: pageStack.addPageToNextColumn(mainAccountsPage, newAccountPage)
             }
             showDivider: false
         }

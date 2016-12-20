@@ -47,14 +47,14 @@ ListItem.Subtitled {
         __editPage = accountEditPage.createObject(null, {
             "accountHandle": accountHandle })
         __editPage.finished.connect(__onEditFinished)
-        pageStack.push(__editPage)
+        pageStack.addPageToNextColumn(mainAccountsPage, __editPage)
         running = true;
     }
 
     function __onEditFinished() {
         __editPage.destroy(1000)
+        pageStack.removePages(__editPage)
         __editPage = null
-        pageStack.pop()
         running = false
     }
 }

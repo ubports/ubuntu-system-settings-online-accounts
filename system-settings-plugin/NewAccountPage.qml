@@ -20,9 +20,15 @@ import QtQuick 2.0
 import Ubuntu.Components 1.3
 
 Page {
-    title: i18n.dtr(domain, "Add account")
+    id: root
+
+    header: PageHeader {
+        title: i18n.dtr(domain, "Add account")
+        flickable: flick
+    }
 
     Flickable {
+        id: flick
         anchors.fill: parent
         contentHeight: contentItem.childrenRect.height
         boundsBehavior: Flickable.StopAtBounds
@@ -30,7 +36,7 @@ Page {
         ProviderPluginList {
             onCreationFinished: {
                 if (created) {
-                    pageStack.pop()
+                    pageStack.removePages(root)
                 }
             }
         }

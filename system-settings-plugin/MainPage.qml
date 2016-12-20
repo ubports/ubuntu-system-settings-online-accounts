@@ -23,7 +23,7 @@ import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.OnlineAccounts 0.1
 
 ItemPage {
-    id: root
+    id: mainAccountsPage
 
     property string domain: "ubuntu-system-settings-online-accounts"
 

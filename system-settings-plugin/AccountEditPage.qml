@@ -28,8 +28,10 @@ Page {
 
     signal finished
 
-    title: account.provider.displayName
-    flickable: flick
+    header: PageHeader {
+        title: account.provider.displayName
+        flickable: flick
+    }
 
     Account {
         id: account

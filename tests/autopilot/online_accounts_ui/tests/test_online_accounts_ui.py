@@ -35,9 +35,10 @@ class MainViewTestCase(tests.BaseOnlineAccountsUITestCase):
     def test_title(self):
         """Checks whether the Online Accounts window title is correct."""
         # TODO turn this into a QML test. --elopio - 2014-07-03
-        header = self.application.main_view.get_header()
-        self.assertTrue(header.visible)
-        self.assertEquals(header.title, 'Accounts')
+        title = self.application.main_view.select_single(
+            objectName='accountsPage'
+        ).title
+        self.assertEquals(title, 'Accounts')
 
 
 class AvailableProvidersTestCase(tests.BaseOnlineAccountsUITestCase):

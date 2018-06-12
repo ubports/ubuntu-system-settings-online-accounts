@@ -17,6 +17,9 @@ PKGCONFIG += \
     SystemSettings \
     accounts-qt5
 
+# Needed for moc:
+INCLUDEPATH += "/usr/include"
+
 SOURCES += \
     plugin.cpp
 

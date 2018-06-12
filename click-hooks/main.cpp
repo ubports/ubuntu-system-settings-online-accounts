@@ -218,8 +218,12 @@ void LibAccountsFile::checkIconPath(const QString &appId)
 bool LibAccountsFile::writeTo(const QString &fileName) const
 {
     /* Make sure that the target directory exists */
-    QDir fileAsDirectory(fileName);
-    fileAsDirectory.mkpath("..");
+    QFileInfo fileInfo(fileName);
+    fileInfo.absoluteDir().mkpath(".");
+    /* Make sure there isn't a directory with the same name:
+     * Fixes: https://github.com/ubports/ubuntu-touch/issues/602
+     */
+    fileInfo.absoluteDir().rmdir(fileInfo.fileName());
 
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) return false;

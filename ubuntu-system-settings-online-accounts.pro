@@ -9,12 +9,16 @@ SUBDIRS = \
     click-hooks \
     client \
     system-settings-plugin \
-    plugins \
-    tests
+    plugins
+
+!CONFIG(no_tests) {
+    SUBDIRS += \
+        tests
+    tests.depends = online-accounts-service online-accounts-ui client plugins
+}
 
 system-settings-plugin.depends = client
 online-accounts-ui.depends = plugins
-tests.depends = online-accounts-service online-accounts-ui client plugins
 
 include(common-installs-config.pri)
 

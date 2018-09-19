@@ -257,8 +257,13 @@ Item {
             return
         }
 
-        var userName = getUserName(reply, function(name) {
-            __gotUserName(name, reply)
+        var userName = getUserName(reply, function(name, error) {
+            if (error) {
+                console.warn("Error while getting username: " + error)
+                cancel()
+            } else {
+                __gotUserName(name, reply)
+            }
         })
         if (typeof(userName) == "string") {
             __gotUserName(userName, reply)

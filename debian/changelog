@@ -1,3 +1,10 @@
+ubuntu-system-settings-online-accounts (0.9~0ubports1) xenial; urgency=medium
+
+  * debian/changelog: new versioning scheme
+  * Allow plugin to cancel asynchronous username retrieval
+
+ -- Alberto Mardegan <mardy@users.sourceforge.net>  Wed, 19 Sep 2018 18:14:52 +0300
+
 ubuntu-system-settings-online-accounts (0.8+ubports) xenial; urgency=medium
 
   * Imported to UBports

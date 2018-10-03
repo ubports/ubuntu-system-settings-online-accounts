@@ -42,7 +42,6 @@ Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends},
          libonline-accounts-daemon1,
-         liboxideqt-qmlplugin (>= 1.2.0) [!arm64 !powerpc !ppc64el !s390x],
          qml-module-ubuntu-onlineaccounts2,
          qml-module-ubuntu-onlineaccounts (>= 0.6),
          qml-module-ubuntu-components | qml-module-ubuntu-components-gles,

@@ -1,9 +1,12 @@
 Makefile*
 moc_*.cpp
+moc_*.h
 qrc_*.cpp
+.*
 *.gcda
 *.gcno
 *.moc
+*.o
 *_adaptor.cpp
 *_adaptor.h
 *_interface.cpp
@@ -32,6 +35,7 @@ qrc_*.cpp
 /debian/ubuntu-system-settings-online-accounts-autopilot/
 /debian/*.debhelper
 /debian/*.log
+/debian/*-stamp
 /debian/*.substvars
 /plugins/example/libexample.so*
 /po/*.mo
@@ -46,6 +50,7 @@ qrc_*.cpp
 /plugins/OnlineAccountsPlugin/libonline-accounts-plugin.so*
 /plugins/module/libOnlineAccountsPlugin.so*
 /plugins/module/qmldir
+/system-settings-plugin/libonline-accounts.so
 /tests/click-hooks/tst_online_accounts_hooks
 /tests/click-hooks/tst_online_accounts_hooks2
 /tests/client/tst_client

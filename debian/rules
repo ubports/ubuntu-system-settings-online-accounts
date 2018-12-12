@@ -7,7 +7,7 @@
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 
 # Skip tests on the archs they are known to be flaky with current configuration
-testskip_architectures :=
+testskip_architectures := arm64
 
 ifneq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
 	CONFIGURE_OPTS += "CONFIG+=no_tests"

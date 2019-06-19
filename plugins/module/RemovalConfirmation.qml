@@ -36,6 +36,7 @@ Dialog {
 
     Button {
         text: i18n.dtr("ubuntu-system-settings-online-accounts", "Remove")
+        color: UbuntuColors.red
         onClicked: setConfirmed(true)
     }
 

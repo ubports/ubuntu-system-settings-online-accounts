@@ -62,7 +62,11 @@ Item {
                 })
             } else {
                 console.log("Request destroyed!")
-                loader.source = ""
+                /* Destroying the WebView causes WebEngine to crash (2019-12-16)
+                 * https://github.com/ubports/morph-browser/issues/271
+                 */
+                //loader.source = ""
+                loader.item.visible = false
             }
         }
     }

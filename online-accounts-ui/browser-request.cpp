@@ -57,7 +57,7 @@ class BrowserRequestPrivate: public QObject
     Q_PROPERTY(QUrl currentUrl READ currentUrl WRITE setCurrentUrl)
     Q_PROPERTY(QUrl startUrl READ startUrl CONSTANT)
     Q_PROPERTY(QUrl finalUrl READ finalUrl CONSTANT)
-    Q_PROPERTY(QUrl rootDir READ rootDir CONSTANT)
+    Q_PROPERTY(QString rootDir READ rootDir CONSTANT)
 
 public:
     BrowserRequestPrivate(BrowserRequest *request);
@@ -72,7 +72,7 @@ public:
     QUrl startUrl() const { return m_startUrl; }
     QUrl finalUrl() const { return m_finalUrl; }
     QUrl responseUrl() const { return m_responseUrl; }
-    QUrl rootDir() const { return QUrl::fromLocalFile(m_rootDir); }
+    QString rootDir() const { return m_rootDir; }
 
     QString rootDirForIdentity() const;
 

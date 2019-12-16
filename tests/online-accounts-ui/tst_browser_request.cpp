@@ -91,7 +91,7 @@ void BrowserRequestTest::testParametersWithHandler_data()
     QTest::addColumn<QString>("finalUrl");
     QTest::addColumn<QString>("rootDir");
 
-    QString baseCacheDir = QString("file://%1/tst_browser_request").
+    QString baseCacheDir = QString("%1/tst_browser_request").
         arg(m_dataDir.path());
 
     QTest::newRow("empty") <<

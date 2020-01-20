@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.9
 import QtTest 1.0
 import Source 1.0
 import Ubuntu.OnlineAccounts 0.1

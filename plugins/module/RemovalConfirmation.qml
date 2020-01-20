@@ -16,9 +16,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.9
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Components.Popups 1.3
 
 Dialog {
@@ -36,7 +35,7 @@ Dialog {
 
     Button {
         text: i18n.dtr("ubuntu-system-settings-online-accounts", "Remove")
-        color: UbuntuColors.red
+        color: theme.palette.normal.negative
         onClicked: setConfirmed(true)
     }
 

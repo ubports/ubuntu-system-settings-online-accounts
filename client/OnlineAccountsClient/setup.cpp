@@ -175,7 +175,7 @@ void SetupPrivate::onRequestAccessReply(QDBusPendingCallWatcher *watcher)
  * Example:
  *
  * \qml
- * import QtQuick 2.0
+ * import QtQuick 2.9
  * import Ubuntu.Components 1.3
  * import Ubuntu.OnlineAccounts.Client 0.1
  *

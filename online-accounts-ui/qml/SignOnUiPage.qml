@@ -6,19 +6,17 @@ import QtWebEngine 1.7
 
 MainView {
     id: root
-
+backgroundColor : "transparent"
     property var signonRequest: request
 
     width: units.gu(60)
-    height: units.gu(90)
+    height: units.gu(60)
 
-    Page {
-        title: signonRequest.title
 
         WebEngineView {
             id: loader
             signonRequest: root.signonRequest
-
+requestActivate();
 profile:  WebEngineProfile{
 id: webContext
     persistentCookiesPolicy: WebEngineProfile.ForcePersistentCookies
@@ -36,16 +34,7 @@ id: webContext
             }
         }
 
-        ListItem.SingleControl {
-            id: cancelButton
-            anchors.bottom: parent.bottom
-            showDivider: false
-            control: Button {
-                text: i18n.dtr("ubuntu-system-settings-online-accounts", "Cancel")
-                width: parent.width - units.gu(4)
-                onClicked: signonRequest.cancel()
-            }
-        }
+     
 
-    }
+    
 }

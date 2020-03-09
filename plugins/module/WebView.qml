@@ -45,7 +45,8 @@ ChromedWebView {
 
     context: WebContext {
         dataPath: signonRequest ? signonRequest.rootDir : ""
-        userAgent: root.userAgent ? root.userAgent : defaultUserAgent
+        userAgent: "Mozilla/5.0 (Linux; Android 8.0.0; Pixel Build/OPR3.170623.007) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.98 Mobile Safari/537.36"
+  
     }
 
     function onAuthenticated() {

@@ -30,6 +30,9 @@ Item {
     property var authenticationParameters: {}
     /* To override the default access control list: */
     property var accessControlList: ["unconfined"]
+    /* To override the request handler (useful for using an custom Web view or
+     * invoking the native browser): */
+    property var requestHandler: defaultRequestHandler
 
     property var authReply
     property bool isNewAccount: false
@@ -52,7 +55,7 @@ Item {
     }
 
     RequestHandler {
-        id: requestHandler
+        id: defaultRequestHandler
         onRequestChanged: {
             if (request) {
                 console.log("RequestHandler captured request!")

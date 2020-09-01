@@ -51,7 +51,9 @@ Item {
     Component.onCompleted: {
         isNewAccount = (account.accountId === 0)
         enableAccount()
-        authenticate()
+        if (requestHandler == defaultRequestHandler) {
+            authenticate()
+        }
     }
 
     RequestHandler {

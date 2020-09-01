@@ -21,7 +21,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.OnlineAccounts 0.1
 
 Column {
-    property variant accountServiceHandle
+    property var accountServiceHandle
 
     signal applicationAdded(string applicationId)
     signal applicationRemoved(string applicationId)

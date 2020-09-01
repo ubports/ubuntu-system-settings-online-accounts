@@ -22,7 +22,7 @@ import Ubuntu.Components.ListItems 1.3 as ListItem
 
 Flickable {
     id: root
-    property variant accountsModel
+    property var accountsModel
     contentHeight: contentItem.childrenRect.height
     boundsBehavior: Flickable.StopAtBounds
 

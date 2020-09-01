@@ -25,7 +25,7 @@ import Ubuntu.OnlineAccounts 0.1
 Column {
     id: root
 
-    property variant __account: account
+    property var __account: account
 
     signal finished
 

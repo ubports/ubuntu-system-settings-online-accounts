@@ -24,7 +24,7 @@ import Ubuntu.OnlineAccounts.Plugin 1.0
 Page {
     id: root
 
-    property variant accountHandle
+    property var accountHandle
 
     signal finished
 

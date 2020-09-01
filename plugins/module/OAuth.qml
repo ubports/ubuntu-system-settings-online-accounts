@@ -27,20 +27,20 @@ Item {
     id: root
 
     /* To override the parameters coming from the .provider file: */
-    property variant authenticationParameters: {}
+    property var authenticationParameters: {}
     /* To override the default access control list: */
-    property variant accessControlList: ["unconfined"]
+    property var accessControlList: ["unconfined"]
 
-    property variant authReply
+    property var authReply
     property bool isNewAccount: false
-    property variant __account: account
+    property var __account: account
     property bool __isAuthenticating: false
     property alias globalAccountService: globalAccountSettings
     property bool loading: loader.status == Loader.Null || loader.status == Loader.Loading
     property string userAgent
 
-    signal authenticated(variant reply)
-    signal authenticationError(variant error)
+    signal authenticated(var reply)
+    signal authenticationError(var error)
     signal finished
 
     anchors.fill: parent

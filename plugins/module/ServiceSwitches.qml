@@ -24,7 +24,7 @@ import Ubuntu.OnlineAccounts 0.1
 Column {
     id: root
 
-    property variant account
+    property var account
 
     anchors.left: parent.left
     anchors.right: parent.right

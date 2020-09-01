@@ -22,9 +22,9 @@ import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.OnlineAccounts 0.1
 
 ListItem.Subtitled {
-    property variant accountHandle
-    property variant globalServiceHandle
-    property variant __editPage: null
+    property var accountHandle
+    property var globalServiceHandle
+    property var __editPage: null
     property bool running: false
 
     iconSource: globalService.provider.iconName.indexOf("/") === 0 ?

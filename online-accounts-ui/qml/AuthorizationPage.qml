@@ -23,9 +23,9 @@ import Ubuntu.Components.ListItems 1.3 as ListItem
 Flickable {
     id: root
 
-    property variant model
-    property variant application
-    property variant provider
+    property var model
+    property var application
+    property var provider
     property bool canAddAnotherAccount: true
 
     signal allowed(int accountId)

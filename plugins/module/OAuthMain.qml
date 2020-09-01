@@ -23,8 +23,8 @@ import Ubuntu.OnlineAccounts 0.1
 Item {
     id: root
 
-    property url creationComponentUrl: "OAuth.qml"
-    property url editingComponentUrl: "Options.qml"
+    property url creationComponentUrl: Qt.resolvedUrl("OAuth.qml")
+    property url editingComponentUrl: Qt.resolvedUrl("Options.qml")
     property Component creationComponent: null
     property Component editingComponent: null
 

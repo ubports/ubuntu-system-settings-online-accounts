@@ -56,7 +56,7 @@ Item {
         onRequestChanged: {
             if (request) {
                 console.log("RequestHandler captured request!")
-                loader.setSource("WebView.qml", {
+                loader.setSource(Qt.resolvedUrl("WebView.qml"), {
                     "signonRequest": request,
                     "userAgent": userAgent
                 })

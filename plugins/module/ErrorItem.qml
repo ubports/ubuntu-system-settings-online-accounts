@@ -17,8 +17,7 @@
  */
 
 import QtQuick 2.9
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
+import Ubuntu.Components 1.3
 
 Item {
     id: root

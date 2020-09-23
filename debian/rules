@@ -6,6 +6,8 @@
 
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 
+export QT_SELECT=qt5
+
 # Skip tests on the archs they are known to be flaky with current configuration
 testskip_architectures := arm64
 
@@ -34,6 +36,6 @@ override_dh_install:
 	rm -rf debian/*/usr/share/accounts/providers/example.provider
 	rm -rf debian/*/usr/tests
 	dh_install
-	
+
 %:
 	dh $@ --with python3

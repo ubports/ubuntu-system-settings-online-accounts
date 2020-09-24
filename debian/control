@@ -26,7 +26,7 @@ Build-Depends: debhelper (>= 9),
                xmldiff:native <!nocheck>,
                xvfb <!nocheck>,
 Build-Depends-Indep: qttools5-dev-tools <!nodoc>
-Standards-Version: 3.9.4
+Standards-Version: 4.4.1
 Homepage: https://launchpad.net/ubuntu-system-settings-online-accounts
 # If you aren't a member of ~online-accounts but need to upload packaging
 # changes, just go ahead.  ~online-accounts will notice and sync up the
@@ -97,10 +97,9 @@ Description: Online Accounts panel library for QML applications
  in order to request the creation/configuration of accounts.
 
 Package: qml-module-ubuntu-onlineaccounts-client-doc
+Build-Profiles: <!nodoc>
 Section: doc
 Architecture: all
-Multi-Arch: foreign
-Build-Profiles: <!nodoc>
 Depends: ${misc:Depends},
 Description: Online Accounts panel library for QML applications - documentation
  This module offers an API for applications to invoke the Online Accounts panel
@@ -123,7 +122,7 @@ Package: ubuntu-system-settings-online-accounts-autopilot
 Architecture: all
 Section: debug
 Priority: extra
-Build-Profiles: <!cross>
+Build-Profiles: <!cross> <!nocheck>
 Depends: ${misc:Depends},
          ${python3:Depends},
          autopilot-qt5,

@@ -2,10 +2,14 @@
 # -*- makefile -*-
 
 # Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+export DH_VERBOSE=1
 
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
+export CFLAGS := $(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
+export CXXFLAGS := $(shell dpkg-buildflags --get CXXFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
+export LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS) -Wl,--as-needed
 export QT_SELECT=qt5
 
 # Skip tests on the archs they are known to be flaky with current configuration
@@ -14,6 +18,9 @@ testskip_architectures := arm64
 ifneq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
 	CONFIGURE_OPTS += "CONFIG+=no_tests"
 endif
+
+%:
+	dh $@ --parallel --with python3 --fail-missing
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
@@ -25,17 +32,20 @@ override_dh_auto_configure:
 		$(CONFIGURE_OPTS) \
 		ubuntu-system-settings-online-accounts.pro
 
-override_dh_auto_test:
-ifneq ($(DEB_HOST_ARCH),$(findstring $(DEB_HOST_ARCH), $(testskip_architectures)))
-	dh_auto_test
-endif
-
-override_dh_install:
+override_dh_auto_install:
+	dh_auto_install
 	rm -rf debian/*/usr/lib/*/libonline-accounts-plugin.so
 	rm -rf debian/*/usr/share/accounts/qml-plugins/example
 	rm -rf debian/*/usr/share/accounts/providers/example.provider
 	rm -rf debian/*/usr/tests
-	dh_install
 
-%:
-	dh $@ --with python3
+override_dh_auto_test-arch:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+ifneq (,$(filter $(DEB_HOST_ARCH),$(testskip_architectures)))
+	-dh_auto_test
+else
+	dh_auto_test
+endif
+endif
+
+override_dh_auto_test-indep:

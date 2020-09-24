@@ -2,6 +2,8 @@ include(../../common-project-config.pri)
 
 TEMPLATE = aux
 
+QMAKE_EXTRA_TARGETS = autopilot service provider application
+
 autopilot.path = $${INSTALL_PREFIX}/lib/python3/dist-packages/
 autopilot.files = online_accounts_ui
 INSTALLS += autopilot

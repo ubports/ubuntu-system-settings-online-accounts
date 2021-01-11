@@ -22,6 +22,7 @@ import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Components.Popups 1.3
 import Ubuntu.OnlineAccounts 0.1
 import Ubuntu.OnlineAccounts.Plugin 1.0
+import "."
 
 Item {
     id: root

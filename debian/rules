@@ -13,7 +13,7 @@ export LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS) -Wl,--as-needed
 export QT_SELECT=qt5
 
 # Skip tests on the archs they are known to be flaky with current configuration
-testskip_architectures := arm64
+testskip_architectures := 
 
 ifneq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
 	CONFIGURE_OPTS += "CONFIG+=no_tests"

@@ -1,6 +1,6 @@
 {
     "name": "Accounts",
-    "icon": "preferences-desktop-accounts-symbolic",
+    "icon": "account",
     "translations": "ubuntu-system-settings-online-accounts",
     "category": "personal",
     "priority": 3,

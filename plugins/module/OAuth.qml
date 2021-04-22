@@ -22,7 +22,6 @@ import Ubuntu.Components.ListItems 1.3 as ListItem
 import Ubuntu.Components.Popups 1.3
 import Ubuntu.OnlineAccounts 0.1
 import Ubuntu.OnlineAccounts.Plugin 1.0
-import "."
 
 Item {
     id: root
@@ -31,6 +30,9 @@ Item {
     property var authenticationParameters: {}
     /* To override the default access control list: */
     property var accessControlList: ["unconfined"]
+    /* To override the request handler (useful for using an custom Web view or
+     * invoking the native browser): */
+    property var requestHandler: defaultRequestHandler
 
     property var authReply
     property bool isNewAccount: false
@@ -49,11 +51,13 @@ Item {
     Component.onCompleted: {
         isNewAccount = (account.accountId === 0)
         enableAccount()
-        authenticate()
+        if (requestHandler == defaultRequestHandler) {
+            authenticate()
+        }
     }
 
     RequestHandler {
-        id: requestHandler
+        id: defaultRequestHandler
         onRequestChanged: {
             if (request) {
                 console.log("RequestHandler captured request!")

@@ -21,6 +21,9 @@
  */
 
 #include "plugin.h"
+
+#include "qml-loopback-server.h"
+
 #include <OnlineAccountsPlugin/application-manager.h>
 #include <OnlineAccountsPlugin/request-handler.h>
 #include <QDebug>
@@ -44,4 +47,5 @@ void Plugin::registerTypes(const char *uri)
     qDebug() << Q_FUNC_INFO << uri;
 
     qmlRegisterType<SignOnUi::RequestHandler>(uri, 1, 0, "RequestHandler");
+    qmlRegisterType<QmlLoopbackServer>(uri, 1, 0, "LoopbackServer");
 }

@@ -23,10 +23,12 @@ PKGCONFIG += \
 QMAKE_LFLAGS += $$QMAKE_LFLAGS_NOUNDEF
 
 SOURCES = \
-    plugin.cpp
+    plugin.cpp \
+    qml-loopback-server.cpp
 
 HEADERS += \
-    plugin.h
+    plugin.h \
+    qml-loopback-server.h
 
 INCLUDEPATH += \
     $$TOP_SRC_DIR/plugins

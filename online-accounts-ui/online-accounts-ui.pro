@@ -46,6 +46,7 @@ SOURCES += \
     debug.cpp \
     dialog.cpp \
     dialog-request.cpp \
+    external-browser-request.cpp \
     i18n.cpp \
     ipc.cpp \
     main.cpp \
@@ -60,6 +61,7 @@ HEADERS += \
     debug.h \
     dialog.h \
     dialog-request.h \
+    external-browser-request.h \
     i18n.h \
     ipc.h \
     provider-request.h \

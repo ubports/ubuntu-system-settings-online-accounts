@@ -26,6 +26,7 @@ QMAKE_LFLAGS += $$QMAKE_LFLAGS_NOUNDEF
 private_headers += \
     account-manager.h \
     application-manager.h \
+    loopback-server.h \
     request-handler.h
 
 public_headers +=
@@ -36,6 +37,7 @@ INCLUDEPATH += \
 SOURCES += \
     account-manager.cpp \
     application-manager.cpp \
+    loopback-server.cpp \
     request-handler.cpp
 
 HEADERS += \

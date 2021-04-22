@@ -1,5 +1,6 @@
 module $${API_URI}
 plugin $${TARGET}
+ErrorItem 1.0 ErrorItem.qml
 KeyboardRectangle 1.0 KeyboardRectangle.qml
 OAuthMain 1.0 OAuthMain.qml
 OAuth 1.0 OAuth.qml

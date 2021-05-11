@@ -254,6 +254,9 @@ bool UiProxyPrivate::init()
             qWarning() << "Couldn't setup prompt session";
             return false;
         }
+    } else {
+        env.insert("DESKTOP_FILE_HINT", "online-accounts-ui");
+        m_process.setProcessEnvironment(env);
     }
 
     /* We also create ~/cache/online-accounts-ui/, since the plugin might not

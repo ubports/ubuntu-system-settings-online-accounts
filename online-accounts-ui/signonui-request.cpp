@@ -23,6 +23,7 @@
 #include "browser-request.h"
 #include "debug.h"
 #include "dialog-request.h"
+#include "external-browser-request.h"
 #include "globals.h"
 
 #include <Accounts/Account>
@@ -31,6 +32,7 @@
 #include <OnlineAccountsPlugin/request-handler.h>
 #include <QDBusArgument>
 #include <QPointer>
+#include <QUrl>
 #include <SignOn/uisessiondata.h>
 #include <SignOn/uisessiondata_priv.h>
 #include <sys/apparmor.h>
@@ -117,8 +119,19 @@ Request *Request::newRequest(int id,
                              QObject *parent)
 {
     if (parameters.contains(SSOUI_KEY_OPENURL)) {
-        return new SignOnUi::BrowserRequest(id, clientProfile,
-                                            parameters, parent);
+        QUrl finalUrl =
+            QUrl::fromUserInput(parameters.value(SSOUI_KEY_FINALURL).
+                                toString());
+        if (finalUrl.host() == "localhost") {
+            /* Let's assume that we only use a loopback callback URL when we
+             * are forced to use the system browser; when we don't have this
+             * constraint, we can generally use any other URL. */
+            return new SignOnUi::ExternalBrowserRequest(id, clientProfile,
+                                                        parameters, parent);
+        } else {
+            return new SignOnUi::BrowserRequest(id, clientProfile,
+                                                parameters, parent);
+        }
     } else {
         return new SignOnUi::DialogRequest(id, clientProfile,
                                            parameters, parent);
